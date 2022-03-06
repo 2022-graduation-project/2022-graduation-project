@@ -14,9 +14,9 @@ public class PlayerUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        nameTxt.text = player.name;
-        levelTxt.text = player.level;
-        classTxt.text = player.cls;
+        // nameTxt.text = player.name;
+        // levelTxt.text = player.level;
+        // classTxt.text = player.cls;
         // hpBar.FillAmount = 
         // mpBar.FillAmount = 
     }
