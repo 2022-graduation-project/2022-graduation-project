@@ -11,7 +11,13 @@ public class PlayerController : MonoBehaviour
 
     private RaycastHit hit;
 
-    [SerializeField]private float moveSpeed = 5.0f;
+    private string name = "Test Player";
+    private string cls = "Soldier";
+    private int level = 5;
+    private float hp = 100f;
+    private float mp = 100f;
+
+    [SerializeField] private float moveSpeed = 5.0f;
     [SerializeField] private float turnSpeed = 3.0f;
     [SerializeField] private float jumpForce = 10.0f;
     void Start()
@@ -37,7 +43,7 @@ public class PlayerController : MonoBehaviour
         tr.Translate(Vector3.forward * v * moveSpeed * Time.deltaTime);
         tr.Rotate(Vector3.up * turnSpeed * r);
 
-        if(Input.GetButton("Jump") && Physics.Raycast(tr.position, Vector3.down, out hit, 0.5f))
+        if(Input.GetButton("Jump") && Physics.Raycast(tr.position, Vector3.down, out hit, 0.1f))
             rigidBody.velocity = tr.up * jumpForce;
     }
 }
