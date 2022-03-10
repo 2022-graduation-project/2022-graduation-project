@@ -9,9 +9,17 @@ public class PlayerController : MonoBehaviour
     private Animator animator;
     private Transform tr;
 
-    [SerializeField]private float moveSpeed = 5.0f;
+    private RaycastHit hit;
+
+    private string name = "Test Player";
+    private string cls = "Soldier";
+    private int level = 5;
+    private float hp = 100f;
+    private float mp = 100f;
+
+    [SerializeField] private float moveSpeed = 5.0f;
     [SerializeField] private float turnSpeed = 3.0f;
-    [SerializeField] private float jumpForce = 5.0f;
+    [SerializeField] private float jumpForce = 10.0f;
     void Start()
     {
         rigidBody = GetComponent<Rigidbody>();
@@ -22,6 +30,8 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        Debug.DrawRay(tr.position, Vector3.down * 0.1f, Color.yellow);
+
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
         float r = Input.GetAxisRaw("Mouse X");
@@ -33,7 +43,7 @@ public class PlayerController : MonoBehaviour
         tr.Translate(Vector3.forward * v * moveSpeed * Time.deltaTime);
         tr.Rotate(Vector3.up * turnSpeed * r);
 
-        if(Input.GetButton("Jump"))
-            rigidBody.AddForce(Vector3.up * jumpForce);
+        if(Input.GetButton("Jump") && Physics.Raycast(tr.position, Vector3.down, out hit, 0.1f))
+            rigidBody.velocity = tr.up * jumpForce;
     }
 }
