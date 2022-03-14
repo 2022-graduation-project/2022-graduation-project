@@ -2,30 +2,41 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class PlayerController : MonoBehaviour
 {
+    public string playerName { get; set; }
+    public int level { get; set; }
+    public string cls { get; set; }
+    public float hp { get; set; }
+    public float mp { get; set; }
+    public float maxHP { get; set; }
+    public float maxMP { get; set; }
+    
     private Rigidbody rigidBody;
     private CapsuleCollider capsuleCollider;
     private Animator animator;
     private Transform tr;
 
     private RaycastHit hit;
-
-    private string name = "Test Player";
-    private string cls = "Soldier";
-    private int level = 5;
-    private float hp = 100f;
-    private float mp = 100f;
-
     [SerializeField] private float moveSpeed = 5.0f;
     [SerializeField] private float turnSpeed = 3.0f;
     [SerializeField] private float jumpForce = 10.0f;
-    void Start()
+    void Awake()
     {
         rigidBody = GetComponent<Rigidbody>();
         capsuleCollider = GetComponent<CapsuleCollider>();
         animator = GetComponent<Animator>();
-        tr = GetComponent<Transform>(); 
+        tr = GetComponent<Transform>();
+
+        // 플레이어 정보 세팅 필요 (이름, 레벨, 클래스, hp, mp)
+        playerName = "Test player";
+        level = 10;
+        cls = "Soldier";
+        maxHP = 100.0f;
+        maxMP = 50.0f;
+        hp = maxHP - 10;
+        mp = maxMP - 20;
     }
 
     void Update()
