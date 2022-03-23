@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public class PlayerController : MonoBehaviour
 {
+    public PlayerUI playerUI;
     public string playerName { get; set; }
     public int level { get; set; }
     public string cls { get; set; }
@@ -12,16 +14,16 @@ public class PlayerController : MonoBehaviour
     public float mp { get; set; }
     public float maxHP { get; set; }
     public float maxMP { get; set; }
-    
+    [SerializeField] private float moveSpeed = 5.0f;
+    [SerializeField] private float turnSpeed = 3.0f;
+    [SerializeField] private float jumpForce = 10.0f;
+
     private Rigidbody rigidBody;
     private CapsuleCollider capsuleCollider;
     private Animator animator;
     private Transform tr;
-
     private RaycastHit hit;
-    [SerializeField] private float moveSpeed = 5.0f;
-    [SerializeField] private float turnSpeed = 3.0f;
-    [SerializeField] private float jumpForce = 10.0f;
+
     void Awake()
     {
         rigidBody = GetComponent<Rigidbody>();
@@ -39,10 +41,20 @@ public class PlayerController : MonoBehaviour
         mp = maxMP - 20;
     }
 
+    void Start()
+    {
+        playerUI.nameTxt.text = playerName;
+        playerUI.levelTxt.text = "Lv. " + level.ToString();
+        playerUI.classTxt.text = cls;
+        playerUI.hpBar.fillAmount = hp / maxHP;
+        playerUI.mpBar.fillAmount = mp / maxMP;
+    }
+
     void Update()
     {
         Debug.DrawRay(tr.position, Vector3.down * 0.1f, Color.yellow);
 
+        // Move
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
         float r = Input.GetAxisRaw("Mouse X");
@@ -54,7 +66,46 @@ public class PlayerController : MonoBehaviour
         tr.Translate(Vector3.forward * v * moveSpeed * Time.deltaTime);
         tr.Rotate(Vector3.up * turnSpeed * r);
 
+        // Jump
         if(Input.GetButton("Jump") && Physics.Raycast(tr.position, Vector3.down, out hit, 0.1f))
             rigidBody.velocity = tr.up * jumpForce;
+        
+        // UseItem
+        if(Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            Debug.Log("Item : HP Potion");
+            hp = maxHP;
+            playerUI.hpBar.fillAmount = hp / maxHP;
+        }
+            
+        else if(Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            Debug.Log("Item : MP Potion");
+            mp = maxMP;
+            playerUI.mpBar.fillAmount = mp / maxMP;
+        }
+
+        else if(Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            Debug.Log("Item : Poision");
+            hp -= 10;
+            mp -= 5;
+            playerUI.hpBar.fillAmount = hp / maxHP;
+            playerUI.mpBar.fillAmount = mp / maxMP;
+        }
+            
+
+        // UseSkill
+        if(Input.GetKeyDown(KeyCode.Q))
+            Debug.Log("Skill : Q");
+        else if(Input.GetKeyDown(KeyCode.E))
+            Debug.Log("Skill : E");
+        else if(Input.GetKeyDown(KeyCode.LeftShift))
+            Debug.Log("Skill : LeftShift");
     }
+
+    // void SetUI(float delta)
+    // {
+    //     hp += delta;
+    // }
 }
