@@ -1,17 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
+using UnityEngine.UI;   // 유니티 UI 사용하기 위한 선언
 
 public class PurchaseUI : MonoBehaviour
 {
+    public Text playerMoney;
+    int money;
+
+    void Start()
+    {
+        money = 10000;
+    }
+
+    void Update()
+    {
+        playerMoney.text = money.ToString();
+        Debug.Log(playerMoney);
+        Debug.Log(playerMoney.GetType());
+    }
+    /*
     public void ClickItem()
     {
-        print("아이템 클릭");
+        GameObject clickObject = EventSystem.current.currentSelectedGameObject;
 
-        // GameObject clickObject = EventSystem.current.currentSelectedGameObject;
-
-        // print(clickObject.name + ", " + clickObject.GetComponentInChildren<Text>().text);
+        print(clickObject.name + ", " + clickObject.GetComponentInChildren<Text>().text);
     }
+    */
 }
