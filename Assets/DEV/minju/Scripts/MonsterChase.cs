@@ -25,7 +25,7 @@ public class MonsterChase : MonoBehaviour
     public IEnumerator Chase()
     {
         //걷기 애니메이션
-        //anim.SetBool("isWalk", true);
+        anim.SetBool("isWalk", true);
 
         //계속 추격
         while (manager.test.state == MonsterManager.Monster.States.Chase)
@@ -46,7 +46,7 @@ public class MonsterChase : MonoBehaviour
 
                 // 타겟 방향으로 회전함
                 transform.LookAt(Vector3.Lerp(transform.position, manager.test.destPosition.position, 0.1f * Time.deltaTime));
-                //transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(direction), 0.8f * Time.deltaTime);
+                //transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(direction), 1000f * Time.deltaTime);
 
                 //1초 뒤 다음 프레임
                 yield return new WaitForSeconds(1.0f);

@@ -49,7 +49,6 @@ public class MonsterManager : MonoBehaviour
         //Test »ý¼º
         test = new Monster();
         test.state = Monster.States.Idle;
-        test.isFound = true;
 
         if (test.state == Monster.States.Idle)
         {
@@ -61,5 +60,16 @@ public class MonsterManager : MonoBehaviour
     void Update()
     {
         print(test.state);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "Player")
+        {
+            print(other.name);
+            test.isFound = true;
+            test.destPosition = other.transform;
+            attack.player = other.GetComponent<PlayerController>();
+        }
     }
 }

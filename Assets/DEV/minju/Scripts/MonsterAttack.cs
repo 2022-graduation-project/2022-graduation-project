@@ -39,13 +39,10 @@ public class MonsterAttack : MonoBehaviour
                 //timer reset
                 attackTime = 0f;
 
-                print("attackTime <= 1.0f");
-
                 //Start Attack
                 //목표 플레이어가 있을 때 (chase 후 || 검색 collider 반경에 걸린 후)
                 if (manager.test.destPosition != null)
                 {
-                    print("Damaged");
                     //공격 애니메이션
                     //anim.SetBool("isAttack", true);
 

@@ -17,7 +17,7 @@ public class MonsterIdle : MonoBehaviour
     public IEnumerator Idle()
     {
         //몬스터 애니메이션 변경
-        //anim.SetBool("isIdle", true);
+        anim.SetBool("isIdle", true);
 
         //Idle 상태일 때 무한 반복
         while(manager.test.state == MonsterManager.Monster.States.Idle)
