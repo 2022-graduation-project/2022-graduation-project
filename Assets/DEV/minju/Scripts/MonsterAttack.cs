@@ -23,24 +23,29 @@ public class MonsterAttack : MonoBehaviour
             attackTime += Time.deltaTime;
 
             //플레이어가 보이는지, 플레이어 공격 범위 내에 있는지 검사
-            if (!manager.test.isFound || Vector3.Distance(transform.position, manager.test.destPosition.position) > 1.0f)
+            if (!manager.test.isFound || Vector3.Distance(transform.position, manager.test.destPosition.position) > 2.0f)
             {
                 //플레이어가 안보이거나, 공격 범위 내에 없을 때
                 //다시 추격
+                //몬스터 상태를 Attack 상태로 변환
+                manager.test.state = MonsterManager.Monster.States.Chase;
                 StartCoroutine(chase.Chase());
                 yield break;
             }
 
             //공격 주기 1초 초과인지 검사
-            if (attackTime >= 1.0f)
+            if (attackTime <= 1.0f)
             {
                 //timer reset
                 attackTime = 0f;
+
+                print("attackTime <= 1.0f");
 
                 //Start Attack
                 //목표 플레이어가 있을 때 (chase 후 || 검색 collider 반경에 걸린 후)
                 if (manager.test.destPosition != null)
                 {
+                    print("Damaged");
                     //공격 애니메이션
                     //anim.SetBool("isAttack", true);
 
@@ -60,7 +65,7 @@ public class MonsterAttack : MonoBehaviour
     {
         manager = GetComponent<MonsterManager>();
         chase = GetComponent<MonsterChase>();
-        player = GetComponent<PlayerController>();
+        //player = GetComponent<PlayerController>();
     }
 
     // Update is called once per frame

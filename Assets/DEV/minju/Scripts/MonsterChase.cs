@@ -51,18 +51,20 @@ public class MonsterChase : MonoBehaviour
                 //1초 뒤 다음 프레임
                 yield return new WaitForSeconds(1.0f);
             }
+
+            //플레이어 근처 일정 거리(2f)에 도달했다면 공격
+            if (Vector3.Distance(transform.position, manager.test.destPosition.position) <= 2f)
+            {
+                //몬스터 상태를 Attack 상태로 변환
+                manager.test.state = MonsterManager.Monster.States.Attack;
+
+                //공격 함수 호출
+                StartCoroutine(attack.Attack());
+                yield break;
+            }
         }
 
-        //플레이어 근처 일정 거리(1f)에 도달했다면 공격
-        if(Vector3.Distance(transform.position, manager.test.destPosition.position) <= 1f)
-        {
-            //몬스터 상태를 Attack 상태로 변환
-            manager.test.state = MonsterManager.Monster.States.Attack;
-
-            //공격 함수 호출
-            StartCoroutine(attack.Attack());
-            yield break;
-        }
+        
 
         //다음 프레임까지 기다린다.
         yield return null;

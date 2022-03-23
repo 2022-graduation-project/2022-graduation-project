@@ -60,6 +60,6 @@ public class MonsterManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        print(test.state);
     }
 }
