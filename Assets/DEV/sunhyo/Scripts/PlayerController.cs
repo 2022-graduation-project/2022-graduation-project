@@ -114,12 +114,7 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Item : Poision");
             inventory.MasterPotion--;
 
-            player.hp -= 10;
-            player.mp -= 5;
-            playerUI.hpBar.fillAmount = player.hp / player.maxHP;
-            playerUI.mpBar.fillAmount = player.mp / player.maxMP;
-
-            if(player.)
+            Damaged(-10);
         }
             
         // UseSkill
@@ -143,7 +138,8 @@ public class PlayerController : MonoBehaviour
 
     void Damaged(float damage)
     {
-        player.hp -= damage;
+        player.hp += damage;
+        playerUI.hpBar.fillAmount = player.hp / player.maxHP;
         if(player.hp <= 0)
             Die();
     }
