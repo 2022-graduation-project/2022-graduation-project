@@ -488,6 +488,10 @@ PrefabInstance:
       value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 4515896777822394865, guid: 1cb2e6b046aef684d840758d6fbfffc8, type: 3}
+      propertyPath: playerUI
+      value: 
+      objectReference: {fileID: 1601445539}
+    - target: {fileID: 4515896777822394865, guid: 1cb2e6b046aef684d840758d6fbfffc8, type: 3}
       propertyPath: jumpForce
       value: 3
       objectReference: {fileID: 0}
@@ -689,6 +693,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e0c7a6393dd8fe4eac2b9be97244059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  manager: {fileID: 0}
+  chase: {fileID: 0}
+  player: {fileID: 0}
 --- !u!114 &1098504905
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -856,6 +863,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4430791282761062335, guid: 1cb2e6b046aef684d840758d6fbfffc8, type: 3}
   m_PrefabInstance: {fileID: 700472983}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1601445539 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8907812567972883911, guid: 120af39698cf97c41ab8fb7ded2c4751, type: 3}
+  m_PrefabInstance: {fileID: 1819090900}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5d6186080dc3924f94107e0df0c9801, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1773782649
 GameObject:
   m_ObjectHideFlags: 0
@@ -1809,7 +1827,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1974240359}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &1974240361
 Camera:
   m_ObjectHideFlags: 0

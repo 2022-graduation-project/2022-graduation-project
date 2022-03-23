@@ -45,7 +45,7 @@ public class MonsterAttack : MonoBehaviour
                     //anim.SetBool("isAttack", true);
 
                     //플레이어 HP 깎기
-                    player.hp -= 10;
+                    player.Damaged(-10);
                 }
             }
             yield return new WaitForSeconds(1.0f);

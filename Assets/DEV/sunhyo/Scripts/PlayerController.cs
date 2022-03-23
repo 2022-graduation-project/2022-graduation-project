@@ -136,7 +136,7 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    void Damaged(float damage)
+    public void Damaged(float damage)
     {
         player.hp += damage;
         playerUI.hpBar.fillAmount = player.hp / player.maxHP;
