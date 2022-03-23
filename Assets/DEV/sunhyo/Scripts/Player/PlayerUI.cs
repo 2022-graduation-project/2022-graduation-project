@@ -10,4 +10,7 @@ public class PlayerUI : MonoBehaviour
     public Text classTxt;
     public Image hpBar;
     public Image mpBar;
+    public Text HpPotion;
+    public Text MpPotion;
+    public Text MasterPotion;
 }

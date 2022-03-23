@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
     private Transform tr;
     private RaycastHit hit;
 
+    private bool moveable = true;
+
     void Start()
     {
         player = new PlayerData();
@@ -47,6 +49,10 @@ public class PlayerController : MonoBehaviour
         playerUI.classTxt.text = player.cls;
         playerUI.hpBar.fillAmount = player.hp / player.maxHP;
         playerUI.mpBar.fillAmount = player.mp / player.maxMP;
+
+        playerUI.HpPotion.text = inventory.HpPotion.ToString();
+        playerUI.MpPotion.text = inventory.MpPotion.ToString();
+        playerUI.MasterPotion.text = inventory.MasterPotion.ToString();
     }
 
     void Update()
@@ -58,16 +64,15 @@ public class PlayerController : MonoBehaviour
         float v = Input.GetAxisRaw("Vertical");
         float r = Input.GetAxisRaw("Mouse X");
 
-        if(h != 0 || v != 0) animator.SetBool("Running", true);
-        else animator.SetBool("Running", false);
-
-        tr.Translate(Vector3.right * h * player.moveSpeed * Time.deltaTime);
-        tr.Translate(Vector3.forward * v * player.moveSpeed * Time.deltaTime);
-        tr.Rotate(Vector3.up * player.turnSpeed * r);
+        if(moveable)
+            Move(h, v, r);
 
         // Jump
-        if(Input.GetButton("Jump") && Physics.Raycast(tr.position, Vector3.down, out hit, 0.1f))
+        if(moveable && Input.GetButton("Jump") && Physics.Raycast(tr.position, Vector3.down, out hit, 0.1f))
             rigidBody.velocity = tr.up * player.jumpForce;
+
+        if(moveable && Input.GetMouseButtonDown(0))
+            Attack();
         
         // UseItem
         if(Input.GetKeyDown(KeyCode.Alpha1) && inventory.HpPotion > 0)
@@ -105,14 +110,34 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Skill : LeftShift");
     }
 
-    void Die()
+    void Move(float h, float v, float r)
     {
+        if(h != 0 || v != 0) animator.SetBool("Running", true);
+        else animator.SetBool("Running", false);
 
+        tr.Translate(Vector3.right * h * player.moveSpeed * Time.deltaTime);
+        tr.Translate(Vector3.forward * v * player.moveSpeed * Time.deltaTime);
+        tr.Rotate(Vector3.up * player.turnSpeed * r);
     }
 
-    void Attack()
+    public void Die()
     {
+        moveable = false;
+        // if(Inventory.MasterPotion) 부활
+        // else 주사위 던지기
+    }
 
+    public void Attack()
+    {
+        moveable = false;
+        animator.SetBool("Shooting", true);
+        Invoke("StopShooting", 1);
+    }
+
+    void StopShooting()
+    {
+        animator.SetBool("Shooting", false);
+        moveable = true;
     }
 
     public void Damaged(float damage)
@@ -121,5 +146,25 @@ public class PlayerController : MonoBehaviour
         playerUI.hpBar.fillAmount = player.hp / player.maxHP;
         if(player.hp <= 0)
             Die();
+    }
+
+    public void UseItem(int item)
+    {
+
+    }
+
+    public void UseSkill()
+    {
+
+    }
+
+    public void GetItem()
+    {
+
+    }
+
+    public void GetQuest()
+    {
+
     }
 }
