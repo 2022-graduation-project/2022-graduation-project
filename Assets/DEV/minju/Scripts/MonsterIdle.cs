@@ -13,25 +13,29 @@ public class MonsterIdle : MonoBehaviour
     //몬스터 애니메이터
     Animator anim;
 
+
     public IEnumerator Idle()
     {
         //몬스터 애니메이션 변경
-        anim.SetBool("isIdle", true);
+        //anim.SetBool("isIdle", true);
 
         //Idle 상태일 때 무한 반복
-        while(manager.test.state == MonsterData.Monster.States.Idle)
+        while(manager.test.state == MonsterManager.Monster.States.Idle)
         {
             //플레이어를 찾았을 때
             if (manager.test.isFound)
             {
                 //몬스터 상태를 추적 상태로 변환
-                manager.test.state = MonsterData.Monster.States.Chase;
+                manager.test.state = MonsterManager.Monster.States.Chase;
 
                 //플레이어를 볼 수 있으면, 추적한다.
                 StartCoroutine(chase.Chase());
                 yield break;
             }
+
             //Patrol 어떻게?
+
+            yield return new WaitForSeconds(1.0f);
         }
         // 다음 프레임까지 기다린다.
         yield return null;
