@@ -3,34 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerData
-{
-    // Info
-    public string playerName { get; set; }
-    public int level { get; set; }
-    public string cls { get; set; }
-    public float hp { get; set; }
-    public float mp { get; set; }
-    public float maxHP { get; set; }
-    public float maxMP { get; set; }
-
-    public float moveSpeed = 5.0f;
-    public float turnSpeed = 3.0f;
-    public float jumpForce = 5.0f;
-
-    // Inventory
-    public class Inventory
-    {
-        public int HpPotion { get; set; }
-        public int MpPotion { get; set; }
-        public int MasterPotion { get; set; }
-    }
-}
-
 public class PlayerController : MonoBehaviour
 {
     private PlayerData player;
-    private PlayerData.Inventory inventory;
+    private Inventory inventory;
+    private Skill skills;
+
     [SerializeField] private PlayerUI playerUI;
 
     private Rigidbody rigidBody;
@@ -42,7 +20,8 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         player = new PlayerData();
-        inventory= new PlayerData.Inventory();
+        inventory = new Inventory();
+        skills = new Skill();
 
         rigidBody = GetComponent<Rigidbody>();
         capsuleCollider = GetComponent<CapsuleCollider>();

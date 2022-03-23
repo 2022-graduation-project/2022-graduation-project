@@ -29,4 +29,6 @@ public class PlayerUI : MonoBehaviour
     {
 
     }
+
+    void Fit(RectTransform Rect) => LayoutRebuilder.ForceRebuildLayoutImmediate(Rect);
 }
