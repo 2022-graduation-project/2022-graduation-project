@@ -103,9 +103,4 @@ public class PlayerController : MonoBehaviour
         else if(Input.GetKeyDown(KeyCode.LeftShift))
             Debug.Log("Skill : LeftShift");
     }
-
-    // void SetUI(float delta)
-    // {
-    //     hp += delta;
-    // }
 }

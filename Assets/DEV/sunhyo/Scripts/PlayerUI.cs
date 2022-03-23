@@ -12,15 +12,6 @@ public class PlayerUI : MonoBehaviour
     public Image hpBar;
     public Image mpBar;
 
-    // void Start()
-    // {
-    //     nameTxt.text = player.playerName;
-    //     levelTxt.text = "Lv. " + player.level.ToString();
-    //     classTxt.text = player.cls;
-    //     hpBar.fillAmount = player.hp / player.maxHP;
-    //     mpBar.fillAmount = player.mp / player.maxMP;
-    // }
-
     // 아이템 사용
     void UseItem()
     {
