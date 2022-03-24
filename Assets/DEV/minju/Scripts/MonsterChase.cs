@@ -50,14 +50,14 @@ public class MonsterChase : MonoBehaviour
 
                 
                 //목적지 향해 이동
-                rig.AddForce(direction * 0.8f, ForceMode.Impulse);
+                rig.AddForce(direction, ForceMode.VelocityChange);
 
                 // 타겟 방향으로 회전함
                 transform.LookAt(Vector3.Lerp(transform.position, manager.test.destPosition.position, 0.1f * Time.deltaTime));
                 //transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(direction), 1000f * Time.deltaTime);
 
                 //플레이어 근처 일정 거리(2f)에 도달했다면 공격
-                if (Vector3.Distance(transform.position, manager.test.destPosition.position) <= 2f)
+                if (Vector3.Distance(transform.position, manager.test.destPosition.position) <= 5f)
                 {
                     //몬스터 상태를 Attack 상태로 변환
                     manager.test.state = MonsterManager.Monster.States.Attack;

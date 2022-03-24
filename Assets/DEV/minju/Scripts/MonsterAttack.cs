@@ -22,15 +22,6 @@ public class MonsterAttack : MonoBehaviour
         //공격 주기 시간
         attackTime = 0f;
 
-        //애니메이션 첫 변경 시
-        if (anim.GetBool("isAttack") == false)
-        {
-            //공격 애니메이션
-            anim.SetBool("isAttack", true);
-            anim.SetBool("isWalk", false);
-            anim.SetBool("isIdle", false);
-        }
-
         //공격 상태 동안 무한 반복
         while (manager.test.state == MonsterManager.Monster.States.Attack)
         {
@@ -38,7 +29,7 @@ public class MonsterAttack : MonoBehaviour
             attackTime += Time.deltaTime;
 
             //플레이어가 보이는지, 플레이어 공격 범위 내에 있는지 검사
-            if (!manager.test.isFound || Vector3.Distance(transform.position, manager.test.destPosition.position) > 2.0f)
+            if (!manager.test.isFound || Vector3.Distance(transform.position, manager.test.destPosition.position) > 5.0f)
             {
                 //플레이어가 안보이거나, 공격 범위 내에 없을 때
                 //다시 추격
@@ -48,9 +39,11 @@ public class MonsterAttack : MonoBehaviour
                 yield break;
             }
 
-            //공격 주기 3초 초과인지 검사
-            if (attackTime >= 3.0f)
+            //공격 주기 2.767초 초과인지 검사
+            if (attackTime >= 2.767f)
             {
+                
+
                 //timer reset
                 attackTime = 0f;
 
@@ -60,10 +53,15 @@ public class MonsterAttack : MonoBehaviour
                 //목표 플레이어가 있을 때 (chase 후 || 검색 collider 반경에 걸린 후)
                 if (manager.test.destPosition != null)
                 {
-                    
-                    
                     //플레이어 HP 깎기
-                    player.Damaged(-10);
+
+                    Invoke("damaging", 1.0f);
+
+                    //애니메이션 첫 변경 시
+                    if (anim.GetBool("isAttack") == false)
+                    {
+                        Animating();
+                    }
                 }
             }
             //Wait until next frame
@@ -86,5 +84,18 @@ public class MonsterAttack : MonoBehaviour
     void Update()
     {
         
+    }
+
+    void Animating()
+    {
+        //공격 애니메이션
+        anim.SetBool("isAttack", true);
+        anim.SetBool("isWalk", false);
+        anim.SetBool("isIdle", false);
+    }
+
+    void damaging()
+    {
+        player.Damaged(-10);
     }
 }
