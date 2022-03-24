@@ -10,11 +10,26 @@ public class MonsterAttack : MonoBehaviour
     public MonsterChase chase;
     //플레이어 스크립트
     public PlayerController player;
+    //애니메이터
+    Animator anim;
+
+    // 공격 주기 시간 (public)
+    [HideInInspector]
+    public float attackTime;
 
     public IEnumerator Attack()
     {
         //공격 주기 시간
-        float attackTime = 0f;
+        attackTime = 0f;
+
+        //애니메이션 첫 변경 시
+        if (anim.GetBool("isAttack") == false)
+        {
+            //공격 애니메이션
+            anim.SetBool("isAttack", true);
+            anim.SetBool("isWalk", false);
+            anim.SetBool("isIdle", false);
+        }
 
         //공격 상태 동안 무한 반복
         while (manager.test.state == MonsterManager.Monster.States.Attack)
@@ -33,24 +48,26 @@ public class MonsterAttack : MonoBehaviour
                 yield break;
             }
 
-            //공격 주기 1초 초과인지 검사
-            if (attackTime <= 1.0f)
+            //공격 주기 3초 초과인지 검사
+            if (attackTime >= 3.0f)
             {
                 //timer reset
                 attackTime = 0f;
+
+                print(manager.test.destPosition.position);
 
                 //Start Attack
                 //목표 플레이어가 있을 때 (chase 후 || 검색 collider 반경에 걸린 후)
                 if (manager.test.destPosition != null)
                 {
-                    //공격 애니메이션
-                    //anim.SetBool("isAttack", true);
-
+                    
+                    
                     //플레이어 HP 깎기
                     player.Damaged(-10);
                 }
             }
-            yield return new WaitForSeconds(1.0f);
+            //Wait until next frame
+            yield return null;
         }
         
         // 다음 프레임까지 기다린다.
@@ -62,7 +79,7 @@ public class MonsterAttack : MonoBehaviour
     {
         manager = GetComponent<MonsterManager>();
         chase = GetComponent<MonsterChase>();
-        //player = GetComponent<PlayerController>();
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
