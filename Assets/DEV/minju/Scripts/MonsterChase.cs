@@ -50,7 +50,7 @@ public class MonsterChase : MonoBehaviour
 
                 
                 //목적지 향해 이동
-                rig.AddForce(direction * 0.6f, ForceMode.Impulse);
+                rig.AddForce(direction * 0.8f, ForceMode.Impulse);
 
                 // 타겟 방향으로 회전함
                 transform.LookAt(Vector3.Lerp(transform.position, manager.test.destPosition.position, 0.1f * Time.deltaTime));
