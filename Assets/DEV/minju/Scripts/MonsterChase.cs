@@ -19,13 +19,19 @@ public class MonsterChase : MonoBehaviour
 
     public Vector3 direction;
 
-    //플레이어 위치
-    public Transform player;
+    //플레이어 스크립트
+    public PlayerController player;
 
     public IEnumerator Chase()
     {
-        //걷기 애니메이션
-        //anim.SetBool("isWalk", true);
+        //애니메이션 첫 변경 시
+        if (anim.GetBool("isWalk") == false)
+        {
+            //걷기 애니메이션
+            anim.SetBool("isWalk", true);
+            anim.SetBool("isIdle", false);
+            anim.SetBool("isAttack", false);
+        }
 
         //계속 추격
         while (manager.test.state == MonsterManager.Monster.States.Chase)
@@ -33,8 +39,10 @@ public class MonsterChase : MonoBehaviour
             // 타겟을 볼 수 있을 때
             if (manager.test.isFound)
             {
+                
+
                 //목적지를 플레이어 위치로 설정
-                manager.test.destPosition = player;
+                manager.test.destPosition = player.GetComponent<Transform>();
 
                 
                 //출발지에서 목적지까지의 방향
@@ -42,24 +50,35 @@ public class MonsterChase : MonoBehaviour
 
                 
                 //목적지 향해 이동
-                rig.AddForce(direction, ForceMode.Impulse);
+                rig.AddForce(direction * 0.6f, ForceMode.Impulse);
 
                 // 타겟 방향으로 회전함
                 transform.LookAt(Vector3.Lerp(transform.position, manager.test.destPosition.position, 0.1f * Time.deltaTime));
-                //transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(direction), 0.8f * Time.deltaTime);
+                //transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(direction), 1000f * Time.deltaTime);
+
+                //플레이어 근처 일정 거리(2f)에 도달했다면 공격
+                if (Vector3.Distance(transform.position, manager.test.destPosition.position) <= 2f)
+                {
+                    //몬스터 상태를 Attack 상태로 변환
+                    manager.test.state = MonsterManager.Monster.States.Attack;
+
+                    //공격 함수 호출
+                    StartCoroutine(attack.Attack());
+                    yield break;
+                }
 
                 //1초 뒤 다음 프레임
                 yield return new WaitForSeconds(1.0f);
             }
 
-            //플레이어 근처 일정 거리(2f)에 도달했다면 공격
-            if (Vector3.Distance(transform.position, manager.test.destPosition.position) <= 2f)
+            //타겟을 볼 수 없을 때
+            else if (!manager.test.isFound)
             {
-                //몬스터 상태를 Attack 상태로 변환
-                manager.test.state = MonsterManager.Monster.States.Attack;
+                //몬스터 상태를 Idle 상태로 변환
+                manager.test.state = MonsterManager.Monster.States.Idle;
 
-                //공격 함수 호출
-                StartCoroutine(attack.Attack());
+                //Idle 함수 호출
+                StartCoroutine(idle.Idle());
                 yield break;
             }
         }

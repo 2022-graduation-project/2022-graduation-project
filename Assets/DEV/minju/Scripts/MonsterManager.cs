@@ -49,7 +49,7 @@ public class MonsterManager : MonoBehaviour
         //Test »ý¼º
         test = new Monster();
         test.state = Monster.States.Idle;
-        test.isFound = true;
+        test.isFound = false;
 
         if (test.state == Monster.States.Idle)
         {
@@ -60,6 +60,27 @@ public class MonsterManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print(test.state);
+        //print(test.state);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "Player")
+        {
+            test.isFound = true;
+            test.destPosition = other.transform;
+            attack.player = other.GetComponent<PlayerController>();
+            chase.player = other.GetComponent<PlayerController>();
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Player")
+        {
+            test.isFound = false;
+            test.destPosition = null;
+            attack.player = null;
+        }
     }
 }
