@@ -5,23 +5,33 @@ using UnityEngine.UI;   // 유니티 UI 사용하기 위한 선언
 
 public class PurchaseUI : MonoBehaviour
 {
-    string item = "";
-    int price;
-
-    // string str_price = Item1.ItemInfo.GetComponent(UI.text);
-
+    public Text MoneyTxt;
+    public Button item1, item2, item3;
+    public int money;
 
     void Start()
     {
+        MoneyTxt.text = "Player's money : " + money.ToString();
 
+        item1.onClick.AddListener(() => buyItem(5000));
+        item2.onClick.AddListener(() => buyItem(7000));
+        item3.onClick.AddListener(delegate { buyItem(10000); });
+    }
+
+    void buyItem(int price)
+    {
+        if (price <= money)
+        {
+            money -= price;
+        }
+        else
+        {
+            Debug.Log("잔액이 부족합니다.");
+        }
     }
 
     void Update()
     {
-        // 왼쪽 마우스 버튼 클릭했을 때
-        if (Input.GetMouseButtonDown(0))
-        {
-            print("Clicked " + item);
-        }
+        MoneyTxt.text = "Player's money : " + money.ToString();
     }
 }
