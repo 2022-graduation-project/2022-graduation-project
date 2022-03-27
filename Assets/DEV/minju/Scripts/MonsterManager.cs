@@ -48,6 +48,7 @@ public class MonsterManager : MonoBehaviour
 
         //Test 생성
         test = new Monster();
+        test.hp = 50;
         test.state = Monster.States.Idle;
         test.isFound = false;
 
@@ -61,6 +62,13 @@ public class MonsterManager : MonoBehaviour
     void Update()
     {
         //print(test.state);
+    }
+
+    // player가 monster 공격 했을 때 호출
+    public void Damage(int scale)
+    {
+        //scale(-)만큼 몬스터 체력이 줄어든다.
+        test.hp += scale;
     }
 
     private void OnTriggerEnter(Collider other)
