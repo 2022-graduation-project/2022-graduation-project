@@ -4,11 +4,22 @@ using UnityEngine;
 
 public class MonsterManager : MonoBehaviour
 {
+    // GameManager 오브젝트 안에만 존재하는 스크립트
+    // This exists only in Object "GameManager"
+
     public MonsterIdle idle;
     public MonsterChase chase;
     public MonsterPatrol patrol;
     public MonsterAttack attack;
-    
+
+    // 몬스터 여러마리 관리 배열
+    // Managing Monsters
+    List<Monster> littleMonster = new List<Monster>();
+    List<Monster> bossMonster = new List<Monster>();
+
+    // 최대 인원
+    // Max num of Monsters
+    int maxNumMonsters = 0; 
 
     public class Monster
     {
@@ -32,6 +43,7 @@ public class MonsterManager : MonoBehaviour
         public Transform destPosition;
     }
     public Monster test;
+    Monster tempMon;
 
     // Start is called before the first frame update
     void Start()
@@ -46,16 +58,7 @@ public class MonsterManager : MonoBehaviour
         attack = GetComponent<MonsterAttack>();
 
 
-        //Test 생성
-        test = new Monster();
-        test.hp = 50;
-        test.state = Monster.States.Idle;
-        test.isFound = false;
-
-        if (test.state == Monster.States.Idle)
-        {
-            StartCoroutine(idle.Idle());
-        }
+        
     }
 
     // Update is called once per frame
@@ -71,24 +74,42 @@ public class MonsterManager : MonoBehaviour
         test.hp += scale;
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.tag == "Player")
-        {
-            test.isFound = true;
-            test.destPosition = other.transform;
-            attack.player = other.GetComponent<PlayerController>();
-            chase.player = other.GetComponent<PlayerController>();
-        }
-    }
+    
 
-    private void OnTriggerExit(Collider other)
+    // 몬스터 생성 함수
+    // Create Monster
+    public void CreateMonster(Transform currentLocation)
     {
-        if (other.tag == "Player")
+        // 몬스터 30마리 이하 유지
+        // Num of Monsters should be lower than 30
+        if (maxNumMonsters <= 30)
         {
-            test.isFound = false;
-            test.destPosition = null;
-            attack.player = null;
+            // setting default state
+            tempMon.state = Monster.States.Idle;
+            // setting default hp
+            tempMon.hp = 50f;
+            // setting default speed
+            tempMon.moveSpeed = 10f;
+            tempMon.turnSpeed = 10f;
+            // setting default power
+            tempMon.attackForce = 10f;
+            // setting default seeking state
+            tempMon.isFound = false;
+            // setting default destination
+            tempMon.destPosition = null;
+            
+            // 몬스터 리스트에 생성한 몬스터 추가
+            // add initial monster to manager
+            littleMonster.Add(tempMon);
+
+            // 생성한 몬스터 씬에 나타내기
+            // add new monster to curruent location of scene
+            GameObject objMonster = Instantiate(Resources.Load("Monster"), 
+                currentLocation.position, Quaternion.identity) as GameObject;
+
+            // 몬스터 역할 수행 시작
+            // Start Monster's Idle
+            StartCoroutine(objMonster.GetComponent<MonsterIdle>().Idle(littleMonster[littleMonster.Count-1]));
         }
     }
 }
