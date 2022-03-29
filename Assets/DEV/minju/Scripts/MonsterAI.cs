@@ -2,19 +2,48 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonsterIdle : MonoBehaviour
+public class MonsterAI : MonoBehaviour
 {
-    //몬스터 애니메이터
-    Animator anim;
-    //매니저에서 배당받은 몬스터
-    MonsterManager.Monster thisMon;
-
-
-    public IEnumerator Idle(MonsterManager.Monster tempMon)
+    // 몬스터 데이터 클래스
+    // Monster Data class
+    public class Monster
     {
-        thisMon = tempMon;
+        //몬스터 상태
+        public enum States
+        {
+            Idle, Patrol, Chase, Attack
+        };
+        public States state;
+        //몬스터 이름
+        public string name;
+        //몬스터 체력
+        public float hp;
+        //몬스터 속도
+        public float moveSpeed, turnSpeed;
+        //몬스터 공격력
+        public float attackForce;
+        //플레이어 찾았는지 여부
+        public bool isFound;
+        //목적지 위치 (Patrol: random location, Chase: player location)
+        public Transform destPosition;
+    }
+
+    // 몬스터 애니메이터
+    // Monster Animator
+    Animator anim;
+
+    // 이 몬스터
+    // This Monster's data var
+    Monster thisMon;
+
+    // 이 몬스터의 고유번호
+    // Index of this monster from List of MonsterManager
+    public int monsterIdx;
+
+    public IEnumerator Idle()
+    {
         //Idle 상태일 때 무한 반복
-        while (tempMon.state == MonsterManager.Monster.States.Idle)
+        while (thisMon.state == Monster.States.Idle)
         {
             //애니메이션 첫 변경 시
             if(anim.GetBool("isIdle") == false)
@@ -26,10 +55,10 @@ public class MonsterIdle : MonoBehaviour
             }
 
             //플레이어를 찾았을 때
-            if (tempMon.isFound)
+            if (thisMon.isFound)
             {
                 //몬스터 상태를 추적 상태로 변환
-                tempMon.state = MonsterManager.Monster.States.Chase;
+                thisMon.state = Monster.States.Chase;
 
                 //플레이어를 볼 수 있으면, 추적한다.
                 StartCoroutine(Chase());
@@ -45,12 +74,29 @@ public class MonsterIdle : MonoBehaviour
     }
 
 
-    //플레이어 스크립트
+    // 플레이어 스크립트
+    // Script which the player has
     PlayerController player;
 
-    // 공격 주기 시간 (public)
-    [HideInInspector]
-    public float attackTime;
+    // 공격 주기 시간 
+    float attackTime;
+
+    // 공격 애니메이션
+    // Attack aniamating
+    void Animating()
+    {
+        //공격 애니메이션
+        anim.SetBool("isAttack", true);
+        anim.SetBool("isWalk", false);
+        anim.SetBool("isIdle", false);
+    }
+
+    // 플레이어 공격
+    // damaging player
+    void damaging()
+    {
+        player.Damaged(-10);
+    }
 
     public IEnumerator Attack()
     {
@@ -58,7 +104,7 @@ public class MonsterIdle : MonoBehaviour
         attackTime = 0f;
 
         //공격 상태 동안 무한 반복
-        while (thisMon.state == MonsterManager.Monster.States.Attack)
+        while (thisMon.state == Monster.States.Attack)
         {
             //Timer start
             attackTime += Time.deltaTime;
@@ -69,7 +115,7 @@ public class MonsterIdle : MonoBehaviour
                 //플레이어가 안보이거나, 공격 범위 내에 없을 때
                 //다시 추격
                 //몬스터 상태를 Attack 상태로 변환
-                thisMon.state = MonsterManager.Monster.States.Chase;
+                thisMon.state = Monster.States.Chase;
                 StartCoroutine(Chase());
                 yield break;
             }
@@ -77,19 +123,15 @@ public class MonsterIdle : MonoBehaviour
             //공격 주기 2.767초 초과인지 검사
             if (attackTime >= 2.767f)
             {
-
-
                 //timer reset
                 attackTime = 0f;
-
-                print(thisMon.destPosition.position);
 
                 //Start Attack
                 //목표 플레이어가 있을 때 (chase 후 || 검색 collider 반경에 걸린 후)
                 if (thisMon.destPosition != null)
                 {
-                    //플레이어 HP 깎기
-
+                    // 플레이어 HP 깎기
+                    // damaging player
                     Invoke("damaging", 1.0f);
 
                     //애니메이션 첫 변경 시
@@ -106,6 +148,8 @@ public class MonsterIdle : MonoBehaviour
         // 다음 프레임까지 기다린다.
         yield return null;
     }
+
+
 
     //본인 물리작용
     Rigidbody rig;
@@ -126,7 +170,7 @@ public class MonsterIdle : MonoBehaviour
         }
 
         //계속 추격
-        while (thisMon.state == MonsterManager.Monster.States.Chase)
+        while (thisMon.state == Monster.States.Chase)
         {
             // 타겟을 볼 수 있을 때
             if (thisMon.isFound)
@@ -152,7 +196,7 @@ public class MonsterIdle : MonoBehaviour
                 if (Vector3.Distance(transform.position, thisMon.destPosition.position) <= 5f)
                 {
                     //몬스터 상태를 Attack 상태로 변환
-                    thisMon.state = MonsterManager.Monster.States.Attack;
+                    thisMon.state = Monster.States.Attack;
 
                     //공격 함수 호출
                     StartCoroutine(Attack());
@@ -167,10 +211,10 @@ public class MonsterIdle : MonoBehaviour
             else if (!thisMon.isFound)
             {
                 //몬스터 상태를 Idle 상태로 변환
-                thisMon.state = MonsterManager.Monster.States.Idle;
+                thisMon.state = Monster.States.Idle;
 
                 //Idle 함수 호출
-                StartCoroutine(Idle(thisMon));
+                StartCoroutine(Idle());
                 yield break;
             }
         }
@@ -181,18 +225,9 @@ public class MonsterIdle : MonoBehaviour
         yield return null;
     }
 
-    void Animating()
-    {
-        //공격 애니메이션
-        anim.SetBool("isAttack", true);
-        anim.SetBool("isWalk", false);
-        anim.SetBool("isIdle", false);
-    }
 
-    void damaging()
-    {
-        player.Damaged(-10);
-    }
+    // 플레이어가 추적반경 안에 들어왔을 경우
+    // player is in range of Monster's Sight
     private void OnTriggerEnter(Collider other)
     {
         // 플레이어가 추적반경 안에 들어왔을 경우
@@ -213,7 +248,9 @@ public class MonsterIdle : MonoBehaviour
         }
     }
 
-    
+
+    // 플레이어가 추적반경 안에서 벗어났을 경우
+    // player is out of range of Monster's Sight
     private void OnTriggerExit(Collider other)
     {
         // 플레이어가 추적반경 안에서 벗어났을 경우
@@ -233,14 +270,63 @@ public class MonsterIdle : MonoBehaviour
             player = null;
         }
     }
-    
+
+    // MonsterMananger 스크립트
+    // for using manager's func
+    MonsterManager manager;
+
+    // player가 monster 공격 했을 때 호출
+    // If player damages monster this will be called
+    public void Damage(int scale)
+    {
+        // 아직 체력이 남아 있을 때
+        if (thisMon.hp > 0)
+        {
+            //scale(-)만큼 몬스터 체력이 줄어든다.
+            thisMon.hp += scale;
+        }
+        // 남은 체력이 없을 때
+        else
+        {
+            // 몬스터 삭제
+            manager.DeleteMonster(monsterIdx);
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        //몬스터 애니메이터
+        // 몬스터 애니메이터
+        // Monster Animator
         anim = GetComponent<Animator>();
-        //본인 물리작용
+        // 몬스터 물리작용
+        // Monster Rigidbody
         rig = GetComponent<Rigidbody>();
+        // 몬스터 매니저 스크립트 찾기
+        // get MonsterManager script from GamaManager
+        manager = GameObject.Find("GameManager").GetComponent<MonsterManager>();
+
+
+        // 현재 오브젝트의 몬스터 기본값 처음 설정하기
+        {
+            // create new data from Monster class
+            thisMon = new Monster();
+            // setting default state
+            thisMon.state = Monster.States.Idle;
+            // setting default hp
+            thisMon.hp = 50f;
+            // setting default speed
+            thisMon.moveSpeed = 10f;
+            thisMon.turnSpeed = 10f;
+            // setting default power
+            thisMon.attackForce = 10f;
+            // setting default seeking state
+            thisMon.isFound = false;
+            // setting default destination
+            thisMon.destPosition = null;
+        }
+        // start with default state
+        StartCoroutine(Idle());
     }
 
 
