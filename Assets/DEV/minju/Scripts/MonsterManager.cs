@@ -15,10 +15,16 @@ public class MonsterManager : MonoBehaviour
     // List of all monsters
     List<GameObject> littleMonsters = new List<GameObject>();
 
+    // 스폰포인트 배열
+    // array of spawn points
+    public Transform[] spawnPoints;
+
     // Start is called before the first frame update
     void Start()
     {
-        CreateMonster(transform);
+        CreateMonster(spawnPoints[0]);
+
+        CreateMonster(spawnPoints[1]);
     }
 
     // Update is called once per frame
