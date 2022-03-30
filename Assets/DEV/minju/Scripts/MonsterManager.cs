@@ -4,186 +4,103 @@ using UnityEngine;
 
 public class MonsterManager : MonoBehaviour
 {
-<<<<<<< HEAD
-    // GameManager ¿ÀºêÁ§Æ® ¾È¿¡¸¸ Á¸ÀçÇÏ´Â ½ºÅ©¸³Æ®
+    // GameManager ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½È¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½Å©ï¿½ï¿½Æ®
     // This exists only in Object "GameManager"
 
-    // ÇöÀç ÀÎ¿ø
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½Î¿ï¿½
     // Max num of Monsters: 30
     int curNumMonsters = 0;
 
-    // ¸ðµç ¸ó½ºÅÍ °ü¸® ¸®½ºÆ®
+    // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
     // List of all monsters
     List<GameObject> monsters = new List<GameObject>();
 
-    // ½ºÆùÆ÷ÀÎÆ® ¹è¿­
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½è¿­
     // array of spawn points
     public Transform[] spawnPoints;
-=======
-    public MonsterIdle idle;
-    public MonsterChase chase;
-    public MonsterPatrol patrol;
-    public MonsterAttack attack;
-    
-
-    public class Monster
-    {
-        //¸ó½ºÅÍ »óÅÂ
-        public enum States
-        {
-            Idle, Patrol, Chase, Attack
-        };
-        public States state;
-        //¸ó½ºÅÍ ÀÌ¸§
-        public string name;
-        //¸ó½ºÅÍ Ã¼·Â
-        public float hp;
-        //¸ó½ºÅÍ ¼Óµµ
-        public float moveSpeed, turnSpeed;
-        //¸ó½ºÅÍ °ø°Ý·Â
-        public float attackForce;
-        //ÇÃ·¹ÀÌ¾î Ã£¾Ò´ÂÁö ¿©ºÎ
-        public bool isFound;
-        //¸ñÀûÁö À§Ä¡ (Patrol: random location, Chase: player location)
-        public Transform destPosition;
-    }
-    public Monster test;
->>>>>>> 688b3dd274f3b286943cc00ee332572c7129ffda
 
     // Start is called before the first frame update
     void Start()
     {
-<<<<<<< HEAD
         CreateMonster(spawnPoints[0]);
 
         CreateBossMonster(spawnPoints[1]);
         //monsters[1].GetComponent<MonsterAI>().Damage(-20);
-=======
-        //¸ó½ºÅÍ Á¤Áö ½ºÅ©¸³Æ®
-        idle = GetComponent<MonsterIdle>();
-        //¸ó½ºÅÍ ÂÑ±â ½ºÅ©¸³Æ®
-        chase = GetComponent<MonsterChase>();
-        //¸ó½ºÅÍ °È±â ½ºÅ©¸³Æ®
-        patrol = GetComponent<MonsterPatrol>();
-        //¸ó½ºÅÍ °ø°Ý ½ºÅ©¸³Æ®
-        attack = GetComponent<MonsterAttack>();
-
-
-        //Test »ý¼º
-        test = new Monster();
-        test.state = Monster.States.Idle;
-        test.isFound = false;
-
-        if (test.state == Monster.States.Idle)
-        {
-            StartCoroutine(idle.Idle());
-        }
->>>>>>> 688b3dd274f3b286943cc00ee332572c7129ffda
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-<<<<<<< HEAD
-        
-    }
-
-    // ¸ó½ºÅÍ »ý¼º ÇÔ¼ö
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
     // Create Monster
     public void CreateMonster(Transform currentLocation)
     {
-        // ¸ó½ºÅÍ 30¸¶¸® ÀÌÇÏ À¯Áö
+        // ï¿½ï¿½ï¿½ï¿½ 30ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         // Num of Monsters should be lower than 30
         if (curNumMonsters <= 30)
         {
-            // ¸ó½ºÅÍ ÇöÀç ÀÎ¿ø update
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Î¿ï¿½ update
             // update current num of Monsters
             curNumMonsters++;
 
-            // ¸ó½ºÅÍ ¾À¿¡ »ý¼ºÇÏ±â
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
             // add new monster to curruent location of scene
             GameObject objMonster = Instantiate(Resources.Load("Monster"), 
                 currentLocation.position, Quaternion.identity) as GameObject;
 
-            // ¸ó½ºÅÍ °ü¸® ¸®½ºÆ®¿¡ Ãß°¡ÇÏ±â
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ï±ï¿½
             // add monster object in list
             monsters.Add(objMonster);
 
-            // ¸ó½ºÅÍ ½ºÅ©¸³Æ®ÀÇ ¸ó½ºÅÍ °íÀ¯¹øÈ£¸¦ ¸®½ºÆ®ÀÇ index¹øÈ£·Î ÁöÁ¤
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å©ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ indexï¿½ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             // make monster script remember its own index (as List's index)
             objMonster.GetComponent<MonsterAI>().monsterIdx
                 = monsters.IndexOf(objMonster);
         }
     }
 
-    // ¸ó½ºÅÍ »èÁ¦ ÇÔ¼ö
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
     // Delete Monster
     public void DeleteMonster(int indexOfMonster)
     {
-        // ¾À¿¡¼­ ÇØ´ç ¸ó½ºÅÍ ¿ÀºêÁ§Æ® »èÁ¦
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
         Destroy(monsters[indexOfMonster]);
 
-        // ¸®½ºÆ®¿¡¼­ ÇØ´ç ¸ó½ºÅÍ »èÁ¦
+        // ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         monsters.RemoveAt(indexOfMonster);
 
-        // ÇöÀç ÀÎ¿ø ¼ö Update
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½Î¿ï¿½ ï¿½ï¿½ Update
         // update current num of Monsters
         curNumMonsters--;
     }
 
-    // º¸½º ¸ó½ºÅÍ »ý¼º ÇÔ¼ö
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
     // Create Boss Monster
     public void CreateBossMonster(Transform currentLocation)
     {
-        // ¸ó½ºÅÍ 30¸¶¸® ÀÌÇÏ À¯Áö
+        // ï¿½ï¿½ï¿½ï¿½ 30ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         // Num of Monsters should be lower than 30
         if (curNumMonsters <= 30)
         {
-            // ¸ó½ºÅÍ ÇöÀç ÀÎ¿ø update
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Î¿ï¿½ update
             // update current num of Monsters
             curNumMonsters++;
 
-            // ¸ó½ºÅÍ ¾À¿¡ »ý¼ºÇÏ±â
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
             // add new monster to curruent location of scene
             GameObject objMonster = Instantiate(Resources.Load("BossMonster"),
                 currentLocation.position, Quaternion.identity) as GameObject;
 
-            // ¸ó½ºÅÍ °ü¸® ¸®½ºÆ®¿¡ Ãß°¡ÇÏ±â
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ï±ï¿½
             // add monster object in list
             monsters.Add(objMonster);
 
-            // ¸ó½ºÅÍ ½ºÅ©¸³Æ®ÀÇ ¸ó½ºÅÍ °íÀ¯¹øÈ£¸¦ ¸®½ºÆ®ÀÇ index¹øÈ£·Î ÁöÁ¤
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å©ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ indexï¿½ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             // make monster script remember its own index (as List's index)
             objMonster.GetComponent<MonsterAI>().monsterIdx
                 = monsters.IndexOf(objMonster);
 
-            // ¸ó½ºÅÍ ½ºÅ©¸³Æ®ÀÇ º¸½º ¸ó½ºÅÍ ¿©ºÎ ÀúÀå
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å©ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             // make monster script remember it's boss
             objMonster.GetComponent<MonsterAI>().isBossMonster
                 = true;
-=======
-        //print(test.state);
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.tag == "Player")
-        {
-            test.isFound = true;
-            test.destPosition = other.transform;
-            attack.player = other.GetComponent<PlayerController>();
-            chase.player = other.GetComponent<PlayerController>();
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.tag == "Player")
-        {
-            test.isFound = false;
-            test.destPosition = null;
-            attack.player = null;
->>>>>>> 688b3dd274f3b286943cc00ee332572c7129ffda
         }
     }
 }
