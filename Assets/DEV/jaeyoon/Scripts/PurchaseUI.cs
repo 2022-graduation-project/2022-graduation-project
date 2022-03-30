@@ -30,9 +30,4 @@ public class PurchaseUI : MonoBehaviour
             Debug.Log("잔액이 부족합니다.");
         }
     }
-
-    //void Update()
-    //{
-    //    MoneyTxt.text = "Player's money : " + money.ToString();
-    //}
 }
