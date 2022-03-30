@@ -1183,14 +1183,14 @@ PrefabInstance:
     - target: {fileID: 4515896777822394865, guid: 1cb2e6b046aef684d840758d6fbfffc8, type: 3}
       propertyPath: playerUI
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1334082324}
     - target: {fileID: 4515896777822394865, guid: 1cb2e6b046aef684d840758d6fbfffc8, type: 3}
       propertyPath: jumpForce
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 9123613034715525712, guid: 1cb2e6b046aef684d840758d6fbfffc8, type: 3}
       propertyPath: m_Constraints
-      value: 80
+      value: 112
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1cb2e6b046aef684d840758d6fbfffc8, type: 3}
@@ -1959,6 +1959,17 @@ CapsuleCollider:
   m_Height: 0.17403743
   m_Direction: 1
   m_Center: {x: 0, y: 0.07798182, z: 0.019999998}
+--- !u!114 &1334082324 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8907812567972883911, guid: 120af39698cf97c41ab8fb7ded2c4751, type: 3}
+  m_PrefabInstance: {fileID: 244811874}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5d6186080dc3924f94107e0df0c9801, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1396820247
 GameObject:
   m_ObjectHideFlags: 0
