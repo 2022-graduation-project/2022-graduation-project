@@ -47,10 +47,7 @@ public class PlayerController : MonoBehaviour
         playerUI.nameTxt.text = player.playerName;
         playerUI.levelTxt.text = "Lv. " + player.level.ToString();
         playerUI.classTxt.text = player.cls;
-<<<<<<< HEAD
-=======
         playerUI.moneyTxt.text = player.money.ToString();
->>>>>>> 688b3dd274f3b286943cc00ee332572c7129ffda
         playerUI.hpBar.fillAmount = player.hp / player.maxHP;
         playerUI.mpBar.fillAmount = player.mp / player.maxMP;
 
@@ -162,16 +159,10 @@ public class PlayerController : MonoBehaviour
 
     }
 
-<<<<<<< HEAD
-    public void GetItem()
-    {
-
-=======
     public void ButyItem(int price)
     {
         player.money -= price;
         playerUI.moneyTxt.text = player.money.ToString();
->>>>>>> 688b3dd274f3b286943cc00ee332572c7129ffda
     }
 
     public void GetQuest()
