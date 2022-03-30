@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MonsterAI : MonoBehaviour
 {
@@ -176,7 +177,6 @@ public class MonsterAI : MonoBehaviour
             if (thisMon.isFound)
             {
 
-
                 //목적지를 플레이어 위치로 설정
                 thisMon.destPosition = player.GetComponent<Transform>();
 
@@ -186,7 +186,8 @@ public class MonsterAI : MonoBehaviour
 
 
                 //목적지 향해 이동
-                rig.AddForce(direction, ForceMode.VelocityChange);
+                rig.AddForce(direction * Time.deltaTime * thisMon.moveSpeed, ForceMode.VelocityChange);
+                //transform.Translate(direction * thisMon.moveSpeed * Time.deltaTime);
 
                 // 타겟 방향으로 회전함
                 transform.LookAt(Vector3.Lerp(transform.position, thisMon.destPosition.position, 0.1f * Time.deltaTime));
@@ -225,6 +226,13 @@ public class MonsterAI : MonoBehaviour
         yield return null;
     }
 
+    // 보스몬스터인지
+    // is it Boss Monster?
+    public bool isBossMonster;
+
+    // 보스 체력 게이지 바 UI
+    // guage bar of boss HP
+    GameObject bossHPbar;
 
     // 플레이어가 추적반경 안에 들어왔을 경우
     // player is in range of Monster's Sight
@@ -234,6 +242,16 @@ public class MonsterAI : MonoBehaviour
         // player is in range of Monster's Sight
         if (other.tag == "Player")
         {
+            // 이 몬스터가 보스몬스터라면
+            // if this is boss monster
+            if (isBossMonster)
+            {
+                // 보스 체력 게이지 바 생성
+                // able to see the guage bar
+                bossHPbar.SetActive(true);
+                bossHPbar.GetComponent<Image>().fillAmount = thisMon.hp / 50f;
+            }
+
             // 찾았다고 저장
             // Monster found some player
             thisMon.isFound = true;
@@ -257,6 +275,15 @@ public class MonsterAI : MonoBehaviour
         // player is out of range of Monster's Sight
         if (other.tag == "Player")
         {
+            // 이 몬스터가 보스몬스터라면
+            // if this is boss monster
+            if (isBossMonster)
+            {
+                // 보스 체력 게이지 바 사라지기
+                // unable to see the guage bar
+                bossHPbar.SetActive(false);
+            }
+
             // 못찾았다고 저장
             // player is leaving the range
             thisMon.isFound = false;
@@ -305,9 +332,15 @@ public class MonsterAI : MonoBehaviour
         // 몬스터 매니저 스크립트 찾기
         // get MonsterManager script from GamaManager
         manager = GameObject.Find("GameManager").GetComponent<MonsterManager>();
+        // 게이지바 UI 오브젝트 찾기
+        // find Monster's HP guage bar
+        bossHPbar = GameObject.Find("PlayerUI/Top/Status Effect/MonsterHPparent/MonsterHP");
+        
 
 
-        // 현재 오브젝트의 몬스터 기본값 처음 설정하기
+        // 현재 오브젝트의 몬스터 기본값 처음 설정하기 (작은 몬스터)
+        // setting default values of little monster
+        if (!isBossMonster)
         {
             // create new data from Monster class
             thisMon = new Monster();
@@ -316,7 +349,7 @@ public class MonsterAI : MonoBehaviour
             // setting default hp
             thisMon.hp = 50f;
             // setting default speed
-            thisMon.moveSpeed = 10f;
+            thisMon.moveSpeed = 100f;
             thisMon.turnSpeed = 10f;
             // setting default power
             thisMon.attackForce = 10f;
@@ -325,6 +358,28 @@ public class MonsterAI : MonoBehaviour
             // setting default destination
             thisMon.destPosition = null;
         }
+
+        // 현재 오브젝트의 몬스터 기본값 처음 설정하기 (보스 몬스터)
+        // setting default values of boss monster
+        else
+        {
+            // create new data from Monster class
+            thisMon = new Monster();
+            // setting default state
+            thisMon.state = Monster.States.Idle;
+            // setting default hp
+            thisMon.hp = 100f;
+            // setting default speed
+            thisMon.moveSpeed = 30f;
+            thisMon.turnSpeed = 10f;
+            // setting default power
+            thisMon.attackForce = 20f;
+            // setting default seeking state
+            thisMon.isFound = false;
+            // setting default destination
+            thisMon.destPosition = null;
+        }
+
         // start with default state
         StartCoroutine(Idle());
     }
@@ -333,6 +388,14 @@ public class MonsterAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        // 보스몬스터일 때 플레이어를 찾은 상태라면
+        // if boss monster found any player
+        if (isBossMonster && thisMon.isFound)
+        {
+            // 보스 체력 게이지 바 Update
+            // Update the guage bar
+            bossHPbar.SetActive(true);
+            bossHPbar.GetComponent<Image>().fillAmount = thisMon.hp / 50f;
+        }
     }
 }
