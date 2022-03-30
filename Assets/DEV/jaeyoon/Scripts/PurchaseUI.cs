@@ -23,21 +23,11 @@ public class PurchaseUI : MonoBehaviour
         if (price <= money)
         {
             money -= price;
-<<<<<<< HEAD
-=======
             MoneyTxt.text = "Player's money : " + money.ToString();
->>>>>>> 688b3dd274f3b286943cc00ee332572c7129ffda
         }
         else
         {
             Debug.Log("잔액이 부족합니다.");
         }
     }
-
-<<<<<<< HEAD
-    void Update()
-    {
-        MoneyTxt.text = "Player's money : " + money.ToString();
-    }
-=======
 }
