@@ -8,6 +8,7 @@ public class PlayerData
     public string playerName;
     public int level;
     public string cls;
+    public int money;
     public float maxHP;
     public float maxMP;
     public float hp;

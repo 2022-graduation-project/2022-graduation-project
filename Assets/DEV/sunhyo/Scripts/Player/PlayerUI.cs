@@ -8,6 +8,7 @@ public class PlayerUI : MonoBehaviour
     public Text nameTxt;
     public Text levelTxt;
     public Text classTxt;
+    public Text moneyTxt;
     public Image hpBar;
     public Image mpBar;
     public Text HpPotion;
