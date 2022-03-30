@@ -246,6 +246,11 @@ public class MonsterAI : MonoBehaviour
             // if this is boss monster
             if (isBossMonster)
             {
+                if (bossHPbar == null)
+                {
+                    print("bossHPbar이 널입니다");
+                }
+
                 // 보스 체력 게이지 바 생성
                 // able to see the guage bar
                 bossHPbar.SetActive(true);
@@ -335,6 +340,7 @@ public class MonsterAI : MonoBehaviour
         // 게이지바 UI 오브젝트 찾기
         // find Monster's HP guage bar
         bossHPbar = GameObject.Find("PlayerUI/Top/Status Effect/MonsterHPparent/MonsterHP");
+        print("보스 : " + bossHPbar);
         
 
 
