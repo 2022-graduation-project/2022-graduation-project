@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;   // À¯´ÏÆ¼ UI »ç¿ëÇÏ±â À§ÇÑ ¼±¾ð
+using UnityEngine.UI;   // ï¿½ï¿½ï¿½ï¿½Æ¼ UI ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 public class PurchaseUI : MonoBehaviour
 {
@@ -23,21 +23,11 @@ public class PurchaseUI : MonoBehaviour
         if (price <= money)
         {
             money -= price;
-<<<<<<< HEAD
-=======
             MoneyTxt.text = "Player's money : " + money.ToString();
->>>>>>> 688b3dd274f3b286943cc00ee332572c7129ffda
         }
         else
         {
-            Debug.Log("ÀÜ¾×ÀÌ ºÎÁ·ÇÕ´Ï´Ù.");
+            Debug.Log("ï¿½Ü¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.");
         }
     }
-
-<<<<<<< HEAD
-    void Update()
-    {
-        MoneyTxt.text = "Player's money : " + money.ToString();
-    }
-=======
 }
