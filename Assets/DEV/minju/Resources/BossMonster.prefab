@@ -260,7 +260,7 @@ GameObject:
   - component: {fileID: 5733753660089611505}
   - component: {fileID: 9107361137264568586}
   - component: {fileID: 1132490367938270100}
-  - component: {fileID: 7850568076072581293}
+  - component: {fileID: 8879444972280605741}
   m_Layer: 0
   m_Name: BossMonster
   m_TagString: Monster
@@ -347,7 +347,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &7850568076072581293
+--- !u!114 &8879444972280605741
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -356,12 +356,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1860356468188330552}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73eaa092e1702c74e96327bce56dd055, type: 3}
+  m_Script: {fileID: 11500000, guid: 4d168a000bee59f44b7bd036b37b8fcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   monsterIdx: 0
   direction: {x: 0, y: 0, z: 0}
   isBossMonster: 1
+  bossHPbar: {fileID: 3716451413327510431, guid: 83e226d3c69793747aa58f6983a16ec9, type: 3}
 --- !u!1 &1901308329466135969
 GameObject:
   m_ObjectHideFlags: 0

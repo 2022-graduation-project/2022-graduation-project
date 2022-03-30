@@ -232,7 +232,8 @@ public class MonsterAI : MonoBehaviour
 
     // 보스 체력 게이지 바 UI
     // guage bar of boss HP
-    GameObject bossHPbar;
+    GameObject monsterUI;
+    GameObject gaugeBar;
 
     // 플레이어가 추적반경 안에 들어왔을 경우
     // player is in range of Monster's Sight
@@ -246,15 +247,10 @@ public class MonsterAI : MonoBehaviour
             // if this is boss monster
             if (isBossMonster)
             {
-                if (bossHPbar == null)
-                {
-                    print("bossHPbar이 널입니다");
-                }
-
                 // 보스 체력 게이지 바 생성
                 // able to see the guage bar
-                bossHPbar.SetActive(true);
-                bossHPbar.GetComponent<Image>().fillAmount = thisMon.hp / 50f;
+                gaugeBar.SetActive(true);
+                gaugeBar.GetComponent<Image>().fillAmount = thisMon.hp / 50f;
             }
 
             // 찾았다고 저장
@@ -286,7 +282,7 @@ public class MonsterAI : MonoBehaviour
             {
                 // 보스 체력 게이지 바 사라지기
                 // unable to see the guage bar
-                bossHPbar.SetActive(false);
+                gaugeBar.SetActive(false);
             }
 
             // 못찾았다고 저장
@@ -339,8 +335,9 @@ public class MonsterAI : MonoBehaviour
         manager = GameObject.Find("GameManager").GetComponent<MonsterManager>();
         // 게이지바 UI 오브젝트 찾기
         // find Monster's HP guage bar
-        bossHPbar = GameObject.Find("PlayerUI/Top/Status Effect/MonsterHPparent/MonsterHP");
-        print("보스 : " + bossHPbar);
+        monsterUI = GameObject.Find("MonsterUI");
+        gaugeBar = monsterUI.transform.Find("MonsterHP").gameObject;
+        gaugeBar.SetActive(false);
         
 
 
@@ -400,8 +397,8 @@ public class MonsterAI : MonoBehaviour
         {
             // 보스 체력 게이지 바 Update
             // Update the guage bar
-            bossHPbar.SetActive(true);
-            bossHPbar.GetComponent<Image>().fillAmount = thisMon.hp / 50f;
+            //gaugeBar.SetActive(true);
+            gaugeBar.GetComponent<Image>().fillAmount = thisMon.hp / 50f;
         }
     }
 }
