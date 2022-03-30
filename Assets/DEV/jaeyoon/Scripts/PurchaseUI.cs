@@ -23,6 +23,7 @@ public class PurchaseUI : MonoBehaviour
         if (price <= money)
         {
             money -= price;
+            MoneyTxt.text = "Player's money : " + money.ToString();
         }
         else
         {
@@ -30,8 +31,8 @@ public class PurchaseUI : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        MoneyTxt.text = "Player's money : " + money.ToString();
-    }
+    //void Update()
+    //{
+    //    MoneyTxt.text = "Player's money : " + money.ToString();
+    //}
 }
