@@ -215,6 +215,7 @@ GameObject:
   - component: {fileID: 238713867644010486}
   - component: {fileID: 238713867644010487}
   - component: {fileID: 238713867644010483}
+  - component: {fileID: 5588664671873203615}
   m_Layer: 0
   m_Name: QuestNPC
   m_TagString: Untagged
@@ -316,6 +317,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &5588664671873203615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 238713867644010484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f324e32cbe1e7374bbb39ea58bd0c8ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  QuestUI: {fileID: 0}
 --- !u!1 &6154440149954232384
 GameObject:
   m_ObjectHideFlags: 0
