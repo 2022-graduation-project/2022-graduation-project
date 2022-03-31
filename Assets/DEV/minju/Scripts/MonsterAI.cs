@@ -27,6 +27,7 @@ public class MonsterAI : MonoBehaviour
         public bool isFound;
         //목적지 위치 (Patrol: random location, Chase: player location)
         public Transform destPosition;
+        public float distance;
     }
 
     // 몬스터 애니메이터
@@ -194,7 +195,7 @@ public class MonsterAI : MonoBehaviour
                 //transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(direction), 1000f * Time.deltaTime);
 
                 //플레이어 근처 일정 거리(2f)에 도달했다면 공격
-                if (Vector3.Distance(transform.position, thisMon.destPosition.position) <= 5f)
+                if (Vector3.Distance(transform.position, thisMon.destPosition.position) <= thisMon.distance)
                 {
                     //몬스터 상태를 Attack 상태로 변환
                     thisMon.state = Monster.States.Attack;
@@ -352,7 +353,7 @@ public class MonsterAI : MonoBehaviour
             // setting default hp
             thisMon.hp = 50f;
             // setting default speed
-            thisMon.moveSpeed = 100f;
+            thisMon.moveSpeed = 200f;
             thisMon.turnSpeed = 10f;
             // setting default power
             thisMon.attackForce = 10f;
@@ -360,6 +361,8 @@ public class MonsterAI : MonoBehaviour
             thisMon.isFound = false;
             // setting default destination
             thisMon.destPosition = null;
+            // attack available distance
+            thisMon.distance = 2f;
         }
 
         // 현재 오브젝트의 몬스터 기본값 처음 설정하기 (보스 몬스터)
@@ -381,6 +384,8 @@ public class MonsterAI : MonoBehaviour
             thisMon.isFound = false;
             // setting default destination
             thisMon.destPosition = null;
+            // attack available distance
+            thisMon.distance = 5f;
         }
 
         // start with default state
