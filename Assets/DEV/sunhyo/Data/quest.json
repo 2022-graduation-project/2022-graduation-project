@@ -1,0 +1,28 @@
+{
+  "000_quest": {
+    "title": "시작",
+    "content": "상하좌우로 움직이기",
+    "goal": [
+      {
+        "type": "bool",
+        "content": "상"
+      },
+      {
+        "type": "bool",
+        "content": "하"
+      },
+      {
+        "type": "bool",
+        "content": "좌"
+      },
+      {
+        "type": "bool",
+        "content": "우"
+      }
+    ],
+    "reward": {
+      "exp": 1000,
+      "money": 1000
+    }
+  }
+}

@@ -252,6 +252,7 @@ GameObject:
   - component: {fileID: 3025575885085055462}
   - component: {fileID: 3025575885085055460}
   - component: {fileID: 3025575885085055463}
+  - component: {fileID: 3840817654674928608}
   m_Layer: 5
   m_Name: Quest
   m_TagString: Untagged
@@ -318,6 +319,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &3840817654674928608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3025575885085055449}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db63eef4915060d4b88eba910665c4db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  questSlot: {fileID: 0}
 --- !u!1 &3025575885595110615
 GameObject:
   m_ObjectHideFlags: 0
@@ -376,7 +390,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!114 &3025575885595110613
 MonoBehaviour:

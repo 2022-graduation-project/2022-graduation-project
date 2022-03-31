@@ -9,8 +9,7 @@ public class PlayerController : MonoBehaviour
     private PlayerData player;
     private Inventory inventory;
     private Skill skills;
-
-    [SerializeField] private PlayerUI playerUI;
+    private PlayerUI playerUI;
 
     private Rigidbody rigidBody;
     private CapsuleCollider capsuleCollider;
@@ -25,6 +24,7 @@ public class PlayerController : MonoBehaviour
         player = new PlayerData();
         inventory = new Inventory();
         skills = new Skill();
+        playerUI = GameObject.Find("PlayerUI").GetComponent<PlayerUI>();
 
         rigidBody = GetComponent<Rigidbody>();
         capsuleCollider = GetComponent<CapsuleCollider>();
@@ -32,13 +32,14 @@ public class PlayerController : MonoBehaviour
         tr = GetComponent<Transform>();
 
         // 플레이어 정보 세팅 필요 (이름, 레벨, 클래스, hp, mp)
-        player.playerName = "Test player";
-        player.level = 10;
-        player.cls = "Soldier";
-        player.maxHP = 100.0f;
-        player.maxMP = 50.0f;
-        player.hp = player.maxHP - 10;
-        player.mp = player.maxMP - 20;
+        // player.playerName = "Test player";
+        // player.level = 10;
+        // player.cls = "Soldier";
+        // player.maxHP = 100.0f;
+        // player.maxMP = 50.0f;
+        // player.hp = player.maxHP - 10;
+        // player.mp = player.maxMP - 20;
+        player.Set();
 
         inventory.HpPotion = 1;
         inventory.MpPotion = 1;
@@ -52,9 +53,9 @@ public class PlayerController : MonoBehaviour
         playerUI.hpBar.fillAmount = player.hp / player.maxHP;
         playerUI.mpBar.fillAmount = player.mp / player.maxMP;
 
-        playerUI.HpPotion.text = inventory.HpPotion.ToString();
-        playerUI.MpPotion.text = inventory.MpPotion.ToString();
-        playerUI.MasterPotion.text = inventory.MasterPotion.ToString();
+        playerUI.items[0].text = inventory.HpPotion.ToString();
+        playerUI.items[1].text = inventory.MpPotion.ToString();
+        playerUI.items[2].text = inventory.MasterPotion.ToString();
     }
 
     void Update()

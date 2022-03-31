@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class QuestNPC : MonoBehaviour
 {
-    public GameObject QuestUI;
+    public QuestUI questUI;
 
+    private List<QuestData> quest = new List<QuestData>();
+    
+    // raycast로 변경 필
     private SphereCollider detecter;
 
     void Start()
@@ -17,12 +20,12 @@ public class QuestNPC : MonoBehaviour
 
     private void OnTriggerEnter(Collider other) {
         if(other.name == "Player")
-            QuestUI.gameObject.SetActive(true);
+            questUI.gameObject.SetActive(true);
     }
 
     private void OnTriggerExit(Collider other) {
         if(other.name == "Player")
-            QuestUI.gameObject.SetActive(false);
+            questUI.gameObject.SetActive(false);
     }
 
 }
