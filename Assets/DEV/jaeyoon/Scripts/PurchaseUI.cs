@@ -5,6 +5,8 @@ using UnityEngine.UI;   // 유니티 UI 사용하기 위한 선언
 
 public class PurchaseUI : MonoBehaviour
 {
+    private PlayerData player;
+
     public Text MoneyTxt;
     public Button item1, item2, item3;
     public int money;
