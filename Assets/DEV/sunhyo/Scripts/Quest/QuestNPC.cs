@@ -15,7 +15,7 @@ public class QuestNPC : MonoBehaviour
     {
         detecter = GetComponent<SphereCollider>();
 
-        Debug.Log((Mathf.Abs(1000) % 30 + 1).ToString("icon000"));
+        Debug.Log((Mathf.Abs(1000) % 1000 + 1).ToString("icon000"));
     }
 
     private void OnTriggerEnter(Collider other) {

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-class PlayerData
+public class PlayerData
 {
     // Info
     public string playerName;
@@ -31,14 +31,14 @@ class PlayerData
     }
 }
 
-class Inventory
+public class Inventory
 {
     public int HpPotion;
     public int MpPotion;
     public int MasterPotion;
 }
 
-class Skill
+public class Skill
 {
     public int skill1;
     public int skill2;
