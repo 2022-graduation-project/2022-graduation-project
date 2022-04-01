@@ -12,13 +12,13 @@ public class QuestData
 
 public class Goal
 {
-    public readonly string type;
-    public readonly string content;
+    public string type;
+    public string content;
 }
 
 public class Reward
 {
-    public readonly float exp;
-    public readonly float money;
+    public float exp;
+    public float money;
 }
 

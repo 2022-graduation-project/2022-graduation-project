@@ -20,12 +20,20 @@ public class QuestNPC : MonoBehaviour
 
     private void OnTriggerEnter(Collider other) {
         if(other.name == "Player")
+        {
             questUI.gameObject.SetActive(true);
+            other.gameObject.GetComponent<PlayerController>().mouseMoveable = false;
+        }
+            
     }
 
     private void OnTriggerExit(Collider other) {
         if(other.name == "Player")
+        {
             questUI.gameObject.SetActive(false);
+            other.gameObject.GetComponent<PlayerController>().mouseMoveable = true;
+        }
+            
     }
 
 }

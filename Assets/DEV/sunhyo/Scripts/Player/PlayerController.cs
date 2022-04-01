@@ -17,7 +17,8 @@ public class PlayerController : MonoBehaviour
     private Transform tr;
     private RaycastHit hit;
 
-    private bool moveable = true;
+    public bool keyMoveable = true;
+    public bool mouseMoveable = true;
 
     void Start()
     {
@@ -67,14 +68,14 @@ public class PlayerController : MonoBehaviour
         float v = Input.GetAxisRaw("Vertical");
         float r = Input.GetAxisRaw("Mouse X");
 
-        if(moveable)
+        if(keyMoveable)
             Move(h, v, r);
 
         // Jump
-        if(moveable && Input.GetButton("Jump") && Physics.Raycast(tr.position, Vector3.down, out hit, 0.1f))
+        if(keyMoveable && Input.GetButton("Jump") && Physics.Raycast(tr.position, Vector3.down, out hit, 0.1f))
             rigidBody.velocity = tr.up * player.jumpForce;
 
-        if(moveable && Input.GetMouseButtonDown(0))
+        if(keyMoveable && Input.GetMouseButtonDown(0))
             Attack();
         
         // UseItem
@@ -120,19 +121,19 @@ public class PlayerController : MonoBehaviour
 
         tr.Translate(Vector3.right * h * player.moveSpeed * Time.deltaTime);
         tr.Translate(Vector3.forward * v * player.moveSpeed * Time.deltaTime);
-        tr.Rotate(Vector3.up * player.turnSpeed * r);
+        if(mouseMoveable) tr.Rotate(Vector3.up * player.turnSpeed * r);
     }
 
     public void Die()
     {
-        moveable = false;
+        keyMoveable = mouseMoveable = false;
         // if(Inventory.MasterPotion) 부활
         // else 주사위 던지기
     }
 
     public void Attack()
     {
-        moveable = false;
+        keyMoveable = false;
         animator.SetBool("Shooting", true);
         Invoke("StopShooting", 1);
     }
@@ -140,7 +141,7 @@ public class PlayerController : MonoBehaviour
     void StopShooting()
     {
         animator.SetBool("Shooting", false);
-        moveable = true;
+        keyMoveable = true;
     }
 
     public void Damaged(float damage)
