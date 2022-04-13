@@ -27,6 +27,7 @@ public class MonsterAI : MonoBehaviour
         public bool isFound;
         //목적지 위치 (Patrol: random location, Chase: player location)
         public Transform destPosition;
+        public float distance;
     }
 
     // 몬스터 애니메이터
@@ -194,7 +195,7 @@ public class MonsterAI : MonoBehaviour
                 //transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(direction), 1000f * Time.deltaTime);
 
                 //플레이어 근처 일정 거리(2f)에 도달했다면 공격
-                if (Vector3.Distance(transform.position, thisMon.destPosition.position) <= 5f)
+                if (Vector3.Distance(transform.position, thisMon.destPosition.position) <= thisMon.distance)
                 {
                     //몬스터 상태를 Attack 상태로 변환
                     thisMon.state = Monster.States.Attack;
@@ -232,7 +233,8 @@ public class MonsterAI : MonoBehaviour
 
     // 보스 체력 게이지 바 UI
     // guage bar of boss HP
-    GameObject bossHPbar;
+    GameObject monsterUI;
+    GameObject gaugeBar;
 
     // 플레이어가 추적반경 안에 들어왔을 경우
     // player is in range of Monster's Sight
@@ -246,15 +248,10 @@ public class MonsterAI : MonoBehaviour
             // if this is boss monster
             if (isBossMonster)
             {
-                if (bossHPbar == null)
-                {
-                    print("bossHPbar이 널입니다");
-                }
-
                 // 보스 체력 게이지 바 생성
                 // able to see the guage bar
-                bossHPbar.SetActive(true);
-                bossHPbar.GetComponent<Image>().fillAmount = thisMon.hp / 50f;
+                gaugeBar.SetActive(true);
+                gaugeBar.GetComponent<Image>().fillAmount = thisMon.hp / 50f;
             }
 
             // 찾았다고 저장
@@ -286,7 +283,7 @@ public class MonsterAI : MonoBehaviour
             {
                 // 보스 체력 게이지 바 사라지기
                 // unable to see the guage bar
-                bossHPbar.SetActive(false);
+                gaugeBar.SetActive(false);
             }
 
             // 못찾았다고 저장
@@ -339,8 +336,9 @@ public class MonsterAI : MonoBehaviour
         manager = GameObject.Find("GameManager").GetComponent<MonsterManager>();
         // 게이지바 UI 오브젝트 찾기
         // find Monster's HP guage bar
-        bossHPbar = GameObject.Find("PlayerUI/Top/Status Effect/MonsterHPparent/MonsterHP");
-        print("보스 : " + bossHPbar);
+        monsterUI = GameObject.Find("MonsterUI");
+        gaugeBar = monsterUI.transform.Find("MonsterHP").gameObject;
+        gaugeBar.SetActive(false);
         
 
 
@@ -355,7 +353,7 @@ public class MonsterAI : MonoBehaviour
             // setting default hp
             thisMon.hp = 50f;
             // setting default speed
-            thisMon.moveSpeed = 100f;
+            thisMon.moveSpeed = 200f;
             thisMon.turnSpeed = 10f;
             // setting default power
             thisMon.attackForce = 10f;
@@ -363,6 +361,8 @@ public class MonsterAI : MonoBehaviour
             thisMon.isFound = false;
             // setting default destination
             thisMon.destPosition = null;
+            // attack available distance
+            thisMon.distance = 2f;
         }
 
         // 현재 오브젝트의 몬스터 기본값 처음 설정하기 (보스 몬스터)
@@ -384,6 +384,8 @@ public class MonsterAI : MonoBehaviour
             thisMon.isFound = false;
             // setting default destination
             thisMon.destPosition = null;
+            // attack available distance
+            thisMon.distance = 5f;
         }
 
         // start with default state
@@ -400,8 +402,8 @@ public class MonsterAI : MonoBehaviour
         {
             // 보스 체력 게이지 바 Update
             // Update the guage bar
-            bossHPbar.SetActive(true);
-            bossHPbar.GetComponent<Image>().fillAmount = thisMon.hp / 50f;
+            //gaugeBar.SetActive(true);
+            gaugeBar.GetComponent<Image>().fillAmount = thisMon.hp / 50f;
         }
     }
 }
