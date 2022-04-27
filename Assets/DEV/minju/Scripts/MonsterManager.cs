@@ -24,7 +24,7 @@ public class MonsterManager : MonoBehaviour
     {
         CreateMonster(spawnPoints[0]);
 
-        CreateBossMonster(spawnPoints[1]);
+        CreateMonster(spawnPoints[1]);
         //monsters[1].GetComponent<MonsterAI>().Damage(-20);
     }
 

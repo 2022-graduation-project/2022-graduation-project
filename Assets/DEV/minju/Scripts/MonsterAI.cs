@@ -187,8 +187,8 @@ public class MonsterAI : MonoBehaviour
 
 
                 //목적지 향해 이동
-                rig.AddForce(direction * Time.deltaTime * thisMon.moveSpeed, ForceMode.VelocityChange);
-                //transform.Translate(direction * thisMon.moveSpeed * Time.deltaTime);
+                //rig.AddForce(direction * Time.deltaTime * thisMon.moveSpeed, ForceMode.VelocityChange);
+                transform.Translate(direction * thisMon.moveSpeed * Time.deltaTime);
 
                 // 타겟 방향으로 회전함
                 transform.LookAt(Vector3.Lerp(transform.position, thisMon.destPosition.position, 0.1f * Time.deltaTime));
@@ -353,8 +353,8 @@ public class MonsterAI : MonoBehaviour
             // setting default hp
             thisMon.hp = 50f;
             // setting default speed
-            thisMon.moveSpeed = 200f;
-            thisMon.turnSpeed = 10f;
+            thisMon.moveSpeed = 2f;
+            thisMon.turnSpeed = 2f;
             // setting default power
             thisMon.attackForce = 10f;
             // setting default seeking state
