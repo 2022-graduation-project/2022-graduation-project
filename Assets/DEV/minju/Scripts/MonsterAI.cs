@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class MonsterAI : MonoBehaviour
 {
+    public Image healthBar;
+
     // 몬스터 데이터 클래스
     // Monster Data class
     public class Monster
@@ -313,6 +315,7 @@ public class MonsterAI : MonoBehaviour
         {
             //scale(-)만큼 몬스터 체력이 줄어든다.
             thisMon.hp += scale;
+            healthBar.fillAmount = thisMon.hp / 100;
         }
         // 남은 체력이 없을 때
         else
@@ -322,9 +325,24 @@ public class MonsterAI : MonoBehaviour
         }
     }
 
+    private GameObject canvass;
+    private Camera uiCamera;
+    private Canvas canvas;
+    private RectTransform rectParent;
+    private RectTransform rectHp;
+    public Vector3 offset = Vector3.zero;
+    public Transform enemyTr;
+
     // Start is called before the first frame update
     void Start()
     {
+        canvass = transform.Find("HealthUI").gameObject;
+        canvas = canvass.GetComponent<Canvas>();
+        uiCamera = canvas.worldCamera;
+        rectParent = canvas.GetComponent<RectTransform>();
+
+
+        
         // 몬스터 애니메이터
         // Monster Animator
         anim = GetComponent<Animator>();
@@ -363,6 +381,7 @@ public class MonsterAI : MonoBehaviour
             thisMon.destPosition = null;
             // attack available distance
             thisMon.distance = 2f;
+            healthBar.fillAmount = thisMon.hp / 100;
         }
 
         // 현재 오브젝트의 몬스터 기본값 처음 설정하기 (보스 몬스터)
