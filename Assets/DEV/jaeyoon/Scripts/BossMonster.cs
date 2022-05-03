@@ -13,7 +13,7 @@ public class BossMonster : MonoBehaviour
     public float atkRange;
     public float fieldOfVision;
 
-    private void SetBossStatus(/*string _enemyName*/, int _maxHp, int _curHp, int _atkDmg, float _atkSpeed, float _moveSpeed, float _atkRange, float _fieldOfVision)
+    private void SetBossStatus(/*string _enemyName, */int _maxHp, int _curHp, int _atkDmg, float _atkSpeed, float _moveSpeed, float _atkRange, float _fieldOfVision)
     {
         //enemyName = _enemyName;
         maxHp = _maxHp;
@@ -52,20 +52,20 @@ public class BossMonster : MonoBehaviour
         hpBar.position = _hpBarPos;
 
         curHpBar.fillAmount = (float)curHp / (float)maxHp;
+    }
 
-        private void OnTriggerEnter2D(Collider2D col)
+    public void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.CompoareTag("Player"))
         {
-            if (col.CompoareTag("Player"))
+            if (sword_man.attacked)
             {
-                if (sword_man.attacked)
-                {
-                    curHp -= sword_man.atkDmg;
-                    sword_man.attacked = false;
+                curHp -= sword_man.atkDmg;
+                sword_man.attacked = false;
 
-                    if (curHp <= 0) // Àû »ç¸Á
-                    {
-                        Die();
-                    }
+                if (curHp <= 0) // Àû »ç¸Á
+                {
+                    Die();
                 }
             }
         }

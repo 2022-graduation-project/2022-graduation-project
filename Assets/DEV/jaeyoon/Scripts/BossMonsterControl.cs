@@ -49,7 +49,7 @@ public class BossMonsterControl : MonoBehaviour
         }
     }
 
-    void MoveToTarget()
+    private void MoveToTarget()
     {
         float dir = target.position.x - transform.position.x;
 
