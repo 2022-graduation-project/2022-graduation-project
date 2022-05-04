@@ -1,126 +1,126 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+// using System.Collections;
+// using System.Collections.Generic;
+// using UnityEngine;
 
-public class BossMonster : MonoBehaviour
-{
-    //public string enemyName;
-    public int maxHp;
-    public int curHp;
-    public int atkDmg;
-    public float atkSpeed;
-    public float moveSpeed;
-    public float atkRange;
-    public float fieldOfVision;
+// public class BossMonster : MonoBehaviour
+// {
+//     //public string enemyName;
+//     public int maxHp;
+//     public int curHp;
+//     public int atkDmg;
+//     public float atkSpeed;
+//     public float moveSpeed;
+//     public float atkRange;
+//     public float fieldOfVision;
 
-    private void SetBossStatus(/*string _enemyName, */int _maxHp, int _curHp, int _atkDmg, float _atkSpeed, float _moveSpeed, float _atkRange, float _fieldOfVision)
-    {
-        //enemyName = _enemyName;
-        maxHp = _maxHp;
-        curHp = _curHp;
-        atkDmg = _atkDmg;
-        atkSpeed = _atkSpeed;
-        moveSpeed = _moveSpeed;
-        atkRange = _atkRange;
-        fieldOfVision = _fieldOfVision;
-    }
+//     private void SetBossStatus(/*string _enemyName, */int _maxHp, int _curHp, int _atkDmg, float _atkSpeed, float _moveSpeed, float _atkRange, float _fieldOfVision)
+//     {
+//         //enemyName = _enemyName;
+//         maxHp = _maxHp;
+//         curHp = _curHp;
+//         atkDmg = _atkDmg;
+//         atkSpeed = _atkSpeed;
+//         moveSpeed = _moveSpeed;
+//         atkRange = _atkRange;
+//         fieldOfVision = _fieldOfVision;
+//     }
 
-    public GameObject HpBar_prf;
-    public GameObject canvas;
-    RectTransform hpBar;    // Transform
-    public float height = 1.7f;
+//     public GameObject HpBar_prf;
+//     public GameObject canvas;
+//     RectTransform hpBar;    // Transform
+//     public float height = 1.7f;
 
-    void Start()
-    {
-        hpBar = Instantiate(HpBar_prf, canvas.transform).GetComponent<RectTransform>(); // Hp Bar Á¤¸® Ãß°¡·Î ÇÏÀÚ
+//     void Start()
+//     {
+//         hpBar = Instantiate(HpBar_prf, canvas.transform).GetComponent<RectTransform>(); // Hp Bar ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-        /* ¾ê´Â º¸½º ÀÌ¸§ µé¾î°£ °Å
-        if (name.Equals("BossMonster"))
-        {
-            SetEnemyStatus("BossMonster", 100, 10, 1.5f, 2, 1.5f, 7f);
-        }
-        */
-        SetEnemyStatus(100, 10, 1.5f, 2, 1.5f, 7f);
-        curHpBar = hpBar.transform.GetChild(0).GetComponent<Image>();
+//         /* ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½ï¿½î°£ ï¿½ï¿½
+//         if (name.Equals("BossMonster"))
+//         {
+//             SetEnemyStatus("BossMonster", 100, 10, 1.5f, 2, 1.5f, 7f);
+//         }
+//         */
+//         SetEnemyStatus(100, 10, 1.5f, 2, 1.5f, 7f);
+//         curHpBar = hpBar.transform.GetChild(0).GetComponent<Image>();
 
-        SetAttackSpeed(atkSpeed);
-    }
+//         SetAttackSpeed(atkSpeed);
+//     }
 
-    void Update()
-    {
-        Vector3 _hpBarPos = Camera.main.WorldToScreenPoint(new Vector3(transform.position.x, transform.position.y + height, 0));
-        hpBar.position = _hpBarPos;
+//     void Update()
+//     {
+//         Vector3 _hpBarPos = Camera.main.WorldToScreenPoint(new Vector3(transform.position.x, transform.position.y + height, 0));
+//         hpBar.position = _hpBarPos;
 
-        curHpBar.fillAmount = (float)curHp / (float)maxHp;
-    }
+//         curHpBar.fillAmount = (float)curHp / (float)maxHp;
+//     }
 
-    public void OnTriggerEnter2D(Collider2D col)
-    {
-        if (col.CompoareTag("Player"))
-        {
-            if (sword_man.attacked)
-            {
-                curHp -= sword_man.atkDmg;
-                sword_man.attacked = false;
+//     public void OnTriggerEnter2D(Collider2D col)
+//     {
+//         if (col.CompoareTag("Player"))
+//         {
+//             if (sword_man.attacked)
+//             {
+//                 curHp -= sword_man.atkDmg;
+//                 sword_man.attacked = false;
 
-                if (curHp <= 0) // Àû »ç¸Á
-                {
-                    Die();
-                }
-            }
-        }
-    }
+//                 if (curHp <= 0) // ï¿½ï¿½ ï¿½ï¿½ï¿½
+//                 {
+//                     Die();
+//                 }
+//             }
+//         }
+//     }
 
-    void Die()
-    {
-        enemyAnimator.SetTrigger("die");    // die ¾Ö´Ï¸ÞÀÌ¼Ç ½ÇÇà
-        GetComponent<EnemyAI>().enabled = false;    // ÃßÀû ºñÈ°¼ºÈ­
-        GetComponent<Collider2D>().enabled = false; // Ãæµ¹Ã¼ ºñÈ°¼ºÈ­
-        Destroy(GetComponent<Rigidbody2D>());   // Áß·Â ºñÈ°¼ºÈ­
-        Destroy(gameObject, 3); // 3ÃÊ ÈÄ Á¦°Å
-        Destroy(hpBar.gameObject, 3);   // 3ÃÊÈÄ Ã¼·Â¹Ù Á¦°Å
-    }
+//     void Die()
+//     {
+//         enemyAnimator.SetTrigger("die");    // die ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ï¿½
+//         GetComponent<EnemyAI>().enabled = false;    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È°ï¿½ï¿½È­
+//         GetComponent<Collider2D>().enabled = false; // ï¿½æµ¹Ã¼ ï¿½ï¿½È°ï¿½ï¿½È­
+//         Destroy(GetComponent<Rigidbody2D>());   // ï¿½ß·ï¿½ ï¿½ï¿½È°ï¿½ï¿½È­
+//         Destroy(gameObject, 3); // 3ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+//         Destroy(hpBar.gameObject, 3);   // 3ï¿½ï¿½ï¿½ï¿½ Ã¼ï¿½Â¹ï¿½ ï¿½ï¿½ï¿½ï¿½
+//     }
 
-    void SetAttackSpeed(float speed)
-    {
-        enemyAnimator.SetFloat("attackSpeed", speed);
-    }
-}
+//     void SetAttackSpeed(float speed)
+//     {
+//         enemyAnimator.SetFloat("attackSpeed", speed);
+//     }
+// }
 
 
-    /*
-    public enum CurrentState { idle, trace, attack, dead };
-    public CurrentState boss = CurrentState.idle;
+//     /*
+//     public enum CurrentState { idle, trace, attack, dead };
+//     public CurrentState boss = CurrentState.idle;
 
-    private Transform bossT;
-    private Transform playerT;
-    private NavMeshAgent nvAgent;   // ÃßÀû
+//     private Transform bossT;
+//     private Transform playerT;
+//     private NavMeshAgent nvAgent;   // ï¿½ï¿½ï¿½ï¿½
 
-    int flag = 0;
+//     int flag = 0;
 
-    void Start()
-    {
-        bossT = this.gameObject.GetComponent<Transform>();
-        //playerT = GameObject.FindWithTag("PlayerÀÌ¸§").GetComponent<Transform>();
+//     void Start()
+//     {
+//         bossT = this.gameObject.GetComponent<Transform>();
+//         //playerT = GameObject.FindWithTag("Playerï¿½Ì¸ï¿½").GetComponent<Transform>();
 
-        StartCoroutine(this.RandomMovement());
-    }
+//         StartCoroutine(this.RandomMovement());
+//     }
 
-    IEnumerator RandomMovement()    // IEnumerator ÇÔ¼ö ¼±¾ð
-    {
-        // Random Change Movement
-        flag = Random.Range(0, 3);
+//     IEnumerator RandomMovement()    // IEnumerator ï¿½Ô¼ï¿½ ï¿½ï¿½ï¿½ï¿½
+//     {
+//         // Random Change Movement
+//         flag = Random.Range(0, 3);
 
-        // Mapping Animation
-        if (flag == 0)
-            boss.SetBool("isMoving", false);
-        else
-            boss.SetBool("isMoving", true);
+//         // Mapping Animation
+//         if (flag == 0)
+//             boss.SetBool("isMoving", false);
+//         else
+//             boss.SetBool("isMoving", true);
 
-        // Wait 3 Seconds
-        yield return new WaitForSeconds(3f);
+//         // Wait 3 Seconds
+//         yield return new WaitForSeconds(3f);
 
-        // Restart Logic
-        StartCoroutine("MoveBoss");
-    }
-*/
+//         // Restart Logic
+//         StartCoroutine("MoveBoss");
+//     }
+// */

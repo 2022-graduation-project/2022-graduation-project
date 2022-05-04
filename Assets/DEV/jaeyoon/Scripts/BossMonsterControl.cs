@@ -1,82 +1,82 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.AI;
+// using System.Collections;
+// using System.Collections.Generic;
+// using UnityEngine;
+// using UnityEngine.AI;
 
-public class BossMonsterControl : MonoBehaviour
-{
-    public Transform target;
-    float attackDelay;
+// public class BossMonsterControl : MonoBehaviour
+// {
+//     public Transform target;
+//     float attackDelay;
 
-    BossMonster boss;
-    Animator bossAnimator;
+//     BossMonster boss;
+//     Animator bossAnimator;
 
-    void Start()
-    {
-        boss = GetComponent<BossMonster>();
-        bossAnimator = boss.bossAnimator();
-    }
+//     void Start()
+//     {
+//         boss = GetComponent<BossMonster>();
+//         bossAnimator = boss.bossAnimator();
+//     }
 
-    void Update()
-    {
-        attackDelay -= Time.deltaTime;
-        if (attackDelay < 0)
-            attackDelay = 0;
+//     void Update()
+//     {
+//         attackDelay -= Time.deltaTime;
+//         if (attackDelay < 0)
+//             attackDelay = 0;
 
-        // Å¸°Ù°ú ÀÚ½ÅÀÇ °Å¸®¸¦ È®ÀÎ
-        float distance = Vector3.Distance(transform.position, target.position);
+//         // Å¸ï¿½Ù°ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½Å¸ï¿½ï¿½ï¿½ È®ï¿½ï¿½
+//         float distance = Vector3.Distance(transform.position, target.position);
 
-        // °ø°Ý µô·¹ÀÌ(ÄðÅ¸ÀÓ)°¡ 0ÀÏ ¶§, ½Ã¾ß ¹üÀ§¿¡ µé¾î¿Ã ¶§
-        if (attackDelay == 0 && distance <= boss.fieldOfVision)
-        {
-            // FaceTarget();    // Å¸°Ù ¹Ù¶óº¸±â (???? ÀÏ´ÜÀº ¾È ³ÖÀ½)
+//         // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½Å¸ï¿½ï¿½)ï¿½ï¿½ 0ï¿½ï¿½ ï¿½ï¿½, ï¿½Ã¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+//         if (attackDelay == 0 && distance <= boss.fieldOfVision)
+//         {
+//             // FaceTarget();    // Å¸ï¿½ï¿½ ï¿½Ù¶óº¸±ï¿½ (???? ï¿½Ï´ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
 
-            if (distance <= boss.atkRange) // °ø°Ý ¹üÀ§ ³»¿¡ µé¾î¿Ã °æ¿ì °ø°Ý
-            {
-                AttackTarget();
-            }
-            else   // °ø°Ý ¾Ö´Ï¸ÞÀÌ¼Ç ½ÇÇà ÁßÀÌ ¾Æ´Ò °æ¿ì ÃßÀû
-            {
-                if (!bossAnimator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
-                {
-                    MoveToTarget();
-                }
-            }
-        }
-        else   // ½Ã¾ß ¹üÀ§ ¹Û¿¡ ÀÖÀ» ¶§ Idle ¾Ö´Ï¸ÞÀÌ¼ÇÀ¸·Î ÀüÈ¯
-        {
-            bossAnimator.SetBool("isMoving", false);
-        }
-    }
+//             if (distance <= boss.atkRange) // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+//             {
+//                 AttackTarget();
+//             }
+//             else   // ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+//             {
+//                 if (!bossAnimator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+//                 {
+//                     MoveToTarget();
+//                 }
+//             }
+//         }
+//         else   // ï¿½Ã¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Û¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Idle ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
+//         {
+//             bossAnimator.SetBool("isMoving", false);
+//         }
+//     }
 
-    private void MoveToTarget()
-    {
-        float dir = target.position.x - transform.position.x;
+//     private void MoveToTarget()
+//     {
+//         float dir = target.position.x - transform.position.x;
 
-        dir = (dir < 0) ? -1 : 1;
+//         dir = (dir < 0) ? -1 : 1;
 
-        transform.Translate(new Vector2(dir, 0) * boss.moveSpeed * Time.deltaTime);
-        bossAnimator.SetBool("isMoving", true);
-    }
+//         transform.Translate(new Vector2(dir, 0) * boss.moveSpeed * Time.deltaTime);
+//         bossAnimator.SetBool("isMoving", true);
+//     }
 
-    /*
-    void FaceTarget()
-    {
-        if (target.position.x - transform.position.x < 0)
-        {
-            transform.localScale = new Vector3(-1, 1, 1);
-        }
-        else
-        {
-            transform.localScale = new Vector3(1, 1, 1);
-        }
-    }
-    */
+//     /*
+//     void FaceTarget()
+//     {
+//         if (target.position.x - transform.position.x < 0)
+//         {
+//             transform.localScale = new Vector3(-1, 1, 1);
+//         }
+//         else
+//         {
+//             transform.localScale = new Vector3(1, 1, 1);
+//         }
+//     }
+//     */
 
-    void AttackTarget()
-    {
-        target.GetComponent<Player>().nowHP -= boss.atkDmg;
-        bossAnimator.SetTrigger("attack"); // °ø°Ý ¾Ö´Ï¸ÞÀÌ¼Ç ½ÇÇà
-        attackDelay = boss.atkSpeed;   // µô·¹ÀÌ ÃæÀü
-    }
-}
+//     void AttackTarget()
+//     {
+//         target.GetComponent<Player>().nowHP -= boss.atkDmg;
+//         bossAnimator.SetTrigger("attack"); // ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ï¿½
+//         attackDelay = boss.atkSpeed;   // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+//     }
+// }
