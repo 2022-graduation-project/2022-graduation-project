@@ -17,14 +17,18 @@ public class MonsterManager : MonoBehaviour
 
     // ��������Ʈ �迭
     // array of spawn points
-    public Transform[] spawnPoints;
+    public Transform spawnPoints;
+    public Transform[] childrenSP;
 
     // Start is called before the first frame update
     void Start()
     {
-        CreateMonster(spawnPoints[0]);
+        childrenSP = spawnPoints.gameObject.GetComponentsInChildren<Transform>();
 
-        CreateBossMonster(spawnPoints[1]);
+        for (int i = 0; i < 20; i++)
+        {
+            CreateMonster(childrenSP[i]);
+        }
         //monsters[1].GetComponent<MonsterAI>().Damage(-20);
     }
 
