@@ -25,9 +25,9 @@ public class MonsterManager : MonoBehaviour
     {
         childrenSP = spawnPoints.gameObject.GetComponentsInChildren<Transform>();
 
-        for (int i = 0; i < 20; i++)
+        for (int i = 0; i < 30; i++)
         {
-            CreateMonster(childrenSP[i]);
+            CreateMonster(childrenSP[Random.Range(0, 50)]);
         }
         //monsters[1].GetComponent<MonsterAI>().Damage(-20);
     }
