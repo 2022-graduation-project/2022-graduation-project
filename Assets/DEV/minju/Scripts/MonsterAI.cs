@@ -306,6 +306,8 @@ public class MonsterAI : MonoBehaviour
     // for using manager's func
     MonsterManager manager;
 
+    public GameObject hpBarPrefab;
+
     // player가 monster 공격 했을 때 호출
     // If player damages monster this will be called
     public void Damage(int scale)
@@ -325,23 +327,11 @@ public class MonsterAI : MonoBehaviour
         }
     }
 
-    private GameObject canvass;
-    private Camera uiCamera;
-    private Canvas canvas;
-    private RectTransform rectParent;
-    private RectTransform rectHp;
-    public Vector3 offset = Vector3.zero;
-    public Transform enemyTr;
+   
 
     // Start is called before the first frame update
     void Start()
     {
-        canvass = transform.Find("HealthUI").gameObject;
-        canvas = canvass.GetComponent<Canvas>();
-        uiCamera = canvas.worldCamera;
-        rectParent = canvas.GetComponent<RectTransform>();
-
-
         
         // 몬스터 애니메이터
         // Monster Animator
