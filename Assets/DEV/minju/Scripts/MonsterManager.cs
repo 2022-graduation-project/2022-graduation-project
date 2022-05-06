@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class MonsterManager : MonoBehaviour
@@ -20,14 +21,36 @@ public class MonsterManager : MonoBehaviour
     public Transform spawnPoints;
     public Transform[] childrenSP;
 
+    // For Random Spawn without duplicate
+    public int[] duplicate;
+
     // Start is called before the first frame update
     void Start()
     {
+        // 배열 0으로 초기화
+        // initiate elements as 0
+        duplicate = Enumerable.Repeat<int>(0, 50).ToArray<int>();
+
+        // 스폰포인트 전부 가져오기
+        // bring every spawnpoints
         childrenSP = spawnPoints.gameObject.GetComponentsInChildren<Transform>();
 
+        // 처음 시작 시 스폰
+        // Start to Spawn monsters
         for (int i = 0; i < 30; i++)
-        {
-            CreateMonster(childrenSP[Random.Range(0, 50)]);
+        {   // 30마리 생성
+            // Random spawn points (0 ~ 49)
+            int temp = Random.Range(0, 50);
+            
+            // 랜덤 생성이 중복이 아닌지 확인하기
+            // Check duplicate
+            if (repeatRandom(temp) == 1)
+            {
+                // 중복이 아닐 때만 생성
+                CreateMonster(childrenSP[temp]);
+            }
+            else
+                continue;
         }
         //monsters[1].GetComponent<MonsterAI>().Damage(-20);
     }
@@ -106,5 +129,20 @@ public class MonsterManager : MonoBehaviour
             objMonster.GetComponent<MonsterAI>().isBossMonster
                 = true;
         }
+    }
+
+    int repeatRandom(int temp)
+    {
+        if (duplicate[temp] == 0)
+        {
+            duplicate[temp]++;
+            return 1;
+        }
+        else//중복확인해서 랜덤 다시 뽑는 거 재귀함수로 다시 고쳐야함!!
+        {
+            repeatRandom(temp);
+            return -1;
+        }
+        
     }
 }
