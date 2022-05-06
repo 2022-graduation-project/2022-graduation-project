@@ -44,7 +44,7 @@ public class MonsterManager : MonoBehaviour
             
             // 랜덤 생성이 중복이 아닌지 확인하기
             // Check duplicate
-            if (repeatRandom(temp) == 1)
+            if (repeatRandom(temp))
             {
                 // 중복이 아닐 때만 생성
                 CreateMonster(childrenSP[temp]);
@@ -131,18 +131,17 @@ public class MonsterManager : MonoBehaviour
         }
     }
 
-    int repeatRandom(int temp)
+    bool repeatRandom(int temp)
     {
         if (duplicate[temp] == 0)
         {
             duplicate[temp]++;
-            return 1;
+            return true;
         }
         else//중복확인해서 랜덤 다시 뽑는 거 재귀함수로 다시 고쳐야함!!
         {
-            repeatRandom(temp);
-            return -1;
+            int temp2 = Random.Range(0, 50);
+            return repeatRandom(temp2);
         }
-        
     }
 }
