@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Newtonsoft.Json;
 
 public class PlayerController : MonoBehaviour
 {
     private PlayerData player;
     private Inventory inventory;
     private Skill skills;
-
-    [SerializeField] private PlayerUI playerUI;
+    private PlayerUI playerUI;
 
     private Rigidbody rigidBody;
     private CapsuleCollider capsuleCollider;
@@ -17,13 +17,15 @@ public class PlayerController : MonoBehaviour
     private Transform tr;
     private RaycastHit hit;
 
-    private bool moveable = true;
+    public bool keyMoveable = true;
+    public bool mouseMoveable = true;
 
     void Start()
     {
         player = new PlayerData();
         inventory = new Inventory();
         skills = new Skill();
+        playerUI = GameObject.Find("PlayerUI").GetComponent<PlayerUI>();
 
         rigidBody = GetComponent<Rigidbody>();
         capsuleCollider = GetComponent<CapsuleCollider>();
@@ -31,13 +33,14 @@ public class PlayerController : MonoBehaviour
         tr = GetComponent<Transform>();
 
         // 플레이어 정보 세팅 필요 (이름, 레벨, 클래스, hp, mp)
-        player.playerName = "Test player";
-        player.level = 10;
-        player.cls = "Soldier";
-        player.maxHP = 100.0f;
-        player.maxMP = 50.0f;
-        player.hp = player.maxHP - 10;
-        player.mp = player.maxMP - 20;
+        // player.playerName = "Test player";
+        // player.level = 10;
+        // player.cls = "Soldier";
+        // player.maxHP = 100.0f;
+        // player.maxMP = 50.0f;
+        // player.hp = player.maxHP - 10;
+        // player.mp = player.maxMP - 20;
+        player.Set();
 
         inventory.HpPotion = 1;
         inventory.MpPotion = 1;
@@ -47,12 +50,13 @@ public class PlayerController : MonoBehaviour
         playerUI.nameTxt.text = player.playerName;
         playerUI.levelTxt.text = "Lv. " + player.level.ToString();
         playerUI.classTxt.text = player.cls;
+        playerUI.moneyTxt.text = player.money.ToString();
         playerUI.hpBar.fillAmount = player.hp / player.maxHP;
         playerUI.mpBar.fillAmount = player.mp / player.maxMP;
 
-        playerUI.HpPotion.text = inventory.HpPotion.ToString();
-        playerUI.MpPotion.text = inventory.MpPotion.ToString();
-        playerUI.MasterPotion.text = inventory.MasterPotion.ToString();
+        playerUI.items[0].text = inventory.HpPotion.ToString();
+        playerUI.items[1].text = inventory.MpPotion.ToString();
+        playerUI.items[2].text = inventory.MasterPotion.ToString();
     }
 
     void Update()
@@ -64,14 +68,14 @@ public class PlayerController : MonoBehaviour
         float v = Input.GetAxisRaw("Vertical");
         float r = Input.GetAxisRaw("Mouse X");
 
-        if(moveable)
+        if(keyMoveable)
             Move(h, v, r);
 
         // Jump
-        if(moveable && Input.GetButton("Jump") && Physics.Raycast(tr.position, Vector3.down, out hit, 0.1f))
+        if(keyMoveable && Input.GetButton("Jump") && Physics.Raycast(tr.position, Vector3.down, out hit, 0.1f))
             rigidBody.velocity = tr.up * player.jumpForce;
 
-        if(moveable && Input.GetMouseButtonDown(0))
+        if(keyMoveable && Input.GetMouseButtonDown(0))
             Attack();
         
         // UseItem
@@ -117,19 +121,19 @@ public class PlayerController : MonoBehaviour
 
         tr.Translate(Vector3.right * h * player.moveSpeed * Time.deltaTime);
         tr.Translate(Vector3.forward * v * player.moveSpeed * Time.deltaTime);
-        tr.Rotate(Vector3.up * player.turnSpeed * r);
+        if(mouseMoveable) tr.Rotate(Vector3.up * player.turnSpeed * r);
     }
 
     public void Die()
     {
-        moveable = false;
+        keyMoveable = mouseMoveable = false;
         // if(Inventory.MasterPotion) 부활
         // else 주사위 던지기
     }
 
     public void Attack()
     {
-        moveable = false;
+        keyMoveable = false;
         animator.SetBool("Shooting", true);
         Invoke("StopShooting", 1);
     }
@@ -137,7 +141,7 @@ public class PlayerController : MonoBehaviour
     void StopShooting()
     {
         animator.SetBool("Shooting", false);
-        moveable = true;
+        keyMoveable = true;
     }
 
     public void Damaged(float damage)
@@ -158,9 +162,10 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    public void GetItem()
+    public void ButyItem(int price)
     {
-
+        player.money -= price;
+        playerUI.moneyTxt.text = player.money.ToString();
     }
 
     public void GetQuest()

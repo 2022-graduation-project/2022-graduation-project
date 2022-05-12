@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;   // À¯´ÏÆ¼ UI »ç¿ëÇÏ±â À§ÇÑ ¼±¾ð
+using UnityEngine.UI;   // ï¿½ï¿½ï¿½ï¿½Æ¼ UI ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 public class PurchaseUI : MonoBehaviour
 {
@@ -13,25 +13,21 @@ public class PurchaseUI : MonoBehaviour
     {
         MoneyTxt.text = "Player's money : " + money.ToString();
 
-        item1.onClick.AddListener(() => buyItem(5000));
-        item2.onClick.AddListener(() => buyItem(7000));
-        item3.onClick.AddListener(delegate { buyItem(10000); });
+        item1.onClick.AddListener(() => BuyItem(5000));
+        item2.onClick.AddListener(() => BuyItem(7000));
+        item3.onClick.AddListener(delegate { BuyItem(10000); });
     }
 
-    void buyItem(int price)
+    public void BuyItem(int price)
     {
         if (price <= money)
         {
             money -= price;
+            MoneyTxt.text = "Player's money : " + money.ToString();
         }
         else
         {
-            Debug.Log("ÀÜ¾×ÀÌ ºÎÁ·ÇÕ´Ï´Ù.");
+            Debug.Log("ï¿½Ü¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.");
         }
-    }
-
-    void Update()
-    {
-        MoneyTxt.text = "Player's money : " + money.ToString();
     }
 }
