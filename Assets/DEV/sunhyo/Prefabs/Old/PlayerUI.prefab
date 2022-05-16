@@ -2900,7 +2900,7 @@ GameObject:
   - component: {fileID: 6629614062937176665}
   - component: {fileID: 6629614062937176614}
   - component: {fileID: 6629614062937176615}
-  - component: {fileID: 8907812567972883911}
+  - component: {fileID: 7520336804931371787}
   m_Layer: 5
   m_Name: PlayerUI
   m_TagString: Untagged
@@ -2991,7 +2991,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &8907812567972883911
+--- !u!114 &7520336804931371787
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3000,16 +3000,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 6629614062937176612}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5d6186080dc3924f94107e0df0c9801, type: 3}
+  m_Script: {fileID: 11500000, guid: c75136215c706c14296c503ef977ad22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   nameTxt: {fileID: 7968589527045792572}
   levelTxt: {fileID: 7503975186150231570}
   classTxt: {fileID: 8374156397515426443}
   moneyTxt: {fileID: 2619229539103635672}
-  HpPotion: {fileID: 1424760562516647172}
-  MpPotion: {fileID: 3911004366483540796}
-  MasterPotion: {fileID: 1187537687563088560}
   hpBar: {fileID: 8961657964517873390}
   mpBar: {fileID: 79297249650400990}
 --- !u!1 &6873845826631768989
@@ -3984,7 +3981,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7061546430774718133, guid: 05484fb229966864785ddb5f6047ff92, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7061546430774718133, guid: 05484fb229966864785ddb5f6047ff92, type: 3}
       propertyPath: m_AnchorMin.x
@@ -3992,7 +3989,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7061546430774718133, guid: 05484fb229966864785ddb5f6047ff92, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7061546430774718133, guid: 05484fb229966864785ddb5f6047ff92, type: 3}
       propertyPath: m_SizeDelta.x

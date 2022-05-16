@@ -22,7 +22,7 @@ public class QuestNPC : MonoBehaviour
         if(other.name == "Player")
         {
             questUI.gameObject.SetActive(true);
-            other.gameObject.GetComponent<PlayerController>().mouseMoveable = false;
+            other.gameObject.GetComponent<exPlayerController>().mouseMoveable = false;
         }
             
     }
@@ -31,7 +31,7 @@ public class QuestNPC : MonoBehaviour
         if(other.name == "Player")
         {
             questUI.gameObject.SetActive(false);
-            other.gameObject.GetComponent<PlayerController>().mouseMoveable = true;
+            other.gameObject.GetComponent<exPlayerController>().mouseMoveable = true;
         }
             
     }

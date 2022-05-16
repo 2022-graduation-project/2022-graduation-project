@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,9 +6,9 @@ using Newtonsoft.Json;
 
 public class PlayerController : MonoBehaviour
 {
-    private PlayerData player;
+    private PlayerData playerData;
     private Inventory inventory;
-    private Skill skills;
+    private Skill skill;
     private PlayerUI playerUI;
 
     private Rigidbody rigidBody;
@@ -17,14 +17,35 @@ public class PlayerController : MonoBehaviour
     private Transform tr;
     private RaycastHit hit;
 
+
+
+    /************************************************/
+    /*           가변적인 플레이어 데이터             */
+    /************************************************/
+    private float curHp;
+    private float curMp;
+
+    private float moveSpeed = 5.0f;
+    private float turnSpeed = 3.0f;
+    private float jumpForce = 5.0f;
+
     public bool keyMoveable = true;
     public bool mouseMoveable = true;
 
+
+
+    /************************************************/
+    private Dictionary<string, PlayerData> playerDict;
+    /************************************************/
+
+
     void Start()
     {
-        player = new PlayerData();
-        inventory = new Inventory();
-        skills = new Skill();
+        playerDict = DataManager.instance
+                    .LoadJsonFile<Dictionary<string, PlayerData>>
+                    (Application.dataPath + "/MAIN/Data", "player");
+
+        playerData = playerDict["000_player"];
         playerUI = GameObject.Find("PlayerUI").GetComponent<PlayerUI>();
 
         rigidBody = GetComponent<Rigidbody>();
@@ -32,33 +53,10 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         tr = GetComponent<Transform>();
 
-        // 플레이어 정보 세팅 필요 (이름, 레벨, 클래스, hp, mp)
-        // player.playerName = "Test player";
-        // player.level = 10;
-        // player.cls = "Soldier";
-        // player.maxHP = 100.0f;
-        // player.maxMP = 50.0f;
-        // player.hp = player.maxHP - 10;
-        // player.mp = player.maxMP - 20;
-        player.Set();
-
-        inventory.HpPotion = 1;
-        inventory.MpPotion = 1;
-        inventory.MasterPotion = 1;
-
-        // Set UI
-        playerUI.nameTxt.text = player.playerName;
-        playerUI.levelTxt.text = "Lv. " + player.level.ToString();
-        playerUI.classTxt.text = player.cls;
-        playerUI.moneyTxt.text = player.money.ToString();
-        playerUI.hpBar.fillAmount = player.hp / player.maxHP;
-        playerUI.mpBar.fillAmount = player.mp / player.maxMP;
-
-        playerUI.items[0].text = inventory.HpPotion.ToString();
-        playerUI.items[1].text = inventory.MpPotion.ToString();
-        playerUI.items[2].text = inventory.MasterPotion.ToString();
+        playerUI.Set(playerData);
     }
 
+    // Update is called once per frame
     void Update()
     {
         Debug.DrawRay(tr.position, Vector3.down * 0.1f, Color.yellow);
@@ -68,61 +66,33 @@ public class PlayerController : MonoBehaviour
         float v = Input.GetAxisRaw("Vertical");
         float r = Input.GetAxisRaw("Mouse X");
 
-        if(keyMoveable)
+        if (keyMoveable)
             Move(h, v, r);
 
         // Jump
-        if(keyMoveable && Input.GetButton("Jump") && Physics.Raycast(tr.position, Vector3.down, out hit, 0.1f))
-            rigidBody.velocity = tr.up * player.jumpForce;
+        if (keyMoveable && Input.GetButton("Jump") && Physics.Raycast(tr.position, Vector3.down, out hit, 0.1f))
+            rigidBody.velocity = tr.up * jumpForce;
 
-        if(keyMoveable && Input.GetMouseButtonDown(0))
+        // Attack
+        if (keyMoveable && Input.GetMouseButtonDown(0))
             Attack();
-        
-        // UseItem
-        if(Input.GetKeyDown(KeyCode.Alpha1) && inventory.HpPotion > 0)
-        {
-            Debug.Log("Item : HP Potion");
-            inventory.HpPotion--;
-
-            player.hp = player.maxHP;
-            playerUI.hpBar.fillAmount = player.hp / player.maxHP;
-        }
-            
-        else if(Input.GetKeyDown(KeyCode.Alpha2) && inventory.MpPotion > 0)
-        {
-            Debug.Log("Item : MP Potion");
-            inventory.MpPotion--;
-
-            player.mp = player.maxMP;
-            playerUI.mpBar.fillAmount = player.mp / player.maxMP;
-        }
-
-        else if(Input.GetKeyDown(KeyCode.Alpha3) && inventory.MasterPotion > 0)
-        {
-            Debug.Log("Item : Poision");
-            inventory.MasterPotion--;
-
-            Damaged(-10);
-        }
-            
-        // UseSkill
-        if(Input.GetKeyDown(KeyCode.Q))
-            Debug.Log("Skill : Q");
-        else if(Input.GetKeyDown(KeyCode.E))
-            Debug.Log("Skill : E");
-        else if(Input.GetKeyDown(KeyCode.LeftShift))
-            Debug.Log("Skill : LeftShift");
     }
 
     void Move(float h, float v, float r)
     {
-        if(h != 0 || v != 0) animator.SetBool("Running", true);
+        if (h != 0 || v != 0) animator.SetBool("Running", true);
         else animator.SetBool("Running", false);
 
-        tr.Translate(Vector3.right * h * player.moveSpeed * Time.deltaTime);
-        tr.Translate(Vector3.forward * v * player.moveSpeed * Time.deltaTime);
-        if(mouseMoveable) tr.Rotate(Vector3.up * player.turnSpeed * r);
+        tr.Translate(Vector3.right * h * moveSpeed * Time.deltaTime);
+        tr.Translate(Vector3.forward * v * moveSpeed * Time.deltaTime);
+        if (mouseMoveable) tr.Rotate(Vector3.up * turnSpeed * r);
     }
+
+
+
+    /************************************************/
+    /*            외부 접근 가능 메소드               */
+    /************************************************/
 
     public void Die()
     {
@@ -133,22 +103,13 @@ public class PlayerController : MonoBehaviour
 
     public void Attack()
     {
-        keyMoveable = false;
-        animator.SetBool("Shooting", true);
-        Invoke("StopShooting", 1);
-    }
-
-    void StopShooting()
-    {
-        animator.SetBool("Shooting", false);
-        keyMoveable = true;
     }
 
     public void Damaged(float damage)
     {
-        player.hp += damage;
-        playerUI.hpBar.fillAmount = player.hp / player.maxHP;
-        if(player.hp <= 0)
+        curHp += damage;
+        playerUI.hpBar.fillAmount = curHp / playerData.maxHp;
+        if (curHp <= 0)
             Die();
     }
 
@@ -157,19 +118,9 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    public void UseSkill()
+    public void BuyItem(int price)
     {
-
-    }
-
-    public void ButyItem(int price)
-    {
-        player.money -= price;
-        playerUI.moneyTxt.text = player.money.ToString();
-    }
-
-    public void GetQuest()
-    {
-
+        playerData.money -= price;
+        playerUI.moneyTxt.text = playerData.money.ToString();
     }
 }
