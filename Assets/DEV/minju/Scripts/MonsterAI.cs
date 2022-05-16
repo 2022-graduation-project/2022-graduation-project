@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class MonsterAI : MonoBehaviour
 {
-    public Image healthBar;
+    //public Image healthBar;
 
     // 몬스터 데이터 클래스
     // Monster Data class
