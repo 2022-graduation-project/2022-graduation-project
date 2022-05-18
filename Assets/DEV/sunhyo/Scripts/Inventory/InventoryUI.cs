@@ -5,6 +5,16 @@ using UnityEngine.UI;
 public class InventoryUI : MonoBehaviour
 {
     public GameObject[] inventorySlots;
+
+    void Start()
+    {
+        ItemData item = new ItemData();
+        item.image_name = "000_hpPotion";
+        item.item_name = "TEST";
+        item.count = 1;
+        item.description = "테스트입니다.";
+        AddItem(item);
+    }
     public void Set()
     {
 
@@ -13,19 +23,14 @@ public class InventoryUI : MonoBehaviour
     public void AddItem(ItemData _itemData)
     {
         GameObject existSlot = FindSameItem(_itemData);
-
         if (existSlot != null)
-            existSlot.GetComponent<InventorySlot>().itemData.count++;
+            existSlot.GetComponent<InventorySlot>().Set(_itemData);
 
         else
         {
             GameObject emptySlot = GetEmptySlotInPool();
-
-            if (emptySlot != null)
-            {
-                emptySlot.GetComponent<InventorySlot>().itemData = _itemData;
-                SetColorA(emptySlot);
-            }
+            print(emptySlot);
+            emptySlot?.GetComponent<InventorySlot>().Set(_itemData);
         }
     }
 
@@ -33,8 +38,11 @@ public class InventoryUI : MonoBehaviour
     {
         foreach (GameObject itemSlot in inventorySlots)
         {
-            if (itemSlot.GetComponent<InventorySlot>().itemData.item_name.Equals(_itemData.item_name))
+            if (itemSlot.GetComponent<InventorySlot>().itemData != null)
+            {
+                itemSlot.GetComponent<InventorySlot>().itemData.item_name.Equals(_itemData.item_name);
                 return itemSlot;
+            }
         }
 
         return null;
@@ -44,17 +52,10 @@ public class InventoryUI : MonoBehaviour
     {
         foreach (GameObject itemSlot in inventorySlots)
         {
-            if (!itemSlot.activeSelf)
+            if (itemSlot.GetComponent<InventorySlot>().itemData == null)
                 return itemSlot;
         }
 
         return null;
-    }
-
-    void SetColorA(GameObject _inventotySlot)
-    {
-        Color color = _inventotySlot.transform.Find("Icon").GetComponent<Image>().color;
-        color.a = 1f;
-        _inventotySlot.transform.Find("Icon").GetComponent<Image>().color = color;
     }
 }

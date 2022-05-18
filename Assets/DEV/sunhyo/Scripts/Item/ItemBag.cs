@@ -20,6 +20,7 @@ public class ItemBag : MonoBehaviour
         //item.itemValue.description = "테스트입니다.";
 
         ItemData item = new ItemData();
+        item.image_name = "image";
         item.item_name = "TEST";
         item.count = 5;
         item.description = "테스트입니다.";

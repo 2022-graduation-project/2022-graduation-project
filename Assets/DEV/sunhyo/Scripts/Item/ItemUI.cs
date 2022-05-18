@@ -50,6 +50,7 @@ public class ItemUI : MonoBehaviour
     void Test(ItemData item)
     {
         print(item);
+        print(item.image_name);
         print(item.item_name);
         print(item.count);
         print(item.description);
