@@ -49,13 +49,6 @@ public class ItemUI : MonoBehaviour
 
     void Test(ItemData item)
     {
-        //print(item);
-        //print(item.itemKey);
-        //print(item.itemValue);
-        //print(item.itemValue.item_name);
-        //print(item.itemValue.count);
-        //print(item.itemValue.description);
-
         print(item);
         print(item.item_name);
         print(item.count);

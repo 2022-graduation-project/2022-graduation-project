@@ -7,8 +7,6 @@ using Newtonsoft.Json;
 public class PlayerController : MonoBehaviour
 {
     private PlayerData playerData;
-    private Inventory inventory;
-    private Skill skill;
     private PlayerUI playerUI;
     private ItemUI itemUI;
 

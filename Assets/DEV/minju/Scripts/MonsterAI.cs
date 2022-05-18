@@ -80,7 +80,7 @@ public class MonsterAI : MonoBehaviour
 
     // 플레이어 스크립트
     // Script which the player has
-    exPlayerController player;
+    PlayerController player;
 
     // 공격 주기 시간 
     float attackTime;
@@ -278,7 +278,7 @@ public class MonsterAI : MonoBehaviour
 
             // 반경 안 플레이어 저장
             // save the player
-            player = other.GetComponent<exPlayerController>();
+            player = other.GetComponent<PlayerController>();
         }
     }
 
