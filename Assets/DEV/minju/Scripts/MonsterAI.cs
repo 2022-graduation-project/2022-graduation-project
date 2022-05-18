@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class MonsterAI : MonoBehaviour
 {
-    public Image healthBar;
+    //public Image healthBar;
 
     // 몬스터 데이터 클래스
     // Monster Data class
@@ -102,6 +102,18 @@ public class MonsterAI : MonoBehaviour
         player.Damaged(-10);
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag == "Bullet")
+        {
+            hpBarImage.fillAmount = thisMon.hp / 100;
+            if (thisMon.hp <= 0f)
+            {
+                hpBarImage.GetComponentsInParent<Image>()[1].color = Color.clear;
+            }
+        }
+    }
+
     public IEnumerator Attack()
     {
         //공격 주기 시간
@@ -189,8 +201,8 @@ public class MonsterAI : MonoBehaviour
 
 
                 //목적지 향해 이동
-                //rig.AddForce(direction * Time.deltaTime * thisMon.moveSpeed, ForceMode.VelocityChange);
-                transform.Translate(direction * thisMon.moveSpeed * Time.deltaTime);
+                rig.AddForce(direction * Time.deltaTime * thisMon.moveSpeed, ForceMode.VelocityChange);
+                //transform.Translate(direction * thisMon.moveSpeed * Time.deltaTime);
 
                 // 타겟 방향으로 회전함
                 transform.LookAt(Vector3.Lerp(transform.position, thisMon.destPosition.position, 0.1f * Time.deltaTime));
@@ -306,7 +318,23 @@ public class MonsterAI : MonoBehaviour
     // for using manager's func
     MonsterManager manager;
 
+
     public GameObject hpBarPrefab;
+    public Vector3 hpBarOffset = new Vector3(0, 2.2f, 0);
+    private Canvas uiCanvas;
+    private Image hpBarImage;
+
+    void SetHpBar()
+    {
+        uiCanvas = GameObject.Find("HealthUI").GetComponent<Canvas>();
+        GameObject hpBar = Instantiate<GameObject>(hpBarPrefab, uiCanvas.transform);
+        hpBarImage = hpBar.GetComponentsInChildren<Image>()[1];
+
+        var _hpbar = hpBar.GetComponent<MonsterUI>();
+        _hpbar.enemyTr = transform;
+        _hpbar.offset = hpBarOffset;
+    }
+
 
     // player가 monster 공격 했을 때 호출
     // If player damages monster this will be called
@@ -317,7 +345,7 @@ public class MonsterAI : MonoBehaviour
         {
             //scale(-)만큼 몬스터 체력이 줄어든다.
             thisMon.hp += scale;
-            healthBar.fillAmount = thisMon.hp / 100;
+            hpBarImage.fillAmount = thisMon.hp / 100;
         }
         // 남은 체력이 없을 때
         else
@@ -332,7 +360,8 @@ public class MonsterAI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        SetHpBar();
+
         // 몬스터 애니메이터
         // Monster Animator
         anim = GetComponent<Animator>();
@@ -361,7 +390,7 @@ public class MonsterAI : MonoBehaviour
             // setting default hp
             thisMon.hp = 50f;
             // setting default speed
-            thisMon.moveSpeed = 2f;
+            thisMon.moveSpeed = 10f;
             thisMon.turnSpeed = 2f;
             // setting default power
             thisMon.attackForce = 10f;
@@ -371,7 +400,7 @@ public class MonsterAI : MonoBehaviour
             thisMon.destPosition = null;
             // attack available distance
             thisMon.distance = 2f;
-            healthBar.fillAmount = thisMon.hp / 100;
+            hpBarImage.fillAmount = thisMon.hp / 100;
         }
 
         // 현재 오브젝트의 몬스터 기본값 처음 설정하기 (보스 몬스터)

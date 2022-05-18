@@ -24,12 +24,23 @@ public class MonsterManager : MonoBehaviour
     // For Random Spawn without duplicate
     public int[] duplicate;
 
+    // to spawn monsters on random points
+    int spawnNumber;
+
+    // names of monsters
+    string[] kindsOfMonsters; 
+
     // Start is called before the first frame update
     void Start()
     {
         // 배열 0으로 초기화
         // initiate elements as 0
         duplicate = Enumerable.Repeat<int>(0, 50).ToArray<int>();
+
+
+        kindsOfMonsters = new string[] { "Characters", "Characters (1)", "Characters (2)", "Characters (3)", "Characters (4)", "Characters (5)",
+                                         "Characters (6)", "Characters (7)", "Characters (8)", "Characters (9)", "Characters (10)",
+                                         "Characters (11)", "Characters (12)", "Characters (13)", "Characters (14)", "Characters (15)"};
 
         // 스폰포인트 전부 가져오기
         // bring every spawnpoints
@@ -40,18 +51,19 @@ public class MonsterManager : MonoBehaviour
         for (int i = 0; i < 30; i++)
         {   // 30마리 생성
             // Random spawn points (0 ~ 49)
-            int temp = Random.Range(0, 50);
+            spawnNumber = Random.Range(0, 50);
             
             // 랜덤 생성이 중복이 아닌지 확인하기
             // Check duplicate
-            if (repeatRandom(temp))
+            if (repeatRandom(spawnNumber))
             {
                 // 중복이 아닐 때만 생성
-                CreateMonster(childrenSP[temp]);
+                CreateMonster(childrenSP[spawnNumber]);
             }
             else
                 continue;
         }
+
         //monsters[1].GetComponent<MonsterAI>().Damage(-20);
     }
 
@@ -69,8 +81,8 @@ public class MonsterManager : MonoBehaviour
 
             // ���� ���� �����ϱ�
             // add new monster to curruent location of scene
-            GameObject objMonster = Instantiate(Resources.Load("Monster"), 
-                currentLocation.position, Quaternion.identity) as GameObject;
+            GameObject objMonster = Instantiate(Resources.Load(kindsOfMonsters[Random.Range(0, 16)]), 
+                currentLocation.position, Quaternion.identity * Quaternion.Euler(new Vector3(0,Random.Range(0,360),0))) as GameObject;
 
             // ���� ���� ����Ʈ�� �߰��ϱ�
             // add monster object in list
@@ -112,7 +124,7 @@ public class MonsterManager : MonoBehaviour
 
             // ���� ���� �����ϱ�
             // add new monster to curruent location of scene
-            GameObject objMonster = Instantiate(Resources.Load("BossMonster"),
+            GameObject objMonster = Instantiate(Resources.Load(kindsOfMonsters[Random.Range(0, 16)]),
                 currentLocation.position, Quaternion.identity) as GameObject;
 
             // ���� ���� ����Ʈ�� �߰��ϱ�
@@ -140,8 +152,8 @@ public class MonsterManager : MonoBehaviour
         }
         else//중복확인해서 랜덤 다시 뽑는 거 재귀함수로 다시 고쳐야함!!
         {
-            int temp2 = Random.Range(0, 50);
-            return repeatRandom(temp2);
+            spawnNumber = Random.Range(0, 50);
+            return repeatRandom(spawnNumber);
         }
     }
 }
