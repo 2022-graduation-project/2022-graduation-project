@@ -15,25 +15,24 @@ public class QuestNPC : MonoBehaviour
     {
         detecter = GetComponent<SphereCollider>();
 
-        Debug.Log((Mathf.Abs(1000) % 1000 + 1).ToString("icon000"));
+        //debug.log((mathf.abs(1000) % 1000 + 1).tostring("icon000"));
     }
 
     private void OnTriggerEnter(Collider other) {
         if(other.name == "Player")
         {
-            questUI.gameObject.SetActive(true);
-            other.gameObject.GetComponent<exPlayerController>().mouseMoveable = false;
+            //questUI.gameObject.SetActive(true);
+            //other.gameObject.GetComponent<PlayerController>().mouseMoveable = false;
+            print("하이");
         }
-            
     }
 
     private void OnTriggerExit(Collider other) {
         if(other.name == "Player")
         {
-            questUI.gameObject.SetActive(false);
-            other.gameObject.GetComponent<exPlayerController>().mouseMoveable = true;
+            //questUI.gameObject.SetActive(false);
+            //other.gameObject.GetComponent<PlayerController>().mouseMoveable = true;
+            print("바이");
         }
-            
     }
-
 }
