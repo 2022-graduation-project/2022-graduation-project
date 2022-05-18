@@ -1,9 +1,15 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class ItemData
+public struct ItemValue
 {
-    public int item_number;
     public string item_name;
     public int count;
+    public string description;
+};
+
+public class ItemData
+{
+    public string itemKey;
+    public ItemValue itemValue;
 }

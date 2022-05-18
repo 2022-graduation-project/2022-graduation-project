@@ -12,6 +12,8 @@ public class ItemUI : MonoBehaviour
         GameObject itemBagSlot = GetItemSlotInPool();
         foreach (ItemData item in _itemBag.items)
         {
+            Test(item);
+
             itemBagSlot?.GetComponent<ItemBagSlot>().Set(item);
             itemBagSlot?.SetActive(true);
         }
@@ -43,5 +45,15 @@ public class ItemUI : MonoBehaviour
         }
 
         return null;
+    }
+
+    void Test(ItemData item)
+    {
+        print(item);
+        print(item.itemKey);
+        print(item.itemValue);
+        print(item.itemValue.item_name);
+        print(item.itemValue.count);
+        print(item.itemValue.description);
     }
 }

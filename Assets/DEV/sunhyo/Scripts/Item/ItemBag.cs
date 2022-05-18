@@ -11,15 +11,16 @@ public class ItemBag : MonoBehaviour
     /***************/
     /*    TEST     */
     /***************/
-    //void Start()
-    //{
-    //    ItemData item = new ItemData();
-    //    item.item_number = 99;
-    //    item.item_name = "TEST";
-    //    item.count = 5;
+    void Start()
+    {
+        ItemData item = new ItemData();
+        item.itemKey = "000_test";
+        item.itemValue.item_name = "TEST";
+        item.itemValue.count = 5;
+        item.itemValue.description = "테스트입니다.";
 
-    //    items.Add(item);
-    //}
+        items.Add(item);
+    }
 
 
 

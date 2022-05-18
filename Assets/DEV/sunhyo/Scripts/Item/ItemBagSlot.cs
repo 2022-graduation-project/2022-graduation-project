@@ -10,9 +10,9 @@ public class ItemBagSlot : MonoBehaviour
 
     public void Set(ItemData _itemData)
     {
-        // icon = null; // asset 에서 번호 기준으로 찾아오기
-        item_name.text = _itemData.item_name;
-        count.text = _itemData.count.ToString();
+        // icon = null; // asset 에서 _itemData.item_label 기준으로 찾아오기
+        item_name.text = _itemData.itemValue.item_name;
+        count.text = _itemData.itemValue.count.ToString();
     }
 
     public void Reset()
