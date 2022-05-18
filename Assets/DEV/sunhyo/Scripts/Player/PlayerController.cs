@@ -28,7 +28,8 @@ public class PlayerController : MonoBehaviour
 
     private float moveSpeed = 5.0f;
     private float turnSpeed = 3.0f;
-    private float jumpForce = 5.0f;
+    private float jumpForce = 4.0f;
+    private bool jumpable = true;
 
 
 
@@ -58,7 +59,8 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.DrawRay(tr.position, Vector3.down * 0.1f, Color.yellow);
+        Debug.DrawRay(tr.position + (Vector3.up * 0.1f), Vector3.down * 0.3f, Color.yellow);
+
 
         // Move
         float h = Input.GetAxisRaw("Horizontal");
@@ -68,13 +70,30 @@ public class PlayerController : MonoBehaviour
         if (GameManager.instance.keyMoveable)
             Move(h, v, r);
 
+
         // Jump
-        if (GameManager.instance.keyMoveable && Input.GetButton("Jump") && Physics.Raycast(tr.position, Vector3.down, out hit, 0.1f))
+        if (GameManager.instance.keyMoveable && Input.GetButton("Jump") && jumpable
+            && Physics.Raycast(tr.position + (Vector3.up * 0.1f), Vector3.down, out hit, 0.1f))
+        {
+            animator.SetBool("Jumping", true);
             rigidBody.velocity = tr.up * jumpForce;
+            jumpable = false;
+            moveSpeed /= 2f;
+            Invoke("AfterJump", 1f);
+        }
+        else if(Physics.Raycast(tr.position + (Vector3.up * 0.1f), Vector3.down, out hit, 0.1f))
+            animator.SetBool("Jumping", false);
+            
 
         // Attack
         if (GameManager.instance.keyMoveable && Input.GetMouseButtonDown(0))
             Attack();
+    }
+
+    void AfterJump()
+    {
+        jumpable = true;
+        moveSpeed *= 2f;
     }
 
     void Move(float h, float v, float r)
@@ -86,6 +105,7 @@ public class PlayerController : MonoBehaviour
         tr.Translate(Vector3.forward * v * moveSpeed * Time.deltaTime);
         if (GameManager.instance.mouseMoveable) tr.Rotate(Vector3.up * turnSpeed * r);
     }
+
 
 
 
