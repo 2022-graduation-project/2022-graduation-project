@@ -23,18 +23,20 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
             icon.sprite = DataManager.instance.LoadSpriteFile(Application.dataPath + "/DEV/sunhyo/Assets/Items", _itemData.image_name);
             SetColorA(1f);
         }
-        
     }
 
     public void Reset()
     {
-        icon = null;
+        SetColorA(0f);
+        icon.sprite = null;
         count.text = string.Empty;
+        itemData = null;
     }
 
     public void OnPointerClick(PointerEventData _eventData)
     {
-        print("클릭");
+        if(itemData != null)
+            print("아이템 사용");
     }
 
     void SetColorA(float _delta)

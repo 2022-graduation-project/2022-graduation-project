@@ -77,7 +77,7 @@ public class PlayerController : MonoBehaviour
             rigidBody.velocity = tr.up * jumpForce;
             jumpable = false;
             moveSpeed /= 2f;
-            Invoke("AfterJump", 1f);
+            Invoke("AfterJump", 1.2f);
         }
         else if(Physics.Raycast(tr.position + (Vector3.up * 0.1f), Vector3.down, out hit, 0.1f))
             animator.SetBool("Jumping", false);
