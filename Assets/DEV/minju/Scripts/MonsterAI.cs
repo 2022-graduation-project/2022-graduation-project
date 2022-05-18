@@ -328,7 +328,7 @@ public class MonsterAI : MonoBehaviour
     void SetHpBar()
     {
         uiCanvas = GameObject.Find("HealthUI").GetComponent<Canvas>();
-        hpBar = Instantiate<GameObject>(hpBarPrefab, uiCanvas.transform);
+        hpBar = Instantiate<GameObject>(hpBarPrefab, transform.position, Quaternion.identity, uiCanvas.transform);
         hpBarImage = hpBar.GetComponentsInChildren<Image>()[1];
 
         var _hpbar = hpBar.GetComponent<MonsterUI>();
