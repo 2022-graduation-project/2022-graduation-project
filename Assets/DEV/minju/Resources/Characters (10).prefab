@@ -1086,11 +1086,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d168a000bee59f44b7bd036b37b8fcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 0
   monsterIdx: 0
   direction: {x: 0, y: 0, z: 0}
   isBossMonster: 0
   hpBarPrefab: {fileID: 5707872302341091851, guid: 320b3565bfa9e644c87fdf824eeb395a, type: 3}
   hpBarOffset: {x: 0, y: 2.2, z: 0}
+  item: {fileID: 151506, guid: b3d78aa56c0f0094b86a6d788e1864e1, type: 3}
 --- !u!95 &2627936670820342451
 Animator:
   serializedVersion: 3

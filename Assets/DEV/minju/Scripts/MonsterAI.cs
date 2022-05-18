@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class MonsterAI : MonoBehaviour
 {
-    //public Image healthBar;
+    public float health;
 
     // 몬스터 데이터 클래스
     // Monster Data class
@@ -323,16 +323,22 @@ public class MonsterAI : MonoBehaviour
     public Vector3 hpBarOffset = new Vector3(0, 2.2f, 0);
     private Canvas uiCanvas;
     private Image hpBarImage;
+    GameObject hpBar;
 
     void SetHpBar()
     {
         uiCanvas = GameObject.Find("HealthUI").GetComponent<Canvas>();
-        GameObject hpBar = Instantiate<GameObject>(hpBarPrefab, uiCanvas.transform);
+        hpBar = Instantiate<GameObject>(hpBarPrefab, uiCanvas.transform);
         hpBarImage = hpBar.GetComponentsInChildren<Image>()[1];
 
         var _hpbar = hpBar.GetComponent<MonsterUI>();
         _hpbar.enemyTr = transform;
         _hpbar.offset = hpBarOffset;
+    }
+
+    void DeleteHpBar()
+    {
+        Destroy(hpBar);
     }
 
 
@@ -346,16 +352,28 @@ public class MonsterAI : MonoBehaviour
             //scale(-)만큼 몬스터 체력이 줄어든다.
             thisMon.hp += scale;
             hpBarImage.fillAmount = thisMon.hp / 100;
+            print("MonsterHP: " + thisMon.hp);
         }
         // 남은 체력이 없을 때
         else
         {
-            // 몬스터 삭제
-            manager.DeleteMonster(monsterIdx);
+            Kill();
         }
     }
 
-   
+    public GameObject item;
+    Transform itemLocation;
+
+    public void Kill()
+    {
+        itemLocation = transform;
+        itemLocation.position += new Vector3(0, 1, 0);
+        // 아이템 떨어트리기
+        var temp = Instantiate<GameObject>(item, itemLocation);
+        temp.transform.SetParent(GameObject.Find("MonsterManager").transform);
+        // 몬스터 삭제
+        manager.DeleteMonster(monsterIdx);
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -370,12 +388,12 @@ public class MonsterAI : MonoBehaviour
         rig = GetComponent<Rigidbody>();
         // 몬스터 매니저 스크립트 찾기
         // get MonsterManager script from GamaManager
-        manager = GameObject.Find("GameManager").GetComponent<MonsterManager>();
+        manager = GameObject.Find("MonsterManager").GetComponent<MonsterManager>();
         // 게이지바 UI 오브젝트 찾기
         // find Monster's HP guage bar
-        monsterUI = GameObject.Find("MonsterUI");
-        gaugeBar = monsterUI.transform.Find("MonsterHP").gameObject;
-        gaugeBar.SetActive(false);
+        //monsterUI = GameObject.Find("MonsterUI");
+        //gaugeBar = monsterUI.transform.Find("MonsterHP").gameObject;
+        //gaugeBar.SetActive(false);
         
 
 
