@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     private Inventory inventory;
     private Skill skill;
     private PlayerUI playerUI;
+    private ItemUI itemUI;
 
     private Rigidbody rigidBody;
     private CapsuleCollider capsuleCollider;
@@ -44,6 +45,7 @@ public class PlayerController : MonoBehaviour
 
         playerData = playerDict["000_player"];
         playerUI = GameObject.Find("PlayerUI").GetComponent<PlayerUI>();
+        itemUI = GameObject.Find("PlayerUI").transform.Find("Mid").Find("ItemUI").GetComponent<ItemUI>(); // 와우 개더러움 최적화 필
 
         rigidBody = GetComponent<Rigidbody>();
         capsuleCollider = GetComponent<CapsuleCollider>();
@@ -124,5 +126,21 @@ public class PlayerController : MonoBehaviour
     public void TakeItem(GameObject obj)
     {
 
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if(other.name.Contains("ItemBag")) // Contains vs Substr 뭐가 더 효율적일지...? 아니면 GetComponent<ItemBag>이 null인지 아닌지?
+        {
+            itemUI.Set(other.GetComponent<ItemBag>());
+        }
+    }
+
+    public void OnTriggerExit(Collider other)
+    {
+        if (other.name.Contains("ItemBag"))
+        {
+            itemUI.Reset();
+        }
     }
 }

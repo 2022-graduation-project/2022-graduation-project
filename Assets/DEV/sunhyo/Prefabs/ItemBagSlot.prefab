@@ -244,6 +244,7 @@ GameObject:
   - component: {fileID: 4414015794437817059}
   - component: {fileID: 4619588128780939346}
   - component: {fileID: 4627320870648078383}
+  - component: {fileID: 2563909406432359327}
   m_Layer: 5
   m_Name: ItemBagSlot
   m_TagString: Untagged
@@ -311,3 +312,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2563909406432359327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6396130399890364403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9dbdbb835b29f3428e1cda470aa0e52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  icon: {fileID: 8877516808968313535}
+  item_name: {fileID: 3397884605972684783}
+  count: {fileID: 3308298863751543722}
