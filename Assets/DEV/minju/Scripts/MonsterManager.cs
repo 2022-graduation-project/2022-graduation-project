@@ -30,6 +30,15 @@ public class MonsterManager : MonoBehaviour
     // names of monsters
     string[] kindsOfMonsters; 
 
+    public void Damaging()
+    {
+        print("Clicked");
+        for(int i = 0; i < 30; i++)
+        {
+            monsters[i].GetComponent<MonsterAI>().Damage(-10);
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -38,7 +47,7 @@ public class MonsterManager : MonoBehaviour
         duplicate = Enumerable.Repeat<int>(0, 50).ToArray<int>();
 
 
-        kindsOfMonsters = new string[] { "Characters", "Characters (1)", "Characters (2)", "Characters (3)", "Characters (4)", "Characters (5)",
+        kindsOfMonsters = new string[] { "Characters", "Characters (2)", "Characters (3)", "Characters (4)", "Characters (5)",
                                          "Characters (6)", "Characters (7)", "Characters (8)", "Characters (9)", "Characters (10)",
                                          "Characters (11)", "Characters (12)", "Characters (13)", "Characters (14)", "Characters (15)"};
 
@@ -81,7 +90,7 @@ public class MonsterManager : MonoBehaviour
 
             // ���� ���� �����ϱ�
             // add new monster to curruent location of scene
-            GameObject objMonster = Instantiate(Resources.Load(kindsOfMonsters[Random.Range(0, 16)]), 
+            GameObject objMonster = Instantiate(Resources.Load(kindsOfMonsters[Random.Range(0, 15)]), 
                 currentLocation.position, Quaternion.identity * Quaternion.Euler(new Vector3(0,Random.Range(0,360),0))) as GameObject;
 
             // ���� ���� ����Ʈ�� �߰��ϱ�
@@ -100,6 +109,7 @@ public class MonsterManager : MonoBehaviour
     public void DeleteMonster(int indexOfMonster)
     {
         // ������ �ش� ���� ������Ʈ ����
+        monsters[indexOfMonster].SetActive(false);
         Destroy(monsters[indexOfMonster]);
 
         // ����Ʈ���� �ش� ���� ����
