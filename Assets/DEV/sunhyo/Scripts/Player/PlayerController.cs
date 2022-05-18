@@ -29,9 +29,6 @@ public class PlayerController : MonoBehaviour
     private float turnSpeed = 3.0f;
     private float jumpForce = 5.0f;
 
-    public bool keyMoveable = true;
-    public bool mouseMoveable = true;
-
 
 
     /************************************************/
@@ -66,15 +63,15 @@ public class PlayerController : MonoBehaviour
         float v = Input.GetAxisRaw("Vertical");
         float r = Input.GetAxisRaw("Mouse X");
 
-        if (keyMoveable)
+        if (GameManager.instance.keyMoveable)
             Move(h, v, r);
 
         // Jump
-        if (keyMoveable && Input.GetButton("Jump") && Physics.Raycast(tr.position, Vector3.down, out hit, 0.1f))
+        if (GameManager.instance.keyMoveable && Input.GetButton("Jump") && Physics.Raycast(tr.position, Vector3.down, out hit, 0.1f))
             rigidBody.velocity = tr.up * jumpForce;
 
         // Attack
-        if (keyMoveable && Input.GetMouseButtonDown(0))
+        if (GameManager.instance.keyMoveable && Input.GetMouseButtonDown(0))
             Attack();
     }
 
@@ -85,7 +82,7 @@ public class PlayerController : MonoBehaviour
 
         tr.Translate(Vector3.right * h * moveSpeed * Time.deltaTime);
         tr.Translate(Vector3.forward * v * moveSpeed * Time.deltaTime);
-        if (mouseMoveable) tr.Rotate(Vector3.up * turnSpeed * r);
+        if (GameManager.instance.mouseMoveable) tr.Rotate(Vector3.up * turnSpeed * r);
     }
 
 
@@ -96,7 +93,7 @@ public class PlayerController : MonoBehaviour
 
     public void Die()
     {
-        keyMoveable = mouseMoveable = false;
+        GameManager.instance.keyMoveable = GameManager.instance.mouseMoveable = false;
         // if(Inventory.MasterPotion) 부활
         // else 주사위 던지기
     }
@@ -108,7 +105,7 @@ public class PlayerController : MonoBehaviour
     public void Damaged(float damage)
     {
         curHp += damage;
-        playerUI.hpBar.fillAmount = curHp / playerData.maxHp;
+        playerUI.UpdateHpBar(playerData.maxHp, curHp);
         if (curHp <= 0)
             Die();
     }
@@ -121,6 +118,11 @@ public class PlayerController : MonoBehaviour
     public void BuyItem(int price)
     {
         playerData.money -= price;
-        playerUI.moneyTxt.text = playerData.money.ToString();
+        playerUI.UpdateMoney(playerData.money);
+    }
+
+    public void TakeItem(GameObject obj)
+    {
+
     }
 }
