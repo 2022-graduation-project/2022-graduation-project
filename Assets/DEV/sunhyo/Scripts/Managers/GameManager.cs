@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public bool keyMoveable = true;
-    public bool mouseMoveable = true;
-
     public static GameManager instance = null;
     void Awake()
     {

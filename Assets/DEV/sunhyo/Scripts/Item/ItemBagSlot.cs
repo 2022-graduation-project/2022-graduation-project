@@ -13,7 +13,7 @@ public class ItemBagSlot : MonoBehaviour, IPointerClickHandler
 
     public void Set(ItemData _itemData)
     {
-        itemData = _itemData;
+        itemData = _itemData.DeepCopy();
         icon.sprite = DataManager.instance.LoadSpriteFile(Application.dataPath + "/DEV/sunhyo/Assets/Items", _itemData.image_name);
         item_name.text = _itemData.item_name;
         count.text = _itemData.count.ToString();
@@ -37,9 +37,7 @@ public class ItemBagSlot : MonoBehaviour, IPointerClickHandler
     {
         if(itemData != null)
         {
-            print(itemData.item_name);
-            print(itemData);
-            //InventoryUI.instance.AddItem(itemData);
+            PlayerManager.instance.inventoryUI.AddItem(itemData);
             Reset();
         }
     }
