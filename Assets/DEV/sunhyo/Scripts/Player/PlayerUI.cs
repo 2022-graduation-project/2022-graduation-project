@@ -69,7 +69,7 @@ public class PlayerUI : MonoBehaviour
 
     void Update()
     {
-        if (GameManager.instance.keyMoveable && Input.GetKeyDown(KeyCode.I))
+        if (PlayerManager.instance.keyMoveable && Input.GetKeyDown(KeyCode.I))
         {
             if (inventory.gameObject.activeInHierarchy)
                 inventory.gameObject.SetActive(false);
