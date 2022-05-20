@@ -369,8 +369,10 @@ public class MonsterAI : MonoBehaviour
         itemLocation = transform;
         itemLocation.position += new Vector3(0, 1, 0);
         // 아이템 떨어트리기
-        var temp = Instantiate<GameObject>(item, itemLocation);
-        temp.transform.SetParent(GameObject.Find("MonsterManager").transform);
+        manager.DropItem(itemLocation);
+
+        //var temp = Instantiate<GameObject>(item, itemLocation);
+        //temp.transform.SetParent(GameObject.Find("MonsterManager").transform);
         // 몬스터 삭제
         manager.DeleteMonster(monsterIdx);
     }

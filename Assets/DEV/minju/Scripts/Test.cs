@@ -14,7 +14,7 @@ public class Test : MonoBehaviour
 
         foreach (KeyValuePair<string, ItemData> q in itemDict)
         {
-            Debug.Log(q.Value.item_name);
+            Debug.Log(q.Value.image_name);
             //List<Goal> temp = new List<Goal>(q.Value.goal);
             //for (int i = 0; i < temp.Count; i++)
             //    Debug.Log($"{temp[i].type}, {temp[i].content}");

@@ -39,9 +39,50 @@ public class MonsterManager : MonoBehaviour
         }
     }
 
+    private Dictionary<string, ItemData> itemDict;
+    private List<string> keysOfItems;
+    private int countOfItems;
+    public GameObject item;
+
+    private ItemData temps;
+    public void DropItem(Transform itemLocation)
+    {
+        // Item Bag
+        var itemBag = Instantiate<GameObject>(item, itemLocation);
+        itemBag.transform.SetParent(transform);
+
+        // Random Item Counts
+        int countOfDrop = Random.Range(0, countOfItems + 1);
+
+        // Create Random Items in ItemBag
+        for(int i = 0; i < countOfDrop; i++)
+        {
+            int randomIndex = Random.Range(0, countOfItems + 1);
+            var temp = Instantiate(Resources.Load(keysOfItems[randomIndex]), itemLocation) as GameObject;
+            temp.transform.SetParent(itemBag.transform);
+            // 해당 itemBag에 넣은 random item 정보 추가
+            if(itemDict.TryGetValue(keysOfItems[randomIndex], out temps))
+            {
+                itemBag.GetComponent<ItemBag>().AddItem(temps);
+            }
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
+        // for DropItem()
+        itemDict = DataManager.instance
+                    .LoadJsonFile<Dictionary<string, ItemData>>
+                    (Application.dataPath + "/MAIN/Data", "item");
+
+        foreach (KeyValuePair<string, ItemData> q in itemDict)
+        {
+            //Debug.Log(q.Value.image_name);
+            keysOfItems.Add(q.Value.image_name);
+        }
+        countOfItems = keysOfItems.Count;
+
         // 배열 0으로 초기화
         // initiate elements as 0
         duplicate = Enumerable.Repeat<int>(0, 50).ToArray<int>();
