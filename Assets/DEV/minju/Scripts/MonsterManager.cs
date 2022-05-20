@@ -40,7 +40,7 @@ public class MonsterManager : MonoBehaviour
     }
 
     private Dictionary<string, ItemData> itemDict;
-    private List<string> keysOfItems;
+    private List<string> keysOfItems = new List<string>();
     private int countOfItems;
     public GameObject item;
 
@@ -78,7 +78,8 @@ public class MonsterManager : MonoBehaviour
 
         foreach (KeyValuePair<string, ItemData> q in itemDict)
         {
-            //Debug.Log(q.Value.image_name);
+            Debug.Log(q.Value.image_name);
+            print(q.Value.image_name.GetType());
             keysOfItems.Add(q.Value.image_name);
         }
         countOfItems = keysOfItems.Count;

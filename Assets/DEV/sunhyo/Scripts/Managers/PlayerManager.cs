@@ -43,7 +43,14 @@ public class PlayerManager : MonoBehaviour
                     (Application.dataPath + "/MAIN/Data", "player")
                     ["000_player"];
 
-        playerUI.Set(PlayerManager.instance.playerData);
+        playerUI = GameObject.Find("PlayerUI").gameObject.GetComponent<PlayerUI>();
+        itemUI = GameObject.Find("Mid").transform.Find("ItemUI").GetComponent<ItemUI>();
+        inventoryUI = GameObject.Find("Mid").transform.Find("InventoryUI").GetComponent<InventoryUI>();
+
+        print(playerData);
+        print(playerData.name);
+
+        playerUI.Set(playerData);
     }
 
     public void GetItemBag(GameObject _itemBag)
