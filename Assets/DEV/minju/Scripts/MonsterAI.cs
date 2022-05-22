@@ -99,7 +99,7 @@ public class MonsterAI : MonoBehaviour
     // damaging player
     void damaging()
     {
-        player.Damaged(-10);
+        player.Damaged(-1);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -357,7 +357,7 @@ public class MonsterAI : MonoBehaviour
         // 남은 체력이 없을 때
         else
         {
-            Kill();
+            Invoke("Kill", 1f);
         }
     }
 
@@ -371,8 +371,6 @@ public class MonsterAI : MonoBehaviour
         // 아이템 떨어트리기
         manager.DropItem(itemLocation);
 
-        //var temp = Instantiate<GameObject>(item, itemLocation);
-        //temp.transform.SetParent(GameObject.Find("MonsterManager").transform);
         // 몬스터 삭제
         manager.DeleteMonster(monsterIdx);
     }
@@ -380,6 +378,8 @@ public class MonsterAI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //Debug.Log("MAI ThisMonster#: " + monsterIdx);
+
         SetHpBar();
 
         // 몬스터 애니메이터

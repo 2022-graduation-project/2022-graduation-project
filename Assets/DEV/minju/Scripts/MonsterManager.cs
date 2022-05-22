@@ -5,65 +5,71 @@ using UnityEngine;
 
 public class MonsterManager : MonoBehaviour
 {
-    // GameManager ������Ʈ �ȿ��� �����ϴ� ��ũ��Ʈ
-    // This exists only in Object "GameManager"
+    // 몬스터 매니저
+    // This exists only in Object "MonsterManager"
 
-    // ���� �ο�
+    // 최대 몬스터 수
     // Max num of Monsters: 30
     int curNumMonsters = 0;
 
-    // ��� ���� ���� ����Ʈ
+    // 몬스터 전체 관리 배열
     // List of all monsters
     List<GameObject> monsters = new List<GameObject>();
 
-    // ��������Ʈ �迭
+    // 스폰포인트
     // array of spawn points
     public Transform spawnPoints;
     public Transform[] childrenSP;
 
+    // 스폰포인트 중복 관리
     // For Random Spawn without duplicate
     public int[] duplicate;
 
+    // 스폰 위치
     // to spawn monsters on random points
     int spawnNumber;
 
+    // 몬스터 프리펩 이름
     // names of monsters
     string[] kindsOfMonsters; 
 
     public void Damaging()
     {
-        print("Clicked");
-        for(int i = 0; i < 30; i++)
+        //UI 버튼에서 몬스터 전체 데미지 입히기
+        for (int i = 0; i < 30; i++)
         {
             monsters[i].GetComponent<MonsterAI>().Damage(-10);
         }
     }
 
+    // Read Json data to Dictionary
     private Dictionary<string, ItemData> itemDict;
+    // get all item names and use as key for the Dictionary
     private List<string> keysOfItems = new List<string>();
+    // random items in itembags
     private int countOfItems;
+    // itemBag Prefab resource
     public GameObject item;
+    // temporary var of ItemData
+    private ItemData tempItemData;
 
-    private ItemData temps;
     public void DropItem(Transform itemLocation)
     {
         // Item Bag
         var itemBag = Instantiate<GameObject>(item, itemLocation);
         itemBag.transform.SetParent(transform);
 
-        // Random Item Counts
-        int countOfDrop = Random.Range(0, countOfItems + 1);
+        // Random Item Counts (1 ~ 3)
+        int countOfDrop = Random.Range(1, 4);
 
         // Create Random Items in ItemBag
         for(int i = 0; i < countOfDrop; i++)
         {
-            int randomIndex = Random.Range(0, countOfItems + 1);
-            var temp = Instantiate(Resources.Load(keysOfItems[randomIndex]), itemLocation) as GameObject;
-            temp.transform.SetParent(itemBag.transform);
+            int randomIndex = Random.Range(0, countOfItems);
             // 해당 itemBag에 넣은 random item 정보 추가
-            if(itemDict.TryGetValue(keysOfItems[randomIndex], out temps))
+            if(itemDict.TryGetValue(keysOfItems[randomIndex], out tempItemData))
             {
-                itemBag.GetComponent<ItemBag>().AddItem(temps);
+                itemBag.GetComponent<ItemBag>().AddItem(tempItemData);
             }
         }
     }
@@ -76,13 +82,15 @@ public class MonsterManager : MonoBehaviour
                     .LoadJsonFile<Dictionary<string, ItemData>>
                     (Application.dataPath + "/MAIN/Data", "item");
 
+        // get all item names and use as key for the Dictionary
         foreach (KeyValuePair<string, ItemData> q in itemDict)
         {
-            Debug.Log(q.Value.image_name);
-            print(q.Value.image_name.GetType());
             keysOfItems.Add(q.Value.image_name);
         }
+
         countOfItems = keysOfItems.Count;
+
+        
 
         // 배열 0으로 초기화
         // initiate elements as 0
@@ -115,10 +123,9 @@ public class MonsterManager : MonoBehaviour
                 continue;
         }
 
-        //monsters[1].GetComponent<MonsterAI>().Damage(-20);
     }
 
-    // ���� ���� �Լ�
+    // 몬스터 생성
     // Create Monster
     public void CreateMonster(Transform currentLocation)
     {
@@ -143,16 +150,18 @@ public class MonsterManager : MonoBehaviour
             // make monster script remember its own index (as List's index)
             objMonster.GetComponent<MonsterAI>().monsterIdx
                 = monsters.IndexOf(objMonster);
+            //Debug.Log("MM Create Monster#: " + monsters.IndexOf(objMonster));
         }
     }
 
-    // ���� ���� �Լ�
+    // 몬스터 삭제
     // Delete Monster
     public void DeleteMonster(int indexOfMonster)
     {
+        Debug.Log("Delete ThisMonster#: " + indexOfMonster);
         // ������ �ش� ���� ������Ʈ ����
         monsters[indexOfMonster].SetActive(false);
-        Destroy(monsters[indexOfMonster]);
+        //Destroy(monsters[indexOfMonster]);
 
         // ����Ʈ���� �ش� ���� ����
         monsters.RemoveAt(indexOfMonster);
@@ -162,7 +171,7 @@ public class MonsterManager : MonoBehaviour
         curNumMonsters--;
     }
 
-    // ���� ���� ���� �Լ�
+    // 보스몬스터 생성
     // Create Boss Monster
     public void CreateBossMonster(Transform currentLocation)
     {
@@ -195,6 +204,7 @@ public class MonsterManager : MonoBehaviour
         }
     }
 
+    // 중복 아닌 랜덤 스폰포인트 뽑기
     bool repeatRandom(int temp)
     {
         if (duplicate[temp] == 0)
@@ -202,7 +212,7 @@ public class MonsterManager : MonoBehaviour
             duplicate[temp]++;
             return true;
         }
-        else//중복확인해서 랜덤 다시 뽑는 거 재귀함수로 다시 고쳐야함!!
+        else
         {
             spawnNumber = Random.Range(0, 50);
             return repeatRandom(spawnNumber);
