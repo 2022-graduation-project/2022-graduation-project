@@ -156,15 +156,16 @@ public class MonsterManager : MonoBehaviour
 
     // 몬스터 삭제
     // Delete Monster
-    public void DeleteMonster(int indexOfMonster)
+    public void DeleteMonster(GameObject monster)
     {
-        Debug.Log("Delete ThisMonster#: " + indexOfMonster);
+
         // ������ �ش� ���� ������Ʈ ����
-        monsters[indexOfMonster].SetActive(false);
+        monster.SetActive(false);
         //Destroy(monsters[indexOfMonster]);
 
         // ����Ʈ���� �ش� ���� ����
-        monsters.RemoveAt(indexOfMonster);
+        GameObject temp = monsters.Find(x => x == monster);
+        monsters.Remove(temp);
 
         // ���� �ο� �� Update
         // update current num of Monsters

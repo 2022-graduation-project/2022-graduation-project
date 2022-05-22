@@ -372,7 +372,7 @@ public class MonsterAI : MonoBehaviour
         manager.DropItem(itemLocation);
 
         // 몬스터 삭제
-        manager.DeleteMonster(monsterIdx);
+        manager.DeleteMonster(gameObject);
     }
 
     // Start is called before the first frame update
