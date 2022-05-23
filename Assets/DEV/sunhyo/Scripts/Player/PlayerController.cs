@@ -114,7 +114,7 @@ public class PlayerController : MonoBehaviour
     public void Damaged(float damage)
     {
         curHp += damage;
-        playerManager.playerUI.UpdateHpBar(playerManager.playerData.maxHp, curHp);
+        UIManager.instance.playerUI.UpdateHpBar(playerManager.playerData.maxHp, curHp);
         if (curHp <= 0)
             Die();
     }
