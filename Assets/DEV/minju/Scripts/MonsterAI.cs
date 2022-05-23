@@ -327,12 +327,13 @@ public class MonsterAI : MonoBehaviour
 
     void SetHpBar()
     {
-        uiCanvas = GameObject.Find("HealthUI").GetComponent<Canvas>();
+        uiCanvas = GameObject.Find("UI Canvas").GetComponent<Canvas>();
         hpBar = Instantiate<GameObject>(hpBarPrefab, transform.position, Quaternion.identity, uiCanvas.transform);
+        //hpBar = Instantiate<GameObject>(hpBarPrefab, transform.position, Quaternion.identity, uiCanvas.transform);
         hpBarImage = hpBar.GetComponentsInChildren<Image>()[1];
 
-        var _hpbar = hpBar.GetComponent<MonsterUI>();
-        _hpbar.enemyTr = transform;
+        var _hpbar = hpBar.GetComponent<EnemyHpBar>();
+        _hpbar.targetTr = transform;
         _hpbar.offset = hpBarOffset;
     }
 
@@ -357,6 +358,8 @@ public class MonsterAI : MonoBehaviour
         // 남은 체력이 없을 때
         else
         {
+            // 몬스터 체력바 삭제
+            DeleteHpBar();
             Invoke("Kill", 1f);
         }
     }
@@ -370,7 +373,6 @@ public class MonsterAI : MonoBehaviour
         itemLocation.position += new Vector3(0, 1, 0);
         // 아이템 떨어트리기
         manager.DropItem(itemLocation);
-
         // 몬스터 삭제
         manager.DeleteMonster(gameObject);
     }
