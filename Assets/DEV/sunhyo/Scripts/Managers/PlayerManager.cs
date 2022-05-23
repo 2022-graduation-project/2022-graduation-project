@@ -56,6 +56,12 @@ public class PlayerManager : MonoBehaviour
     public void GetItemBag(GameObject _itemBag)
     {
         itemUI.Set(_itemBag.GetComponent<ItemBag>());
+        if (_itemBag.GetComponent<ItemBag>().EmptyCheck())
+        {
+            // Text UI ... ? (EMPTY)
+
+            itemUI.CallResetWithDelay();
+        };
     }
 
     public void LeaveItemBag()

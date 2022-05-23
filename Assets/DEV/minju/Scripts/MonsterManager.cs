@@ -36,9 +36,9 @@ public class MonsterManager : MonoBehaviour
     public void Damaging()
     {
         //UI 버튼에서 몬스터 전체 데미지 입히기
-        for (int i = 0; i < 30; i++)
+        foreach (var monster in monsters)
         {
-            monsters[i].GetComponent<MonsterAI>().Damage(-10);
+            monster.GetComponent<MonsterAI>().Damage(-10);
         }
     }
 
