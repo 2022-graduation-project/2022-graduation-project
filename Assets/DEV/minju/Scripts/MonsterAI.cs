@@ -268,6 +268,9 @@ public class MonsterAI : MonoBehaviour
                 gaugeBar.GetComponent<Image>().fillAmount = thisMon.hp / 50f;
             }
 
+            // 몬스터 체력 바 띄우기
+            hpBar.SetActive(true);
+
             // 찾았다고 저장
             // Monster found some player
             thisMon.isFound = true;
@@ -299,6 +302,9 @@ public class MonsterAI : MonoBehaviour
                 // unable to see the guage bar
                 gaugeBar.SetActive(false);
             }
+
+            // 몬스터 체력 바 지우기
+            hpBar.SetActive(false);
 
             // 못찾았다고 저장
             // player is leaving the range
@@ -383,6 +389,7 @@ public class MonsterAI : MonoBehaviour
         //Debug.Log("MAI ThisMonster#: " + monsterIdx);
 
         SetHpBar();
+        hpBar.SetActive(false);
 
         // 몬스터 애니메이터
         // Monster Animator
