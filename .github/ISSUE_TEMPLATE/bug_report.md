@@ -10,6 +10,7 @@ title: "체력오류"
 labels: PlayerController.cs, PlayerUI.cs
 assignees: "Sunhyo"
 ---
+---
 name: Move Monster
 about: "몬스터들이 움직이는게 프레임끊겨보이듯 부자연스럽다. (회전X 좌표움직임) Translate는 뚝뚝 끊기고 rigidbody.AddForce가 그나마 자연스러운데 이것도 역시 완벽하진 않다.."
 title: "Monster 움직임"
