@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class MonsterAI : MonoBehaviour
 {
-    public Image healthBar;
+    public float health;
 
     // 몬스터 데이터 클래스
     // Monster Data class
@@ -99,7 +99,19 @@ public class MonsterAI : MonoBehaviour
     // damaging player
     void damaging()
     {
-        player.Damaged(-10);
+        player.Damaged(-1.0f);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag == "Bullet")
+        {
+            hpBarImage.fillAmount = thisMon.hp / 100;
+            if (thisMon.hp <= 0f)
+            {
+                hpBarImage.GetComponentsInParent<Image>()[1].color = Color.clear;
+            }
+        }
     }
 
     public IEnumerator Attack()
@@ -124,8 +136,8 @@ public class MonsterAI : MonoBehaviour
                 yield break;
             }
 
-            //공격 주기 2.767초 초과인지 검사
-            if (attackTime >= 2.767f)
+            //공격 주기 2.5초 초과인지 검사
+            if (attackTime >= 2.5f)
             {
                 //timer reset
                 attackTime = 0f;
@@ -136,7 +148,7 @@ public class MonsterAI : MonoBehaviour
                 {
                     // 플레이어 HP 깎기
                     // damaging player
-                    Invoke("damaging", 1.0f);
+                    Invoke("damaging", 0.83f);
 
                     //애니메이션 첫 변경 시
                     if (anim.GetBool("isAttack") == false)
@@ -162,6 +174,10 @@ public class MonsterAI : MonoBehaviour
     //moving direction
     public Vector3 direction;
 
+    private CharacterController controller;
+    private bool groundedPlayer;
+    private Vector3 playerVelocity;
+
     public IEnumerator Chase()
     {
         //애니메이션 첫 변경 시
@@ -180,21 +196,44 @@ public class MonsterAI : MonoBehaviour
             if (thisMon.isFound)
             {
 
-                //목적지를 플레이어 위치로 설정
+                // 목적지를 플레이어 위치로 설정
                 thisMon.destPosition = player.GetComponent<Transform>();
 
 
-                //출발지에서 목적지까지의 방향
-                Vector3 direction = thisMon.destPosition.position - transform.position;
-
+                // 출발지에서 목적지까지의 방향
+                Vector3 direction = (transform.position - thisMon.destPosition.position);
 
                 //목적지 향해 이동
+                //playerVelocity.y = 0;
+                //groundedPlayer = controller.isGrounded;
+                //if (groundedPlayer && playerVelocity.y < 0)
+                //{
+                //    playerVelocity.y = 0f;
+                //}
+
+                //Vector3 move = new Vector3(direction.normalized.x, 0, direction.normalized.z);
+                //controller.Move(move * Time.deltaTime * thisMon.moveSpeed);
+
+                //if (move != Vector3.zero)
+                //{
+                //    gameObject.transform.forward = move;
+                //}
+
+                //controller.Move(playerVelocity * Time.deltaTime);
+
                 //rig.AddForce(direction * Time.deltaTime * thisMon.moveSpeed, ForceMode.VelocityChange);
+                //rig.AddForce(Vector3.Lerp(transform.position, thisMon.destPosition.position, thisMon.moveSpeed * Time.deltaTime), ForceMode.Acceleration);
                 transform.Translate(direction * thisMon.moveSpeed * Time.deltaTime);
+                //transform.Translate(Vector3.Lerp(transform.position, thisMon.destPosition.position, 0.001f * Time.deltaTime));
+                //Vector3 newPosition = Vector3.MoveTowards(rig.position, thisMon.destPosition.position, thisMon.moveSpeed * Time.deltaTime);
+                //rig.MovePosition(newPosition);
 
                 // 타겟 방향으로 회전함
                 transform.LookAt(Vector3.Lerp(transform.position, thisMon.destPosition.position, 0.1f * Time.deltaTime));
                 //transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(direction), 1000f * Time.deltaTime);
+                
+                //Quaternion rotation = Quaternion.LookRotation(direction);
+                //transform.rotation = rotation;
 
                 //플레이어 근처 일정 거리(2f)에 도달했다면 공격
                 if (Vector3.Distance(transform.position, thisMon.destPosition.position) <= thisMon.distance)
@@ -256,6 +295,9 @@ public class MonsterAI : MonoBehaviour
                 gaugeBar.GetComponent<Image>().fillAmount = thisMon.hp / 50f;
             }
 
+            // 몬스터 체력 바 띄우기
+            hpBar.SetActive(true);
+
             // 찾았다고 저장
             // Monster found some player
             thisMon.isFound = true;
@@ -288,6 +330,9 @@ public class MonsterAI : MonoBehaviour
                 gaugeBar.SetActive(false);
             }
 
+            // 몬스터 체력 바 지우기
+            hpBar.SetActive(false);
+
             // 못찾았다고 저장
             // player is leaving the range
             thisMon.isFound = false;
@@ -306,7 +351,30 @@ public class MonsterAI : MonoBehaviour
     // for using manager's func
     MonsterManager manager;
 
+
     public GameObject hpBarPrefab;
+    public Vector3 hpBarOffset = new Vector3(0, 2.2f, 0);
+    private Canvas uiCanvas;
+    private Image hpBarImage;
+    GameObject hpBar;
+
+    void SetHpBar()
+    {
+        uiCanvas = GameObject.Find("UI Canvas").GetComponent<Canvas>();
+        hpBar = Instantiate<GameObject>(hpBarPrefab, transform.position, Quaternion.identity, uiCanvas.transform);
+        //hpBar = Instantiate<GameObject>(hpBarPrefab, transform.position, Quaternion.identity, uiCanvas.transform);
+        hpBarImage = hpBar.GetComponentsInChildren<Image>()[1];
+
+        var _hpbar = hpBar.GetComponent<EnemyHpBar>();
+        _hpbar.targetTr = transform;
+        _hpbar.offset = hpBarOffset;
+    }
+
+    void DeleteHpBar()
+    {
+        Destroy(hpBar);
+    }
+
 
     // player가 monster 공격 했을 때 호출
     // If player damages monster this will be called
@@ -317,22 +385,40 @@ public class MonsterAI : MonoBehaviour
         {
             //scale(-)만큼 몬스터 체력이 줄어든다.
             thisMon.hp += scale;
-            healthBar.fillAmount = thisMon.hp / 100;
+            hpBarImage.fillAmount = thisMon.hp / 100;
+            print("MonsterHP: " + thisMon.hp);
         }
         // 남은 체력이 없을 때
         else
         {
-            // 몬스터 삭제
-            manager.DeleteMonster(monsterIdx);
+            // 몬스터 체력바 삭제
+            DeleteHpBar();
+            Invoke("Kill", 1f);
         }
     }
 
-   
+    public GameObject item;
+    Transform itemLocation;
+
+    public void Kill()
+    {
+        itemLocation = transform;
+        itemLocation.position += new Vector3(0, 1, 0);
+        // 아이템 떨어트리기
+        manager.DropItem(itemLocation);
+        // 몬스터 삭제
+        manager.DeleteMonster(gameObject);
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        controller = GetComponent<CharacterController>();
+        //Debug.Log("MAI ThisMonster#: " + monsterIdx);
+
+        SetHpBar();
+        hpBar.SetActive(false);
+
         // 몬스터 애니메이터
         // Monster Animator
         anim = GetComponent<Animator>();
@@ -341,12 +427,12 @@ public class MonsterAI : MonoBehaviour
         rig = GetComponent<Rigidbody>();
         // 몬스터 매니저 스크립트 찾기
         // get MonsterManager script from GamaManager
-        manager = GameObject.Find("GameManager").GetComponent<MonsterManager>();
+        manager = GameObject.Find("MonsterManager").GetComponent<MonsterManager>();
         // 게이지바 UI 오브젝트 찾기
         // find Monster's HP guage bar
-        monsterUI = GameObject.Find("MonsterUI");
-        gaugeBar = monsterUI.transform.Find("MonsterHP").gameObject;
-        gaugeBar.SetActive(false);
+        //monsterUI = GameObject.Find("MonsterUI");
+        //gaugeBar = monsterUI.transform.Find("MonsterHP").gameObject;
+        //gaugeBar.SetActive(false);
         
 
 
@@ -361,7 +447,7 @@ public class MonsterAI : MonoBehaviour
             // setting default hp
             thisMon.hp = 50f;
             // setting default speed
-            thisMon.moveSpeed = 2f;
+            thisMon.moveSpeed = 5.0f;
             thisMon.turnSpeed = 2f;
             // setting default power
             thisMon.attackForce = 10f;
@@ -371,7 +457,7 @@ public class MonsterAI : MonoBehaviour
             thisMon.destPosition = null;
             // attack available distance
             thisMon.distance = 2f;
-            healthBar.fillAmount = thisMon.hp / 100;
+            hpBarImage.fillAmount = thisMon.hp / 100;
         }
 
         // 현재 오브젝트의 몬스터 기본값 처음 설정하기 (보스 몬스터)
