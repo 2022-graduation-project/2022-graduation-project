@@ -4,11 +4,11 @@ about: Create a report to help us improve
 title: "[bug]"
 labels: Bugfix
 assignees: ''
-|name: curHp Error
+name: curHp Error
 about: "player의 체력이 Json에서 읽어오면 curHp가 100f 되어야 하는데, 몬스터(MonsterAI.cs의 damaging())가 플레이어 공격을 -1.0f씩 하는데 한 대만 맞고 플레이어가 죽습니다."
 title: "체력오류"
 labels: PlayerController.cs, PlayerUI.cs
-assignees: "Sunhyo"|
+assignees: "Sunhyo"
 ---
 
 ## 🐞 버그 내용
