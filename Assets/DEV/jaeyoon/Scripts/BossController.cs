@@ -15,7 +15,6 @@ public class BossController : MonoBehaviour
 
     void Start()
     {
-        //animator.ResetTrigger("Damaged");
         animator.SetBool("Dead", false);
 
         hp = maxHealth;
@@ -34,7 +33,6 @@ public class BossController : MonoBehaviour
     void Update()
     {
         HpBar.value = (hp / maxHealth);
-        //animator.ResetTrigger("Damaged");
 
         if (HpBar.value <= minHealth)
             transform.Find("Fill Area").gameObject.SetActive(false);
@@ -51,7 +49,7 @@ public class BossController : MonoBehaviour
             if (hp > 0)
             {
                 Debug.Log("HP : " + hp);
-                //animator.SetTrigger("Damaged");
+                animator.SetTrigger("Damaged");
             }
             else
             {
