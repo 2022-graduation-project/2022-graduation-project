@@ -13,7 +13,7 @@ public class EnemyHpBar : MonoBehaviour
     [HideInInspector]
     public Transform targetTr;               // Position of monster
 
-    public Camera playerMainCam;            // PlayerMainCamera
+    private Camera playerMainCam;            // PlayerMainCamera
 
     // Start is called before the first frame update
     void Start()
@@ -23,7 +23,7 @@ public class EnemyHpBar : MonoBehaviour
         uiCamera = canvas.worldCamera;
         rectParent = canvas.GetComponent<RectTransform>();
         rectHp = this.gameObject.GetComponent<RectTransform>();
-
+        playerMainCam = GameObject.Find("Player").transform.Find("Main Camera").GetComponent<Camera>();
     }
 
     // LateUpdate is called once per frame after calling Update()
