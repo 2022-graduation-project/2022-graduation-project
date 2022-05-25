@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BossController : MonoBehaviour
+public class BossMonsterUI : MonoBehaviour
 {
     public Animator animator;
     public Slider HpBar;
-    public Button Attack;
+    public Button DamageBtn;
+    public Text HpText;
     float maxHealth = 100;
     float minHealth = 0;
     public float hp;
@@ -20,9 +21,9 @@ public class BossController : MonoBehaviour
         hp = maxHealth;
         HpBar.value = (hp / maxHealth);
 
-        if (Attack != null)
+        if (DamageBtn != null)
         {
-            Attack.onClick.AddListener(onDamage);
+            DamageBtn.onClick.AddListener(onDamage);
         }
         else
         {
@@ -32,6 +33,11 @@ public class BossController : MonoBehaviour
 
     void Update()
     {
+        if (hp <= 10)
+        {
+            HpText.color = Color.red;
+        }
+        HpText.text = hp.ToString();
         HpBar.value = (hp / maxHealth);
 
         if (HpBar.value <= minHealth)
@@ -58,5 +64,10 @@ public class BossController : MonoBehaviour
                 animator.SetBool("Dead", true);
             }
         }
+    }
+
+    void Attack()
+    {
+        //animator.SetTrigger("Attack");
     }
 }
