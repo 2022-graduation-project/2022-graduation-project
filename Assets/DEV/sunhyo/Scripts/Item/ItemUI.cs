@@ -19,6 +19,11 @@ public class ItemUI : MonoBehaviour
         gameObject.SetActive(true);
     }
 
+    public void CallResetWithDelay()
+    {
+        Invoke("Reset", 3.0f);
+    }
+
     public void Reset()
     {
         ItemData item = null;
