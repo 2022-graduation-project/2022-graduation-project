@@ -139,7 +139,7 @@ public class MonsterManager : MonoBehaviour
 
             // ���� ���� �����ϱ�
             // add new monster to curruent location of scene
-            GameObject objMonster = Instantiate(Resources.Load(kindsOfMonsters[Random.Range(0, 15)]), 
+            GameObject objMonster = Instantiate(Resources.Load(kindsOfMonsters[2]), 
                 currentLocation.position, Quaternion.identity * Quaternion.Euler(new Vector3(0,Random.Range(0,360),0))) as GameObject;
 
             // ���� ���� ����Ʈ�� �߰��ϱ�
