@@ -5,6 +5,8 @@ using UnityEngine.UI;   // ����Ƽ UI ����ϱ� ���� ��
 
 public class PurchaseUI : MonoBehaviour
 {
+    private PlayerData player;
+
     public Text MoneyTxt;
     public Button item1, item2, item3;
     public int money;
