@@ -8,6 +8,7 @@ public class BossMonsterUI : MonoBehaviour
     public Animator animator;
     public Slider HpBar;
     public Button DamageBtn;
+    public Button AttackBtn;
     public Text HpText;
     float maxHealth = 100;
     float minHealth = 0;
@@ -21,13 +22,10 @@ public class BossMonsterUI : MonoBehaviour
         hp = maxHealth;
         HpBar.value = (hp / maxHealth);
 
-        if (DamageBtn != null)
+        if (DamageBtn != null && AttackBtn != null)
         {
             DamageBtn.onClick.AddListener(onDamage);
-        }
-        else
-        {
-            Debug.Log("[NullReferenceException] Button is not allocated.");
+            AttackBtn.onClick.AddListener(Attack);
         }
     }
 
@@ -68,6 +66,6 @@ public class BossMonsterUI : MonoBehaviour
 
     void Attack()
     {
-        //animator.SetTrigger("Attack");
+        animator.SetTrigger("Attack");
     }
 }
