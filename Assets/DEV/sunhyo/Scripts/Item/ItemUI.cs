@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class ItemUI : MonoBehaviour
 {
+    /**************************************************/
+    /* 1. itemBagSlot 직접 할당 말고 ItemSlot 가변 할당 */
+    /**************************************************/
+
     public GameObject[] itemBagSlots;
 
     public void Set(ItemBag _itemBag)
