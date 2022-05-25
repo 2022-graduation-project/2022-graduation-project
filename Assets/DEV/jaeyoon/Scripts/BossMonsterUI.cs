@@ -1,23 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-<<<<<<< HEAD
-
-public class BossMonster : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-}
-=======
 using UnityEngine.UI;
 
 public class BossMonsterUI : MonoBehaviour
@@ -86,4 +69,3 @@ public class BossMonsterUI : MonoBehaviour
         animator.SetTrigger("Attack");
     }
 }
->>>>>>> d9f30a8f0abf183421d87495d8623f54a43fff60
