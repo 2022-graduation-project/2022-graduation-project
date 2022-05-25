@@ -59,8 +59,8 @@ public class MonsterManager : MonoBehaviour
         var itemBag = Instantiate<GameObject>(item, itemLocation);
         itemBag.transform.SetParent(transform);
 
-        // Random Item Counts (1 ~ 3)
-        int countOfDrop = Random.Range(1, 4);
+        // Random Item Counts (0 ~ 3)
+        int countOfDrop = Random.Range(0, 4);
 
         // Create Random Items in ItemBag
         for(int i = 0; i < countOfDrop; i++)
