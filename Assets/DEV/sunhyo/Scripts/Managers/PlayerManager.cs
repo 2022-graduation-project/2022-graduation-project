@@ -9,12 +9,6 @@ public class PlayerManager : MonoBehaviour
     /* Data */
     public PlayerData playerData;
 
-    /*  UI  */
-    public PlayerUI playerUI;
-    public ItemUI itemUI;
-    public InventoryUI inventoryUI;
-
-
     /* Input */
     public bool keyMoveable = true;
     public bool mouseMoveable = true;
@@ -43,23 +37,29 @@ public class PlayerManager : MonoBehaviour
                     (Application.dataPath + "/MAIN/Data", "player")
                     ["000_player"];
 
-        playerUI.Set(PlayerManager.instance.playerData);
+        UIManager.instance.Set(playerData);
     }
 
     public void GetItemBag(GameObject _itemBag)
     {
-        itemUI.Set(_itemBag.GetComponent<ItemBag>());
+        UIManager.instance.itemUI.Set(_itemBag.GetComponent<ItemBag>());
+        if (_itemBag.GetComponent<ItemBag>().EmptyCheck())
+        {
+            // Text UI ... ? (EMPTY)
+
+            UIManager.instance.itemUI.CallResetWithDelay();
+        };
     }
 
     public void LeaveItemBag()
     {
-        itemUI.Reset();
+        UIManager.instance.itemUI.Reset();
     }
 
     public void BuyItem(int _price)
     {
         playerData.money -= _price;
-        playerUI.UpdateMoney(playerData.money);
+        UIManager.instance.playerUI.UpdateMoney(playerData.money);
     }
 
     public void UseItem(ItemData _itemData)

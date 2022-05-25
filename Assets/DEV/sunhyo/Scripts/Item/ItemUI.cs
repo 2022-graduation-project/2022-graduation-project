@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class ItemUI : MonoBehaviour
 {
+    /**************************************************/
+    /* 1. itemBagSlot 직접 할당 말고 ItemSlot 가변 할당 */
+    /**************************************************/
+
     public GameObject[] itemBagSlots;
 
     public void Set(ItemBag _itemBag)
@@ -17,6 +21,11 @@ public class ItemUI : MonoBehaviour
         }
 
         gameObject.SetActive(true);
+    }
+
+    public void CallResetWithDelay()
+    {
+        Invoke("Reset", 3.0f);
     }
 
     public void Reset()

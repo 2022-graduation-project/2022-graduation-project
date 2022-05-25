@@ -23,7 +23,7 @@ public class PlayerUI : MonoBehaviour
     /**********/
     private Transform party;
     private Transform quest;
-    private Transform inventory;
+    private Transform inventoryUI;
 
 
 
@@ -58,7 +58,7 @@ public class PlayerUI : MonoBehaviour
         {
             if (t.gameObject.name == "Party") party = t;
             else if (t.gameObject.name == "Quest") quest = t;
-            else if (t.gameObject.name == "Inventory") inventory = t;
+            else if (t.gameObject.name == "InventoryUI") inventoryUI = t;
         }
 
         foreach (Transform t in Bottom)
@@ -71,9 +71,9 @@ public class PlayerUI : MonoBehaviour
     {
         if (PlayerManager.instance.keyMoveable && Input.GetKeyDown(KeyCode.I))
         {
-            if (inventory.gameObject.activeInHierarchy)
-                inventory.gameObject.SetActive(false);
-            else inventory.gameObject.SetActive(true);
+            if (inventoryUI.gameObject.activeInHierarchy)
+                inventoryUI.gameObject.SetActive(false);
+            else inventoryUI.gameObject.SetActive(true);
         }
     }
 
