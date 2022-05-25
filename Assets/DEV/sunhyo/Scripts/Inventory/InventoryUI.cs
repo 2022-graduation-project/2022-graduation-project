@@ -25,7 +25,7 @@ public class InventoryUI : MonoBehaviour
         else
         {
             GameObject emptySlot = GetEmptySlotInPool();
-            print(emptySlot);
+            // print(emptySlot);
             emptySlot?.GetComponent<InventorySlot>().Set(_itemData);
         }
     }

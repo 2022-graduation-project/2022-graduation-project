@@ -8,7 +8,8 @@ public class ItemBag : MonoBehaviour
 
     void Start()
     {
-        
+        Test();
+        StartCoroutine("DestroyItemBag");
     }
 
     public bool EmptyCheck()
@@ -22,6 +23,19 @@ public class ItemBag : MonoBehaviour
     }
 
     public bool complete = false;
+
+    public void PopItem(ItemData _itemData)
+    {
+        foreach (ItemData item in items)
+        {
+            if(item.item_name.Equals(_itemData.item_name))
+            {
+                print(item.item_name);
+                items.Remove(item);
+                break;
+            }
+        }
+    }
     private void Delete()
     {
         Destroy(gameObject, 3.0f);
@@ -60,5 +74,19 @@ public class ItemBag : MonoBehaviour
         items.Add(item2);
 
         print("리스트 길이 " + items.Count);
+    }
+
+    IEnumerator DestroyItemBag()
+    {
+        float deleteTime = 3.0f;
+        float curTime = 0;
+        while (curTime < deleteTime)
+        {
+            curTime += Time.deltaTime;
+            print(curTime);
+            yield return null;
+        }
+
+        Destroy(gameObject);
     }
 }

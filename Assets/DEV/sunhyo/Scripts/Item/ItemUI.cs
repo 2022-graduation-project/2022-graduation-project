@@ -17,7 +17,7 @@ public class ItemUI : MonoBehaviour
         {
             GameObject itemBagSlot = GetItemSlotInPool();
 
-            itemBagSlot?.GetComponent<ItemBagSlot>().Set(item);
+            itemBagSlot?.GetComponent<ItemBagSlot>().Set(_itemBag, item);
         }
 
         gameObject.SetActive(true);
