@@ -16,8 +16,6 @@ public class ItemBag : MonoBehaviour
         StartCoroutine(coroutine);
     }
 
-    public bool complete = false;
-
     public void PopItem(ItemData _itemData)
     {
         foreach (ItemData item in items)
@@ -47,6 +45,19 @@ public class ItemBag : MonoBehaviour
         StopCoroutine(coroutine);
     }
 
+    IEnumerator DestroyItemBag(float _deleteTime)
+    {
+        float curTime = 0;
+        while (curTime < _deleteTime)
+        {
+            curTime += Time.deltaTime;
+            yield return null;
+        }
+
+        if(curTime >= _deleteTime)
+            Destroy(gameObject);
+    }
+
     private void Test()
     {
         ItemData item = new ItemData();
@@ -74,18 +85,5 @@ public class ItemBag : MonoBehaviour
         items.Add(item2);
 
         print("리스트 길이 " + items.Count);
-    }
-
-    IEnumerator DestroyItemBag(float _deleteTime)
-    {
-        float curTime = 0;
-        while (curTime < _deleteTime)
-        {
-            curTime += Time.deltaTime;
-            yield return null;
-        }
-
-        if(curTime >= _deleteTime)
-            Destroy(gameObject);
     }
 }

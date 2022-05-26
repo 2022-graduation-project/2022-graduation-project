@@ -81,8 +81,6 @@ public class InventoryUI : MonoBehaviour
         HpText.text = playerData.curHp.ToString() + "/" + playerData.maxHp.ToString();
         MpText.text = playerData.curMp.ToString() + "/" + playerData.maxMp.ToString();
         Money.text = playerData.money.ToString();
-
-        
     }
 
     public void AddItem(ItemData _itemData)
