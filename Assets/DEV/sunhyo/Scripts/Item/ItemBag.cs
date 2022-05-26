@@ -82,7 +82,6 @@ public class ItemBag : MonoBehaviour
         while (curTime < _deleteTime)
         {
             curTime += Time.deltaTime;
-            print(curTime);
             yield return null;
         }
 

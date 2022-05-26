@@ -31,6 +31,7 @@ public class UIManager : MonoBehaviour
         inventoryUI = GameObject.Find("Mid").transform.Find("InventoryUI").GetComponent<InventoryUI>();
 
         playerUI.Set(_playerData);
+        inventoryUI.Set(_playerData);
     }
 
     public void SetItemUI(GameObject _itemBag)
