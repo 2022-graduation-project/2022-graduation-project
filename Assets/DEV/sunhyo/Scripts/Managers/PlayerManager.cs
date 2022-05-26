@@ -42,18 +42,12 @@ public class PlayerManager : MonoBehaviour
 
     public void GetItemBag(GameObject _itemBag)
     {
-        UIManager.instance.itemUI.Set(_itemBag.GetComponent<ItemBag>());
-        if (_itemBag.GetComponent<ItemBag>().EmptyCheck())
-        {
-            // Text UI ... ? (EMPTY)
-
-            UIManager.instance.itemUI.CallResetWithDelay();
-        };
+        UIManager.instance.SetItemUI(_itemBag);
     }
 
-    public void LeaveItemBag()
+    public void LeaveItemBag(GameObject _itemBag)
     {
-        UIManager.instance.itemUI.Reset();
+        UIManager.instance.ResetItemUI(_itemBag);
     }
 
     public void BuyItem(int _price)

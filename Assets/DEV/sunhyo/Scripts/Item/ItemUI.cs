@@ -28,14 +28,16 @@ public class ItemUI : MonoBehaviour
         Invoke("Reset", 3.0f);
     }
 
-    public void Reset()
+    public void Reset(ItemBag _itemBag)
     {
-        ItemData item = null;
         foreach (GameObject itemBagSlot in itemBagSlots)
         {
             if (itemBagSlot.activeSelf)
                 itemBagSlot.GetComponent<ItemBagSlot>().Reset();
         }
+
+        if(_itemBag.items.Count <= 0)
+            Destroy(_itemBag.gameObject);
 
         gameObject.SetActive(false);
     }

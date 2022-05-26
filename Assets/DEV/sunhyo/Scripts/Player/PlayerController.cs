@@ -128,6 +128,6 @@ public class PlayerController : MonoBehaviour
     public void OnTriggerExit(Collider other)
     {
         if (other.name.Contains("ItemBag"))
-            playerManager.LeaveItemBag();
+            playerManager.LeaveItemBag(other.gameObject);
     }
 }

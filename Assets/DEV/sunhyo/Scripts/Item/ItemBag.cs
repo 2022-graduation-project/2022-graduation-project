@@ -6,20 +6,14 @@ public class ItemBag : MonoBehaviour
 {
     public List<ItemData> items = new List<ItemData>();
 
+    private float deleteTime = 5.0f;
+    private IEnumerator coroutine;
     void Start()
     {
         Test();
-        StartCoroutine("DestroyItemBag");
-    }
 
-    public bool EmptyCheck()
-    {
-        if (items.Count == 0)
-        {
-            Delete();
-            return true;
-        }
-        return false;
+        coroutine = DestroyItemBag(deleteTime);
+        StartCoroutine(coroutine);
     }
 
     public bool complete = false;
@@ -36,15 +30,21 @@ public class ItemBag : MonoBehaviour
             }
         }
     }
-    private void Delete()
-    {
-        Destroy(gameObject, 3.0f);
-        complete = true;
-    }
 
     public void AddItem(ItemData itemData)
     {
         items.Add(itemData);
+    }
+
+    public void StartDeleteCoroutine()
+    {
+        coroutine = DestroyItemBag(deleteTime); 
+        StartCoroutine(coroutine);
+    }
+
+    public void StopDeleteCoroutine()
+    {
+        StopCoroutine(coroutine);
     }
 
     private void Test()
@@ -76,17 +76,17 @@ public class ItemBag : MonoBehaviour
         print("리스트 길이 " + items.Count);
     }
 
-    IEnumerator DestroyItemBag()
+    IEnumerator DestroyItemBag(float _deleteTime)
     {
-        float deleteTime = 3.0f;
         float curTime = 0;
-        while (curTime < deleteTime)
+        while (curTime < _deleteTime)
         {
             curTime += Time.deltaTime;
             print(curTime);
             yield return null;
         }
 
-        Destroy(gameObject);
+        if(curTime >= _deleteTime)
+            Destroy(gameObject);
     }
 }
