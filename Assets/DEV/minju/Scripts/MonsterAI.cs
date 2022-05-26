@@ -99,7 +99,9 @@ public class MonsterAI : MonoBehaviour
     // damaging player
     void damaging()
     {
+        
         player.Damaged(-1.0f);
+
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -201,29 +203,15 @@ public class MonsterAI : MonoBehaviour
 
 
                 // 출발지에서 목적지까지의 방향
-                Vector3 direction = (transform.position - thisMon.destPosition.position);
+                Vector3 direction = (thisMon.destPosition.position - transform.position);
 
                 //목적지 향해 이동
-                //playerVelocity.y = 0;
-                //groundedPlayer = controller.isGrounded;
-                //if (groundedPlayer && playerVelocity.y < 0)
-                //{
-                //    playerVelocity.y = 0f;
-                //}
 
-                //Vector3 move = new Vector3(direction.normalized.x, 0, direction.normalized.z);
-                //controller.Move(move * Time.deltaTime * thisMon.moveSpeed);
-
-                //if (move != Vector3.zero)
-                //{
-                //    gameObject.transform.forward = move;
-                //}
-
-                //controller.Move(playerVelocity * Time.deltaTime);
-
-                //rig.AddForce(direction * Time.deltaTime * thisMon.moveSpeed, ForceMode.VelocityChange);
+                rig.AddForce(direction * Time.deltaTime * thisMon.moveSpeed, ForceMode.VelocityChange);
                 //rig.AddForce(Vector3.Lerp(transform.position, thisMon.destPosition.position, thisMon.moveSpeed * Time.deltaTime), ForceMode.Acceleration);
-                transform.Translate(direction * thisMon.moveSpeed * Time.deltaTime);
+
+
+                //transform.Translate(direction * thisMon.moveSpeed * Time.deltaTime);
                 //transform.Translate(Vector3.Lerp(transform.position, thisMon.destPosition.position, 0.001f * Time.deltaTime));
                 //Vector3 newPosition = Vector3.MoveTowards(rig.position, thisMon.destPosition.position, thisMon.moveSpeed * Time.deltaTime);
                 //rig.MovePosition(newPosition);
@@ -309,6 +297,10 @@ public class MonsterAI : MonoBehaviour
             // 반경 안 플레이어 저장
             // save the player
             player = other.GetComponent<PlayerController>();
+            if (player != null)
+            {
+                print("플레이어 정상");
+            }
         }
     }
 
@@ -343,7 +335,7 @@ public class MonsterAI : MonoBehaviour
 
             // 플레이어 지우기
             // remove the player
-            player = null;
+            //player = null;
         }
     }
 
@@ -452,7 +444,7 @@ public class MonsterAI : MonoBehaviour
             // setting default hp
             thisMon.hp = 50f;
             // setting default speed
-            thisMon.moveSpeed = 5.0f;
+            thisMon.moveSpeed = 100f;
             thisMon.turnSpeed = 2f;
             // setting default power
             thisMon.attackForce = 10f;
