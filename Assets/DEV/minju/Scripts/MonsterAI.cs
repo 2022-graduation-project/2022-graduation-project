@@ -380,6 +380,9 @@ public class MonsterAI : MonoBehaviour
     // If player damages monster this will be called
     public void Damage(int scale)
     {
+        // 애니메이션
+        anim.SetTrigger("Damaged");
+
         // 아직 체력이 남아 있을 때
         if (thisMon.hp > 0)
         {
@@ -391,6 +394,8 @@ public class MonsterAI : MonoBehaviour
         // 남은 체력이 없을 때
         else
         {
+            // 죽는 애니메이션
+            anim.SetBool("Dead", true);
             // 몬스터 체력바 삭제
             DeleteHpBar();
             Invoke("Kill", 1f);

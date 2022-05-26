@@ -59,8 +59,8 @@ public class MonsterManager : MonoBehaviour
         var itemBag = Instantiate<GameObject>(item, itemLocation);
         itemBag.transform.SetParent(transform);
 
-        // Random Item Counts (1 ~ 3)
-        int countOfDrop = Random.Range(1, 4);
+        // Random Item Counts (0 ~ 3)
+        int countOfDrop = Random.Range(0, 4);
 
         // Create Random Items in ItemBag
         for(int i = 0; i < countOfDrop; i++)
@@ -94,7 +94,7 @@ public class MonsterManager : MonoBehaviour
 
         // 배열 0으로 초기화
         // initiate elements as 0
-        duplicate = Enumerable.Repeat<int>(0, 50).ToArray<int>();
+        duplicate = Enumerable.Repeat<int>(0, 52).ToArray<int>();
 
 
         kindsOfMonsters = new string[] { "Characters", "Characters (2)", "Characters (3)", "Characters (4)", "Characters (5)",
@@ -109,8 +109,8 @@ public class MonsterManager : MonoBehaviour
         // Start to Spawn monsters
         for (int i = 0; i < 30; i++)
         {   // 30마리 생성
-            // Random spawn points (0 ~ 49)
-            spawnNumber = Random.Range(0, 50);
+            // Random spawn points (1 ~ 50)
+            spawnNumber = Random.Range(1, 50);
             
             // 랜덤 생성이 중복이 아닌지 확인하기
             // Check duplicate
@@ -139,7 +139,7 @@ public class MonsterManager : MonoBehaviour
 
             // ���� ���� �����ϱ�
             // add new monster to curruent location of scene
-            GameObject objMonster = Instantiate(Resources.Load(kindsOfMonsters[Random.Range(0, 15)]), 
+            GameObject objMonster = Instantiate(Resources.Load(kindsOfMonsters[Random.Range(0, 16)]), 
                 currentLocation.position, Quaternion.identity * Quaternion.Euler(new Vector3(0,Random.Range(0,360),0))) as GameObject;
 
             // ���� ���� ����Ʈ�� �߰��ϱ�
@@ -215,7 +215,7 @@ public class MonsterManager : MonoBehaviour
         }
         else
         {
-            spawnNumber = Random.Range(0, 50);
+            spawnNumber = Random.Range(1, 51);
             return repeatRandom(spawnNumber);
         }
     }
