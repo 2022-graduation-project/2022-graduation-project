@@ -58,7 +58,7 @@ public class PlayerUI : MonoBehaviour
         {
             if (t.gameObject.name == "Party") party = t;
             else if (t.gameObject.name == "Quest") quest = t;
-            else if (t.gameObject.name == "InventoryUI") inventoryUI = t;
+            else if (t.gameObject.name == "InventoryUI") inventoryUI = t.GetChild(0);
         }
 
         foreach (Transform t in Bottom)
