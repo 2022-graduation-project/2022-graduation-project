@@ -29,7 +29,8 @@ public class ItemManage : MonoBehaviour
         // Start to Spawn item chests
         for (int i = 0; i < 44; i++)
         {
-            Instantiate(Chest, childrenSP[i].position, Quaternion.identity);
+            Instantiate(Chest, childrenSP[i].position, childrenSP[i].rotation);
+            //Instantiate(Chest, childrenSP[i].position, Quaternion.identity);
             //// 20°³ »ý¼º
             //// Random spawn points (1 ~ 44)
             //spawnNumber = Random.Range(1, 45);
