@@ -297,10 +297,6 @@ public class MonsterAI : MonoBehaviour
             // 반경 안 플레이어 저장
             // save the player
             player = other.GetComponent<PlayerController>();
-            if (player != null)
-            {
-                print("플레이어 정상");
-            }
         }
     }
 
