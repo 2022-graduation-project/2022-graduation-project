@@ -28,7 +28,7 @@ public class ItemManage : MonoBehaviour
     bool initSpawn = false;
 
     // Read Json data to Dictionary
-    private Dictionary<string, ItemData> chestDict;
+    private Dictionary<string, ChestData> chestDict;
     // get all item names and use as key for the Dictionary
     private List<string> keysOfItems = new List<string>();
     // random items in itembags
@@ -36,7 +36,7 @@ public class ItemManage : MonoBehaviour
     // chest Prefab resource
     public GameObject tempChest;
     // temporary var of ItemData
-    private ItemData tempItemData;
+    private ChestData tempItemData;
 
     // Start is called before the first frame update
     void Start()
@@ -47,7 +47,7 @@ public class ItemManage : MonoBehaviour
                     (Application.dataPath + "/MAIN/Data", "chest");
 
         // get all item names and use as key for the Dictionary
-        foreach (KeyValuePair<string, ItemData> q in chestDict)
+        foreach (KeyValuePair<string, ChestData> q in chestDict)
         {
             keysOfItems.Add(q.Value.image_name);
         }
