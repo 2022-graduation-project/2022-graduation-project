@@ -34,7 +34,7 @@ public class InventoryUI : MonoBehaviour
     /* struct로 만들어두면 한 번에 설정할 수 있지 않을까 */
 
     public Transform inventory;
-    void Start()
+    void Awake()
     {
         inventory = transform.GetChild(0);
 
