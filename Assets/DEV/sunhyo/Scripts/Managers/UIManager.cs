@@ -44,7 +44,7 @@ public class UIManager : MonoBehaviour
     {
         itemUI.Reset(_itemBag.GetComponent<ItemBag>());
         // reset 할 때... coroutine을 다시 돌려야 하나?
-        _itemBag?.GetComponent<ItemBag>().StartDeleteCoroutine();
+        //_itemBag?.GetComponent<ItemBag>().StartDeleteCoroutine();
     }
     
 }

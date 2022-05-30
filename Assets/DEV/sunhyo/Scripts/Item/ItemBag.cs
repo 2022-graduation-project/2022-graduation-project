@@ -14,7 +14,7 @@ public class ItemBag : MonoBehaviour
         Test();
 
         coroutine = DestroyItemBag(deleteTime);
-        StartCoroutine(coroutine);
+        //StartCoroutine(coroutine);
     }
 
     public void PopItem(ItemData _itemData)

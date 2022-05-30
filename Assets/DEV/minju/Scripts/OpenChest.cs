@@ -37,7 +37,8 @@ public class OpenChest : MonoBehaviour
             {
                 Vector3 targetRot = new Vector3(targetRotX, transform.rotation.y, transform.rotation.z);
                 // 타겟 방향으로 회전함
-                transform.LookAt(Vector3.Lerp(transform.position, targetRot, Time.deltaTime));
+                transform.LookAt(targetRot);
+                //transform.LookAt(Vector3.Lerp(transform.position, targetRot, Time.deltaTime));
             }
 
         }
