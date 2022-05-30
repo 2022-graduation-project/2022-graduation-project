@@ -123,11 +123,17 @@ public class PlayerController : MonoBehaviour
     {
         if (other.name.Contains("ItemBag"))
             playerManager.GetItemBag(other.gameObject);
+        else if (other.tag == "Chest")
+        {
+            playerManager.GetItemBag(other.gameObject);
+            other.GetComponent<OpenChest>().isOpening = true;
+        }
     }
-
-    public void OnTriggerExit(Collider other)
+    private void OnTriggerExit(Collider other)
     {
         if (other.name.Contains("ItemBag"))
+            playerManager.LeaveItemBag(other.gameObject);
+        else if (other.tag == "Chest")
             playerManager.LeaveItemBag(other.gameObject);
     }
 }

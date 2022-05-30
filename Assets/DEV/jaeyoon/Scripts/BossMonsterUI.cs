@@ -6,6 +6,9 @@ using UnityEngine.UI;
 public class BossMonsterUI : MonoBehaviour
 {
     public Animator animator;
+    //int[] userKeyCodes = new int[] { 37, 38 };   // 37:LeftArrow, 38:RightArrow
+    //string[] userParameters = new string[] { "RunLeft", "RunRight" };
+
     public Slider HpBar;
     public Button DamageBtn;
     public Button AttackBtn;
@@ -17,8 +20,6 @@ public class BossMonsterUI : MonoBehaviour
 
     void Start()
     {
-        animator.SetBool("Dead", false);
-
         hp = maxHealth;
         HpBar.value = (hp / maxHealth);
 
@@ -31,6 +32,26 @@ public class BossMonsterUI : MonoBehaviour
 
     void Update()
     {
+        // Left 이동
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            animator.SetBool("RunLeft", true);
+        }
+        else
+        {
+            animator.SetBool("RunLeft", false);
+        }
+        // Right 이동
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            animator.SetBool("RunRight", true);
+        }
+        else
+        {
+            animator.SetBool("RunRight", false);
+        }
+
+
         if (hp <= 10)
         {
             HpText.color = Color.red;
@@ -44,9 +65,11 @@ public class BossMonsterUI : MonoBehaviour
             transform.Find("Fill Area").gameObject.SetActive(true);
     }
 
+    //void Run(int userKey, string Parameter) { }
+
     void onDamage()
     {
-        if (hp > 0) // 한 번 더 조건문으로 묶어준 이유 : 한 번 죽고 나면 메시지 출력 그만
+        if (hp > 0)
         {
             hp -= damage;
 
