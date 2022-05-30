@@ -41,9 +41,9 @@ public class ItemManage : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        /*
+
         chestDict = DataManager.instance
-                    .LoadJsonFile<Dictionary<string, ItemData>>
+                    .LoadJsonFile<Dictionary<string, ChestData>>
                     (Application.dataPath + "/MAIN/Data", "chest");
 
         // get all item names and use as key for the Dictionary
@@ -51,7 +51,7 @@ public class ItemManage : MonoBehaviour
         {
             keysOfItems.Add(q.Value.image_name);
         }
-        */
+
         countOfItems = keysOfItems.Count;
 
         // 스폰포인트 전부 가져오기
@@ -85,7 +85,7 @@ public class ItemManage : MonoBehaviour
                 tempChest = Instantiate(Chest[chestNumber], childrenSP[spawnNumber].position, childrenSP[spawnNumber].rotation) as GameObject;
 
                 chests.Add(tempChest);
-                /*
+
                 // Random Item Counts (0 ~ 3)
                 int countOfDrop = Random.Range(0, 4);
 
@@ -96,10 +96,10 @@ public class ItemManage : MonoBehaviour
                     // 해당 itemBag에 넣은 random item 정보 추가
                     if (chestDict.TryGetValue(keysOfItems[randomIndex], out tempItemData))
                     {
-                        tempChest.GetComponent<ItemBag>().AddItem(tempItemData);
+                        tempChest.GetComponent<ItemBag>().AddItem2(tempItemData);
                     }
                 }
-                */
+
             }
             else
                 continue;

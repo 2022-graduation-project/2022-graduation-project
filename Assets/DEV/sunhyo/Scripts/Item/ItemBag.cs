@@ -5,6 +5,7 @@ using UnityEngine;
 public class ItemBag : MonoBehaviour
 {
     public List<ItemData> items = new List<ItemData>();
+    public List<ChestData> chests = new List<ChestData>();
 
     private float deleteTime = 5.0f;
     private IEnumerator coroutine;
@@ -32,6 +33,10 @@ public class ItemBag : MonoBehaviour
     public void AddItem(ItemData itemData)
     {
         items.Add(itemData);
+    }
+    public void AddItem2(ChestData itemData)
+    {
+        chests.Add(itemData);
     }
 
     public void StartDeleteCoroutine()
