@@ -6,17 +6,17 @@ public class InventoryUI : MonoBehaviour
 {
     public GameObject[] inventorySlots;
 
-    private PlayerData playerData;
+    [SerializeField] private PlayerData playerData;
 
-    private Transform Info;
-    private Transform Item;
+    [SerializeField] private Transform Info;
+    [SerializeField] private Transform Item;
 
     /********/
     /* Info */
     /********/
-    private Transform Profile;
-    private Transform Information;
-    private Transform Stat;
+    [SerializeField] private Transform Profile;
+    [SerializeField] private Transform Information;
+    [SerializeField] private Transform Stat;
 
 
 
@@ -24,19 +24,21 @@ public class InventoryUI : MonoBehaviour
     /***************/
     /* Information */
     /***************/
-    private Text Level;
-    private Text Name;
-    private Image HpGauge;
-    private Image MpGauge;
-    private Text HpText;
-    private Text MpText;
-    private Text Money;
+    [SerializeField] private Text Level;
+    [SerializeField] private Text Name;
+    [SerializeField] private Image HpGauge;
+    [SerializeField] private Image MpGauge;
+    [SerializeField] private Text HpText;
+    [SerializeField] private Text MpText;
+    [SerializeField] private Text Money;
     /* struct로 만들어두면 한 번에 설정할 수 있지 않을까 */
 
-
+    public Transform inventory;
     void Start()
     {
-        foreach(Transform t in transform)
+        inventory = transform.GetChild(0);
+
+        foreach (Transform t in inventory)
         {
             if (t.gameObject.name == "Info") Info = t;
             else if (t.gameObject.name == "Item") Item = t;
