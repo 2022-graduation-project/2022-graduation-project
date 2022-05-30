@@ -19,6 +19,13 @@ public class ItemUI : MonoBehaviour
 
             itemBagSlot?.GetComponent<ItemBagSlot>().Set(_itemBag, item);
         }
+        
+        foreach (ChestData item in _itemBag.chests)
+        {
+            GameObject itemBagSlot = GetItemSlotInPool();
+
+            itemBagSlot?.GetComponent<ItemBagSlot>().Set2(_itemBag, item);
+        }
 
         gameObject.SetActive(true);
     }

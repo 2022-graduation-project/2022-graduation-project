@@ -10,6 +10,7 @@ public class ItemBagSlot : MonoBehaviour, IPointerClickHandler
     [SerializeField] Text count;
 
     public ItemData itemData = null;
+    public ChestData chestData = null;
 
 
     private ItemBag itemBag;
@@ -20,6 +21,19 @@ public class ItemBagSlot : MonoBehaviour, IPointerClickHandler
 
         itemData = _itemData.DeepCopy();
         icon.sprite = DataManager.instance.LoadSpriteFile(Application.dataPath + "/DEV/sunhyo/Assets/Items", _itemData.image_name);
+        item_name.text = _itemData.item_name;
+        count.text = _itemData.count.ToString();
+        SetColorA(1f);
+
+        gameObject.SetActive(true);
+    }
+
+    public void Set2(ItemBag _itemBag, ChestData _itemData)
+    {
+        itemBag = _itemBag;
+
+        chestData = _itemData.DeepCopy();
+        icon.sprite = DataManager.instance.LoadSpriteFile(Application.dataPath + "/DEV/sunhyo/Assets/Chest", _itemData.image_name);
         item_name.text = _itemData.item_name;
         count.text = _itemData.count.ToString();
         SetColorA(1f);

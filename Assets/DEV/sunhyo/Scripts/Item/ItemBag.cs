@@ -11,7 +11,7 @@ public class ItemBag : MonoBehaviour
     private IEnumerator coroutine;
     void Start()
     {
-        Test();
+        //Test();
 
         coroutine = DestroyItemBag(deleteTime);
         //StartCoroutine(coroutine);
