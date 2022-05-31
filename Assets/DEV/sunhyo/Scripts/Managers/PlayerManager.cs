@@ -42,22 +42,12 @@ public class PlayerManager : MonoBehaviour
 
     public void GetItemBag(GameObject _itemBag)
     {
-        if(_itemBag.tag == "Chest")
-        {
-            UIManager.instance.SetItemUI2(_itemBag);
-        }
-        else
-            UIManager.instance.SetItemUI(_itemBag);
+        UIManager.instance.SetItemUI(_itemBag);
     }
 
     public void LeaveItemBag(GameObject _itemBag)
     {
-        if (_itemBag.tag == "Chest")
-        {
-            UIManager.instance.ResetItemUI2(_itemBag);
-        }
-        else
-            UIManager.instance.ResetItemUI(_itemBag);
+        UIManager.instance.ResetItemUI(_itemBag);
     }
 
     public void BuyItem(int _price)

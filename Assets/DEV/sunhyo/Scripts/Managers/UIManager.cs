@@ -40,22 +40,9 @@ public class UIManager : MonoBehaviour
         _itemBag.GetComponent<ItemBag>().StopDeleteCoroutine();
     }
 
-    public void SetItemUI2(GameObject _itemBag)
-    {
-        itemUI.Set2(_itemBag.GetComponent<ChestBag>());
-        _itemBag.GetComponent<ChestBag>().StopDeleteCoroutine();
-    }
-
     public void ResetItemUI(GameObject _itemBag)
     {
         itemUI.Reset(_itemBag.GetComponent<ItemBag>());
-        // reset 할 때... coroutine을 다시 돌려야 하나?
-        //_itemBag?.GetComponent<ItemBag>().StartDeleteCoroutine();
-    }
-    
-    public void ResetItemUI2(GameObject _itemBag)
-    {
-        itemUI.Reset2(_itemBag.GetComponent<ChestBag>());
         // reset 할 때... coroutine을 다시 돌려야 하나?
         //_itemBag?.GetComponent<ItemBag>().StartDeleteCoroutine();
     }

@@ -22,6 +22,6 @@ public class JsonTest : MonoBehaviour
                             <Dictionary<string, ChestData>>
                             (Application.dataPath + "/MAIN/Data", "chest")
                             ["002_apple"];
-        print(chestData.saturation);
+        print(chestData.fullness);
     }
 }

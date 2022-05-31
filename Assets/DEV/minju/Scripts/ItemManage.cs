@@ -28,7 +28,7 @@ public class ItemManage : MonoBehaviour
     bool initSpawn = false;
 
     // Read Json data to Dictionary
-    private Dictionary<string, ChestData> chestDict;
+    private Dictionary<string, ItemData> chestDict;
     // get all item names and use as key for the Dictionary
     private List<string> keysOfItems = new List<string>();
     // random items in itembags
@@ -36,24 +36,23 @@ public class ItemManage : MonoBehaviour
     // chest Prefab resource
     public GameObject tempChest;
     // temporary var of ItemData
-    private ChestData tempItemData;
+    private ItemData tempItemData;
 
     // Start is called before the first frame update
     void Start()
     {
 
         chestDict = DataManager.instance
-                    .LoadJsonFile<Dictionary<string, ChestData>>
-                    (Application.dataPath + "/MAIN/Data", "chest");
+                    .LoadJsonFile<Dictionary<string, ItemData>>
+                    (Application.dataPath + "/MAIN/Data", "item");
 
         // get all item names and use as key for the Dictionary
-        foreach (KeyValuePair<string, ChestData> q in chestDict)
+        foreach (KeyValuePair<string, ItemData> q in chestDict)
         {
             keysOfItems.Add(q.Value.image_name);
         }
 
         countOfItems = keysOfItems.Count;
-        print(countOfItems);
 
         // 스폰포인트 전부 가져오기
         // bring every spawnpoints
@@ -98,7 +97,7 @@ public class ItemManage : MonoBehaviour
                     if (chestDict.TryGetValue(keysOfItems[randomIndex], out tempItemData))
                     {
                         print("tempItemName: "+tempItemData.item_name);
-                        tempChest.GetComponent<ChestBag>().AddChest(tempItemData);
+                        tempChest.GetComponent<ItemBag>().AddItem(tempItemData);
                     }
                 }
 
@@ -182,7 +181,7 @@ public class ItemManage : MonoBehaviour
                     // 해당 itemBag에 넣은 random item 정보 추가
                     if (chestDict.TryGetValue(keysOfItems[randomIndex], out tempItemData))
                     {
-                        tempChest.GetComponent<ChestBag>().AddChest(tempItemData);
+                        tempChest.GetComponent<ItemBag>().AddItem(tempItemData);
                     }
                 }
 
