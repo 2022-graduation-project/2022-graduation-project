@@ -12,7 +12,7 @@ public class ChestData : ItemData
     //// 설명
     //public string description;
     // 포만감
-    public int saturation;
+    public int fullness;
 
     public ChestData DeepCopy()
     {
@@ -21,7 +21,7 @@ public class ChestData : ItemData
         newChestData.item_name = item_name;
         newChestData.count = count;
         newChestData.description = description;
-        newChestData.saturation = saturation;
+        newChestData.fullness = fullness;
 
         return newChestData;
     }

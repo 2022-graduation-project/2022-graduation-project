@@ -22,6 +22,18 @@ public class ItemUI : MonoBehaviour
         
         gameObject.SetActive(true);
     }
+    
+    public void Set2(ChestBag _itemBag)
+    {
+        foreach (ChestData item in _itemBag.chests)
+        {
+            GameObject itemBagSlot = GetItemSlotInPool();
+
+            itemBagSlot?.GetComponent<ItemBagSlot>().Set2(_itemBag, item);
+        }
+        
+        gameObject.SetActive(true);
+    }
 
     public void CallResetWithDelay()
     {
@@ -37,6 +49,20 @@ public class ItemUI : MonoBehaviour
         }
 
         if(_itemBag.items.Count <= 0)
+            Destroy(_itemBag.gameObject);
+
+        gameObject.SetActive(false);
+    }
+    
+    public void Reset2(ChestBag _itemBag)
+    {
+        foreach (GameObject itemBagSlot in itemBagSlots)
+        {
+            if (itemBagSlot.activeSelf)
+                itemBagSlot.GetComponent<ChestBagSlot>().Reset();
+        }
+
+        if(_itemBag.chests.Count <= 0)
             Destroy(_itemBag.gameObject);
 
         gameObject.SetActive(false);
