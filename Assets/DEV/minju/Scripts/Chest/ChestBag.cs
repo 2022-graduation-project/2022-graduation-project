@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemBag : MonoBehaviour
+public class ChestBag : MonoBehaviour
 {
-    public List<ItemData> items = new List<ItemData>();
+    public List<ChestData> chests = new List<ChestData>();
 
     private float deleteTime = 5.0f;
     private IEnumerator coroutine;
@@ -12,31 +12,31 @@ public class ItemBag : MonoBehaviour
     {
         //Test();
 
-        coroutine = DestroyItemBag(deleteTime);
+        coroutine = DestroyChestBag(deleteTime);
         //StartCoroutine(coroutine);
     }
 
-    public void PopItem(ItemData _itemData)
+    public void PopChest(ChestData _chestData)
     {
-        foreach (ItemData item in items)
+        foreach (ChestData chest in chests)
         {
-            if(item.item_name.Equals(_itemData.item_name))
+            if(chest.item_name.Equals(_chestData.item_name))
             {
-                print(item.item_name);
-                items.Remove(item);
+                //print(chest.item_name);
+                chests.Remove(chest);
                 break;
             }
         }
     }
 
-    public void AddItem(ItemData itemData)
+    public void AddChest(ChestData chestData)
     {
-        items.Add(itemData);
+        chests.Add(chestData);
     }
 
     public void StartDeleteCoroutine()
     {
-        coroutine = DestroyItemBag(deleteTime); 
+        coroutine = DestroyChestBag(deleteTime); 
         StartCoroutine(coroutine);
     }
 
@@ -45,7 +45,7 @@ public class ItemBag : MonoBehaviour
         StopCoroutine(coroutine);
     }
 
-    IEnumerator DestroyItemBag(float _deleteTime)
+    IEnumerator DestroyChestBag(float _deleteTime)
     {
         float curTime = 0;
         while (curTime < _deleteTime)
@@ -60,30 +60,30 @@ public class ItemBag : MonoBehaviour
 
     private void Test()
     {
-        ItemData item = new ItemData();
+        ChestData item = new ChestData();
         item.image_name = "000_hppotion";
         item.item_name = "체력 회복 포션";
         item.count = 1;
         item.description = "체력 10을 회복합니다.";
 
-        items.Add(item);
+        chests.Add(item);
 
-        ItemData item1 = new ItemData();
+        ChestData item1 = new ChestData();
         item1.image_name = "001_mppotion";
         item1.item_name = "마나 회복 포션";
         item1.count = 1;
         item1.description = "마나 10을 회복합니다.";
 
-        items.Add(item1);
+        chests.Add(item1);
 
-        ItemData item2 = new ItemData();
+        ChestData item2 = new ChestData();
         item2.image_name = "002_apple";
         item2.item_name = "사과";
         item2.count = 1;
         item2.description = "맛있음";
 
-        items.Add(item2);
+        chests.Add(item2);
 
-        print("리스트 길이 " + items.Count);
+        print("리스트 길이 " + chests.Count);
     }
 }

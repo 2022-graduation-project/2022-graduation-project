@@ -3,25 +3,25 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class ItemBagSlot : MonoBehaviour, IPointerClickHandler
+public class ChestBagSlot : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] Image icon;
     [SerializeField] Text item_name;
     [SerializeField] Text count;
 
-    public ItemData itemData = null;
+    public ChestData chestData = null;
 
 
-    private ItemBag itemBag;
+    private ChestBag chestBag;
 
-    public void Set(ItemBag _itemBag, ItemData _itemData)
+    public void Set(ChestBag _chestBag, ChestData _chestData)
     {
-        itemBag = _itemBag;
+        chestBag = _chestBag;
 
-        itemData = _itemData.DeepCopy();
-        icon.sprite = DataManager.instance.LoadSpriteFile(Application.dataPath + "/DEV/sunhyo/Assets/Items", _itemData.image_name);
-        item_name.text = _itemData.item_name;
-        count.text = _itemData.count.ToString();
+        chestData = _chestData.DeepCopy();
+        icon.sprite = DataManager.instance.LoadSpriteFile(Application.dataPath + "/DEV/sunhyo/Assets/Chest", _chestData.image_name);
+        item_name.text = _chestData.item_name;
+        count.text = _chestData.count.ToString();
         SetColorA(1f);
 
         gameObject.SetActive(true);
@@ -33,17 +33,17 @@ public class ItemBagSlot : MonoBehaviour, IPointerClickHandler
         icon.sprite = null;
         item_name.text = string.Empty;
         count.text = string.Empty;
-        itemData = null;
+        chestData = null;
 
         gameObject.SetActive(false);
     }
 
     public void OnPointerClick(PointerEventData _eventData)
     {
-        if(itemData != null)
+        if(chestData != null)
         {
-            itemBag.PopItem(itemData);
-            UIManager.instance.inventoryUI.AddItem(itemData);
+            chestBag.PopChest(chestData);
+            UIManager.instance.inventoryUI.AddItem2(chestData);
             Reset();
         }
     }

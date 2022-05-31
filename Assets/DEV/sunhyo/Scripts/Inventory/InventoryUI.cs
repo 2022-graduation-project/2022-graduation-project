@@ -98,8 +98,34 @@ public class InventoryUI : MonoBehaviour
             emptySlot?.GetComponent<InventorySlot>().Set(_itemData);
         }
     }
+    
+    public void AddItem2(ChestData _itemData)
+    {
+        GameObject existSlot = FindSameItem(_itemData);
+        if (existSlot != null)
+            existSlot.GetComponent<InventorySlot>().Set(_itemData);
+
+        else
+        {
+            GameObject emptySlot = GetEmptySlotInPool();
+            // print(emptySlot);
+            emptySlot?.GetComponent<InventorySlot>().Set(_itemData);
+        }
+    }
 
     GameObject FindSameItem(ItemData _itemData)
+    {
+        foreach (GameObject itemSlot in inventorySlots)
+        {
+            if (itemSlot.GetComponent<InventorySlot>().itemData != null &&
+                itemSlot.GetComponent<InventorySlot>().itemData.item_name.Equals(_itemData.item_name))
+                return itemSlot;
+        }
+
+        return null;
+    }
+    
+    GameObject FindSameItem2(ChestData _chestData)
     {
         foreach (GameObject itemSlot in inventorySlots)
         {
