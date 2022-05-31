@@ -130,7 +130,7 @@ public class InventoryUI : MonoBehaviour
         foreach (GameObject itemSlot in inventorySlots)
         {
             if (itemSlot.GetComponent<InventorySlot>().itemData != null &&
-                itemSlot.GetComponent<InventorySlot>().itemData.item_name.Equals(_itemData.item_name))
+                itemSlot.GetComponent<InventorySlot>().itemData.item_name.Equals(_chestData.item_name))
                 return itemSlot;
         }
 

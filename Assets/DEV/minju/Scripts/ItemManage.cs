@@ -98,7 +98,7 @@ public class ItemManage : MonoBehaviour
                     if (chestDict.TryGetValue(keysOfItems[randomIndex], out tempItemData))
                     {
                         print("tempItemName: "+tempItemData.item_name);
-                        tempChest.GetComponent<ChestBag>().AddItem(tempItemData);
+                        tempChest.GetComponent<ChestBag>().AddChest(tempItemData);
                     }
                 }
 
@@ -182,7 +182,7 @@ public class ItemManage : MonoBehaviour
                     // 해당 itemBag에 넣은 random item 정보 추가
                     if (chestDict.TryGetValue(keysOfItems[randomIndex], out tempItemData))
                     {
-                        tempChest.GetComponent<ChestBag>().AddItem(tempItemData);
+                        tempChest.GetComponent<ChestBag>().AddChest(tempItemData);
                     }
                 }
 
