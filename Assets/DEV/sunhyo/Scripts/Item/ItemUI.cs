@@ -19,7 +19,7 @@ public class ItemUI : MonoBehaviour
 
             itemBagSlot?.GetComponent<ItemBagSlot>().Set(_itemBag, item);
         }
-
+        
         gameObject.SetActive(true);
     }
 

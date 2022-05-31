@@ -53,6 +53,7 @@ public class ItemManage : MonoBehaviour
         }
 
         countOfItems = keysOfItems.Count;
+        print(countOfItems);
 
         // 스폰포인트 전부 가져오기
         // bring every spawnpoints
@@ -96,7 +97,8 @@ public class ItemManage : MonoBehaviour
                     // 해당 itemBag에 넣은 random item 정보 추가
                     if (chestDict.TryGetValue(keysOfItems[randomIndex], out tempItemData))
                     {
-                        tempChest.GetComponent<ItemBag>().AddItem2(tempItemData);
+                        print("tempItemName: "+tempItemData.item_name);
+                        tempChest.GetComponent<ChestBag>().AddItem(tempItemData);
                     }
                 }
 
@@ -166,7 +168,24 @@ public class ItemManage : MonoBehaviour
             if (repeatRandom(spawnNumber))
             {
                 // 중복이 아닐 때만 생성
-                chests.Add(Instantiate(Chest[chestNumber], childrenSP[spawnNumber].position, childrenSP[spawnNumber].rotation) as GameObject);
+                tempChest = Instantiate(Chest[chestNumber], childrenSP[spawnNumber].position, childrenSP[spawnNumber].rotation) as GameObject;
+
+                chests.Add(tempChest);
+
+                // Random Item Counts (0 ~ 3)
+                int countOfDrop = Random.Range(0, 4);
+
+                // Create Random Items in ItemBag
+                for (int j = 0; j < countOfDrop; j++)
+                {
+                    int randomIndex = Random.Range(0, countOfItems);
+                    // 해당 itemBag에 넣은 random item 정보 추가
+                    if (chestDict.TryGetValue(keysOfItems[randomIndex], out tempItemData))
+                    {
+                        tempChest.GetComponent<ChestBag>().AddItem(tempItemData);
+                    }
+                }
+
             }
         }
     }
