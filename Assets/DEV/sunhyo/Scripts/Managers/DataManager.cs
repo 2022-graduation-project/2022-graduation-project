@@ -44,7 +44,7 @@ public class DataManager : MonoBehaviour
 
     public Sprite LoadSpriteFile(string loadPath, string fileName)
     {
-        print(fileName);
+        // print(fileName);
         FileStream fileStream = new FileStream(string.Format("{0}/{1}.png", loadPath, fileName), FileMode.Open);
         byte[] data = new byte[fileStream.Length];
         fileStream.Read(data, 0, data.Length);

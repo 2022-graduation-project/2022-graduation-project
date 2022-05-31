@@ -5,32 +5,62 @@ using UnityEngine;
 public class ItemBag : MonoBehaviour
 {
     public List<ItemData> items = new List<ItemData>();
+    public List<ChestData> chests = new List<ChestData>();
 
+    private float deleteTime = 5.0f;
+    private IEnumerator coroutine;
     void Start()
     {
-        
+        Test();
+
+        coroutine = DestroyItemBag(deleteTime);
+        StartCoroutine(coroutine);
     }
 
-    public bool EmptyCheck()
+    public void PopItem(ItemData _itemData)
     {
-        if (items.Count == 0)
+        foreach (ItemData item in items)
         {
-            Delete();
-            return true;
+            if(item.item_name.Equals(_itemData.item_name))
+            {
+                print(item.item_name);
+                items.Remove(item);
+                break;
+            }
         }
-        return false;
-    }
-
-    public bool complete = false;
-    private void Delete()
-    {
-        Destroy(gameObject, 3.0f);
-        complete = true;
     }
 
     public void AddItem(ItemData itemData)
     {
         items.Add(itemData);
+    }
+    public void AddItem2(ChestData itemData)
+    {
+        chests.Add(itemData);
+    }
+
+    public void StartDeleteCoroutine()
+    {
+        coroutine = DestroyItemBag(deleteTime); 
+        StartCoroutine(coroutine);
+    }
+
+    public void StopDeleteCoroutine()
+    {
+        StopCoroutine(coroutine);
+    }
+
+    IEnumerator DestroyItemBag(float _deleteTime)
+    {
+        float curTime = 0;
+        while (curTime < _deleteTime)
+        {
+            curTime += Time.deltaTime;
+            yield return null;
+        }
+
+        if(curTime >= _deleteTime)
+            Destroy(gameObject);
     }
 
     private void Test()

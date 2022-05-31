@@ -8,5 +8,7 @@ public class PlayerData
     public string cls;
 	public float maxHp;
 	public float maxMp;
+    public float curHp;
+    public float curMp;
 	public int money;
 }
