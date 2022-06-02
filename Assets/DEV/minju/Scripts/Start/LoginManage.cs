@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class LoginManage : MonoBehaviour
 {
+    public GameObject LoginWindow;
+
     public void ClickLoginButton()
     {
-
+        LoginWindow.SetActive(true);
     }
 
     // Start is called before the first frame update
