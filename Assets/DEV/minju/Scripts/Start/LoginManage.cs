@@ -72,6 +72,9 @@ public class LoginManage : MonoBehaviour
 
     public void ConfirmNewAccount()
     {
+
+        UpdateAccountValues();
+
         bool UN = false;
         bool PW = false;
         bool CPW = false;
@@ -233,6 +236,12 @@ public class LoginManage : MonoBehaviour
             logUsername.text = "";
             logPassword.text = "";
             error_LogIn.text = "";
+
+            MessageDisplayDatabase(loginMessageDisplay, Color.green);
+            print("Login Successful");
+
+            databaseScreen.SetActive(true);
+            loginScreen.SetActive(false);
         }
     }
 
@@ -243,7 +252,6 @@ public class LoginManage : MonoBehaviour
     {
         m_Path = Application.dataPath;
 
-        UpdateAccountValues();
     }
 
     // Update is called once per frame
