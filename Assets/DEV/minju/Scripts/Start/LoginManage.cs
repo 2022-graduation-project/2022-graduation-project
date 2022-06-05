@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LoginManage : MonoBehaviour
@@ -47,6 +48,8 @@ public class LoginManage : MonoBehaviour
     public TMP_Text error_LogIn;
     public TMP_Text profileDisplay;
     public string loginMessageDisplay = "LOGGED IN";
+    [HideInInspector]
+    public bool isLoggedIn = false;
 
     // 맨 첫 로그인 버튼
     public void ClickLoginButton()
@@ -54,6 +57,34 @@ public class LoginManage : MonoBehaviour
         LoginWindow.SetActive(true);
     }
 
+    [Header("Profile Status")]
+    public TMP_Text profileName;
+
+    [Header("Server Panel")]
+    public GameObject serverPanel;
+
+    // Load Last Save 버튼
+    public void ClickLoadLastSave()
+    {
+        if (!isLoggedIn)
+        {
+            MessageDisplayDatabase("Login First", Color.red);
+            return;
+        }
+        else
+        {
+            serverPanel.SetActive(true);
+        }
+    }
+
+    // Arcus 서버 선택 후 씬 전환
+    public void StartTown()
+    {
+        // 로딩씬으로 수정해야함
+        SceneManager.LoadScene("Town");
+    }
+
+    // 회원가입 버튼 누르고 나서
     public void UpdateAccountValues()
     {
         // Register
@@ -70,6 +101,7 @@ public class LoginManage : MonoBehaviour
         //delPasswordString = delPassword.text;
     }
 
+    // 회원가입 버튼 눌렀을 때
     public void ConfirmNewAccount()
     {
 
@@ -139,7 +171,7 @@ public class LoginManage : MonoBehaviour
                 char Encrypted = (char)(c * i);
                 Password += Encrypted.ToString();
             }
-            form = (Username + Environment.NewLine + Environment.NewLine + Password);
+            form = (Username + Environment.NewLine + Password + Environment.NewLine + "counts0");
             System.IO.File.WriteAllText(m_Path + "_" + Username + ".txt", form);
             Username = "";
             Password = "";
@@ -157,12 +189,14 @@ public class LoginManage : MonoBehaviour
         }
     }
 
+    // 메시지 전달
     // called when returned back to the database menu, confirmation message displays temporarily
     public void MessageDisplayDatabase(string message, Color col)
     {
         StartCoroutine(MessageDisplay(message, col));
     }
 
+    // 메시지 띄우기
     IEnumerator MessageDisplay(string message, Color col)
     { // Display and then clear
         messageDisplayDatabase.color = col;
@@ -205,7 +239,7 @@ public class LoginManage : MonoBehaviour
             if (System.IO.File.Exists(m_Path + "_" + logUsernameString + ".txt"))
             {
                 int i = 1;
-                foreach (char c in Lines[2])
+                foreach (char c in Lines[1])
                 {
                     i++;
                     char Decrypted = (char)(c / i);
@@ -231,6 +265,7 @@ public class LoginManage : MonoBehaviour
         }
         if (UN == true && PW == true)
         {
+            profileName.text = logUsernameString;
             logUsernameString = "";
             logPasswordString = "";
             logUsername.text = "";
@@ -239,17 +274,69 @@ public class LoginManage : MonoBehaviour
 
             MessageDisplayDatabase(loginMessageDisplay, Color.green);
             print("Login Successful");
+            isLoggedIn = true;
 
             databaseScreen.SetActive(true);
             loginScreen.SetActive(false);
         }
     }
 
+    // 창 앞으로 띄우기
+    Transform tempParent;
+    public void MoveToFront(GameObject currentObj)
+    {
+        //tempParent = currentObj.transform.parent;
+        tempParent = currentObj.transform;
+        tempParent.SetAsLastSibling();
+    }
+
+    public TMP_Text charName;
+    private string newForm;
+    private string newName;
+    // 캐릭터 생성
+    public void SetCharacter()
+    {
+        newName = charName.text;
+
+        foreach(string s in Lines)
+        {
+            if (s.Contains("counts"))
+            {
+                newForm += "counts" + (int.Parse(s) + 1).ToString();
+                newForm += Environment.NewLine;
+            }
+            else
+            {
+                newForm += s;
+                newForm += Environment.NewLine;
+            }
+        }
+
+        newForm += newName;
+        // overwrite
+        System.IO.File.WriteAllText(m_Path + "_" + profileName + ".txt", newForm);
+    }
+
+    // 로그인 정보에서 캐릭터 정보 가져오기
+    public void GetCharacters()
+    {
+        // 보유 캐릭터 없을 때
+        if (int.Parse(Lines[2]) == 0)
+        {
+
+        }
+
+        else
+        {
+            //반복문 -> 프리펩 스크롤뷰 안에 캐릭터창 생성
+        }
+    }
 
 
     // Start is called before the first frame update
     void Start()
     {
+        // 로그인 데이터 저장소 경로
         m_Path = Application.dataPath;
 
     }
