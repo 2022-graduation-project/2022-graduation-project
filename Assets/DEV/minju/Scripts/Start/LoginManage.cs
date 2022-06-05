@@ -1,9 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LoginManage : MonoBehaviour
@@ -77,12 +78,6 @@ public class LoginManage : MonoBehaviour
         }
     }
 
-    // Arcus 서버 선택 후 씬 전환
-    public void StartTown()
-    {
-        // 로딩씬으로 수정해야함
-        SceneManager.LoadScene("Town");
-    }
 
     // 회원가입 버튼 누르고 나서
     public void UpdateAccountValues()
@@ -183,7 +178,6 @@ public class LoginManage : MonoBehaviour
 
             MessageDisplayDatabase(newAccountMessageDisplay, Color.green);
             print("Registration Complete");
-
             databaseScreen.SetActive(true);
             newAccountScreen.SetActive(false);
         }
@@ -274,6 +268,23 @@ public class LoginManage : MonoBehaviour
 
             MessageDisplayDatabase(loginMessageDisplay, Color.green);
             print("Login Successful");
+            
+            // 새 로그인 시 캐선창 초기화
+            lastCharacter = 1;
+            Transform[] childList = contents.GetComponentsInChildren<Transform>();
+            if (childList != null)
+            {
+                // contents 부모 자신은 피하기 위해 i=1부터
+                for(int i = 1; i < childList.Length; i++)
+                {
+                    // contents 부모 자신 한 번 더 피하기
+                    if (childList[i] != transform)
+                    {
+                        Destroy(childList[i].gameObject);
+                    }
+                }
+            }
+
             isLoggedIn = true;
 
             databaseScreen.SetActive(true);
@@ -297,12 +308,14 @@ public class LoginManage : MonoBehaviour
     public void SetCharacter()
     {
         newName = charName.text;
+        newForm = "";
 
         foreach(string s in Lines)
         {
             if (s.Contains("counts"))
             {
-                newForm += "counts" + (int.Parse(s) + 1).ToString();
+                print("counts" + (int.Parse(Regex.Replace(s, @"\D", "")) + 1).ToString());
+                newForm += "counts" + (int.Parse(Regex.Replace(s, @"\D", "")) + 1).ToString();
                 newForm += Environment.NewLine;
             }
             else
@@ -313,22 +326,46 @@ public class LoginManage : MonoBehaviour
         }
 
         newForm += newName;
-        // overwrite
-        System.IO.File.WriteAllText(m_Path + "_" + profileName + ".txt", newForm);
+
+        //System.IO.File.Delete(m_Path + "_" + profileName.text + ".txt");
+        //System.IO.File.WriteAllText(m_Path + "_" + profileName.text + ".txt", newForm);
+        
+        //overwrite
+        using (var writer = new StreamWriter(m_Path + "_" + profileName.text + ".txt", append: false))
+        {
+            writer.WriteLine(newForm);
+        }
+
     }
+
+    public Transform contents;
+    public UnityEngine.Object characterPrefab;
+    private int lastCharacter = 1;
 
     // 로그인 정보에서 캐릭터 정보 가져오기
     public void GetCharacters()
     {
-        // 보유 캐릭터 없을 때
-        if (int.Parse(Lines[2]) == 0)
-        {
+        print("lastCharacter: " + lastCharacter);
+        // 유저 정보 갱신
+        Lines = System.IO.File.ReadAllLines(m_Path + "_" + profileName.text + ".txt");
 
+        // 보유 캐릭터 없을 때
+        // "counts0" -> (int) 0
+        int countsOfCharacters = int.Parse(Regex.Replace(Lines[2], @"\D", ""));
+        if (countsOfCharacters == 0)
+        {
+            print("No Characters");
         }
 
         else
         {
-            //반복문 -> 프리펩 스크롤뷰 안에 캐릭터창 생성
+            for(int i = lastCharacter; i <= countsOfCharacters; i++)
+            {
+                //반복문 -> 프리펩 스크롤뷰 안에 캐릭터창 생성
+                GameObject characterWin = Instantiate(characterPrefab, contents) as GameObject;
+                characterWin.transform.FindChild("Name").GetComponent<TMP_Text>().text = Lines[2 + i];
+            }
+            lastCharacter = countsOfCharacters + 1;
         }
     }
 
