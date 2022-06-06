@@ -7,7 +7,7 @@ public class StartScene : MonoBehaviour
 {
     public void StartTown()
     {
-        SceneManager.LoadScene("Town");
+        SceneManager.LoadScene("Loading");
     }
 
     // Start is called before the first frame update

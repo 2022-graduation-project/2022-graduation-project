@@ -5,6 +5,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LoginManage : MonoBehaviour
@@ -115,11 +116,13 @@ public class LoginManage : MonoBehaviour
             else
             {
                 error_NewAccount.text = "USERNAME ALREADY TAKEN";
+                return;
             }
         }
         else
         {
             error_NewAccount.text = "INVALID USERNAME";
+            return;
         }
         if (Password != "")
         {
@@ -130,11 +133,13 @@ public class LoginManage : MonoBehaviour
             else
             {
                 error_NewAccount.text = "PASSWORD IS TOO SHORT";
+                return;
             }
         }
         else
         {
             error_NewAccount.text = "INVALID PASSWORD";
+            return;
         }
         if (ConfPassword != "")
         {
@@ -145,11 +150,13 @@ public class LoginManage : MonoBehaviour
             else
             {
                 error_NewAccount.text = "PASSWORDS MUST MATCH";
+                return;
             }
         }
         else
         {
             error_NewAccount.text = "INVALID PASSWORD";
+            return;
         }
         if (UN == true && PW == true && CPW == true)
         {
@@ -221,11 +228,13 @@ public class LoginManage : MonoBehaviour
             else
             {
                 error_LogIn.text = "INVALID USERNAME";
+                return;
             }
         }
         else
         {
             error_LogIn.text = "PLEASE ENTER USERNAME";
+            return;
         }
 
         if (logPasswordString != "")
@@ -246,16 +255,19 @@ public class LoginManage : MonoBehaviour
                 else
                 {
                     error_LogIn.text = "PASSWORD INCORRECT";
+                    return;
                 }
             }
             else
             {
                 error_LogIn.text = "PASSWORD INCORRECT";
+                return;
             }
         }
         else
         {
             error_LogIn.text = "PLEASE ENTER PASSWORD";
+            return;
         }
         if (UN == true && PW == true)
         {
@@ -268,7 +280,9 @@ public class LoginManage : MonoBehaviour
 
             MessageDisplayDatabase(loginMessageDisplay, Color.green);
             print("Login Successful");
-            
+            LoginSucceess();
+
+            /*
             // 새 로그인 시 캐선창 초기화
             lastCharacter = 1;
             Transform[] childList = contents.GetComponentsInChildren<Transform>();
@@ -284,12 +298,30 @@ public class LoginManage : MonoBehaviour
                     }
                 }
             }
+            */
 
             isLoggedIn = true;
 
             databaseScreen.SetActive(true);
             loginScreen.SetActive(false);
         }
+    }
+
+    [Header("Login / Logout Button")]
+    public GameObject loginBtn;
+    public GameObject logoutBtn;
+
+    // 로그인 성공 시 로그아웃 버튼 활성화
+    public void LoginSucceess()
+    {
+        loginBtn.SetActive(false);
+        logoutBtn.SetActive(true);
+    }
+    
+    // 로그아웃 시 씬 다시 시작
+    public void RequestLogout()
+    {
+        SceneManager.LoadScene("Start");
     }
 
     // 창 앞으로 띄우기

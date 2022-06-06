@@ -29,6 +29,9 @@ public class ItemUI : MonoBehaviour
         Invoke("Reset", 3.0f);
     }
 
+    [Header("Chest Item Manager")]
+    public ItemManage itemManager;
+
     public void Reset(ItemBag _itemBag)
     {
         foreach (GameObject itemBagSlot in itemBagSlots)
@@ -38,7 +41,14 @@ public class ItemUI : MonoBehaviour
         }
 
         if(_itemBag.items.Count <= 0)
-            Destroy(_itemBag.gameObject);
+        {
+            if (_itemBag.tag == "Chest")
+            {
+                itemManager.DeleteChest(_itemBag.gameObject);
+            }
+            else
+                Destroy(_itemBag.gameObject);
+        }
 
         gameObject.SetActive(false);
     }
