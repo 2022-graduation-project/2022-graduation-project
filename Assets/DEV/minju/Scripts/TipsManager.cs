@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class TipsManager : MonoBehaviour
@@ -23,6 +24,7 @@ public class TipsManager : MonoBehaviour
     {
         randIdx = Random.Range(0, 5);
         tipsText.text += tips[randIdx];
+        timer = 0;
         Invoke("loadTown", 4.0f);
     }
 
@@ -31,9 +33,23 @@ public class TipsManager : MonoBehaviour
         SceneManager.LoadScene("Town");
     }
 
+    public Image loadingBar;
+    private float timer;
+    public void loadingProgress()
+    {
+        if (timer <= 4.0f)
+        {
+            loadingBar.fillAmount = timer / 4.0f;
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
-        
+        if (timer <= 4.0f)
+        {
+            timer += 1 * Time.deltaTime;
+        }
+        loadingProgress();
     }
 }
