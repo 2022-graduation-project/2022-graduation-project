@@ -123,10 +123,20 @@ public class PlayerController : MonoBehaviour
     {
         if (other.name.Contains("ItemBag") || other.tag == "Chest")
             playerManager.GetItemBag(other.gameObject);
+        if (other.tag == "Chest")
+        {
+            other.GetComponent<OpenChest>().isOpening = true;
+            other.GetComponent<OpenChest>().isClosing = false;
+        }
     }
     private void OnTriggerExit(Collider other)
     {
         if (other.name.Contains("ItemBag") || other.tag == "Chest")
             playerManager.LeaveItemBag(other.gameObject);
+        if (other.tag == "Chest")
+        {
+            other.GetComponent<OpenChest>().isOpening = false;
+            other.GetComponent<OpenChest>().isClosing = true;
+        }
     }
 }

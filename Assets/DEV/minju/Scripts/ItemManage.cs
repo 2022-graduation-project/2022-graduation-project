@@ -133,7 +133,6 @@ public class ItemManage : MonoBehaviour
 
     public void DeleteChest(GameObject chest)
     {
-        print(chest.name + " Deleted in Array");
         GameObject temp = chests.Find(x => x == chest);
         chests.Remove(temp);
         Destroy(chest);

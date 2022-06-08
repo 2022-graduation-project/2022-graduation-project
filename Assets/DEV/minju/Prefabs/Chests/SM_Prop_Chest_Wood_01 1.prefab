@@ -26,13 +26,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 104034}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.008726839, y: -0, z: -0, w: -0.9999619}
   m_LocalPosition: {x: 0.011780001, y: 0.41633424, z: -0.38168812}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 466550}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 359, y: 0, z: 0}
 --- !u!33 &3307186
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -109,8 +109,8 @@ GameObject:
   - component: {fileID: 2322930}
   - component: {fileID: 64714773233862926}
   - component: {fileID: 8218498176861620930}
-  - component: {fileID: -1889220408767828600}
   - component: {fileID: -8395762461193021907}
+  - component: {fileID: -6300149066333213720}
   m_Layer: 0
   m_Name: SM_Prop_Chest_Wood_01 1
   m_TagString: Chest
@@ -209,19 +209,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 1
   m_Center: {x: -0.00000029802322, y: 0.234304, z: -0.00000047683716}
---- !u!114 &-1889220408767828600
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 198910}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ae6d63f5fa19574ba4369300ab501b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isOpening: 0
 --- !u!114 &-8395762461193021907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,3 +221,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 217d3c899cbe3e647af51c9eb4910c60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-6300149066333213720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 198910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ae6d63f5fa19574ba4369300ab501b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isOpening: 0
+  isClosing: 0
