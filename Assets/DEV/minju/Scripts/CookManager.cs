@@ -16,13 +16,25 @@ public class CookManager : MonoBehaviour
         
     }
 
+    public GameObject cookUI;
+
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.tag == "Player")
         {
             // 조리 UI 화면 띄우기
-            
+            cookUI.SetActive(true);
             // UI 조작하기
+
+
+        }
+    }
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            // 조리 UI 화면 사라지기
+            cookUI.SetActive(false);
 
 
         }
