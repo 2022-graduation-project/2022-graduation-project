@@ -17,6 +17,7 @@ public class CookManager : MonoBehaviour
     }
 
     public GameObject cookUI;
+    public GameObject inventory;
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -24,6 +25,8 @@ public class CookManager : MonoBehaviour
         {
             // 조리 UI 화면 띄우기
             cookUI.SetActive(true);
+            // 인벤토리 띄우기
+            inventory.SetActive(true);
             // UI 조작하기
 
 
@@ -35,6 +38,8 @@ public class CookManager : MonoBehaviour
         {
             // 조리 UI 화면 사라지기
             cookUI.SetActive(false);
+            // 인벤토리 사라지기
+            inventory.SetActive(false);
 
 
         }
