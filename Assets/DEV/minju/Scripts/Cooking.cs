@@ -2,9 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class Cooking : MonoBehaviour
+public class Cooking : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
 {
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+
+    }
+
+    public void OnDrop(PointerEventData eventData)
+    {
+
+    }
+
     public Image firstItem;
     public Image secondItem;
     private bool all;
