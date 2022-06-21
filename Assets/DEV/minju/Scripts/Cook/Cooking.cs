@@ -12,6 +12,9 @@ public class Cooking : MonoBehaviour
     private string result;
     public Image resultImg;
 
+
+    // temporary var of ItemData
+    private ItemData tempItemData;
     public void ItemOn()
     {
         if(firstItem != "" && secondItem != "")
@@ -44,22 +47,28 @@ public class Cooking : MonoBehaviour
                             result = "000_hpPotion";
                             break;
                         case "001_mpPotion":
-                            result = "007_pudding";
+                            result = "000_hpPotion";
+                            //result = "007_pudding";
                             break;
                         case "002_apple":
-                            result = "008_fruitN";
+                            result = "000_hpPotion";
+                            //result = "008_fruitN";
                             break;
                         case "003_meat":
-                            result = "009_weirdMeat";
+                            result = "000_hpPotion";
+                            //result = "009_weirdMeat";
                             break;
                         case "004_gosu":
-                            result = "010_grass01";
+                            result = "000_hpPotion";
+                            //result = "010_grass01";
                             break;
                         case "005_bugs":
-                            result = "011_eggs";
+                            result = "000_hpPotion";
+                            //result = "011_eggs";
                             break;
                         case "006_book":
-                            result = "";
+                            result = "000_hpPotion";
+                            //result = "";
                             break;
                     }
                     break;
@@ -221,6 +230,12 @@ public class Cooking : MonoBehaviour
                     break;
             }
             //resultImg.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+            
+
+            if (cookDict.TryGetValue(keysOfItems[keysOfItems.IndexOf(result)], out tempItemData))
+            {
+                UIManager.instance.inventoryUI.AddItem(tempItemData);
+            }
         }
     }
 
@@ -236,10 +251,24 @@ public class Cooking : MonoBehaviour
         print("secondItem: " + secondItem);
     }
 
+
+    // Read Json data to Dictionary
+    private Dictionary<string, ItemData> cookDict;
+    // get all item names and use as key for the Dictionary
+    private List<string> keysOfItems = new List<string>();
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        cookDict = DataManager.instance
+                    .LoadJsonFile<Dictionary<string, ItemData>>
+                    (Application.dataPath + "/MAIN/Data", "item");
+
+        // get all item names and use as key for the Dictionary
+        foreach (KeyValuePair<string, ItemData> q in cookDict)
+        {
+            keysOfItems.Add(q.Value.image_name);
+        }
     }
 
     // Update is called once per frame

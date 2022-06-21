@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MonsterManager : MonoBehaviour
 {
@@ -38,7 +39,7 @@ public class MonsterManager : MonoBehaviour
         //UI 버튼에서 몬스터 전체 데미지 입히기
         foreach (var monster in monsters)
         {
-            monster.GetComponent<MonsterAI>().Damage(-10);
+            monster.GetComponent<MonsterController>().Damage(-10);
         }
     }
 
@@ -146,11 +147,6 @@ public class MonsterManager : MonoBehaviour
             // add monster object in list
             monsters.Add(objMonster);
 
-            // ���� ��ũ��Ʈ�� ���� ������ȣ�� ����Ʈ�� index��ȣ�� ����
-            // make monster script remember its own index (as List's index)
-            objMonster.GetComponent<MonsterAI>().monsterIdx
-                = monsters.IndexOf(objMonster);
-            //Debug.Log("MM Create Monster#: " + monsters.IndexOf(objMonster));
         }
     }
 
@@ -161,7 +157,6 @@ public class MonsterManager : MonoBehaviour
 
         // ������ �ش� ���� ������Ʈ ����
         monster.SetActive(false);
-        //Destroy(monsters[indexOfMonster]);
 
         // ����Ʈ���� �ش� ���� ����
         GameObject temp = monsters.Find(x => x == monster);
@@ -172,38 +167,7 @@ public class MonsterManager : MonoBehaviour
         curNumMonsters--;
     }
 
-    // 보스몬스터 생성
-    // Create Boss Monster
-    public void CreateBossMonster(Transform currentLocation)
-    {
-        // ���� 30���� ���� ����
-        // Num of Monsters should be lower than 30
-        if (curNumMonsters <= 30)
-        {
-            // ���� ���� �ο� update
-            // update current num of Monsters
-            curNumMonsters++;
-
-            // ���� ���� �����ϱ�
-            // add new monster to curruent location of scene
-            GameObject objMonster = Instantiate(Resources.Load(kindsOfMonsters[Random.Range(0, 15)]),
-                currentLocation.position, Quaternion.identity) as GameObject;
-
-            // ���� ���� ����Ʈ�� �߰��ϱ�
-            // add monster object in list
-            monsters.Add(objMonster);
-
-            // ���� ��ũ��Ʈ�� ���� ������ȣ�� ����Ʈ�� index��ȣ�� ����
-            // make monster script remember its own index (as List's index)
-            objMonster.GetComponent<MonsterAI>().monsterIdx
-                = monsters.IndexOf(objMonster);
-
-            // ���� ��ũ��Ʈ�� ���� ���� ���� ����
-            // make monster script remember it's boss
-            objMonster.GetComponent<MonsterAI>().isBossMonster
-                = true;
-        }
-    }
+    
 
     // 중복 아닌 랜덤 스폰포인트 뽑기
     bool repeatRandom(int temp)
