@@ -53,7 +53,7 @@ public class LoginManage : MonoBehaviour
     [HideInInspector]
     public bool isLoggedIn = false;
 
-    // ¸Ç Ã¹ ·Î±×ÀÎ ¹öÆ°
+    // ï¿½ï¿½ Ã¹ ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½Æ°
     public void ClickLoginButton()
     {
         LoginWindow.SetActive(true);
@@ -65,7 +65,7 @@ public class LoginManage : MonoBehaviour
     [Header("Server Panel")]
     public GameObject serverPanel;
 
-    // Load Last Save ¹öÆ°
+    // Load Last Save ï¿½ï¿½Æ°
     public void ClickLoadLastSave()
     {
         if (!isLoggedIn)
@@ -80,7 +80,7 @@ public class LoginManage : MonoBehaviour
     }
 
 
-    // È¸¿ø°¡ÀÔ ¹öÆ° ´©¸£°í ³ª¼­
+    // È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ° ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     public void UpdateAccountValues()
     {
         // Register
@@ -97,7 +97,7 @@ public class LoginManage : MonoBehaviour
         //delPasswordString = delPassword.text;
     }
 
-    // È¸¿ø°¡ÀÔ ¹öÆ° ´­·¶À» ¶§
+    // È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ° ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
     public void ConfirmNewAccount()
     {
 
@@ -190,14 +190,14 @@ public class LoginManage : MonoBehaviour
         }
     }
 
-    // ¸Þ½ÃÁö Àü´Þ
+    // ï¿½Þ½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     // called when returned back to the database menu, confirmation message displays temporarily
     public void MessageDisplayDatabase(string message, Color col)
     {
         StartCoroutine(MessageDisplay(message, col));
     }
 
-    // ¸Þ½ÃÁö ¶ç¿ì±â
+    // ï¿½Þ½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     IEnumerator MessageDisplay(string message, Color col)
     { // Display and then clear
         messageDisplayDatabase.color = col;
@@ -206,7 +206,7 @@ public class LoginManage : MonoBehaviour
         messageDisplayDatabase.text = "";
     }
 
-    // ·Î±×ÀÎ Ã¢ÀÇ ·Î±×ÀÎ ¹öÆ°
+    // ï¿½Î±ï¿½ï¿½ï¿½ Ã¢ï¿½ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½Æ°
     public void ClickAcceptButton()
     {
         logUsernameString = logUsername.text;
@@ -283,15 +283,15 @@ public class LoginManage : MonoBehaviour
             LoginSucceess();
 
             /*
-            // »õ ·Î±×ÀÎ ½Ã Ä³¼±Ã¢ ÃÊ±âÈ­
+            // ï¿½ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ Ä³ï¿½ï¿½Ã¢ ï¿½Ê±ï¿½È­
             lastCharacter = 1;
             Transform[] childList = contents.GetComponentsInChildren<Transform>();
             if (childList != null)
             {
-                // contents ºÎ¸ð ÀÚ½ÅÀº ÇÇÇÏ±â À§ÇØ i=1ºÎÅÍ
+                // contents ï¿½Î¸ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ i=1ï¿½ï¿½ï¿½ï¿½
                 for(int i = 1; i < childList.Length; i++)
                 {
-                    // contents ºÎ¸ð ÀÚ½Å ÇÑ ¹ø ´õ ÇÇÇÏ±â
+                    // contents ï¿½Î¸ï¿½ ï¿½Ú½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ï±ï¿½
                     if (childList[i] != transform)
                     {
                         Destroy(childList[i].gameObject);
@@ -311,20 +311,20 @@ public class LoginManage : MonoBehaviour
     public GameObject loginBtn;
     public GameObject logoutBtn;
 
-    // ·Î±×ÀÎ ¼º°ø ½Ã ·Î±×¾Æ¿ô ¹öÆ° È°¼ºÈ­
+    // ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Î±×¾Æ¿ï¿½ ï¿½ï¿½Æ° È°ï¿½ï¿½È­
     public void LoginSucceess()
     {
         loginBtn.SetActive(false);
         logoutBtn.SetActive(true);
     }
     
-    // ·Î±×¾Æ¿ô ½Ã ¾À ´Ù½Ã ½ÃÀÛ
+    // ï¿½Î±×¾Æ¿ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½
     public void RequestLogout()
     {
         SceneManager.LoadScene("Start");
     }
 
-    // Ã¢ ¾ÕÀ¸·Î ¶ç¿ì±â
+    // Ã¢ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     Transform tempParent;
     public void MoveToFront(GameObject currentObj)
     {
@@ -336,7 +336,7 @@ public class LoginManage : MonoBehaviour
     public TMP_Text charName;
     private string newForm;
     private string newName;
-    // Ä³¸¯ÅÍ »ý¼º
+    // Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     public void SetCharacter()
     {
         newName = charName.text;
@@ -374,14 +374,14 @@ public class LoginManage : MonoBehaviour
     public UnityEngine.Object characterPrefab;
     private int lastCharacter = 1;
 
-    // ·Î±×ÀÎ Á¤º¸¿¡¼­ Ä³¸¯ÅÍ Á¤º¸ °¡Á®¿À±â
+    // ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     public void GetCharacters()
     {
         print("lastCharacter: " + lastCharacter);
-        // À¯Àú Á¤º¸ °»½Å
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         Lines = System.IO.File.ReadAllLines(m_Path + "_" + profileName.text + ".txt");
 
-        // º¸À¯ Ä³¸¯ÅÍ ¾øÀ» ¶§
+        // ï¿½ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
         // "counts0" -> (int) 0
         int countsOfCharacters = int.Parse(Regex.Replace(Lines[2], @"\D", ""));
         if (countsOfCharacters == 0)
@@ -393,9 +393,9 @@ public class LoginManage : MonoBehaviour
         {
             for(int i = lastCharacter; i <= countsOfCharacters; i++)
             {
-                //¹Ýº¹¹® -> ÇÁ¸®Æé ½ºÅ©·Ñºä ¾È¿¡ Ä³¸¯ÅÍÃ¢ »ý¼º
+                //ï¿½Ýºï¿½ï¿½ï¿½ -> ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å©ï¿½Ñºï¿½ ï¿½È¿ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½Ã¢ ï¿½ï¿½ï¿½ï¿½
                 GameObject characterWin = Instantiate(characterPrefab, contents) as GameObject;
-                characterWin.transform.FindChild("Name").GetComponent<TMP_Text>().text = Lines[2 + i];
+                characterWin.transform.Find("Name").GetComponent<TMP_Text>().text = Lines[2 + i];
             }
             lastCharacter = countsOfCharacters + 1;
         }
@@ -405,7 +405,7 @@ public class LoginManage : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // ·Î±×ÀÎ µ¥ÀÌÅÍ ÀúÀå¼Ò °æ·Î
+        // ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
         m_Path = Application.dataPath;
 
     }

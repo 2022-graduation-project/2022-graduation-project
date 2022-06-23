@@ -1,42 +1,35 @@
 {
 	"000_player" : {
-		"name" : "sunhyo",
-		"level" : 18,
-		"cls" : "student",
+		"name" : "test Player",
+		"level" : 100,
+		"job" : "student",
 		"maxHp" : 100.0,
 		"maxMp" : 100.0,
 		"curHp" : 100.0,
 		"curMp" : 100.0,
-		"money" : 10000
-	},
-	"001_player" : {
-		"name" : "jaeyoon",
-		"level" : 19,
-		"cls" : "student",
-		"maxHp" : 100.0,
-		"maxMp" : 100.0,
-		"curHp" : 100.0,
-		"curMp" : 100.0,
-		"money" : 10000
-	},
-	"002_player" : {
-		"name" : "minju",
-		"level" : 18,
-		"cls" : "student",
-		"maxHp" : 100.0,
-		"maxMp" : 100.0,
-		"curHp" : 100.0,
-		"curMp" : 100.0,
-		"money" : 10000
-	},
-	"003_player" : {
-		"name" : "kiyong",
-		"level" : 94,
-		"cls" : "professor",
-		"maxHp" : 100.0,
-		"maxMp" : 100.0,
-		"curHp" : 100.0,
-		"curMp" : 100.0,
+		"moveSpeed" : 5.0,
+		"jumpForce" : 1.0,
+		"STR" : 10.0,
+		"DEX" : 11.0,
+		"INT" : 12.0,
+		"inventory" :[{
+			"000_hpPotion": {
+				"image_name": "000_hpPotion",
+				"item_name": "체력 회복 포션",
+				"count": 1,
+				"description": "체력 10을 회복합니다.",
+				"fullness": 0
+			}
+		}, {
+			"001_mpPotion": {
+				"image_name": "001_mpPotion",
+				"item_name": "마나 회복 포션",
+				"count": 1,
+				"description": "마나 10을 회복합니다.",
+				"fullness": 0
+			}
+		}],
+		"skills" :[],
 		"money" : 10000
 	}
 }
