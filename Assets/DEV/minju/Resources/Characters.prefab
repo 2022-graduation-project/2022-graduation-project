@@ -2646,8 +2646,8 @@ GameObject:
   - component: {fileID: 8650879299403344268}
   - component: {fileID: 8650879299403344271}
   - component: {fileID: 8650879299403344270}
-  - component: {fileID: 8650879299403344265}
   - component: {fileID: 8650879299403344264}
+  - component: {fileID: 1703239361932783035}
   m_Layer: 0
   m_Name: Characters
   m_TagString: Untagged
@@ -2714,25 +2714,6 @@ CapsuleCollider:
   m_Height: 1.8543253
   m_Direction: 1
   m_Center: {x: 0, y: 1.0800729, z: -0.04908228}
---- !u!114 &8650879299403344265
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8650879299403344267}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d168a000bee59f44b7bd036b37b8fcb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 0
-  monsterIdx: 0
-  direction: {x: 0, y: 0, z: 0}
-  isBossMonster: 0
-  hpBarPrefab: {fileID: 6944434006344012383, guid: 1c48ca6d4c7a97244b6fb90df98c84f7, type: 3}
-  hpBarOffset: {x: 0, y: 2.2, z: 0}
-  item: {fileID: 3941320241133904931, guid: da80c27baf8691a45b9ad4c93c8cd744, type: 3}
 --- !u!95 &8650879299403344264
 Animator:
   serializedVersion: 3
@@ -2752,3 +2733,21 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1703239361932783035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8650879299403344267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a8c79d5e69ef03408ecc41ae6ac79aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  monsterData: {fileID: 0}
+  manager: {fileID: 0}
+  rig: {fileID: 0}
+  anim: {fileID: 0}
+  hpBarPrefab: {fileID: 6944434006344012383, guid: 1c48ca6d4c7a97244b6fb90df98c84f7, type: 3}
+  hpBar: {fileID: 0}

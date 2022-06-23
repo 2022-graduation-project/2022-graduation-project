@@ -16,6 +16,7 @@ public class MonsterController : MonoBehaviour
     public Animator anim;
 
     public GameObject hpBarPrefab;
+    public GameObject hpBar;
 
 
 
@@ -30,28 +31,6 @@ public class MonsterController : MonoBehaviour
     private Vector3 hpBarOffset = new Vector3(0, 2.2f, 0);
     private Canvas uiCanvas;
     private Image hpBarImage;
-    private GameObject hpBar;
-
-    private void SetHpBar()
-    {
-        uiCanvas = GameObject.Find("UI Canvas").GetComponent<Canvas>();
-        hpBar = Instantiate<GameObject>(hpBarPrefab, transform.position, Quaternion.identity, uiCanvas.transform);
-        //hpBar = Instantiate<GameObject>(hpBarPrefab, transform.position, Quaternion.identity, uiCanvas.transform);
-        hpBarImage = hpBar.GetComponentsInChildren<Image>()[1];
-
-        var _hpbar = hpBar.GetComponent<EnemyHpBar>();
-        _hpbar.targetTr = transform;
-        _hpbar.offset = hpBarOffset;
-    }
-
-    private void UpdateHpBar(float hp)
-    {
-        hpBarImage.fillAmount = hp / 100;
-        if (hp <= 0f)
-        {
-            hpBarImage.GetComponentsInParent<Image>()[1].color = Color.clear;
-        }
-    }
 
     private void DeleteHpBar()
     {
@@ -75,7 +54,7 @@ public class MonsterController : MonoBehaviour
     private void damaging()
     {
 
-        player.Damaged(-1.0f);
+        player.Damaged(monsterData.attackForce);
 
     }
 
@@ -140,48 +119,6 @@ public class MonsterController : MonoBehaviour
             // remove the player
             //player = null;
         }
-    }
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        SetHpBar();
-        hpBar.SetActive(false);
-
-        // 몬스터 애니메이터
-        // Monster Animator
-        anim = GetComponent<Animator>();
-        // 몬스터 물리작용
-        // Monster Rigidbody
-        rig = GetComponent<Rigidbody>();
-        // 몬스터 매니저 스크립트 찾기
-        // get MonsterManager script from GamaManager
-        manager = GameObject.Find("MonsterManager").GetComponent<MonsterManager>();
-
-
-        // 현재 오브젝트의 몬스터 기본값 처음 설정하기 (작은 몬스터)
-        // setting default values of little monster
-        
-        // setting default state
-        monsterData.state = MonsterData.States.Idle;
-        // setting default hp
-        monsterData.maxHp = 50f;
-        // setting default speed
-        monsterData.moveSpeed = 100f;
-        monsterData.turnSpeed = 2f;
-        // setting default power
-        monsterData.attackForce = 10f;
-        // setting default seeking state
-        monsterData.isFound = false;
-        // setting default destination
-        monsterData.destPosition = null;
-        // attack available distance
-        monsterData.distance = 2f;
-        UpdateHpBar(monsterData.curHp);
-
-        // start with default state
-        StartCoroutine(Idle());
     }
 
     /*---------------------------------------------
@@ -398,6 +335,35 @@ public class MonsterController : MonoBehaviour
         }
         // 다음 프레임까지 기다린다.
         yield return null;
+    }
+
+    /*---------------------------------------------
+     *              SETHPBAR
+     * -------------------------------------------*/
+
+    public void SetHpBar()
+    {
+        uiCanvas = GameObject.Find("UI Canvas").GetComponent<Canvas>();
+        hpBar = Instantiate<GameObject>(hpBarPrefab, transform.position, Quaternion.identity, uiCanvas.transform);
+        //hpBar = Instantiate<GameObject>(hpBarPrefab, transform.position, Quaternion.identity, uiCanvas.transform);
+        hpBarImage = hpBar.GetComponentsInChildren<Image>()[1];
+
+        var _hpbar = hpBar.GetComponent<EnemyHpBar>();
+        _hpbar.targetTr = transform;
+        _hpbar.offset = hpBarOffset;
+    }
+
+    /*---------------------------------------------
+     *              UPDATEHPBAR
+     * -------------------------------------------*/
+
+    public void UpdateHpBar(float hp)
+    {
+        hpBarImage.fillAmount = hp / 100;
+        if (hp <= 0f)
+        {
+            hpBarImage.GetComponentsInParent<Image>()[1].color = Color.clear;
+        }
     }
 
 }
