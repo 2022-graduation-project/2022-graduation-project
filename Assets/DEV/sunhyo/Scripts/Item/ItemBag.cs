@@ -11,6 +11,7 @@ public class ItemBag : MonoBehaviour
     void Start()
     {
         //Test();
+        jsonTest();
 
         coroutine = DestroyItemBag(deleteTime);
         //StartCoroutine(coroutine);
@@ -87,5 +88,14 @@ public class ItemBag : MonoBehaviour
         items.Add(item2);
 
         print("리스트 길이 " + items.Count);
+    }
+
+    private void jsonTest()
+    {
+        ItemData item = DataManager.instance.LoadJsonFile
+                    <Dictionary<string, ItemData>>
+                    (Application.dataPath + "/MAIN/Data", "item")
+                    ["000_hpPotion"];
+        items.Add(item);
     }
 }

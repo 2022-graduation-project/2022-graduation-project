@@ -54,6 +54,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
     {
         if(itemData != null)
         {
+            print(itemData.image_name);
             UseItem();
             PlayerManager.instance.UseItem(itemData);
         }
