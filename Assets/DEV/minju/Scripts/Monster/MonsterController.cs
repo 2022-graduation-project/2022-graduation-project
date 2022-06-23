@@ -153,7 +153,7 @@ public class MonsterController : MonoBehaviour
             attackTime += Time.deltaTime;
 
             //플레이어가 보이는지, 플레이어 공격 범위 내에 있는지 검사
-            if (!monsterData.isFound || Vector3.Distance(transform.position, monsterData.destPosition.position) > 5.0f)
+            if (!monsterData.isFound || Vector3.Distance(transform.position, monsterData.destPosition.position) > monsterData.distance)
             {
                 //플레이어가 안보이거나, 공격 범위 내에 없을 때
                 //다시 추격
@@ -231,8 +231,8 @@ public class MonsterController : MonoBehaviour
         //목적지 향해 이동
         rig.AddForce(direction * Time.deltaTime * monsterData.moveSpeed, ForceMode.VelocityChange);
 
-        // 타겟 방향으로 회전함 (turnSpeed 빠져있음)
-        transform.LookAt(Vector3.Lerp(transform.position, monsterData.destPosition.position, 0.1f * Time.deltaTime));
+        // 타겟 방향으로 회전함
+        transform.LookAt(Vector3.Lerp(transform.position, monsterData.destPosition.position, monsterData.turnSpeed * Time.deltaTime));
     }
 
     /*---------------------------------------------

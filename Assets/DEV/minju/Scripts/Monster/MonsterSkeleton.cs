@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonsterGhost : MonsterController
+public class MonsterSkeleton : MonsterController
 {
     public GameObject prefab;
     // Start is called before the first frame update
@@ -18,21 +18,21 @@ public class MonsterGhost : MonsterController
             // setting default state
             monsterData.state = MonsterData.States.Idle;
             // setting name
-            monsterData.name = "Ghost";
+            monsterData.name = "Skeleton";
             // setting default hp
-            monsterData.maxHp = 100f;
-            monsterData.curHp = 100f;
+            monsterData.maxHp = 70f;
+            monsterData.curHp = 70f;
             // setting default speed
-            monsterData.moveSpeed = 80f;
+            monsterData.moveSpeed = 100f;
             monsterData.turnSpeed = 0.1f;
             // setting default power
-            monsterData.attackForce = 10f;
+            monsterData.attackForce = 6f;
             // setting default seeking state
             monsterData.isFound = false;
             // setting default destination
             monsterData.destPosition = null;
             // attack available distance
-            monsterData.distance = 3f;
+            monsterData.distance = 2f;
         }
 
 

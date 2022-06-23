@@ -98,9 +98,7 @@ public class MonsterManager : MonoBehaviour
         duplicate = Enumerable.Repeat<int>(0, 52).ToArray<int>();
 
 
-        kindsOfMonsters = new string[] { "Characters", "Characters (2)", "Characters (3)", "Characters (4)", "Characters (5)",
-                                         "Characters (6)", "Characters (7)", "Characters (8)", "Characters (9)", "Characters (10)",
-                                         "Characters (11)", "Characters (12)", "Characters (13)", "Characters (14)", "Characters (15)"};
+        kindsOfMonsters = new string[] { "Ghost", "Goblin", "Skeleton" };
 
         // 스폰포인트 전부 가져오기
         // bring every spawnpoints
@@ -140,7 +138,7 @@ public class MonsterManager : MonoBehaviour
 
             // ���� ���� �����ϱ�
             // add new monster to curruent location of scene
-            GameObject objMonster = Instantiate(Resources.Load(kindsOfMonsters[Random.Range(0, 15)]), 
+            GameObject objMonster = Instantiate(Resources.Load(kindsOfMonsters[Random.Range(0, 3)]), 
                 currentLocation.position, Quaternion.identity * Quaternion.Euler(new Vector3(0,Random.Range(0,360),0))) as GameObject;
 
             // ���� ���� ����Ʈ�� �߰��ϱ�
