@@ -9,8 +9,17 @@ public class MonsterGhost : MonsterController
     void Start()
     {
         hpBarPrefab = prefab;
-        // MonsterData Json file Load 필요
-        {
+        monsterData = DataManager.instance.LoadJsonFile
+                      <Dictionary<string, MonsterData>>
+                      (Application.dataPath + "/MAIN/Data", "ghost")
+                      ["000_ghost"];
+        // setting default state
+        monsterData.state = MonsterData.States.Idle;
+        // setting default seeking state
+        monsterData.isFound = false;
+        // setting default destination
+        monsterData.destPosition = null;
+        {/*
 
             // 고스트 몬스터 기본값 처음 설정하기
             // setting default values of Ghost
@@ -33,8 +42,8 @@ public class MonsterGhost : MonsterController
             monsterData.destPosition = null;
             // attack available distance
             monsterData.distance = 3f;
+            */
         }
-
 
         SetHpBar();
         hpBar.SetActive(false);

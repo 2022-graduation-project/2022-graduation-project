@@ -184,6 +184,10 @@ public class MonsterController : MonoBehaviour
                     }
                 }
             }
+            else
+            {
+                anim.SetBool("isAttack", false);
+            }
             //Wait until next frame
             yield return null;
         }
@@ -359,7 +363,7 @@ public class MonsterController : MonoBehaviour
 
     public void UpdateHpBar(float hp)
     {
-        hpBarImage.fillAmount = hp / 100;
+        hpBarImage.fillAmount = hp / monsterData.maxHp;
         if (hp <= 0f)
         {
             hpBarImage.GetComponentsInParent<Image>()[1].color = Color.clear;
