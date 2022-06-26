@@ -53,7 +53,7 @@ public class LoginManage : MonoBehaviour
     [HideInInspector]
     public bool isLoggedIn = false;
 
-    // �� ù �α��� ��ư
+    // 로그인 버튼 클릭 시
     public void ClickLoginButton()
     {
         LoginWindow.SetActive(true);
@@ -65,7 +65,7 @@ public class LoginManage : MonoBehaviour
     [Header("Server Panel")]
     public GameObject serverPanel;
 
-    // Load Last Save ��ư
+    // Server 클릭 시
     public void ClickLoadLastSave()
     {
         if (!isLoggedIn)
@@ -109,7 +109,7 @@ public class LoginManage : MonoBehaviour
 
         if (Username != "")
         {
-            if (!System.IO.File.Exists(m_Path + "_" + Username + ".txt"))
+            if (!System.IO.File.Exists(m_Path + "_" + Username + ".json"))
             {
                 UN = true;
             }
@@ -174,7 +174,7 @@ public class LoginManage : MonoBehaviour
                 Password += Encrypted.ToString();
             }
             form = (Username + Environment.NewLine + Password + Environment.NewLine + "counts0");
-            System.IO.File.WriteAllText(m_Path + "_" + Username + ".txt", form);
+            System.IO.File.WriteAllText(m_Path + "_" + Username + ".json", form);
             Username = "";
             Password = "";
             username.text = "";
@@ -219,10 +219,10 @@ public class LoginManage : MonoBehaviour
 
         if (logUsernameString != "")
         {
-            if (System.IO.File.Exists(m_Path + "_" + logUsernameString + ".txt"))
+            if (System.IO.File.Exists(m_Path + "_" + logUsernameString + ".json"))
             {
                 UN = true;
-                Lines = System.IO.File.ReadAllLines(m_Path + "_" + logUsernameString + ".txt");
+                Lines = System.IO.File.ReadAllLines(m_Path + "_" + logUsernameString + ".json");
             }
 
             else
@@ -239,7 +239,7 @@ public class LoginManage : MonoBehaviour
 
         if (logPasswordString != "")
         {
-            if (System.IO.File.Exists(m_Path + "_" + logUsernameString + ".txt"))
+            if (System.IO.File.Exists(m_Path + "_" + logUsernameString + ".json"))
             {
                 int i = 1;
                 foreach (char c in Lines[1])
@@ -363,7 +363,7 @@ public class LoginManage : MonoBehaviour
         //System.IO.File.WriteAllText(m_Path + "_" + profileName.text + ".txt", newForm);
         
         //overwrite
-        using (var writer = new StreamWriter(m_Path + "_" + profileName.text + ".txt", append: false))
+        using (var writer = new StreamWriter(m_Path + "_" + profileName.text + ".json", append: false))
         {
             writer.WriteLine(newForm);
         }
@@ -379,7 +379,7 @@ public class LoginManage : MonoBehaviour
     {
         print("lastCharacter: " + lastCharacter);
         // ���� ���� ����
-        Lines = System.IO.File.ReadAllLines(m_Path + "_" + profileName.text + ".txt");
+        Lines = System.IO.File.ReadAllLines(m_Path + "_" + profileName.text + ".json");
 
         // ���� ĳ���� ���� ��
         // "counts0" -> (int) 0
@@ -406,7 +406,7 @@ public class LoginManage : MonoBehaviour
     void Start()
     {
         // �α��� ������ ����� ���
-        m_Path = Application.dataPath;
+        m_Path = Application.dataPath+"/MAIN/Data/";
 
     }
 

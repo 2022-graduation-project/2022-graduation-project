@@ -44,9 +44,9 @@ public class MonsterController : MonoBehaviour
     private void Animating()
     {
         //공격 애니메이션
-        anim.SetBool("isAttack", true);
         anim.SetBool("isWalk", false);
         anim.SetBool("isIdle", false);
+        anim.SetTrigger("Attack");
     }
 
     // 플레이어 공격
@@ -177,17 +177,10 @@ public class MonsterController : MonoBehaviour
                     // damaging player
                     Invoke("damaging", 0.83f);
 
-                    //애니메이션 첫 변경 시
-                    if (anim.GetBool("isAttack") == false)
-                    {
-                        Animating();
-                    }
+                    Animating();
                 }
             }
-            else
-            {
-                anim.SetBool("isAttack", false);
-            }
+            else anim.SetBool("isIdle", true);
             //Wait until next frame
             yield return null;
         }
@@ -251,7 +244,6 @@ public class MonsterController : MonoBehaviour
             //걷기 애니메이션
             anim.SetBool("isWalk", true);
             anim.SetBool("isIdle", false);
-            anim.SetBool("isAttack", false);
         }
 
         //계속 추격
@@ -319,7 +311,6 @@ public class MonsterController : MonoBehaviour
                 //몬스터 애니메이션 변경
                 anim.SetBool("isIdle", true);
                 anim.SetBool("isWalk", false);
-                anim.SetBool("isAttack", false);
             }
 
             //플레이어를 찾았을 때
