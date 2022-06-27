@@ -146,6 +146,8 @@ public class PlayerController : MonoBehaviour
 
     public void ChangeWeapon(string weaponName)
     {
+        weaponName = "Axe";
+
         Destroy(rightWeapon.GetChild(0).gameObject);
 
         GameObject weaponObj = Instantiate(Resources.Load<GameObject>("Weapon/" + weaponName), rightWeapon);

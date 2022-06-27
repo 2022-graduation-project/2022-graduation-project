@@ -223,7 +223,7 @@ public class MonsterController : MonoBehaviour
     public void Damage(float scale)
     {
         // 애니메이션
-        anim.SetTrigger("Damaged");
+        //anim.SetTrigger("Damaged");
 
         // 아직 체력이 남아 있을 때
         if (monsterData.curHp > 0)
@@ -236,7 +236,7 @@ public class MonsterController : MonoBehaviour
         else
         {
             // 죽는 애니메이션
-            anim.SetBool("Dead", true);
+            //anim.SetBool("Dead", true);
             // 몬스터 체력바 삭제
             DeleteHpBar();
             Invoke("Die", 1f);
@@ -380,11 +380,11 @@ public class MonsterController : MonoBehaviour
 
     public void UpdateHpBar(float hp)
     {
-        hpBarImage.fillAmount = hp / monsterData.maxHp;
-        if (hp <= 0f)
-        {
-            hpBarImage.GetComponentsInParent<Image>()[1].color = Color.clear;
-        }
+        //hpBarImage.fillAmount = hp / monsterData.maxHp;
+        //if (hp <= 0f)
+        //{
+        //    hpBarImage.GetComponentsInParent<Image>()[1].color = Color.clear;
+        //}
     }
 
 }

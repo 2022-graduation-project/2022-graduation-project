@@ -10,6 +10,7 @@ public class Wand : Weapon
         damage = _damage;
 
         // 투사체 발사?
-        Instantiate(projectile);
+        GameObject pj = Instantiate(Resources.Load<GameObject>("Weapon/Projectile"), transform);
+        pj.transform.parent = projectile.transform;
     }
 }
