@@ -32,29 +32,63 @@ public class MonsterController : MonoBehaviour
     private Canvas uiCanvas;
     private Image hpBarImage;
 
-    void Start()
+    virtual public void Start()
     {
-        monsterData = new MonsterData();
+        monsterData = DataManager.instance.LoadJsonFile
+                      <Dictionary<string, MonsterData>>
+                      (Application.dataPath + "/MAIN/Data", "goblin")
+                      ["001_goblin"];
         // setting default state
         monsterData.state = MonsterData.States.Idle;
-        // setting name
-        monsterData.name = "Ghost";
-        // setting default hp
-        monsterData.maxHp = 100f;
-        monsterData.curHp = 100f;
-        // setting default speed
-        monsterData.moveSpeed = 80f;
-        monsterData.turnSpeed = 0.1f;
-        // setting default power
-        monsterData.attackForce = 10f;
         // setting default seeking state
         monsterData.isFound = false;
         // setting default destination
         monsterData.destPosition = null;
-        // attack available distance
-        monsterData.distance = 3f;
-    }
+        {/*
+            // 고스트 몬스터 기본값 처음 설정하기
+            // setting default values of Ghost
+            monsterData = new MonsterData();
+            // setting default state
+            monsterData.state = MonsterData.States.Idle;
+            // setting name
+            monsterData.name = "Goblin";
+            // setting default hp
+            monsterData.maxHp = 90f;
+            monsterData.curHp = 90f;
+            // setting default speed
+            monsterData.moveSpeed = 70f;
+            monsterData.turnSpeed = 0.1f;
+            // setting default power
+            monsterData.attackForce = 8f;
+            // setting default seeking state
+            monsterData.isFound = false;
+            // setting default destination
+            monsterData.destPosition = null;
+            // attack available distance
+            monsterData.distance = 2f;
+            */
+        }
 
+
+        SetHpBar();
+        hpBar.SetActive(false);
+
+        // 몬스터 애니메이터
+        // Monster Animator
+        anim = GetComponent<Animator>();
+        // 몬스터 물리작용
+        // Monster Rigidbody
+        rig = GetComponent<Rigidbody>();
+        // 몬스터 매니저 스크립트 찾기
+        // get MonsterManager script from GamaManager
+        manager = GameObject.Find("MonsterManager").GetComponent<MonsterManager>();
+
+
+        UpdateHpBar(monsterData.curHp);
+
+        // start with default state
+        StartCoroutine(Idle());
+    }
 
     private void DeleteHpBar()
     {
@@ -214,7 +248,7 @@ public class MonsterController : MonoBehaviour
     }
 
     /*---------------------------------------------
-     *              DAMAGED
+     *              DAMAGE
      * -------------------------------------------*/
 
 
@@ -223,26 +257,27 @@ public class MonsterController : MonoBehaviour
     public void Damage(float scale)
     {
         // 애니메이션
-        //anim.SetTrigger("Damaged");
+        anim.SetTrigger("Damaged");
 
         // 아직 체력이 남아 있을 때
         if (monsterData.curHp > 0)
         {
             //scale(-)만큼 몬스터 체력이 줄어든다.
             monsterData.curHp -= scale;
+            print(gameObject.name+" Damaged");
             UpdateHpBar(monsterData.curHp);
         }
         // 남은 체력이 없을 때
         else
         {
             // 죽는 애니메이션
-            //anim.SetBool("Dead", true);
+            anim.SetBool("Dead", true);
             // 몬스터 체력바 삭제
             DeleteHpBar();
             Invoke("Die", 1f);
         }
 
-        print("cur hp " + monsterData.curHp);
+        print(gameObject.name+"'s cur hp: " + monsterData.curHp);
     }
 
     /*---------------------------------------------
@@ -380,11 +415,11 @@ public class MonsterController : MonoBehaviour
 
     public void UpdateHpBar(float hp)
     {
-        //hpBarImage.fillAmount = hp / monsterData.maxHp;
-        //if (hp <= 0f)
-        //{
-        //    hpBarImage.GetComponentsInParent<Image>()[1].color = Color.clear;
-        //}
+        hpBarImage.fillAmount = hp / monsterData.maxHp;
+        if (hp <= 0f)
+        {
+            hpBarImage.GetComponentsInParent<Image>()[1].color = Color.clear;
+        }
     }
 
 }
