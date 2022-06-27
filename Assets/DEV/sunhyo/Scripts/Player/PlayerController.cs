@@ -18,6 +18,12 @@ public class PlayerController : MonoBehaviour
 
     private bool jumpable = true;
 
+    /* runtime data */
+    public Transform rightWeapon;
+    public Transform leftWeapon;
+
+    public Weapon weapon;
+
     void Start()
     {
         playerManager = PlayerManager.instance;
@@ -26,6 +32,12 @@ public class PlayerController : MonoBehaviour
         capsuleCollider = GetComponent<CapsuleCollider>();
         animator = GetComponent<Animator>();
         tr = GetComponent<Transform>();
+
+        rightWeapon = transform.Find("Root").Find("Hips").Find("Spine_01").Find("Spine_02").Find("Spine_03")
+                             .Find("Clavicle_R").Find("Shoulder_R").Find("Elbow_R").Find("Hand_R").Find("IndexFinger_01").Find("Weapon");
+        leftWeapon = transform.Find("Root").Find("Hips").Find("Spine_01").Find("Spine_02").Find("Spine_03")
+                             .Find("Clavicle_L").Find("Shoulder_L").Find("Elbow_L").Find("Hand_L").Find("IndexFinger_01").Find("Weapon");
+        weapon = rightWeapon.GetChild(0).GetComponent<Weapon>();
     }
 
     // Update is called once per frame
@@ -95,6 +107,9 @@ public class PlayerController : MonoBehaviour
     public void Attack()
     {
         // 일반 공격
+        animator.SetTrigger("Attack");
+
+        weapon.Attack(playerManager.playerData.STR);
     }
 
     public void Damaged(float damage)
@@ -116,7 +131,8 @@ public class PlayerController : MonoBehaviour
             other.GetComponent<OpenChest>().isClosing = false;
         }
     }
-    private void OnTriggerExit(Collider other)
+
+    public void OnTriggerExit(Collider other)
     {
         if (other.name.Contains("ItemBag") || other.tag == "Chest")
             UIManager.instance.ResetItemUI(other.gameObject);
@@ -126,6 +142,16 @@ public class PlayerController : MonoBehaviour
             other.GetComponent<OpenChest>().isOpening = false;
             other.GetComponent<OpenChest>().isClosing = true;
         }
+    }
+
+    public void ChangeWeapon(string weaponName)
+    {
+        Destroy(rightWeapon.GetChild(0).gameObject);
+
+        GameObject weaponObj = Instantiate(Resources.Load<GameObject>("Weapon/" + weaponName), rightWeapon);
+
+        // weapon 변수 설정
+        weapon = weaponObj.GetComponent<Weapon>();
     }
 
 
