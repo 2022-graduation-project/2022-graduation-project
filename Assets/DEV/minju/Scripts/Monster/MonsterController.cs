@@ -32,6 +32,30 @@ public class MonsterController : MonoBehaviour
     private Canvas uiCanvas;
     private Image hpBarImage;
 
+    void Start()
+    {
+        monsterData = new MonsterData();
+        // setting default state
+        monsterData.state = MonsterData.States.Idle;
+        // setting name
+        monsterData.name = "Ghost";
+        // setting default hp
+        monsterData.maxHp = 100f;
+        monsterData.curHp = 100f;
+        // setting default speed
+        monsterData.moveSpeed = 80f;
+        monsterData.turnSpeed = 0.1f;
+        // setting default power
+        monsterData.attackForce = 10f;
+        // setting default seeking state
+        monsterData.isFound = false;
+        // setting default destination
+        monsterData.destPosition = null;
+        // attack available distance
+        monsterData.distance = 3f;
+    }
+
+
     private void DeleteHpBar()
     {
         Destroy(hpBar);
@@ -196,7 +220,7 @@ public class MonsterController : MonoBehaviour
 
     // player가 monster 공격 했을 때 호출
     // If player damages monster this will be called
-    public void Damage(int scale)
+    public void Damage(float scale)
     {
         // 애니메이션
         anim.SetTrigger("Damaged");
@@ -205,7 +229,7 @@ public class MonsterController : MonoBehaviour
         if (monsterData.curHp > 0)
         {
             //scale(-)만큼 몬스터 체력이 줄어든다.
-            monsterData.curHp += scale;
+            monsterData.curHp -= scale;
             UpdateHpBar(monsterData.curHp);
         }
         // 남은 체력이 없을 때
@@ -217,6 +241,8 @@ public class MonsterController : MonoBehaviour
             DeleteHpBar();
             Invoke("Die", 1f);
         }
+
+        print("cur hp " + monsterData.curHp);
     }
 
     /*---------------------------------------------
