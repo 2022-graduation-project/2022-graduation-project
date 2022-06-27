@@ -11,7 +11,7 @@ public class ItemBag : MonoBehaviour
     void Start()
     {
         //Test();
-        jsonTest();
+        //jsonTest();
 
         coroutine = DestroyItemBag(deleteTime);
         //StartCoroutine(coroutine);

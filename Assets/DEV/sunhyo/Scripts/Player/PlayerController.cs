@@ -70,8 +70,16 @@ public class PlayerController : MonoBehaviour
             
 
         // Attack
-        if (playerManager.keyMoveable && Input.GetMouseButtonDown(0))
+        if (playerManager.keyMoveable && Input.GetMouseButtonDown(0) 
+            && Time.timeScale != 0)
             Attack();
+
+
+        // Skill Attack
+        if (Input.GetKey(KeyCode.G))
+        {
+            UseSkill();
+        }
     }
 
     private void AfterJump()
