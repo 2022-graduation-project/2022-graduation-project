@@ -14,6 +14,8 @@ public class Warrior : PlayerController
 
     override public void UseSkill()
     {
+        offset = new Vector3(0f, 0.7f, 0.5f);
+
         Debug.DrawRay(transform.position + offset, transform.forward * MaxDistance, Color.blue);
         if (Physics.Raycast(transform.position + offset, transform.forward, out hit, MaxDistance))
         {
@@ -25,10 +27,10 @@ public class Warrior : PlayerController
         };
 
 
-        offset = new Vector3(0f, 0.7f, 0.5f);
         weapons.isSkill = true;
         weapons.monsterList = monsterList;
         Attack();
         weapons.isSkill = false;
+        monsterList.Clear();
     }
 }

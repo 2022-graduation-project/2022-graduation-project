@@ -6,7 +6,7 @@ public class MonsterSkeleton : MonsterController
 {
     public GameObject prefab;
     // Start is called before the first frame update
-    void Start()
+    override public void Start()
     {
         hpBarPrefab = prefab;
         monsterData = DataManager.instance.LoadJsonFile

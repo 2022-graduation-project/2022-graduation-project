@@ -123,7 +123,7 @@ public class MonsterManager : MonoBehaviour
         }
 
     }
-
+    private int idOfMonster = 0;
     // 몬스터 생성
     // Create Monster
     public void CreateMonster(Transform currentLocation)
@@ -140,7 +140,7 @@ public class MonsterManager : MonoBehaviour
             // add new monster to curruent location of scene
             GameObject objMonster = Instantiate(Resources.Load(kindsOfMonsters[Random.Range(0, 3)]), 
                 currentLocation.position, Quaternion.identity * Quaternion.Euler(new Vector3(0,Random.Range(0,360),0))) as GameObject;
-
+            objMonster.name = objMonster.name + (++idOfMonster).ToString();
             // ���� ���� ����Ʈ�� �߰��ϱ�
             // add monster object in list
             monsters.Add(objMonster);
@@ -163,6 +163,7 @@ public class MonsterManager : MonoBehaviour
         // ���� �ο� �� Update
         // update current num of Monsters
         curNumMonsters--;
+        idOfMonster--;
     }
 
     
