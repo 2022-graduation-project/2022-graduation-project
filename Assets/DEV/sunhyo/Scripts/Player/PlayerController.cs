@@ -12,7 +12,7 @@ using Newtonsoft.Json;
 public class PlayerController : MonoBehaviour
 {
     /* Manager */
-    private PlayerManager playerManager;
+    public PlayerManager playerManager;
 
     /* local data */
     private Rigidbody rigidBody;
