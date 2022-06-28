@@ -4,6 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using Newtonsoft.Json;
 
+/**************************************************************************
+            플레이어의 이동 및 상호작용을 담당하는 스크립트입니다.
+    플레이어의 데이터와 관련된 코드들은 PlayerManager 스크립트를 참고해주세요.
+***************************************************************************/
+
 public class PlayerController : MonoBehaviour
 {
     /* Manager */
@@ -40,9 +45,9 @@ public class PlayerController : MonoBehaviour
         weapon = rightWeapon.GetChild(0).GetComponent<Weapon>();
     }
 
-    // Update is called once per frame
     void Update()
     {
+        /* 플레이어가 적절한 타이밍에 점프할 수 있도록 땅 체크 */
         Debug.DrawRay(tr.position + (Vector3.up * 0.1f), Vector3.down * 0.3f, Color.yellow);
 
 
@@ -56,8 +61,7 @@ public class PlayerController : MonoBehaviour
         
 
         // Jump
-        if (playerManager.keyMoveable && Input.GetButton("Jump") && jumpable
-            && Physics.Raycast(tr.position + (Vector3.up * 0.1f), Vector3.down, out hit, 0.1f))
+        if (isJumpable())
         {
             animator.SetBool("Jumping", true);
             rigidBody.velocity = tr.up * playerManager.playerData.jumpForce;
@@ -65,22 +69,35 @@ public class PlayerController : MonoBehaviour
             playerManager.playerData.moveSpeed /= 2f;
             Invoke("AfterJump", 1.2f);
         }
-        else if(Physics.Raycast(tr.position + (Vector3.up * 0.1f), Vector3.down, out hit, 0.1f))
+        else 
             animator.SetBool("Jumping", false);
             
 
-        // Attack
-        if (playerManager.keyMoveable && Input.GetMouseButtonDown(0) 
-            && Time.timeScale != 0)
+        // 일반 공격
+        if (playerManager.keyMoveable && Input.GetMouseButtonDown(0) && Time.timeScale != 0)
             Attack();
 
 
+<<<<<<< HEAD
         Debug.DrawRay(transform.position + new Vector3(0f, 0.7f, 0.5f), transform.forward * 10f, Color.blue);
         // Skill Attack
         if (Input.GetKeyDown(KeyCode.G))
+=======
+        // 스킬 공격 (단축키는 추후 변경)
+        if (Input.GetKey(KeyCode.G))
+>>>>>>> origin/dev/quest
         {
             UseSkill();
         }
+    }
+
+    private bool isJumpable()
+    {
+        if(playerManager.keyMoveable && Input.GetButton("Jump") && jumpable
+            && Physics.Raycast(tr.position + (Vector3.up * 0.1f), Vector3.down, out hit, 0.1f))
+            return true;
+        else
+            return false;
     }
 
     private void AfterJump()
@@ -113,6 +130,14 @@ public class PlayerController : MonoBehaviour
         // 리스폰 장소로 소환
     }
 
+     /*****************************************
+      * weapon 스크립트에 접근하여 trigger를 켜고
+      * 인식되는 몬스터의 MonsterController의 Damaged 함수에 접근하여 데미지 입힘.
+      * 
+      * @ param - 물리 공격력 (STR)
+      * @ return - X
+      * @ exception - X
+     ******************************************/
     public void Attack()
     {
         // 일반 공격
@@ -121,6 +146,17 @@ public class PlayerController : MonoBehaviour
         weapon.Attack(playerManager.playerData.STR);
     }
 
+
+
+
+
+    /*****************************************
+     * damage(양수) 만큼 현재 체력에서 차감
+     * 
+     * @ param - 피해량 (0 이상의 값)
+     * @ return - X
+     * @ exception - X
+    ******************************************/
     public void Damaged(float damage)
     {
         playerManager.playerData.curHp -= damage;
@@ -128,6 +164,10 @@ public class PlayerController : MonoBehaviour
         if (playerManager.playerData.curHp <= 0)
             Die();
     }
+
+
+
+
 
     public void OnTriggerEnter(Collider other)
     {
@@ -153,15 +193,19 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+
+    /*****************************************
+     * 들고 있는 무기 변경
+     * 
+     * @ param - 무기 이름 (무기 prefab 이름과 동일해야 함)
+     * @ return - X
+     * @ exception - X
+    *****************************************/
     public void ChangeWeapon(string weaponName)
     {
-        weaponName = "Axe";
-
+        weaponName = "Axe"; // null 방지 임시 변수
         Destroy(rightWeapon.GetChild(0).gameObject);
-
         GameObject weaponObj = Instantiate(Resources.Load<GameObject>("Weapon/" + weaponName), rightWeapon);
-
-        // weapon 변수 설정
         weapon = weaponObj.GetComponent<Weapon>();
     }
 
@@ -171,7 +215,7 @@ public class PlayerController : MonoBehaviour
     /************************************************/
     /*                  오버라이딩                   */
     /************************************************/
-    
+
     public virtual void UseSkill()
     {
 
