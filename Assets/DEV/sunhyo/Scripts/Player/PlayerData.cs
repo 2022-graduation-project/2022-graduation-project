@@ -20,7 +20,6 @@ public class PlayerData
     public float DEX;
     public float INT;
 
-    /* List vs Dictionary */
     public List<Dictionary<string, ItemData>> inventory;
     public List<Dictionary<string, SkillData>> skills;
 
