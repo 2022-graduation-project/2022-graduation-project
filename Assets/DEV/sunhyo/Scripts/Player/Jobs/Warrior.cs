@@ -7,8 +7,8 @@ public class Warrior : PlayerController
 {
     public Spere weapons;
     public List<GameObject> monsterList;
-    RaycastHit hit;
-    float MaxDistance = 100f;
+    RaycastHit[] hits;
+    float MaxDistance = 10f;
     Vector3 offset;
 
 
@@ -16,16 +16,22 @@ public class Warrior : PlayerController
     {
         offset = new Vector3(0f, 0.7f, 0.5f);
 
-        Debug.DrawRay(transform.position + offset, transform.forward * MaxDistance, Color.blue);
-        if (Physics.Raycast(transform.position + offset, transform.forward, out hit, MaxDistance))
+        hits = Physics.RaycastAll(transform.position + offset, transform.forward, MaxDistance);
+        if (hits.Length != 0)
         {
-            GameObject temp = hit.collider.gameObject;
-            if (temp.tag == "Monster" && monsterList.Find(x => x == temp) == null)
+            for (int i = 0; i<hits.Length; i++)
             {
-                monsterList.Add(temp);
+                GameObject temp = hits[i].collider.gameObject;
+                if (temp.tag == "Monster" && monsterList.Find(x => x == temp) == null)
+                {
+                    monsterList.Add(temp);
+                }
             }
         };
-
+        for (int i = 0; i < monsterList.Count; i++)
+        {
+            print("monsterList -> " + monsterList[i].gameObject.name);
+        }
 
         weapons.isSkill = true;
         weapons.monsterList = monsterList;

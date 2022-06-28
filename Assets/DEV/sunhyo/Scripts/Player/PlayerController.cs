@@ -75,8 +75,9 @@ public class PlayerController : MonoBehaviour
             Attack();
 
 
+        Debug.DrawRay(transform.position + new Vector3(0f, 0.7f, 0.5f), transform.forward * 10f, Color.blue);
         // Skill Attack
-        if (Input.GetKey(KeyCode.G))
+        if (Input.GetKeyDown(KeyCode.G))
         {
             UseSkill();
         }
