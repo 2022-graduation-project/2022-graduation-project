@@ -78,14 +78,10 @@ public class PlayerController : MonoBehaviour
             Attack();
 
 
-<<<<<<< HEAD
         Debug.DrawRay(transform.position + new Vector3(0f, 0.7f, 0.5f), transform.forward * 10f, Color.blue);
         // Skill Attack
-        if (Input.GetKeyDown(KeyCode.G))
-=======
         // 스킬 공격 (단축키는 추후 변경)
-        if (Input.GetKey(KeyCode.G))
->>>>>>> origin/dev/quest
+        if (Input.GetKeyDown(KeyCode.G))
         {
             UseSkill();
         }
