@@ -11,8 +11,13 @@ public class ItemBagSlot : MonoBehaviour, IPointerClickHandler
 
     public ItemData itemData = null;
 
-    public void Set(ItemData _itemData)
+
+    private ItemBag itemBag;
+
+    public void Set(ItemBag _itemBag, ItemData _itemData)
     {
+        itemBag = _itemBag;
+
         itemData = _itemData.DeepCopy();
         icon.sprite = DataManager.instance.LoadSpriteFile(Application.dataPath + "/DEV/sunhyo/Assets/Items", _itemData.image_name);
         item_name.text = _itemData.item_name;
@@ -21,7 +26,7 @@ public class ItemBagSlot : MonoBehaviour, IPointerClickHandler
 
         gameObject.SetActive(true);
     }
-
+    
     public void Reset()
     {
         SetColorA(0f);
@@ -37,6 +42,7 @@ public class ItemBagSlot : MonoBehaviour, IPointerClickHandler
     {
         if(itemData != null)
         {
+            itemBag.PopItem(itemData);
             UIManager.instance.inventoryUI.AddItem(itemData);
             Reset();
         }

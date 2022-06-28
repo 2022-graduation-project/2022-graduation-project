@@ -7,6 +7,7 @@ public class ItemData
     public string item_name;
     public int count;
     public string description;
+    public int fullness;
 
     public ItemData DeepCopy()
     {
@@ -15,6 +16,7 @@ public class ItemData
         newItemData.item_name = item_name;
         newItemData.count = count;
         newItemData.description = description;
+        newItemData.fullness = fullness;
 
         return newItemData;
     }

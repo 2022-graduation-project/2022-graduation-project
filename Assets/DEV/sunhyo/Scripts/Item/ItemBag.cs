@@ -6,31 +6,56 @@ public class ItemBag : MonoBehaviour
 {
     public List<ItemData> items = new List<ItemData>();
 
+    private float deleteTime = 5.0f;
+    private IEnumerator coroutine;
     void Start()
     {
-        
+        //Test();
+        //jsonTest();
+
+        coroutine = DestroyItemBag(deleteTime);
+        //StartCoroutine(coroutine);
     }
 
-    public bool EmptyCheck()
+    public void PopItem(ItemData _itemData)
     {
-        if (items.Count == 0)
+        foreach (ItemData item in items)
         {
-            Delete();
-            return true;
+            if(item.item_name.Equals(_itemData.item_name))
+            {
+                items.Remove(item);
+                break;
+            }
         }
-        return false;
-    }
-
-    public bool complete = false;
-    private void Delete()
-    {
-        Destroy(gameObject, 3.0f);
-        complete = true;
     }
 
     public void AddItem(ItemData itemData)
     {
         items.Add(itemData);
+    }
+
+    public void StartDeleteCoroutine()
+    {
+        coroutine = DestroyItemBag(deleteTime); 
+        StartCoroutine(coroutine);
+    }
+
+    public void StopDeleteCoroutine()
+    {
+        StopCoroutine(coroutine);
+    }
+
+    IEnumerator DestroyItemBag(float _deleteTime)
+    {
+        float curTime = 0;
+        while (curTime < _deleteTime)
+        {
+            curTime += Time.deltaTime;
+            yield return null;
+        }
+
+        if(curTime >= _deleteTime)
+            Destroy(gameObject);
     }
 
     private void Test()
@@ -40,6 +65,7 @@ public class ItemBag : MonoBehaviour
         item.item_name = "체력 회복 포션";
         item.count = 1;
         item.description = "체력 10을 회복합니다.";
+        item.fullness = 10;
 
         items.Add(item);
 
@@ -48,6 +74,7 @@ public class ItemBag : MonoBehaviour
         item1.item_name = "마나 회복 포션";
         item1.count = 1;
         item1.description = "마나 10을 회복합니다.";
+        item.fullness = 15;
 
         items.Add(item1);
 
@@ -56,9 +83,19 @@ public class ItemBag : MonoBehaviour
         item2.item_name = "사과";
         item2.count = 1;
         item2.description = "맛있음";
+        item.fullness = 20;
 
         items.Add(item2);
 
         print("리스트 길이 " + items.Count);
+    }
+
+    private void jsonTest()
+    {
+        ItemData item = DataManager.instance.LoadJsonFile
+                    <Dictionary<string, ItemData>>
+                    (Application.dataPath + "/MAIN/Data", "item")
+                    ["000_hpPotion"];
+        items.Add(item);
     }
 }

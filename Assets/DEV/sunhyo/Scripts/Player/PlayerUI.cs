@@ -33,7 +33,7 @@ public class PlayerUI : MonoBehaviour
     private Transform info;
     private Text player_name;
     private Text level;
-    private Text cls;
+    private Text job;
     private Text money;
     private Image HpBar;
     private Image MpBar;
@@ -58,7 +58,7 @@ public class PlayerUI : MonoBehaviour
         {
             if (t.gameObject.name == "Party") party = t;
             else if (t.gameObject.name == "Quest") quest = t;
-            else if (t.gameObject.name == "InventoryUI") inventoryUI = t;
+            else if (t.gameObject.name == "InventoryUI") inventoryUI = t.GetChild(0);
         }
 
         foreach (Transform t in Bottom)
@@ -81,7 +81,7 @@ public class PlayerUI : MonoBehaviour
     {
         player_name = info.Find("Player Info").Find("Name").GetComponent<Text>();   player_name.text = _playerData.name;
         level = info.Find("Player Info").Find("Level").GetComponent<Text>();        level.text = "Lv. " + _playerData.level.ToString();
-        cls = info.Find("Player Info").Find("Class").GetComponent<Text>();          cls.text = _playerData.cls;
+        job = info.Find("Player Info").Find("Class").GetComponent<Text>();          job.text = _playerData.job;
         money = info.Find("Player Info").Find("Money").GetComponent<Text>();        money.text = _playerData.money.ToString();
 
         HpBar = info.Find("Hp").GetChild(0).GetComponent<Image>();                  HpBar.fillAmount = 1;

@@ -16,6 +16,7 @@ public class PlayerManager : MonoBehaviour
 
     /* Singleton */
     public static PlayerManager instance;
+
     void Awake()
     {
         if (instance == null)
@@ -37,23 +38,13 @@ public class PlayerManager : MonoBehaviour
                     (Application.dataPath + "/MAIN/Data", "player")
                     ["000_player"];
 
+        //foreach(Dictionary<string, ItemData> dic in playerData.inventory)
+        //{
+        //    foreach (KeyValuePair<string, ItemData> itemData in dic)
+        //        print(itemData.Key);
+        //}
+
         UIManager.instance.Set(playerData);
-    }
-
-    public void GetItemBag(GameObject _itemBag)
-    {
-        UIManager.instance.itemUI.Set(_itemBag.GetComponent<ItemBag>());
-        if (_itemBag.GetComponent<ItemBag>().EmptyCheck())
-        {
-            // Text UI ... ? (EMPTY)
-
-            UIManager.instance.itemUI.CallResetWithDelay();
-        };
-    }
-
-    public void LeaveItemBag()
-    {
-        UIManager.instance.itemUI.Reset();
     }
 
     public void BuyItem(int _price)

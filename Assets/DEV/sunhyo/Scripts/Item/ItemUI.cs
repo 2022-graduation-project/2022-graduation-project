@@ -17,29 +17,42 @@ public class ItemUI : MonoBehaviour
         {
             GameObject itemBagSlot = GetItemSlotInPool();
 
-            itemBagSlot?.GetComponent<ItemBagSlot>().Set(item);
+            itemBagSlot?.GetComponent<ItemBagSlot>().Set(_itemBag, item);
         }
-
+        
         gameObject.SetActive(true);
     }
+    
 
     public void CallResetWithDelay()
     {
         Invoke("Reset", 3.0f);
     }
 
-    public void Reset()
+    [Header("Chest Item Manager")]
+    public ItemManage itemManager;
+
+    public void Reset(ItemBag _itemBag)
     {
-        ItemData item = null;
         foreach (GameObject itemBagSlot in itemBagSlots)
         {
             if (itemBagSlot.activeSelf)
                 itemBagSlot.GetComponent<ItemBagSlot>().Reset();
         }
 
+        if(_itemBag.items.Count <= 0)
+        {
+            if (_itemBag.tag == "Chest")
+            {
+                itemManager.DeleteChest(_itemBag.gameObject);
+            }
+            else
+                Destroy(_itemBag.gameObject);
+        }
+
         gameObject.SetActive(false);
     }
-
+    
     GameObject GetItemSlotInPool()
     {
         foreach (GameObject itemBagSlot in itemBagSlots)
@@ -58,5 +71,6 @@ public class ItemUI : MonoBehaviour
         print(item.item_name);
         print(item.count);
         print(item.description);
+        print(item.fullness);
     }
 }
