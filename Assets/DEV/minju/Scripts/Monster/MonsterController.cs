@@ -264,7 +264,6 @@ public class MonsterController : MonoBehaviour
         {
             //scale(-)만큼 몬스터 체력이 줄어든다.
             monsterData.curHp -= scale;
-            print(gameObject.name+" Damaged");
             UpdateHpBar(monsterData.curHp);
         }
         // 남은 체력이 없을 때
