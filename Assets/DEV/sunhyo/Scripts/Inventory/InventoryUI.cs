@@ -98,7 +98,7 @@ public class InventoryUI : MonoBehaviour
             emptySlot?.GetComponent<InventorySlot>().Set(_itemData);
         }
     }
-
+    
     GameObject FindSameItem(ItemData _itemData)
     {
         foreach (GameObject itemSlot in inventorySlots)
@@ -110,7 +110,7 @@ public class InventoryUI : MonoBehaviour
 
         return null;
     }
-
+    
     GameObject GetEmptySlotInPool()
     {
         foreach (GameObject itemSlot in inventorySlots)

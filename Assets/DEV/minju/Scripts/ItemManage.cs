@@ -28,7 +28,7 @@ public class ItemManage : MonoBehaviour
     bool initSpawn = false;
 
     // Read Json data to Dictionary
-    private Dictionary<string, ChestData> chestDict;
+    private Dictionary<string, ItemData> chestDict;
     // get all item names and use as key for the Dictionary
     private List<string> keysOfItems = new List<string>();
     // random items in itembags
@@ -36,18 +36,21 @@ public class ItemManage : MonoBehaviour
     // chest Prefab resource
     public GameObject tempChest;
     // temporary var of ItemData
-    private ChestData tempItemData;
+    private ItemData tempItemData;
+
+    private int countOfDrop;
+    private int randomIndex;
 
     // Start is called before the first frame update
     void Start()
     {
 
         chestDict = DataManager.instance
-                    .LoadJsonFile<Dictionary<string, ChestData>>
-                    (Application.dataPath + "/MAIN/Data", "chest");
+                    .LoadJsonFile<Dictionary<string, ItemData>>
+                    (Application.dataPath + "/MAIN/Data", "item");
 
         // get all item names and use as key for the Dictionary
-        foreach (KeyValuePair<string, ChestData> q in chestDict)
+        foreach (KeyValuePair<string, ItemData> q in chestDict)
         {
             keysOfItems.Add(q.Value.image_name);
         }
@@ -87,16 +90,16 @@ public class ItemManage : MonoBehaviour
                 chests.Add(tempChest);
 
                 // Random Item Counts (0 ~ 3)
-                int countOfDrop = Random.Range(0, 4);
+                countOfDrop = Random.Range(0, 4);
 
                 // Create Random Items in ItemBag
                 for (int j = 0; j < countOfDrop; j++)
                 {
-                    int randomIndex = Random.Range(0, countOfItems);
+                    randomIndex = Random.Range(0, countOfItems - 1);
                     // 해당 itemBag에 넣은 random item 정보 추가
                     if (chestDict.TryGetValue(keysOfItems[randomIndex], out tempItemData))
                     {
-                        tempChest.GetComponent<ItemBag>().AddItem2(tempItemData);
+                        tempChest.GetComponent<ItemBag>().AddItem(tempItemData);
                     }
                 }
 
@@ -132,6 +135,7 @@ public class ItemManage : MonoBehaviour
     {
         GameObject temp = chests.Find(x => x == chest);
         chests.Remove(temp);
+        Destroy(chest);
     }
 
     // Update is called once per frame
@@ -142,9 +146,11 @@ public class ItemManage : MonoBehaviour
 
     public void CheckChests()
     {
+        print("Checking enough chests");
         if (chests.Count < 20)
         {
             CreateChest();
+            print("chests Created");
         }
         Invoke("CheckChests", 10f);
     }
@@ -166,7 +172,24 @@ public class ItemManage : MonoBehaviour
             if (repeatRandom(spawnNumber))
             {
                 // 중복이 아닐 때만 생성
-                chests.Add(Instantiate(Chest[chestNumber], childrenSP[spawnNumber].position, childrenSP[spawnNumber].rotation) as GameObject);
+                tempChest = Instantiate(Chest[chestNumber], childrenSP[spawnNumber].position, childrenSP[spawnNumber].rotation) as GameObject;
+
+                chests.Add(tempChest);
+
+                // Random Item Counts (0 ~ 3)
+                countOfDrop = Random.Range(0, 4);
+
+                // Create Random Items in ItemBag
+                for (int j = 0; j < countOfDrop; j++)
+                {
+                    randomIndex = Random.Range(0, countOfItems - 1);
+                    // 해당 itemBag에 넣은 random item 정보 추가
+                    if (chestDict.TryGetValue(keysOfItems[randomIndex], out tempItemData))
+                    {
+                        tempChest.GetComponent<ItemBag>().AddItem(tempItemData);
+                    }
+                }
+
             }
         }
     }

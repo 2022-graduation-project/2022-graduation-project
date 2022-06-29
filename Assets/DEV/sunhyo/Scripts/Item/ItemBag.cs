@@ -5,16 +5,16 @@ using UnityEngine;
 public class ItemBag : MonoBehaviour
 {
     public List<ItemData> items = new List<ItemData>();
-    public List<ChestData> chests = new List<ChestData>();
 
     private float deleteTime = 5.0f;
     private IEnumerator coroutine;
     void Start()
     {
-        Test();
+        //Test();
+        //jsonTest();
 
         coroutine = DestroyItemBag(deleteTime);
-        StartCoroutine(coroutine);
+        //StartCoroutine(coroutine);
     }
 
     public void PopItem(ItemData _itemData)
@@ -23,7 +23,6 @@ public class ItemBag : MonoBehaviour
         {
             if(item.item_name.Equals(_itemData.item_name))
             {
-                print(item.item_name);
                 items.Remove(item);
                 break;
             }
@@ -33,10 +32,6 @@ public class ItemBag : MonoBehaviour
     public void AddItem(ItemData itemData)
     {
         items.Add(itemData);
-    }
-    public void AddItem2(ChestData itemData)
-    {
-        chests.Add(itemData);
     }
 
     public void StartDeleteCoroutine()
@@ -70,6 +65,7 @@ public class ItemBag : MonoBehaviour
         item.item_name = "체력 회복 포션";
         item.count = 1;
         item.description = "체력 10을 회복합니다.";
+        item.fullness = 10;
 
         items.Add(item);
 
@@ -78,6 +74,7 @@ public class ItemBag : MonoBehaviour
         item1.item_name = "마나 회복 포션";
         item1.count = 1;
         item1.description = "마나 10을 회복합니다.";
+        item.fullness = 15;
 
         items.Add(item1);
 
@@ -86,9 +83,19 @@ public class ItemBag : MonoBehaviour
         item2.item_name = "사과";
         item2.count = 1;
         item2.description = "맛있음";
+        item.fullness = 20;
 
         items.Add(item2);
 
         print("리스트 길이 " + items.Count);
+    }
+
+    private void jsonTest()
+    {
+        ItemData item = DataManager.instance.LoadJsonFile
+                    <Dictionary<string, ItemData>>
+                    (Application.dataPath + "/MAIN/Data", "item")
+                    ["000_hpPotion"];
+        items.Add(item);
     }
 }

@@ -17,11 +17,5 @@ public class JsonTest : MonoBehaviour
                             (Application.dataPath + "/MAIN/Data", "item")
                             ["000_hpPotion"];
         print(itemData.item_name);
-
-        ChestData chestData = DataManager.instance.LoadJsonFile
-                            <Dictionary<string, ChestData>>
-                            (Application.dataPath + "/MAIN/Data", "chest")
-                            ["002_apple"];
-        print(chestData.saturation);
     }
 }

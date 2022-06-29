@@ -26,7 +26,7 @@ public class ItemBagSlot : MonoBehaviour, IPointerClickHandler
 
         gameObject.SetActive(true);
     }
-
+    
     public void Reset()
     {
         SetColorA(0f);
