@@ -5,32 +5,53 @@ using UnityEngine;
 
 public class Warrior : PlayerController
 {
-    //public Spere weapons;
     public List<GameObject> monsterList;
-    RaycastHit hit;
-    float MaxDistance = 100f;
+    RaycastHit[] hits;
+    float MaxDistance = 10f;
     Vector3 offset;
 
 
     override public void UseSkill()
     {
         offset = new Vector3(0f, 0.7f, 0.5f);
-
-        Debug.DrawRay(transform.position + offset, transform.forward * MaxDistance, Color.blue);
-        if (Physics.Raycast(transform.position + offset, transform.forward, out hit, MaxDistance))
+        
+        // RayCast에 닿는 All Monsters 배열(hits)로 가져오기
+        hits = Physics.RaycastAll(transform.position + offset, transform.forward, MaxDistance);
+        
+        if (hits.Length != 0)
         {
-            GameObject temp = hit.collider.gameObject;
-            if (temp.tag == "Monster" && monsterList.Find(x => x == temp) == null)
+            for (int i = 0; i < hits.Length; i++)
             {
-                monsterList.Add(temp);
+                // hits 원소들 모두 mosterList로 넣기
+                GameObject temp = hits[i].collider.gameObject;
+                if (temp.tag == "Monster" && monsterList.Find(x => x == temp) == null)
+                {
+                    monsterList.Add(temp);
+                }
             }
         };
 
+        // monsterList Debugging
+        for (int i = 0; i < monsterList.Count; i++)
+        {
+            print("monsterList -> " + monsterList[i].gameObject.name);
+        }
 
-        //weapons.isSkill = true;
-        //weapons.monsterList = monsterList;
-        //Attack();
-        //weapons.isSkill = false;
-        //monsterList.Clear();
+
+        // 스킬 공격 버튼 눌렀을 때, Warrior에서 RayCast에 닿은 몬스터 리스트에
+        // 만약 몬스터가 한 마리 이상 있다면
+        if (monsterList.Count != 0)
+        {
+            // 모든 몬스터 동시에 Damage 주기
+            foreach (GameObject monsters in monsterList)
+            {
+                monsters.GetComponent<MonsterController>().Damage(playerManager.playerData.STR);
+            }
+        }
+
+        // 다음 차례를 위해 몬스터 리스트 비워주기
+        monsterList.Clear();
+
     }
+
 }

@@ -12,7 +12,7 @@ using Newtonsoft.Json;
 public class PlayerController : MonoBehaviour
 {
     /* Manager */
-    private PlayerManager playerManager;
+    public PlayerManager playerManager;
 
     /* local data */
     private Rigidbody rigidBody;
@@ -80,8 +80,10 @@ public class PlayerController : MonoBehaviour
             Attack();
 
 
+        Debug.DrawRay(transform.position + new Vector3(0f, 0.7f, 0.5f), transform.forward * 10f, Color.blue);
+        // Skill Attack
         // 스킬 공격 (단축키는 추후 변경)
-        if (Input.GetKey(KeyCode.G))
+        if (Input.GetKeyDown(KeyCode.G))
         {
             UseSkill();
         }
