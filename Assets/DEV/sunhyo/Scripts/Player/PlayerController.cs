@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour
     public Transform rightWeapon;
     public Transform leftWeapon;
 
-    public MeshCollider weapon;
+    public Weapon weapon;
 
     void Start()
     {
@@ -42,9 +42,8 @@ public class PlayerController : MonoBehaviour
                              .Find("Clavicle_R").Find("Shoulder_R").Find("Elbow_R").Find("Hand_R").Find("IndexFinger_01").Find("Weapon");
         leftWeapon = transform.Find("Root").Find("Hips").Find("Spine_01").Find("Spine_02").Find("Spine_03")
                              .Find("Clavicle_L").Find("Shoulder_L").Find("Elbow_L").Find("Hand_L").Find("IndexFinger_01").Find("Weapon");
-        // weapon = rightWeapon.GetChild(0).GetComponent<Weapon>();
-
-        weapon = rightWeapon.GetChild(0).GetComponent<MeshCollider>();
+        
+        weapon = rightWeapon.GetChild(0).GetComponent<Weapon>();
     }
 
     void Update()
@@ -137,7 +136,8 @@ public class PlayerController : MonoBehaviour
     ******************************************/
     public void Attack()
     {
-        weapon.enabled = true;
+        animator.SetTrigger("Attack");
+        weapon.Attack(playerManager.playerData.STR);
     }
 
 
@@ -172,13 +172,6 @@ public class PlayerController : MonoBehaviour
         {
             other.GetComponent<OpenChest>().isOpening = true;
             other.GetComponent<OpenChest>().isClosing = false;
-        }
-
-        if(other.tag == "Monster")
-        {
-            animator.SetTrigger("Attack");
-            other.GetComponent<MonsterDummy>().Damage(playerManager.playerData.STR);
-            weapon.enabled = false;
         }
     }
 
