@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Warrior : PlayerController
 {
-    public Spere weapons;
+    //public Spere weapons;
     public List<GameObject> monsterList;
     RaycastHit hit;
     float MaxDistance = 100f;
@@ -27,10 +27,10 @@ public class Warrior : PlayerController
         };
 
 
-        weapons.isSkill = true;
-        weapons.monsterList = monsterList;
-        Attack();
-        weapons.isSkill = false;
-        monsterList.Clear();
+        //weapons.isSkill = true;
+        //weapons.monsterList = monsterList;
+        //Attack();
+        //weapons.isSkill = false;
+        //monsterList.Clear();
     }
 }

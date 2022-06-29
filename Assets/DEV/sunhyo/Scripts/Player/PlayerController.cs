@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour
     public Transform rightWeapon;
     public Transform leftWeapon;
 
-    public Weapon weapon;
+    public MeshCollider weapon;
 
     void Start()
     {
@@ -42,7 +42,9 @@ public class PlayerController : MonoBehaviour
                              .Find("Clavicle_R").Find("Shoulder_R").Find("Elbow_R").Find("Hand_R").Find("IndexFinger_01").Find("Weapon");
         leftWeapon = transform.Find("Root").Find("Hips").Find("Spine_01").Find("Spine_02").Find("Spine_03")
                              .Find("Clavicle_L").Find("Shoulder_L").Find("Elbow_L").Find("Hand_L").Find("IndexFinger_01").Find("Weapon");
-        weapon = rightWeapon.GetChild(0).GetComponent<Weapon>();
+        // weapon = rightWeapon.GetChild(0).GetComponent<Weapon>();
+
+        weapon = rightWeapon.GetChild(0).GetComponent<MeshCollider>();
     }
 
     void Update()
@@ -124,20 +126,16 @@ public class PlayerController : MonoBehaviour
         // 리스폰 장소로 소환
     }
 
-     /*****************************************
-      * weapon 스크립트에 접근하여 trigger를 켜고
-      * 인식되는 몬스터의 MonsterController의 Damaged 함수에 접근하여 데미지 입힘.
-      * 
-      * @ param - 물리 공격력 (STR)
-      * @ return - X
-      * @ exception - X
-     ******************************************/
+    /*****************************************
+     * 근접 공격
+     * 
+     * @ param - 피해량 (0 이상의 값)
+     * @ return - X
+     * @ exception - X
+    ******************************************/
     public void Attack()
     {
-        // 일반 공격
-        animator.SetTrigger("Attack");
-
-        weapon.Attack(playerManager.playerData.STR);
+        weapon.enabled = true;
     }
 
 
@@ -173,6 +171,13 @@ public class PlayerController : MonoBehaviour
             other.GetComponent<OpenChest>().isOpening = true;
             other.GetComponent<OpenChest>().isClosing = false;
         }
+
+        if(other.tag == "Monster")
+        {
+            animator.SetTrigger("Attack");
+            other.GetComponent<MonsterDummy>().Damage(playerManager.playerData.STR);
+            weapon.enabled = false;
+        }
     }
 
     public void OnTriggerExit(Collider other)
@@ -197,10 +202,10 @@ public class PlayerController : MonoBehaviour
     *****************************************/
     public void ChangeWeapon(string weaponName)
     {
-        weaponName = "Axe"; // null 방지 임시 변수
-        Destroy(rightWeapon.GetChild(0).gameObject);
-        GameObject weaponObj = Instantiate(Resources.Load<GameObject>("Weapon/" + weaponName), rightWeapon);
-        weapon = weaponObj.GetComponent<Weapon>();
+        //weaponName = "Axe"; // null 방지 임시 변수
+        //Destroy(rightWeapon.GetChild(0).gameObject);
+        //GameObject weaponObj = Instantiate(Resources.Load<GameObject>("Weapon/" + weaponName), rightWeapon);
+        //weapon = weaponObj.GetComponent<Weapon>();
     }
 
 
