@@ -1,16 +1,11 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class MonsterDummy : MonsterController
+public class MonsterDummy : MonoBehaviour
 {
     private float hp = 100f;
 
-    void Start()
-    {
-        
-    }
-
-    public new void Damage(float scale)
+    public void Damage(float scale)
     {
         hp -= scale;
 
@@ -20,13 +15,9 @@ public class MonsterDummy : MonsterController
             Die();
     }
 
-    public new void Die()
+    public void Die()
     {
         print("Die");
         gameObject.SetActive(false);
     }
-
-    private void OnTriggerExit(Collider other) { }
-
-    private void OnTriggerEnter(Collider other) { }
 }

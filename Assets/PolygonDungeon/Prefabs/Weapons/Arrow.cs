@@ -6,7 +6,7 @@ public class Arrow : Weapon
 {
     public override void Attack(float _damage)
     {
-        collider.enabled = true;
+        meshCollider.enabled = true;
         damage = _damage;
     }
     
@@ -16,7 +16,7 @@ public class Arrow : Weapon
         {
             print(other.name);
             other.GetComponent<MonsterController>().Damage(damage);
-            collider.enabled = false;
+            meshCollider.enabled = false;
         }
     }
 }
