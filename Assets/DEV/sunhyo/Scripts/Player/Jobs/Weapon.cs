@@ -3,15 +3,15 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    private MeshCollider meshCollider;
-    private float damage;
+    protected MeshCollider meshCollider;
+    protected float damage;
 
     void Start()
     {
         meshCollider = GetComponent<MeshCollider>();        
     }
 
-    public void Attack(float _damage)
+    public virtual void Attack(float _damage)
     {
         meshCollider.enabled = true;
         damage = _damage;
