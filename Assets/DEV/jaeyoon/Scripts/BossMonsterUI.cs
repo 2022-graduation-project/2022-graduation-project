@@ -50,6 +50,15 @@ public class BossMonsterUI : MonoBehaviour
         {
             animator.SetBool("RunRight", false);
         }
+        // Forward 이동
+        if (Input.GetKey(KeyCode.UpArrow))
+        {
+            animator.SetBool("RunForward", true);
+        }
+        else
+        {
+            animator.SetBool("RunForward", false);
+        }
 
 
         if (hp <= 10)
