@@ -32,7 +32,6 @@ public class Warrior : PlayerController
         {
             // 지속 시간 재기
             duration += Time.deltaTime;
-            print("duration: " + duration);
 
             // RayCast에 닿는 All Monsters 배열(hits)로 가져오기
             hits = Physics.RaycastAll(transform.position + offset, transform.forward, MaxDistance);
