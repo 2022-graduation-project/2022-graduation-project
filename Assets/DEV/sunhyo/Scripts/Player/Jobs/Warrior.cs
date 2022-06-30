@@ -9,6 +9,10 @@ public class Warrior : PlayerController
     RaycastHit[] hits;
     float MaxDistance = 10f;
     int coolDelay = 60;
+    int maxCoolDelay = 60;
+
+    int maxMpConsume = 20;
+
     float duration = 0;
 
     Vector3 offset;
@@ -17,7 +21,7 @@ public class Warrior : PlayerController
     override public void UseSkill()
     {
         // 쿨타임이 차지 않았을 때
-        if (coolDelay < 60)
+        if (coolDelay < maxCoolDelay)
         {
             return;
         }
@@ -73,7 +77,7 @@ public class Warrior : PlayerController
         StartCoroutine("countDelay1");
 
         // 플레이어 MP 소모
-        playerManager.playerData.curMp -= 20;
+        playerManager.playerData.curMp -= maxMpConsume;
 
         // 다음 차례를 위해 몬스터 리스트 비워주기
         monsterList.Clear();
@@ -83,15 +87,78 @@ public class Warrior : PlayerController
     // 스킬 1 쿨타임 초 세기
     private IEnumerator countDelay1()
     {
-        while (coolDelay < 60)
+        while (coolDelay < maxCoolDelay)
         {
             print("cool Delay: " + coolDelay);
             yield return new WaitForSeconds(1f);
             coolDelay++;
-            if (coolDelay >= 60)
+            if (coolDelay >= maxCoolDelay)
                 yield break;
         }
     }
 
+    public override void Update()
+    {
+        base.Update();
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            UseSkill2();
+        }
+    }
+
+    int coolDelay2 = 60 * 5;
+    float duration2 = 0f;
+    public void UseSkill2()
+    {
+        // 쿨타임이 차지 않았을 때
+        if (coolDelay < 60)
+        {
+            return;
+        }
+
+        // 지속시간 초기화
+        duration2 = 0;
+
+        // 플레이어 MP 소모
+        playerManager.playerData.curMp -= 10;
+
+        // 스킬 1의 쿨타임을 60->40초로 줄여줌
+        maxCoolDelay = 40;
+
+        // 스킬 1의 MP 소모량을 20->10로 줄여줌
+        maxMpConsume = 10;
+
+        while (duration2 < 6)
+        {
+            duration2 += Time.deltaTime;
+        }
+
+
+        // 스킬 1의 쿨타임 초기화
+        maxCoolDelay = 40;
+
+        // 스킬 1의 MP 소모량 초기화
+        maxMpConsume = 10;
+
+
+        // 쿨타임 초기화 및 초 세기
+        coolDelay2 = 0;
+        StartCoroutine("countDelay2");
+
+    }
+
+
+    // 스킬 2 쿨타임 초 세기
+    private IEnumerator countDelay2()
+    {
+        while (coolDelay2 < 60*5)
+        {
+            print("cool Delay2: " + coolDelay2);
+            yield return new WaitForSeconds(1f);
+            coolDelay2++;
+            if (coolDelay2 >= 60 * 5)
+                yield break;
+        }
+    }
 
 }
