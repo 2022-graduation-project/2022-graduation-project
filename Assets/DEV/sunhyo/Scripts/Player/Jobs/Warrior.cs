@@ -20,8 +20,9 @@ public class Warrior : PlayerController
 
     override public void UseSkill()
     {
-        // 쿨타임이 차지 않았을 때
-        if (coolDelay < maxCoolDelay)
+        // 쿨타임이 차지 않았을 때 또는
+        // 현재 MP가 소모량보다 적을 때
+        if (coolDelay < maxCoolDelay || playerManager.playerData.curMp < maxMpConsume)
         {
             return;
         }
@@ -77,7 +78,7 @@ public class Warrior : PlayerController
         StartCoroutine("countDelay1");
 
         // 플레이어 MP 소모
-        playerManager.playerData.curMp -= maxMpConsume;
+        ConsumeMP(maxMpConsume);
 
         // 다음 차례를 위해 몬스터 리스트 비워주기
         monsterList.Clear();
@@ -97,18 +98,10 @@ public class Warrior : PlayerController
         }
     }
 
-    public override void Update()
-    {
-        base.Update();
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            UseSkill2();
-        }
-    }
 
     int coolDelay2 = 60 * 5;
     float duration2 = 0f;
-    public void UseSkill2()
+    override public void UseSkill2()
     {
         // 쿨타임이 차지 않았을 때
         if (coolDelay < 60)
@@ -120,7 +113,7 @@ public class Warrior : PlayerController
         duration2 = 0;
 
         // 플레이어 MP 소모
-        playerManager.playerData.curMp -= 10;
+        ConsumeMP(10);
 
         // 스킬 1의 쿨타임을 60->40초로 줄여줌
         maxCoolDelay = 40;
