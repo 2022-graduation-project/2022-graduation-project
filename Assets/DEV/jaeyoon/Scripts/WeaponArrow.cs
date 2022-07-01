@@ -1,17 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class WeaponArrow : MonoBehaviour
+public class WeaponArrow : Weapon
 {
-    public int damage;
-    /*
-    public Animator animator;
-
-    void Start()
-    {
-        animator = GetComponent<Animator>();
-    }
-    */
+    private int _damage;
 
     void OnCollisionEnter(Collision collision)  // 충돌 로직
     {
@@ -52,9 +44,14 @@ public class WeaponArrow : MonoBehaviour
     }
     */
 
-    IEnumerator Shot()
+    public void ArrowSkill()
     {
-        GameObject intantBullet = Instantiate(bullet, bulletPos.position, bulletPos.rotation);
+        StartCoroutine(Shot());
+    }
+
+    public IEnumerator Shot()
+    {
+        GameObject intantBullet = Instantiate(bullet, bulletPos.position, bulletPos.rotation);  // 탄, 생성
         Rigidbody bulletRigid = intantBullet.GetComponent<Rigidbody>();
         bulletRigid.velocity = bulletPos.forward * 50;  // 탄속 50
 
