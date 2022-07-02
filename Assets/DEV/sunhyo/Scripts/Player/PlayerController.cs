@@ -15,12 +15,13 @@ public class PlayerController : MonoBehaviour
     protected PlayerManager playerManager;
 
     /* local data */
-    private Rigidbody rigidBody;
-    private CapsuleCollider capsuleCollider;
+    protected Rigidbody rigidBody;
+    protected CapsuleCollider capsuleCollider;
     protected Animator animator;
-    private Transform tr;
-    private RaycastHit hit;
+    protected Transform tr;
+    protected RaycastHit hit;
 
+    protected bool canUseSkill = true;
     private bool jumpable = true;
 
     /* runtime data */
@@ -29,7 +30,7 @@ public class PlayerController : MonoBehaviour
 
     public Weapon weapon;
 
-    void Start()
+    void Awake()
     {
         playerManager = PlayerManager.instance;
 
@@ -48,10 +49,6 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (tr == null)
-        {
-            print("tr == null");
-        }
         /* 플레이어가 적절한 타이밍에 점프할 수 있도록 땅 체크 */
         Debug.DrawRay(tr.position + (Vector3.up * 0.1f), Vector3.down * 0.3f, Color.yellow);
 
@@ -86,9 +83,24 @@ public class PlayerController : MonoBehaviour
         Debug.DrawRay(transform.position + new Vector3(0f, 0.7f, 0.5f), transform.forward * 10f, Color.blue);
         // Skill Attack
         // 스킬 공격 (단축키는 추후 변경)
-        if (Input.GetKeyDown(KeyCode.G))
+        if (Input.GetKeyDown(KeyCode.G) && canUseSkill == true)
         {
             UseSkill();
+        }
+
+
+        // Skill Attack2
+        // 스킬2 (단축키는 추후 변경)
+        if (Input.GetKeyDown(KeyCode.H) && canUseSkill == true)
+        {
+            UseSkill2();
+        }
+
+        // Skill Attack3
+        // 스킬3 (단축키는 추후 변경)
+        if (Input.GetKeyDown(KeyCode.T) && canUseSkill == true)
+        {
+            UseSkill3();
         }
     }
 
@@ -163,6 +175,23 @@ public class PlayerController : MonoBehaviour
             Die();
     }
 
+    
+
+    /*****************************************
+     * consume(양수) 만큼 현재 MP에서 차감
+     * 
+     * @ param - 소모량 (0 이상의 값)
+     * @ return - X
+     * @ exception - X
+    ******************************************/
+    public void ConsumeMP(float scale)
+    {
+        playerManager.playerData.curMp -= scale;
+        UIManager.instance.playerUI.UpdateMpBar(playerManager.playerData.maxMp, playerManager.playerData.curMp);
+        if (playerManager.playerData.curMp <= 0)
+            canUseSkill = false;
+    }
+
 
 
 
@@ -215,6 +244,14 @@ public class PlayerController : MonoBehaviour
     /************************************************/
 
     public virtual void UseSkill()
+    {
+
+    }
+    public virtual void UseSkill2()
+    {
+
+    }
+    public virtual void UseSkill3()
     {
 
     }
