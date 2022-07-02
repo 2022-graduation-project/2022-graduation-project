@@ -13,11 +13,13 @@ public class Arrow : Weapon
         transform.Translate(dir * speed * Time.deltaTime);  // 2. Shot
     }
 
-
+    /*
     public override void Attack(float _damage)
     {
         base.Attack(_damage);
     }
+    */
+
 
 
     /*

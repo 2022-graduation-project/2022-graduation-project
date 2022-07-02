@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 9cbb2a4d135c31e4cbeadac255ba4ecb
+guid: 98de23aefc16d496ba9227d9ca8beca4
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable:
@@ -71,11 +71,11 @@ ModelImporter:
       takeName: human_male_bowshot_01
       internalID: 0
       firstFrame: 2
-      lastFrame: 31
+      lastFrame: 32
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
-      cycleOffset: 0
+      cycleOffset: 1
       loop: 0
       hasAdditiveReferencePose: 0
       loopTime: 0
@@ -90,11 +90,25 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.41796958
+        functionName: recoverSpeed
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.27173913
+        functionName: delayShooting
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
+      additiveReferencePoseFrame: 2
     isReadable: 0
   meshes:
     lODScreenPercentages: []
