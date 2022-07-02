@@ -51,9 +51,9 @@ public class WeaponArrow : Weapon
 
     public IEnumerator Shot()
     {
-        GameObject intantBullet = Instantiate(bullet, bulletPos.position, bulletPos.rotation);  // 탄, 생성
+        GameObject intantBullet = Instantiate(bullet, bulletPos.position, bulletPos.rotation);  // 탄피 생
         Rigidbody bulletRigid = intantBullet.GetComponent<Rigidbody>();
-        bulletRigid.velocity = bulletPos.forward * 50;  // 탄속 50
+        // bulletRigid.velocity = bulletPos.forward * 50;  // 탄속 50
 
         yield return null;
 
@@ -63,8 +63,10 @@ public class WeaponArrow : Weapon
         Vector3 caseVec = bulletCasePos.forward * Random.Range(-3, -2) + Vector3.up * Random.Range(2, 3);
 
         // 탄피에 랜덤한 힘
+        /*
         caseRigid.AddForce(caseVec, ForceMode.Impulse);
         caseRigid.AddTorque(Vector3.up * 10, ForceMode.Impulse);
+        */
     }
 
 
