@@ -44,11 +44,6 @@ public class WeaponArrow : Weapon
     }
     */
 
-    public void ArrowSkill()
-    {
-        StartCoroutine(Shot());
-    }
-
     public IEnumerator Shot()
     {
         GameObject intantBullet = Instantiate(bullet, bulletPos.position, bulletPos.rotation);  // 탄피 생

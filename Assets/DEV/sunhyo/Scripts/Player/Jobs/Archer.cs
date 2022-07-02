@@ -1,33 +1,24 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
 
 public class Archer : PlayerController
 {
-    public Button btn;
+    public GameObject ArrowFactory;    // 화살 생산할 공장
+    public Transform firePosition; // 출발 좌표
 
-    public GameObject bulletFactory;    // 총알 생산할 공장
-    public GameObject firePosition; // 총구
-
-
-    void Start()
-    {
-        btn.onClick.AddListener(Shot);
-    }
-
-
-    public void Shot()
-    {
-    }
 
     public override void UseSkill()
     {
+        //PlayerManager.keyMoveable = false;
+        //PlayerManager.mouseMoveable = false;
+
         animator.SetTrigger("doShot");
 
-        GameObject bullet = Instantiate(bulletFactory); // 총알 생성
-        bullet.transform.position = firePosition.transform.position;    // 총알 발사 (총알을 총구 위치로)
+        GameObject arrow = Instantiate(ArrowFactory, firePosition.position, firePosition.rotation); // 화살 생성
 
+
+        Destroy(arrow, 5);
 
         //StartCoroutine(Shot());
     }
