@@ -95,6 +95,13 @@ public class PlayerController : MonoBehaviour
         {
             UseSkill2();
         }
+
+        // Skill Attack3
+        // 스킬3 (단축키는 추후 변경)
+        if (Input.GetKeyDown(KeyCode.T) && canUseSkill == true)
+        {
+            UseSkill3();
+        }
     }
 
     private bool isJumpable()
@@ -241,6 +248,10 @@ public class PlayerController : MonoBehaviour
 
     }
     public virtual void UseSkill2()
+    {
+
+    }
+    public virtual void UseSkill3()
     {
 
     }
