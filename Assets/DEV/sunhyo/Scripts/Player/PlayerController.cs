@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     /* local data */
     private Rigidbody rigidBody;
     private CapsuleCollider capsuleCollider;
-    private Animator animator;
+    protected Animator animator;
     private Transform tr;
     private RaycastHit hit;
 
@@ -48,6 +48,10 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (tr == null)
+        {
+            print("tr == null");
+        }
         /* 플레이어가 적절한 타이밍에 점프할 수 있도록 땅 체크 */
         Debug.DrawRay(tr.position + (Vector3.up * 0.1f), Vector3.down * 0.3f, Color.yellow);
 
