@@ -85,7 +85,7 @@ public class Warrior : PlayerController
                     // 모든 몬스터 동시에 Damage 주기
                     foreach (GameObject monsters in monsterList)
                     {
-                        monsters.GetComponent<MonsterController>().Damage(playerManager.playerData.STR);
+                        monsters.GetComponent<MonsterController>().Damaged(playerManager.playerData.STR);
                     }
                 }
 
@@ -253,7 +253,7 @@ public class Warrior : PlayerController
                         monsterList.Add(temp);
                         // 데미지 입히기
                         monster = temp.GetComponent<MonsterController>();
-                        monster.Damage(playerManager.playerData.STR * 0.5f);
+                        monster.Damaged(playerManager.playerData.STR * 0.5f);
 
                         // 현재 isFound 상태 저장
                         isFind.Add(monster.monsterData.isFound);

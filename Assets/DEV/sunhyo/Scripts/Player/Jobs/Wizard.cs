@@ -42,7 +42,6 @@ public class Wizard : PlayerController
         }
 
         print("끝끝끝");
-        magicCircle.gameObject.SetActive(false);
     }
 
     IEnumerator SetMagicCirclePosition()
@@ -65,8 +64,8 @@ public class Wizard : PlayerController
 
             yield return null;
         }
-
-        if(terminated) magicCircle.localPosition = originalPos;
+        if (placed) magicCircle.SetParent(GameObject.Find("Playable").transform);
+        if (terminated) magicCircle.localPosition = originalPos;
 
         print("스킬 종료");
     }
@@ -76,14 +75,16 @@ public class Wizard : PlayerController
         float curTime = 0f;
 
         GameObject meteor = magicCircle.Find("Meteor").gameObject;
+        meteor.transform.position = magicCircle.position + new Vector3(0, 15f, 0);
         meteor.SetActive(true);
 
-        while(curTime <= duration)
+        while(curTime < duration)
         {
             curTime += Time.deltaTime;
             yield return null;
         }
 
-        magicCircle.localPosition = originalPos;
+        // magicCircle.localPosition = originalPos;
+        // magicCircle.gameObject.SetActive(false);
     }
 }

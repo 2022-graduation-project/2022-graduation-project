@@ -15,7 +15,7 @@ public class Arrow : Weapon
         if (other.tag == "Monster")
         {
             print(other.name);
-            other.GetComponent<MonsterController>().Damage(damage);
+            other.GetComponent<MonsterController>().Damaged(damage);
             meshCollider.enabled = false;
         }
     }
