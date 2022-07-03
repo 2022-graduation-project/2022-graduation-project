@@ -9,9 +9,11 @@ public class Wizard : PlayerController
 
     private Vector3 originalPos = new Vector3(0f, 0.01f, 0f);
     private bool placed, terminated;
-    private float duration = 1f;
+
+    // private float duration = 1f;
     private float scale = 1f;
-    private float maxDistance = 10f, minDistance = 0f;
+    private float maxDistance = 10f;
+    private float minDistance = 0f;
 
     void Awake()
     {
@@ -35,7 +37,7 @@ public class Wizard : PlayerController
 
         if (placed)
         {
-            coroutine = CallMeteors();
+            coroutine = CallMeteors(1f);
             yield return StartCoroutine(coroutine);
         }
 
@@ -69,12 +71,15 @@ public class Wizard : PlayerController
         print("스킬 종료");
     }
 
-    IEnumerator CallMeteors()
+    IEnumerator CallMeteors(float duration)
     {
         float curTime = 0f;
+
+        GameObject meteor = magicCircle.Find("Meteor").gameObject;
+        meteor.SetActive(true);
+
         while(curTime <= duration)
         {
-            print("메테오~");
             curTime += Time.deltaTime;
             yield return null;
         }
