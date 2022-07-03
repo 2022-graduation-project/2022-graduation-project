@@ -34,42 +34,6 @@ public class MonsterController : MonoBehaviour
 
     virtual public void Start()
     {
-        monsterData = DataManager.instance.LoadJsonFile
-                      <Dictionary<string, MonsterData>>
-                      (Application.dataPath + "/MAIN/Data", "goblin")
-                      ["001_goblin"];
-        // setting default state
-        monsterData.state = MonsterData.States.Idle;
-        // setting default seeking state
-        monsterData.isFound = false;
-        // setting default destination
-        monsterData.destPosition = null;
-        {/*
-            // 고스트 몬스터 기본값 처음 설정하기
-            // setting default values of Ghost
-            monsterData = new MonsterData();
-            // setting default state
-            monsterData.state = MonsterData.States.Idle;
-            // setting name
-            monsterData.name = "Goblin";
-            // setting default hp
-            monsterData.maxHp = 90f;
-            monsterData.curHp = 90f;
-            // setting default speed
-            monsterData.moveSpeed = 70f;
-            monsterData.turnSpeed = 0.1f;
-            // setting default power
-            monsterData.attackForce = 8f;
-            // setting default seeking state
-            monsterData.isFound = false;
-            // setting default destination
-            monsterData.destPosition = null;
-            // attack available distance
-            monsterData.distance = 2f;
-            */
-        }
-
-
         SetHpBar();
         hpBar.SetActive(false);
 
@@ -264,7 +228,6 @@ public class MonsterController : MonoBehaviour
         {
             //scale(-)만큼 몬스터 체력이 줄어든다.
             monsterData.curHp -= scale;
-            print(gameObject.name+" Damaged");
             UpdateHpBar(monsterData.curHp);
         }
         // 남은 체력이 없을 때

@@ -44,26 +44,7 @@ public class MonsterSkeleton : MonsterController
             monsterData.distance = 2f;
             */
         }
-
-
-        SetHpBar();
-        hpBar.SetActive(false);
-
-        // 몬스터 애니메이터
-        // Monster Animator
-        anim = GetComponent<Animator>();
-        // 몬스터 물리작용
-        // Monster Rigidbody
-        rig = GetComponent<Rigidbody>();
-        // 몬스터 매니저 스크립트 찾기
-        // get MonsterManager script from GamaManager
-        manager = GameObject.Find("MonsterManager").GetComponent<MonsterManager>();
-
-
-        UpdateHpBar(monsterData.curHp);
-
-        // start with default state
-        StartCoroutine(Idle());
+        base.Start();
     }
 
     // Update is called once per frame
