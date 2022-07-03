@@ -546,12 +546,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 133098704}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: -15}
+  m_LocalScale: {x: 0.5, y: 1, z: 0.5}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_Father: {fileID: 1427802232}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &201592474
 GameObject:
@@ -2126,7 +2126,8 @@ Transform:
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0.01, z: 0}
   m_LocalScale: {x: 10, y: 10, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 133098709}
   m_Father: {fileID: 7469347405064795434}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
@@ -3281,7 +3282,7 @@ GameObject:
   - component: {fileID: 3213429039160094654}
   - component: {fileID: 3213429039160680000}
   - component: {fileID: 3205787341081352814}
-  - component: {fileID: 6244617826103271113}
+  - component: {fileID: 3213429039163175465}
   m_Layer: 0
   m_Name: Axe
   m_TagString: Untagged
@@ -3289,16 +3290,16 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!114 &3297865831643914060
+--- !u!114 &3213429039163175465
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5901438004515891449}
+  m_GameObject: {fileID: 3213429039163175464}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6968df38c3db28743adc264b695987f9, type: 3}
+  m_Script: {fileID: 11500000, guid: 2739c9cf6d5d2f644804997bf45211ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &3597960608112893651
@@ -3390,7 +3391,7 @@ GameObject:
   - component: {fileID: 5901438004514810971}
   - component: {fileID: 5901438004514184311}
   - component: {fileID: 5838306375480422281}
-  - component: {fileID: 3297865831643914060}
+  - component: {fileID: 5901438004515891450}
   m_Layer: 0
   m_Name: Wand
   m_TagString: Untagged
@@ -3398,6 +3399,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &5901438004515891450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5901438004515891449}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2739c9cf6d5d2f644804997bf45211ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &5901438004516102535
 Transform:
   m_ObjectHideFlags: 0
@@ -3412,18 +3425,6 @@ Transform:
   m_Father: {fileID: 7200172854755083245}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6244617826103271113
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3213429039163175464}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6968df38c3db28743adc264b695987f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &7200172854755083245
 Transform:
   m_ObjectHideFlags: 0
@@ -5699,7 +5700,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f6ac4541f8655a458fc2ec20eb3c11e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerManager: {fileID: 0}
   rightWeapon: {fileID: 0}
   leftWeapon: {fileID: 0}
   weapon: {fileID: 0}

@@ -15,7 +15,7 @@ public class Wizard : PlayerController
     private float maxDistance = 10f;
     private float minDistance = 0f;
 
-    void Awake()
+    void Start()
     {
         magicCircle = GameObject.Find("/Player").transform.Find("MagicCircle");
     }
