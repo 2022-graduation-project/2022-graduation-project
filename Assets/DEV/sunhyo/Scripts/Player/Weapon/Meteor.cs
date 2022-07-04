@@ -30,8 +30,6 @@ public class Meteor : MonoBehaviour
         if(monster)
         {
             monster.Damaged(50f); // 일시적 데미지
-            // monsters.Add(monster);
-
             coroutine = Attack(monster);
             StartCoroutine(coroutine); // 지속 데미지
         }
@@ -47,9 +45,6 @@ public class Meteor : MonoBehaviour
             yield return waitforseconds;
         }
 
-        //transform.localPosition = originalPos;
-        //GetComponent<Rigidbody>().useGravity = false;
-        //GetComponent<MeshRenderer>().enabled = false;
         gameObject.SetActive(false);
     }
 }
