@@ -74,8 +74,13 @@ public class Wizard : PlayerController
     {
         float curTime = 0f;
 
+        coroutine = SetActiveMagicCircle(false);
+        StartCoroutine(coroutine);
+
         GameObject meteor = magicCircle.Find("Meteor").gameObject;
         meteor.transform.position = magicCircle.position + new Vector3(0, 15f, 0);
+        meteor.GetComponent<MeshRenderer>().enabled = true;
+        meteor.GetComponent<Rigidbody>().isKinematic = false;
         meteor.SetActive(true);
 
         while(curTime < duration)
@@ -87,4 +92,21 @@ public class Wizard : PlayerController
         // magicCircle.localPosition = originalPos;
         // magicCircle.gameObject.SetActive(false);
     }
+
+    IEnumerator SetActiveMagicCircle(bool param)
+    {
+        float curTime = 0f;
+        while(curTime < 4f)
+        {
+            curTime += Time.deltaTime;
+            yield return null;
+        }
+
+        magicCircle.gameObject.SetActive(param);
+        magicCircle.SetParent(transform);
+    }
 }
+
+
+
+// 방법은... prefab을 만들어놓고 쓰는 경우도 있겠지?

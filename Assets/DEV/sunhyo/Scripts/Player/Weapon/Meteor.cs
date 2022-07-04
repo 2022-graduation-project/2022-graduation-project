@@ -17,8 +17,9 @@ public class Meteor : MonoBehaviour
     {
         if (transform.localPosition.z >= 0)
         {
+            GetComponent<Rigidbody>().isKinematic = true;
+            GetComponent<MeshRenderer>().enabled = false;
             transform.localPosition = originalPos;
-            gameObject.SetActive(false);
         }
     }
 
@@ -41,12 +42,14 @@ public class Meteor : MonoBehaviour
         float curTime = 0f;
         while(curTime < delay)
         {
-            _monster.Damaged(delay);
+            _monster.Damaged(5f);
             curTime += 1f;
             yield return waitforseconds;
         }
 
-        transform.localPosition = originalPos;
+        //transform.localPosition = originalPos;
+        //GetComponent<Rigidbody>().useGravity = false;
+        //GetComponent<MeshRenderer>().enabled = false;
         gameObject.SetActive(false);
     }
 }
