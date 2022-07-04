@@ -11,24 +11,23 @@ public class Archer : PlayerController
 
     public override void UseSkill()
     {
+        animator.SetTrigger("UseSkill");
         StartCoroutine(Shot());
     }
 
-    IEnumerator Shot()
+    private IEnumerator Shot()
     {
-        animator.SetTrigger("UseSkill");
-
-        yield return new WaitForSeconds(0.5f);
-
         playerManager.keyMoveable = false;
         playerManager.mouseMoveable = false;
+
+        yield return new WaitForSeconds(2.0f);
         ArrowFactory.SetActive(true);
 
         GameObject arrow = Instantiate(ArrowFactory, firePosition.position, firePosition.rotation); // 화살 생성
-        Destroy(arrow, 5);
-
         playerManager.keyMoveable = true;
         playerManager.mouseMoveable = true;
+
+        Destroy(arrow, 5);
         ArrowFactory.SetActive(false);
     }
 }
