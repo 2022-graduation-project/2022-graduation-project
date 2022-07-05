@@ -218,7 +218,7 @@ public class MonsterController : MonoBehaviour
 
     // player가 monster 공격 했을 때 호출
     // If player damages monster this will be called
-    public void Damage(float scale)
+    public void Damaged(float scale)
     {
         // 애니메이션
         anim.SetTrigger("Damaged");
