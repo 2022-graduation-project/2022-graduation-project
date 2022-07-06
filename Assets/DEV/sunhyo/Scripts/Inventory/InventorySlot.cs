@@ -3,8 +3,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class InventorySlot : MonoBehaviour, IPointerClickHandler
+
+public class InventorySlot : MonoBehaviour
 {
+
     [SerializeField] Image icon;
     [SerializeField] Image count_img;
     [SerializeField] Text count_txt;
@@ -17,24 +19,10 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
         {
             itemData.count += _itemData.count;
             count_txt.text = itemData.count.ToString();
-            if(itemData.count > 1)
-                count_img.gameObject.SetActive(true);
-            else
-                count_img.gameObject.SetActive(false);
-        }
-            
-        else
-        {
-            itemData = _itemData.DeepCopy();
-            icon.sprite = DataManager.instance.LoadSpriteFile(Application.dataPath + "/DEV/sunhyo/Assets/Items", _itemData.image_name);
-
-            count_txt.text = _itemData.count.ToString();
             if (itemData.count > 1)
                 count_img.gameObject.SetActive(true);
             else
                 count_img.gameObject.SetActive(false);
-
-            SetColorA(1f);
         }
 
         if (itemData.count < 1)
@@ -50,14 +38,9 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
         itemData = null;
     }
 
-    public void OnPointerClick(PointerEventData _eventData)
+    void UseItem()
     {
-        if(itemData != null)
-        {
-            print(itemData.image_name);
-            UseItem();
-            PlayerManager.instance.UseItem(itemData);
-        }
+
     }
 
     void SetColorA(float _delta)
@@ -67,20 +50,8 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
         icon.color = color;
     }
 
-    void UseItem()
+    void UpdateItemCount()
     {
-        itemData.count--;
-        Set();
-    }
 
-    void Set()
-    {
-        count_txt.text = itemData.count.ToString();
-        if (itemData.count > 1)
-            count_img.gameObject.SetActive(true);
-        else if(itemData.count == 1)
-            count_img.gameObject.SetActive(false);
-        else
-            Reset();
     }
 }

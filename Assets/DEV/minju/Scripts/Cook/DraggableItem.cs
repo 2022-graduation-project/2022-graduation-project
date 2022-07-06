@@ -8,7 +8,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 	private RectTransform rect;             // UI 위치 제어를 위한 RectTransform
 	private CanvasGroup canvasGroup;        // UI의 알파값과 상호작용 제어를 위한 CanvasGroup
 
-	public InventorySlot slot;				// 기존 인벤토리 슬롯
+	public exInventorySlot slot;				// 기존 인벤토리 슬롯
 
 	private void Awake()
 	{

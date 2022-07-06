@@ -6,7 +6,7 @@ public class UIManager : MonoBehaviour
 {
     public PlayerUI playerUI;
     public ItemUI itemUI;
-    public InventoryUI inventoryUI;
+    public exInventoryUI inventoryUI;
 
     /* Singleton */
     public static UIManager instance;
@@ -28,7 +28,7 @@ public class UIManager : MonoBehaviour
     {
         playerUI = GameObject.Find("PlayerUI").gameObject.GetComponent<PlayerUI>();
         itemUI = GameObject.Find("Mid").transform.Find("ItemUI").GetComponent<ItemUI>();
-        inventoryUI = GameObject.Find("Mid").transform.Find("InventoryUI").GetComponent<InventoryUI>();
+        inventoryUI = GameObject.Find("Mid").transform.Find("InventoryUI").GetComponent<exInventoryUI>();
 
         playerUI.Set(_playerData);
         inventoryUI.Set(_playerData);

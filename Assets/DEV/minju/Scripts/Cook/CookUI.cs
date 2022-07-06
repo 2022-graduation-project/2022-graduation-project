@@ -26,7 +26,7 @@ public class CookUI : MonoBehaviour
         {
             GameObject emptySlot = GetEmptySlotInPool();
             // print(emptySlot);
-            emptySlot?.GetComponent<InventorySlot>().Set(_itemData);
+            emptySlot?.GetComponent<exInventorySlot>().Set(_itemData);
         }
     }
 
@@ -34,8 +34,8 @@ public class CookUI : MonoBehaviour
     {
         foreach (GameObject itemSlot in inventorySlots)
         {
-            if (itemSlot.GetComponent<InventorySlot>().itemData != null &&
-                itemSlot.GetComponent<InventorySlot>().itemData.item_name.Equals(_itemData.item_name))
+            if (itemSlot.GetComponent<exInventorySlot>().itemData != null &&
+                itemSlot.GetComponent<exInventorySlot>().itemData.item_name.Equals(_itemData.item_name))
                 return itemSlot;
         }
 
@@ -46,7 +46,7 @@ public class CookUI : MonoBehaviour
     {
         foreach (GameObject itemSlot in inventorySlots)
         {
-            if (itemSlot.GetComponent<InventorySlot>().itemData == null)
+            if (itemSlot.GetComponent<exInventorySlot>().itemData == null)
                 return itemSlot;
         }
 
