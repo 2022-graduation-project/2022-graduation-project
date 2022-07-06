@@ -1607,6 +1607,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerManager
       objectReference: {fileID: 0}
+    - target: {fileID: 5181232777357851078, guid: baf312dda9d038d45bd1c587f53a1f3f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5181232777357851079, guid: baf312dda9d038d45bd1c587f53a1f3f, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -1794,6 +1798,10 @@ PrefabInstance:
     - target: {fileID: 4530001790917410757, guid: 4ec6ad8999da8964280e709e39a65a9c, type: 3}
       propertyPath: m_Name
       value: GameManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 4530001790917410757, guid: 4ec6ad8999da8964280e709e39a65a9c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4530001790917410759, guid: 4ec6ad8999da8964280e709e39a65a9c, type: 3}
       propertyPath: m_RootOrder
@@ -2093,7 +2101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Content: {fileID: 249469437}
-  m_Horizontal: 1
+  m_Horizontal: 0
   m_Vertical: 1
   m_MovementType: 2
   m_Elasticity: 0.1
@@ -6630,6 +6638,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: UIManager
       objectReference: {fileID: 0}
+    - target: {fileID: 3828446597133807346, guid: 385eef27221441049bdaf7d6c4ce3c75, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 385eef27221441049bdaf7d6c4ce3c75, type: 3}
 --- !u!1001 &1835842454
@@ -7833,6 +7845,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerUI
       objectReference: {fileID: 0}
+    - target: {fileID: 8069355381598653790, guid: 120af39698cf97c41ab8fb7ded2c4751, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8798914081971005663, guid: 120af39698cf97c41ab8fb7ded2c4751, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -7974,6 +7990,7 @@ GameObject:
   - component: {fileID: 1865068652}
   - component: {fileID: 1865068654}
   - component: {fileID: 1865068653}
+  - component: {fileID: 1865068655}
   m_Layer: 5
   m_Name: InventoryUI
   m_TagString: Untagged
@@ -8041,6 +8058,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1865068651}
   m_CullTransparentMesh: 1
+--- !u!114 &1865068655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1865068651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42851aab34ce6a448bbf6eabf7584ac9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1919525352
 PrefabInstance:
   m_ObjectHideFlags: 0
