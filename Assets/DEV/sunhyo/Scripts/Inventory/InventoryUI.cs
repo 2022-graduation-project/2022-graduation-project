@@ -7,23 +7,40 @@ public class InventoryUI : MonoBehaviour
     private List<ItemData> itemDatas = new List<ItemData>();
     private List<InventorySlot> inventorySlots;
 
+    public static InventoryUI instance = null;
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+
+        DontDestroyOnLoad(this.gameObject);
+    }
+
     void Start()
     {
         inventorySlots = new List<InventorySlot>(GetComponentsInChildren<InventorySlot>());
 
-        //ItemData temp = new ItemData();
-        //temp.image_name = "001_mpPotion";
-        //temp.item_name = "마나 회복 포션";
-        //temp.count = 1;
-        //temp.description = "마나 10을 회복합니다.";
-        //temp.fullness = 0;
+        ItemData temp = new ItemData();
+        temp.image_name = "001_mpPotion";
+        temp.item_name = "마나 회복 포션";
+        temp.count = 2;
+        temp.description = "마나 10을 회복합니다.";
+        temp.fullness = 0;
 
-        //itemDatas.Add(temp);
+        itemDatas.Add(temp);
 
         //itemDatas.Find(x => x == temp).count += temp.count;
 
         //foreach (ItemData item in itemDatas)
         //    print(item.count);
+
+        inventorySlots[0].Set(itemDatas[0]);
     }
 
     public void AddItem(ItemData _itemData)
