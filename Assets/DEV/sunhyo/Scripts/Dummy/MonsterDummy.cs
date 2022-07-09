@@ -5,7 +5,7 @@ public class MonsterDummy : MonoBehaviour
 {
     private float hp = 100f;
 
-    public void Damage(float scale)
+    public void Damaged(float scale)
     {
         hp -= scale;
 
