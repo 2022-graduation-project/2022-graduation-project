@@ -16,9 +16,14 @@ public class NormalMonsterController : MonoBehaviour
     protected Animator animator;
 
     //public GameObject hpBarPrefab;
-    public GameObject MonsterHpBar;
     private GameObject hpBar;
     private Slider slider;
+    public Text text;
+    float maxHealth = 100;
+    float minHealth = 0;
+    //private Transform transform;    // HP Bar ㅇㅜㅣㅊㅣ
+    public float hp;
+    public float damage;
 
 
     //moving direction //Move(), Chase()
@@ -32,20 +37,11 @@ public class NormalMonsterController : MonoBehaviour
     //private Image hpBarImage;
 
     
-    public Text HpText;
-    float maxHealth = 100;
-    float minHealth = 0;
-    //private Transform transform;    // HP Bar ㅇㅜㅣㅊㅣ
-    public float hp;
-    public float damage;
+
+
     
-
-
-    virtual public void Start()
+    virtual public void Awake()
     {
-        SetHpBar();
-        hpBar.SetActive(false);
-
         // Monster Rigidbody
         rigidBody = GetComponent<Rigidbody>();
         // Monster Animator
@@ -53,6 +49,13 @@ public class NormalMonsterController : MonoBehaviour
 
         // get MonsterManager script from GamaManager
         monsterManager = GameObject.Find("MonsterManager").GetComponent<MonsterManager>();
+
+    }
+
+    virtual public void Start()
+    {
+        SetHpBar();
+        //hpBar.SetActive(false);
 
 
         UpdateHpBar(monsterData.curHp);
@@ -69,10 +72,12 @@ public class NormalMonsterController : MonoBehaviour
 
     public void SetHpBar()
     {
+        slider = GetComponent<Slider>();
+
         canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
         //transform = transform.Find("Root").Find("HpBarPos");
 
-        hpBar = transform.Find("Root").Find("Canvas").GetComponent<GameObject>();
+        hpBar = transform.Find("Root").Find("HpBarPos").GetComponent<GameObject>();
         /*
         MonsterHpBar = GameObject.Find("MonsterHpBar").GetComponent<GameObject>();
         GameObject hpBar = Instantiate<GameObject>(MonsterHpBar);
@@ -97,11 +102,12 @@ public class NormalMonsterController : MonoBehaviour
     {
         if (hp <= 10)
         {
-            HpText.color = Color.red;
+            text.color = Color.red;
         }
-        HpText.text = hp.ToString();
+        text.text = hp.ToString();
         slider.value = (hp / maxHealth);
 
+        // HP 모두 소모되면 아예 색이 사라지도록 하는 조건
         if (slider.value <= minHealth)
             transform.Find("Fill Area").gameObject.SetActive(false);
         else
@@ -215,7 +221,7 @@ public class NormalMonsterController : MonoBehaviour
         itemLocation = transform;
         itemLocation.position += new Vector3(0, 1, 0);
         // ?????? ??????????
-        manager.DropItem(itemLocation);
+        //manager.DropItem(itemLocation);
         // ?????? ????
         manager.DeleteMonster(gameObject);
     }

@@ -54,6 +54,7 @@ public class MonsterManager : MonoBehaviour
     // temporary var of ItemData
     private ItemData tempItemData;
 
+    /*
     public void DropItem(Transform itemLocation)
     {
         // Item Bag
@@ -74,6 +75,7 @@ public class MonsterManager : MonoBehaviour
             }
         }
     }
+    */
 
     // Start is called before the first frame update
     void Start()
