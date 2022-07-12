@@ -15,38 +15,67 @@ public class Wizard : PlayerController
     private float maxDistance = 10f;
     private float minDistance = 0f;
 
-    void Awake()
+    private bool meteorIsAvailable = true;
+
+    void Start()
     {
         magicCircle = GameObject.Find("/Player").transform.Find("MagicCircle");
     }
 
     public override void UseSkill()
     {
-        print("스킬 사용");
+        if(meteorIsAvailable)
+        {
+            // print("스킬 운석 떨어트리기 사용");
 
-        coroutine = Meteor();
-        StartCoroutine(coroutine);
+            meteorIsAvailable = false;
+
+            coroutine = SetMagicCircleCoolTime(10f);
+            StartCoroutine(coroutine);
+
+            coroutine = Meteor();
+            StartCoroutine(coroutine);
+        }
     }
 
+
+    /*****************************************
+     * 스킬 수행을 위한 코루틴을 [마법진 생성] -> [운석 생성] 순서로 호출
+     * 
+     * @ param - X
+     * @ return - X
+     * @ exception - X
+    ******************************************/
     IEnumerator Meteor()
     {
-        magicCircle.gameObject.SetActive(true);
-
         coroutine = SetMagicCirclePosition();
         yield return StartCoroutine(coroutine);
 
         if (placed)
         {
-            coroutine = CallMeteors(1f);
-            yield return StartCoroutine(coroutine);
+            coroutine = SetActiveMagicCircleFalse();
+            StartCoroutine(coroutine);
+
+            CallMeteors();
         }
 
         print("끝끝끝");
-        magicCircle.gameObject.SetActive(false);
     }
 
+
+    /*****************************************
+     * 마법진 생성
+     * 마우스 휠로 거리를 조정하고
+     * 설치가 완료된 경우 placed 변수를 true로 변경
+     * 
+     * @ param - X
+     * @ return - X
+     * @ exception - X
+    ******************************************/
     IEnumerator SetMagicCirclePosition()
     {
+        magicCircle.gameObject.SetActive(true);
+
         Vector3 pos;
 
         placed = false;
@@ -65,25 +94,49 @@ public class Wizard : PlayerController
 
             yield return null;
         }
-
-        if(terminated) magicCircle.localPosition = originalPos;
+        if (placed) magicCircle.SetParent(GameObject.Find("Playable").transform);
+        if (terminated) magicCircle.localPosition = originalPos;
 
         print("스킬 종료");
     }
 
-    IEnumerator CallMeteors(float duration)
+
+    /*****************************************
+     * 운석 생성
+     * meteor 오브젝트를 활성화하고 지속 시간 동안 마법진을 유지함
+     * 
+     * @ param - X
+     * @ return - X
+     * @ exception - X
+    ******************************************/
+    void CallMeteors()
+    {
+        GameObject meteor = magicCircle.Find("Meteor").gameObject;
+        meteor.transform.position = magicCircle.position + new Vector3(0, 15f, 0);
+        meteor.GetComponent<MeshRenderer>().enabled = true;
+        meteor.GetComponent<Rigidbody>().isKinematic = false;
+        meteor.SetActive(true);
+    }
+
+
+    IEnumerator SetActiveMagicCircleFalse()
     {
         float curTime = 0f;
-
-        GameObject meteor = magicCircle.Find("Meteor").gameObject;
-        meteor.SetActive(true);
-
-        while(curTime <= duration)
+        while(curTime < 4f)
         {
             curTime += Time.deltaTime;
             yield return null;
         }
-
+        
+        
+        magicCircle.gameObject.SetActive(false);
+        magicCircle.SetParent(transform);
         magicCircle.localPosition = originalPos;
+    }
+
+    IEnumerator SetMagicCircleCoolTime(float _coolTime)
+    {
+        yield return new WaitForSeconds(_coolTime); // T.T
+        meteorIsAvailable = true;
     }
 }

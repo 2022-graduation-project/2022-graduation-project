@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MonsterController : MonoBehaviour
+public class MonsterController2 : MonoBehaviour
 {
     public MonsterData monsterData;
     // MonsterMananger ????????
@@ -102,8 +102,8 @@ public class MonsterController : MonoBehaviour
     private void Animating()
     {
         //???? ??????????
-        anim.SetBool("isWalk", false);
-        anim.SetBool("isIdle", false);
+        anim.SetBool("Walk", false);
+        //anim.SetBool("isIdle", false);
         anim.SetTrigger("Attack");
     }
 
@@ -366,13 +366,18 @@ public class MonsterController : MonoBehaviour
         //Idle ?????? ?? ???? ????
         while (monsterData.state == MonsterData.States.Idle)
         {
-            //?????????? ?? ???? ??
+            /*
+            // Idle 파라미터 따로 있을 때
             if (anim.GetBool("isIdle") == false)
             {
                 //?????? ?????????? ????
                 anim.SetBool("isIdle", true);
                 anim.SetBool("isWalk", false);
             }
+            */
+
+            // Idle 파라미터 따로 없을 때
+            anim.SetBool("Walk", false);
 
             //?????????? ?????? ??
             if (monsterData.isFound)

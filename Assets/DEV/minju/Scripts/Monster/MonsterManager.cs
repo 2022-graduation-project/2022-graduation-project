@@ -39,7 +39,7 @@ public class MonsterManager : MonoBehaviour
         //UI 버튼에서 몬스터 전체 데미지 입히기
         foreach (var monster in monsters)
         {
-            monster.GetComponent<MonsterController>().Damage(-10);
+            monster.GetComponent<MonsterController>().Damaged(-10);
         }
     }
 
@@ -54,6 +54,7 @@ public class MonsterManager : MonoBehaviour
     // temporary var of ItemData
     private ItemData tempItemData;
 
+    /*
     public void DropItem(Transform itemLocation)
     {
         // Item Bag
@@ -74,6 +75,7 @@ public class MonsterManager : MonoBehaviour
             }
         }
     }
+    */
 
     // Start is called before the first frame update
     void Start()

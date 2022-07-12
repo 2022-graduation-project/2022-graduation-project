@@ -3,25 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MonsterController : MonoBehaviour
+public class NormalMonsterController : MonoBehaviour
 {
+    /* Manager */
+    protected MonsterManager monsterManager;
+
+    /* local data ? runtime data ? */
     public MonsterData monsterData;
-    // MonsterMananger ????????
     // for using manager's func
-    public MonsterManager manager;
-    //???? ????????
-    public Rigidbody rig;
-    // ?????? ??????????
-    // Monster Animator
-    public Animator anim;
+    public MonsterManager manager;  // ㅁㅏㅈㄴㅑ?
+    protected Rigidbody rigidBody;
+    protected Animator animator;
 
-    public GameObject hpBarPrefab;
-    public GameObject hpBar;
+    //public GameObject hpBarPrefab;
+    private GameObject hpBar;
+    private Slider slider;
+    public Text text;
+    float maxHealth = 100;
+    float minHealth = 0;
+    //private Transform transform;    // HP Bar ㅇㅜㅣㅊㅣ
+    public float hp;
+    public float damage;
 
 
-
-
-    //???????? ????
     //moving direction //Move(), Chase()
     private Vector3 direction;
     // ???????? ????????
@@ -29,59 +33,29 @@ public class MonsterController : MonoBehaviour
     private PlayerController player;
     // ?? ?????? hpBar
     private Vector3 hpBarOffset = new Vector3(0, 2.2f, 0);
-    private Canvas uiCanvas;
-    private Image hpBarImage;
+    private Canvas canvas;
+    //private Image hpBarImage;
+
+    
+
+
+    
+    virtual public void Awake()
+    {
+        // Monster Rigidbody
+        rigidBody = GetComponent<Rigidbody>();
+        // Monster Animator
+        animator = GetComponent<Animator>();
+
+        // get MonsterManager script from GamaManager
+        monsterManager = GameObject.Find("MonsterManager").GetComponent<MonsterManager>();
+
+    }
 
     virtual public void Start()
     {
-        monsterData = DataManager.instance.LoadJsonFile
-                      <Dictionary<string, MonsterData>>
-                      (Application.dataPath + "/MAIN/Data", "goblin")
-                      ["001_goblin"];
-        // setting default state
-        monsterData.state = MonsterData.States.Idle;
-        // setting default seeking state
-        monsterData.isFound = false;
-        // setting default destination
-        monsterData.destPosition = null;
-        {/*
-            // ?????? ?????? ?????? ???? ????????
-            // setting default values of Ghost
-            monsterData = new MonsterData();
-            // setting default state
-            monsterData.state = MonsterData.States.Idle;
-            // setting name
-            monsterData.name = "Goblin";
-            // setting default hp
-            monsterData.maxHp = 90f;
-            monsterData.curHp = 90f;
-            // setting default speed
-            monsterData.moveSpeed = 70f;
-            monsterData.turnSpeed = 0.1f;
-            // setting default power
-            monsterData.attackForce = 8f;
-            // setting default seeking state
-            monsterData.isFound = false;
-            // setting default destination
-            monsterData.destPosition = null;
-            // attack available distance
-            monsterData.distance = 2f;
-            */
-        }
-
-
         SetHpBar();
-        hpBar.SetActive(false);
-
-        // ?????? ??????????
-        // Monster Animator
-        anim = GetComponent<Animator>();
-        // ?????? ????????
-        // Monster Rigidbody
-        rig = GetComponent<Rigidbody>();
-        // ?????? ?????? ???????? ????
-        // get MonsterManager script from GamaManager
-        manager = GameObject.Find("MonsterManager").GetComponent<MonsterManager>();
+        //hpBar.SetActive(false);
 
 
         UpdateHpBar(monsterData.curHp);
@@ -90,6 +64,67 @@ public class MonsterController : MonoBehaviour
         StartCoroutine(Idle());
     }
 
+
+
+    /*---------------------------------------------
+     *              HP BAR
+     * -------------------------------------------*/
+
+    public void SetHpBar()
+    {
+        slider = GetComponent<Slider>();
+
+        canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
+        //transform = transform.Find("Root").Find("HpBarPos");
+
+        hpBar = transform.Find("Root").Find("HpBarPos").GetComponent<GameObject>();
+        /*
+        MonsterHpBar = GameObject.Find("MonsterHpBar").GetComponent<GameObject>();
+        GameObject hpBar = Instantiate<GameObject>(MonsterHpBar);
+        */
+
+        /*
+        GameObject hpBar = Instantiate<GameObject>(MonsterHpBar, transform.position, Quaternion.identity, canvas.transform);
+        slider = GetComponent<Slider>();
+        HpText = GetComponent<Text>();
+        */
+
+        // hpBarImage = hpBar.GetComponentsInChildren<Image>()[1];
+
+        /*
+        var _hpbar = hpBar.GetComponent<EnemyHpBar>();
+        _hpbar.targetTr = transform;
+        _hpbar.offset = hpBarOffset;
+        */
+    }
+
+    public void UpdateHpBar(float hp)
+    {
+        if (hp <= 10)
+        {
+            text.color = Color.red;
+        }
+        text.text = hp.ToString();
+        slider.value = (hp / maxHealth);
+
+        // HP 모두 소모되면 아예 색이 사라지도록 하는 조건
+        if (slider.value <= minHealth)
+            transform.Find("Fill Area").gameObject.SetActive(false);
+        else
+            transform.Find("Fill Area").gameObject.SetActive(true);
+
+
+
+        /*
+        hpBarImage.fillAmount = hp / monsterData.maxHp;
+        if (hp <= 0f)
+        {
+            hpBarImage.GetComponentsInParent<Image>()[1].color = Color.clear;
+        }
+        */
+    }
+
+   
     private void DeleteHpBar()
     {
         Destroy(hpBar);
@@ -97,23 +132,19 @@ public class MonsterController : MonoBehaviour
 
 
 
-    // ???? ?????????? ????
     // Attack aniamating
     private void Animating()
     {
-        //???? ??????????
-        anim.SetBool("isWalk", false);
-        anim.SetBool("isIdle", false);
-        anim.SetTrigger("Attack");
+        animator.SetBool("Dead", false);
+        animator.SetBool("Walk", false);
+        animator.SetTrigger("Attack");
     }
 
     // ???????? ????
     // damaging player
     private void damaging()
     {
-
         player.Damaged(monsterData.attackForce);
-
     }
 
 
@@ -238,7 +269,7 @@ public class MonsterController : MonoBehaviour
                     Animating();
                 }
             }
-            else anim.SetBool("isIdle", true);
+            else animator.SetBool("isIdle", true);
             //Wait until next frame
             yield return null;
         }
@@ -254,24 +285,23 @@ public class MonsterController : MonoBehaviour
 
     // player?? monster ???? ???? ?? ????
     // If player damages monster this will be called
-    public void Damaged(float scale)
+    public void Damage(float scale)
     {
         // ??????????
-        anim.SetTrigger("Damaged");
+        animator.SetTrigger("Damaged");
 
         // ???? ?????? ???? ???? ??
         if (monsterData.curHp > 0)
         {
             //scale(-)???? ?????? ?????? ????????.
             monsterData.curHp -= scale;
-            print(gameObject.name + " Damaged");
             UpdateHpBar(monsterData.curHp);
         }
         // ???? ?????? ???? ??
         else
         {
             // ???? ??????????
-            anim.SetBool("Dead", true);
+            animator.SetBool("Dead", true);
             // ?????? ?????? ????
             DeleteHpBar();
             Invoke("Die", 1f);
@@ -287,7 +317,7 @@ public class MonsterController : MonoBehaviour
     public void Move()
     {
         //?????? ???? ????
-        rig.AddForce(direction * Time.deltaTime * monsterData.moveSpeed, ForceMode.VelocityChange);
+        rigidBody.AddForce(direction * Time.deltaTime * monsterData.moveSpeed, ForceMode.VelocityChange);
 
         // ???? ???????? ??????
         transform.LookAt(Vector3.Lerp(transform.position, monsterData.destPosition.position, monsterData.turnSpeed * Time.deltaTime));
@@ -300,11 +330,11 @@ public class MonsterController : MonoBehaviour
     public IEnumerator Chase()
     {
         //?????????? ?? ???? ??
-        if (anim.GetBool("isWalk") == false)
+        if (animator.GetBool("isWalk") == false)
         {
             //???? ??????????
-            anim.SetBool("isWalk", true);
-            anim.SetBool("isIdle", false);
+            animator.SetBool("isWalk", true);
+            animator.SetBool("isIdle", false);
         }
 
         //???? ????
@@ -363,63 +393,34 @@ public class MonsterController : MonoBehaviour
 
     public IEnumerator Idle()
     {
-        //Idle ?????? ?? ???? ????
+        // Idle
         while (monsterData.state == MonsterData.States.Idle)
         {
-            //?????????? ?? ???? ??
-            if (anim.GetBool("isIdle") == false)
+            // ??
+            if (animator.GetBool("Idle") == false)
             {
-                //?????? ?????????? ????
-                anim.SetBool("isIdle", true);
-                anim.SetBool("isWalk", false);
+                // ?????? ?????????? ????
+                animator.SetBool("Idle", true);
+                animator.SetBool("Walk", false);
             }
 
-            //?????????? ?????? ??
+            // ?????????? ?????? ??
             if (monsterData.isFound)
             {
-                //?????? ?????? ???? ?????? ????
+                // ?????? ?????? ???? ?????? ????
                 monsterData.state = MonsterData.States.Chase;
 
-                //?????????? ?? ?? ??????, ????????.
+                // ???
                 StartCoroutine(Chase());
                 yield break;
             }
 
-            //Patrol ???????
+            // Patrol ???????
 
             yield return new WaitForSeconds(1.0f);
         }
         // ???? ?????????? ????????.
         yield return null;
-    }
-
-    /*---------------------------------------------
-     *              SETHPBAR
-     * -------------------------------------------*/
-
-    public void SetHpBar()
-    {
-        uiCanvas = GameObject.Find("UI Canvas").GetComponent<Canvas>();
-        hpBar = Instantiate<GameObject>(hpBarPrefab, transform.position, Quaternion.identity, uiCanvas.transform);
-        //hpBar = Instantiate<GameObject>(hpBarPrefab, transform.position, Quaternion.identity, uiCanvas.transform);
-        hpBarImage = hpBar.GetComponentsInChildren<Image>()[1];
-
-        var _hpbar = hpBar.GetComponent<EnemyHpBar>();
-        _hpbar.targetTr = transform;
-        _hpbar.offset = hpBarOffset;
-    }
-
-    /*---------------------------------------------
-     *              UPDATEHPBAR
-     * -------------------------------------------*/
-
-    public void UpdateHpBar(float hp)
-    {
-        hpBarImage.fillAmount = hp / monsterData.maxHp;
-        if (hp <= 0f)
-        {
-            hpBarImage.GetComponentsInParent<Image>()[1].color = Color.clear;
-        }
     }
 
 }
