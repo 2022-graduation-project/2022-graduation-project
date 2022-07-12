@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
@@ -137,6 +138,25 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHand
             DragSlot.instance.gameObject.SetActive(false);
             return;
         }
+
+        //아이템 버리기
+        if (eventData.pointerCurrentRaycast.gameObject == null)
+        {
+            Reset();
+            DragSlot.instance.Reset();
+            DragSlot.instance.gameObject.SetActive(false);
+            return;
+        }
+        //try
+        //{
+        //    print(eventData.pointerCurrentRaycast.gameObject);
+        //    print(eventData.pointerCurrentRaycast.gameObject.name);
+        //}
+        //catch (NullReferenceException e)
+        //{
+        //    print("Null exception");
+        //}
+        
 
         SetColorA(1f);
         DragSlot.instance.Reset();
