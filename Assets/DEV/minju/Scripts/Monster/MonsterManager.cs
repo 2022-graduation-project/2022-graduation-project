@@ -32,7 +32,7 @@ public class MonsterManager : MonoBehaviour
 
     // 몬스터 프리펩 이름
     // names of monsters
-    string[] kindsOfMonsters; 
+    string[] kindsOfMonsters;
 
     public void Damaging()
     {
@@ -54,7 +54,6 @@ public class MonsterManager : MonoBehaviour
     // temporary var of ItemData
     private ItemData tempItemData;
 
-    /*
     public void DropItem(Transform itemLocation)
     {
         // Item Bag
@@ -65,17 +64,16 @@ public class MonsterManager : MonoBehaviour
         int countOfDrop = Random.Range(0, 4);
 
         // Create Random Items in ItemBag
-        for(int i = 0; i < countOfDrop; i++)
+        for (int i = 0; i < countOfDrop; i++)
         {
             int randomIndex = Random.Range(0, countOfItems);
             // 해당 itemBag에 넣은 random item 정보 추가
-            if(itemDict.TryGetValue(keysOfItems[randomIndex], out tempItemData))
+            if (itemDict.TryGetValue(keysOfItems[randomIndex], out tempItemData))
             {
                 itemBag.GetComponent<ItemBag>().AddItem(tempItemData);
             }
         }
     }
-    */
 
     // Start is called before the first frame update
     void Start()
@@ -93,7 +91,7 @@ public class MonsterManager : MonoBehaviour
 
         countOfItems = keysOfItems.Count;
 
-        
+
 
         // 배열 0으로 초기화
         // initiate elements as 0
@@ -112,7 +110,7 @@ public class MonsterManager : MonoBehaviour
         {   // 30마리 생성
             // Random spawn points (1 ~ 50)
             spawnNumber = Random.Range(1, 51);
-            
+
             // 랜덤 생성이 중복이 아닌지 확인하기
             // Check duplicate
             if (repeatRandom(spawnNumber))
@@ -125,7 +123,7 @@ public class MonsterManager : MonoBehaviour
         }
 
     }
-    private int idOfMonster = 0;
+
     // 몬스터 생성
     // Create Monster
     public void CreateMonster(Transform currentLocation)
@@ -140,9 +138,9 @@ public class MonsterManager : MonoBehaviour
 
             // ���� ���� �����ϱ�
             // add new monster to curruent location of scene
-            GameObject objMonster = Instantiate(Resources.Load(kindsOfMonsters[Random.Range(0, 3)]), 
-                currentLocation.position, Quaternion.identity * Quaternion.Euler(new Vector3(0,Random.Range(0,360),0))) as GameObject;
-            objMonster.name = objMonster.name + (++idOfMonster).ToString();
+            GameObject objMonster = Instantiate(Resources.Load(kindsOfMonsters[Random.Range(0, 3)]),
+                currentLocation.position, Quaternion.identity * Quaternion.Euler(new Vector3(0, Random.Range(0, 360), 0))) as GameObject;
+
             // ���� ���� ����Ʈ�� �߰��ϱ�
             // add monster object in list
             monsters.Add(objMonster);
@@ -165,10 +163,9 @@ public class MonsterManager : MonoBehaviour
         // ���� �ο� �� Update
         // update current num of Monsters
         curNumMonsters--;
-        idOfMonster--;
     }
 
-    
+
 
     // 중복 아닌 랜덤 스폰포인트 뽑기
     bool repeatRandom(int temp)

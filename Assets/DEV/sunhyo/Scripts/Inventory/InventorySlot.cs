@@ -27,6 +27,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
         {
             itemData = _itemData.DeepCopy();
             icon.sprite = DataManager.instance.LoadSpriteFile(Application.dataPath + "/DEV/sunhyo/Assets/Items", _itemData.image_name);
+            icon.sprite.name = _itemData.image_name;
 
             count_txt.text = _itemData.count.ToString();
             if (itemData.count > 1)
