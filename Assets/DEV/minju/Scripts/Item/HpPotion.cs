@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HpPotion : MonoBehaviour, ItemUse
+public class HpPotion : ItemUse
 {
 
-    void ItemUse.Use()
+    override public void Use()
     {
-        // 아이템 이름 가져오기
-        string img_name = GetComponent<Image>().sprite.name;
+        print("It will heal Player");
     }
 
     // Start is called before the first frame update
