@@ -4,15 +4,21 @@ using UnityEngine;
 
 public class SelfDesMonster : NormalMonster
 {
-    // Start is called before the first frame update
-    void Start()
+    protected override void Awake()
     {
-        
+        base.Awake();
+        attackRange = 2.5f;
     }
 
-    // Update is called once per frame
-    void Update()
+    protected override void Update()
     {
-        
+        base.Update();
+    }
+
+    IEnumerator Attack()
+    {
+        yield return new WaitForSeconds(attackDelay);
+
+
     }
 }

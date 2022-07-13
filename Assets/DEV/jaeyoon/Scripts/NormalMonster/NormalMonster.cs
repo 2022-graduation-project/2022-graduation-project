@@ -1,11 +1,8 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class NormalMonster : MonoBehaviour
 {
-    public Vector3 dir;
     public Transform target = null; // 추적할 대상의 좌표
     protected float speed = 1.5f;  // 몬스터의 이동(추적) 속도
     protected float distance;
@@ -15,12 +12,12 @@ public class NormalMonster : MonoBehaviour
     protected Animator animator;
 
     
-    virtual protected void Awake()
+    protected virtual void Awake()
     {
         animator = GetComponent<Animator>();
     }
     
-    void Update()
+    protected virtual void Update()
     {
         if (target != null)
         {
@@ -47,14 +44,15 @@ public class NormalMonster : MonoBehaviour
         yield return new WaitForSeconds(attackDelay);
     }
 
-    private void Chase()
+    protected void Chase()
     {
         transform.LookAt(target);   // 타겟 바라보게 함
-        dir = target.position - transform.position;
+        // 타겟 위치 받아와서 따라가도록 설정
+        Vector3 dir = target.position - transform.position;
         transform.position += dir.normalized * speed * Time.deltaTime;
     }
-    
-    private void OnTriggerEnter(Collider other)
+
+    protected void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
         {
@@ -63,7 +61,7 @@ public class NormalMonster : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    protected void OnTriggerExit(Collider other)
     {
         target = null;
         Debug.Log("Monster : Target lost");
