@@ -53,7 +53,7 @@ public class LoginManage : MonoBehaviour
     [HideInInspector]
     public bool isLoggedIn = false;
 
-    // 로그인 버튼 클릭 시
+    // 맨 첫 로그인 버튼
     public void ClickLoginButton()
     {
         LoginWindow.SetActive(true);
@@ -65,7 +65,7 @@ public class LoginManage : MonoBehaviour
     [Header("Server Panel")]
     public GameObject serverPanel;
 
-    // Server 클릭 시
+    // Load Last Save 버튼
     public void ClickLoadLastSave()
     {
         if (!isLoggedIn)
@@ -80,7 +80,7 @@ public class LoginManage : MonoBehaviour
     }
 
 
-    // ȸ������ ��ư ������ ����
+    // 회원가입 버튼 누르고 나서
     public void UpdateAccountValues()
     {
         // Register
@@ -97,7 +97,7 @@ public class LoginManage : MonoBehaviour
         //delPasswordString = delPassword.text;
     }
 
-    // ȸ������ ��ư ������ ��
+    // 회원가입 버튼 눌렀을 때
     public void ConfirmNewAccount()
     {
 
@@ -109,7 +109,7 @@ public class LoginManage : MonoBehaviour
 
         if (Username != "")
         {
-            if (!System.IO.File.Exists(m_Path + "_" + Username + ".json"))
+            if (!System.IO.File.Exists(m_Path + "_" + Username + ".txt"))
             {
                 UN = true;
             }
@@ -174,7 +174,7 @@ public class LoginManage : MonoBehaviour
                 Password += Encrypted.ToString();
             }
             form = (Username + Environment.NewLine + Password + Environment.NewLine + "counts0");
-            System.IO.File.WriteAllText(m_Path + "_" + Username + ".json", form);
+            System.IO.File.WriteAllText(m_Path + "_" + Username + ".txt", form);
             Username = "";
             Password = "";
             username.text = "";
@@ -190,14 +190,14 @@ public class LoginManage : MonoBehaviour
         }
     }
 
-    // �޽��� ����
+    // 메시지 전달
     // called when returned back to the database menu, confirmation message displays temporarily
     public void MessageDisplayDatabase(string message, Color col)
     {
         StartCoroutine(MessageDisplay(message, col));
     }
 
-    // �޽��� ����
+    // 메시지 띄우기
     IEnumerator MessageDisplay(string message, Color col)
     { // Display and then clear
         messageDisplayDatabase.color = col;
@@ -206,7 +206,7 @@ public class LoginManage : MonoBehaviour
         messageDisplayDatabase.text = "";
     }
 
-    // �α��� â�� �α��� ��ư
+    // 로그인 창의 로그인 버튼
     public void ClickAcceptButton()
     {
         logUsernameString = logUsername.text;
@@ -219,10 +219,10 @@ public class LoginManage : MonoBehaviour
 
         if (logUsernameString != "")
         {
-            if (System.IO.File.Exists(m_Path + "_" + logUsernameString + ".json"))
+            if (System.IO.File.Exists(m_Path + "_" + logUsernameString + ".txt"))
             {
                 UN = true;
-                Lines = System.IO.File.ReadAllLines(m_Path + "_" + logUsernameString + ".json");
+                Lines = System.IO.File.ReadAllLines(m_Path + "_" + logUsernameString + ".txt");
             }
 
             else
@@ -239,7 +239,7 @@ public class LoginManage : MonoBehaviour
 
         if (logPasswordString != "")
         {
-            if (System.IO.File.Exists(m_Path + "_" + logUsernameString + ".json"))
+            if (System.IO.File.Exists(m_Path + "_" + logUsernameString + ".txt"))
             {
                 int i = 1;
                 foreach (char c in Lines[1])
@@ -283,15 +283,15 @@ public class LoginManage : MonoBehaviour
             LoginSucceess();
 
             /*
-            // �� �α��� �� ĳ��â �ʱ�ȭ
+            // 새 로그인 시 캐선창 초기화
             lastCharacter = 1;
             Transform[] childList = contents.GetComponentsInChildren<Transform>();
             if (childList != null)
             {
-                // contents �θ� �ڽ��� ���ϱ� ���� i=1����
+                // contents 부모 자신은 피하기 위해 i=1부터
                 for(int i = 1; i < childList.Length; i++)
                 {
-                    // contents �θ� �ڽ� �� �� �� ���ϱ�
+                    // contents 부모 자신 한 번 더 피하기
                     if (childList[i] != transform)
                     {
                         Destroy(childList[i].gameObject);
@@ -311,20 +311,20 @@ public class LoginManage : MonoBehaviour
     public GameObject loginBtn;
     public GameObject logoutBtn;
 
-    // �α��� ���� �� �α׾ƿ� ��ư Ȱ��ȭ
+    // 로그인 성공 시 로그아웃 버튼 활성화
     public void LoginSucceess()
     {
         loginBtn.SetActive(false);
         logoutBtn.SetActive(true);
     }
-    
-    // �α׾ƿ� �� �� �ٽ� ����
+
+    // 로그아웃 시 씬 다시 시작
     public void RequestLogout()
     {
         SceneManager.LoadScene("Start");
     }
 
-    // â ������ ����
+    // 창 앞으로 띄우기
     Transform tempParent;
     public void MoveToFront(GameObject currentObj)
     {
@@ -336,13 +336,13 @@ public class LoginManage : MonoBehaviour
     public TMP_Text charName;
     private string newForm;
     private string newName;
-    // ĳ���� ����
+    // 캐릭터 생성
     public void SetCharacter()
     {
         newName = charName.text;
         newForm = "";
 
-        foreach(string s in Lines)
+        foreach (string s in Lines)
         {
             if (s.Contains("counts"))
             {
@@ -361,9 +361,9 @@ public class LoginManage : MonoBehaviour
 
         //System.IO.File.Delete(m_Path + "_" + profileName.text + ".txt");
         //System.IO.File.WriteAllText(m_Path + "_" + profileName.text + ".txt", newForm);
-        
+
         //overwrite
-        using (var writer = new StreamWriter(m_Path + "_" + profileName.text + ".json", append: false))
+        using (var writer = new StreamWriter(m_Path + "_" + profileName.text + ".txt", append: false))
         {
             writer.WriteLine(newForm);
         }
@@ -374,14 +374,14 @@ public class LoginManage : MonoBehaviour
     public UnityEngine.Object characterPrefab;
     private int lastCharacter = 1;
 
-    // �α��� �������� ĳ���� ���� ��������
+    // 로그인 정보에서 캐릭터 정보 가져오기
     public void GetCharacters()
     {
         print("lastCharacter: " + lastCharacter);
-        // ���� ���� ����
-        Lines = System.IO.File.ReadAllLines(m_Path + "_" + profileName.text + ".json");
+        // 유저 정보 갱신
+        Lines = System.IO.File.ReadAllLines(m_Path + "_" + profileName.text + ".txt");
 
-        // ���� ĳ���� ���� ��
+        // 보유 캐릭터 없을 때
         // "counts0" -> (int) 0
         int countsOfCharacters = int.Parse(Regex.Replace(Lines[2], @"\D", ""));
         if (countsOfCharacters == 0)
@@ -391,9 +391,9 @@ public class LoginManage : MonoBehaviour
 
         else
         {
-            for(int i = lastCharacter; i <= countsOfCharacters; i++)
+            for (int i = lastCharacter; i <= countsOfCharacters; i++)
             {
-                //�ݺ��� -> ������ ��ũ�Ѻ� �ȿ� ĳ����â ����
+                //반복문 -> 프리펩 스크롤뷰 안에 캐릭터창 생성
                 GameObject characterWin = Instantiate(characterPrefab, contents) as GameObject;
                 characterWin.transform.Find("Name").GetComponent<TMP_Text>().text = Lines[2 + i];
             }
@@ -405,14 +405,14 @@ public class LoginManage : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // �α��� ������ ����� ���
-        m_Path = Application.dataPath+"/MAIN/Data/";
+        // 로그인 데이터 저장소 경로
+        m_Path = Application.dataPath;
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }

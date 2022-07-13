@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MonsterData : MonoBehaviour
 {
-    //¸ó½ºÅÍ »óÅÂ
+    // ëª¬ìŠ¤í„° ìƒíƒœ
     public enum States
     {
         Idle, Patrol, Chase, Attack
@@ -12,24 +12,24 @@ public class MonsterData : MonoBehaviour
     public States state;
 
 
-    //¸ó½ºÅÍ ÀÌ¸§
+    // ëª¬ìŠ¤í„° ì´ë¦„
     public string name;
-    //¸ó½ºÅÍ ÃÖ´ë Ã¼·Â
+    // ìµœëŒ€ ì²´ë ¥
     public float maxHp;
-    //¸ó½ºÅÍ ÇöÀç Ã¼·Â
+    // í˜„ì¬ ì²´ë ¥
     public float curHp;
-    //¸ó½ºÅÍ ¿òÁ÷ÀÓ ¼Óµµ
+    // ì´ë™ ì†ë„
     public float moveSpeed;
 
 
-    //¸ó½ºÅÍ °ø°İ·Â
+    // ê³µê²©ë ¥
     public float attackForce;
-    //¸ó½ºÅÍ È¸Àü ¼Óµµ
+    // íšŒì „ ì†ë„
     public float turnSpeed;
-    //ÇÃ·¹ÀÌ¾î Ã£¾Ò´ÂÁö ¿©ºÎ
+    // í”Œë ˆì´ì–´ ì°¾ì€ ì—¬ë¶€
     public bool isFound;
-    //ÇÃ·¹ÀÌ¾î À§Ä¡ ±â¾ï (Chase: player location)
+    // ë°œê²¬í•œ í”Œë ˆì´ì–´ì˜ ìœ„ì¹˜ (Chase: player location)
     public Transform destPosition;
-    //¸ó½ºÅÍ¿Í ÇÃ·¹ÀÌ¾î »çÀÌ °Å¸®
+    // í”Œë ˆì´ì–´ì™€ ëª¬ìŠ¤í„° ì‚¬ì´ì˜ ê±°ë¦¬
     public float distance;
 }
