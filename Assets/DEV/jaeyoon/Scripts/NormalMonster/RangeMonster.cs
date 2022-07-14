@@ -15,6 +15,7 @@ public class RangeMonster : NormalMonster
     {
         base.Awake();
         attackRange = 3.0f;
+        attackDelay = 1.0f;
     }
 
     
@@ -77,6 +78,6 @@ public class RangeMonster : NormalMonster
     private IEnumerator Destroy(int index)
     {
         yield return new WaitForSeconds(5);
-        arrowPool[currentIndex].gameObject.SetActive(false);
+        arrowPool[index].gameObject.SetActive(false);
     }
 }

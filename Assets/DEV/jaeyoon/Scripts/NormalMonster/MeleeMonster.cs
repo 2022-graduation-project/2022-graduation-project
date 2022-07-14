@@ -8,5 +8,6 @@ public class MeleeMonster : NormalMonster
     {
         base.Awake();
         attackRange = 1.75f;
+        attackDelay = 1.0f;
     }
 }
