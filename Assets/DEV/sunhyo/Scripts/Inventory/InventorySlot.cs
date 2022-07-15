@@ -12,6 +12,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
 
     public ItemData itemData = null;
 
+
     public void Set(ItemData _itemData)
     {
         iconObject = transform.GetChild(0).gameObject;
@@ -79,6 +80,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
 
     void UseItem()
     {
+
         // 자식 오브젝트 Icon의 
         // 아이템 스크립트 Use() 호출하기
         CallEachItemUse();

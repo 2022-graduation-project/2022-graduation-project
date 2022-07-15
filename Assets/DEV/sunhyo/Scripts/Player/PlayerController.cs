@@ -255,4 +255,16 @@ public class PlayerController : MonoBehaviour
     {
 
     }
+
+    
+    /************************************************/
+    /*                   상태 이상                   */
+    /************************************************/
+    public IEnumerator Healing(float healAmount)
+    {
+
+        playerManager.playerData.curHp += healAmount;
+        UIManager.instance.playerUI.UpdateHpBar(playerManager.playerData.maxHp, playerManager.playerData.curHp);
+        yield break;
+    }
 }

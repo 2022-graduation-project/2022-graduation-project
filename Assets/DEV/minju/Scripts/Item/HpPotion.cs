@@ -3,12 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HpPotion : MonoBehaviour, ItemUse
+public class HpPotion : ItemUse
 {
-
-    public void Use()
+    public override void Use()
     {
-        print("It will heal Player");
+        // player 상태이상 함수 갖고 있는 스크립트 가져오기
+        player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+        // 회복 값 설정
+        healAmount = 10;
+        // 상태이상 함수 Healing 호출
+        StartCoroutine(player.Healing(healAmount));
+        print("Healed the player +10");
     }
 
     // Start is called before the first frame update

@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bomb : MonoBehaviour, ItemUse
+public class Bomb : ItemUse
 {
-    public void Use()
+    public override void Use()
     {
         print("It will damage Monster");
     }

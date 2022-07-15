@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MpPotion : MonoBehaviour, ItemUse
+public class MpPotion : ItemUse
 {
-    public void Use()
+    public override void Use()
     {
         print("It will refill Player's mana");
     }

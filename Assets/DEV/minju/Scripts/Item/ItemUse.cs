@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public interface ItemUse 
+public abstract class ItemUse : MonoBehaviour
 {
-    public void Use();
+    protected PlayerController player;
+
+    protected float healAmount;
+    public abstract void Use();
 }
