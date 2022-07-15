@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Arrow : Weapon
+public class Arrow2 : Weapon
 {
     public float speed = 5; // 이동 속도
 
