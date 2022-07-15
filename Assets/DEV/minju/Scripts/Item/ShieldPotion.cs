@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShieldPotion : ItemUse
+public class ShieldPotion : MonoBehaviour, ItemUse
 {
-    override public void Use()
+    public void Use()
     {
         print("It will protect damage");
     }

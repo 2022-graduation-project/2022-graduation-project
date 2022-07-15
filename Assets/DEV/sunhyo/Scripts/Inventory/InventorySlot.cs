@@ -32,30 +32,8 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
             icon.sprite = DataManager.instance.LoadSpriteFile(Application.dataPath + "/DEV/sunhyo/Assets/Items", _itemData.image_name);
             icon.sprite.name = _itemData.image_name;
 
-            switch (itemData.image_name)
-            {
-            case "000_hpPotion":
-                iconObject.AddComponent<HpPotion>();
-                break;
-            case "001_mpPotion":
-                iconObject.AddComponent<MpPotion>();
-                break;
-            case "002_apple":
-                iconObject.AddComponent<HpPotion>();
-                break;
-            case "003_meat":
-                iconObject.AddComponent<HpPotion>();
-                break;
-            case "004_gosu":
-                iconObject.AddComponent<MpPotion>();
-                break;
-            case "005_sheildPotion":
-                iconObject.AddComponent<ShieldPotion>();
-                break;
-            case "006_bomb":
-                iconObject.AddComponent<Bomb>();
-                break;
-            }
+            // 자식 오브젝트 Icon에 해당 아이템 종류의 스크립트 컴포넌트 생성
+            CreateItemComponent();
 
             count_txt.text = _itemData.count.ToString();
             if (itemData.count > 1)
@@ -72,30 +50,8 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
 
     public void Reset()
     {
-        switch (itemData.image_name)
-        {
-            case "000_hpPotion":
-                Destroy(iconObject.GetComponent<HpPotion>());
-                break;
-            case "001_mpPotion":
-                Destroy(iconObject.GetComponent<MpPotion>());
-                break;
-            case "002_apple":
-                Destroy(iconObject.GetComponent<HpPotion>());
-                break;
-            case "003_meat":
-                Destroy(iconObject.GetComponent<HpPotion>());
-                break;
-            case "004_gosu":
-                Destroy(iconObject.GetComponent<MpPotion>());
-                break;
-            case "005_sheildPotion":
-                Destroy(iconObject.GetComponent<ShieldPotion>());
-                break;
-            case "006_bomb":
-                Destroy(iconObject.GetComponent<Bomb>());
-                break;
-        }
+        // 자식 오브젝트 Icon에서 아이템 스크립트 컴포넌트 삭제
+        DeleteItemComponent();
 
         SetColorA(0f);
         icon.sprite = null;
@@ -123,6 +79,106 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
 
     void UseItem()
     {
+        // 자식 오브젝트 Icon의 
+        // 아이템 스크립트 Use() 호출하기
+        CallEachItemUse();
+        itemData.count--;
+        Set();
+    }
+
+    void Set()
+    {
+        count_txt.text = itemData.count.ToString();
+        if (itemData.count > 1)
+            count_img.gameObject.SetActive(true);
+        else if(itemData.count == 1)
+            count_img.gameObject.SetActive(false);
+        else
+            Reset();
+    }
+
+    /*****************************************
+     * (아이템 추가 시)
+     * 해당 아이템 역할 부여
+     * 
+     * @ param - X
+     * @ return - X
+     * @ exception - X
+    ******************************************/
+    void CreateItemComponent()
+    {
+        switch (itemData.image_name)
+            {
+            case "000_hpPotion":
+                iconObject.AddComponent<HpPotion>();
+                break;
+            case "001_mpPotion":
+                iconObject.AddComponent<MpPotion>();
+                break;
+            case "002_apple":
+                iconObject.AddComponent<HpPotion>();
+                break;
+            case "003_meat":
+                iconObject.AddComponent<HpPotion>();
+                break;
+            case "004_gosu":
+                iconObject.AddComponent<MpPotion>();
+                break;
+            case "005_sheildPotion":
+                iconObject.AddComponent<ShieldPotion>();
+                break;
+            case "006_bomb":
+                iconObject.AddComponent<Bomb>();
+                break;
+            }
+    }
+
+    /*****************************************
+     * (아이템 삭제 시)
+     * 해당 아이템 역할 삭제
+     * 
+     * @ param - X
+     * @ return - X
+     * @ exception - X
+    ******************************************/
+    void DeleteItemComponent()
+    {
+        switch (itemData.image_name)
+        {
+            case "000_hpPotion":
+                Destroy(iconObject.GetComponent<HpPotion>());
+                break;
+            case "001_mpPotion":
+                Destroy(iconObject.GetComponent<MpPotion>());
+                break;
+            case "002_apple":
+                Destroy(iconObject.GetComponent<HpPotion>());
+                break;
+            case "003_meat":
+                Destroy(iconObject.GetComponent<HpPotion>());
+                break;
+            case "004_gosu":
+                Destroy(iconObject.GetComponent<MpPotion>());
+                break;
+            case "005_sheildPotion":
+                Destroy(iconObject.GetComponent<ShieldPotion>());
+                break;
+            case "006_bomb":
+                Destroy(iconObject.GetComponent<Bomb>());
+                break;
+        }
+    }
+    
+    /*****************************************
+     * (아이템 클릭 시)
+     * 해당 아이템 역할 부르기
+     * 
+     * @ param - X
+     * @ return - X
+     * @ exception - X
+    ******************************************/
+    void CallEachItemUse()
+    {
         switch (itemData.image_name)
         {
             case "000_hpPotion":
@@ -147,18 +203,5 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
                 iconObject.GetComponent<Bomb>().Use();
                 break;
         }
-        itemData.count--;
-        Set();
-    }
-
-    void Set()
-    {
-        count_txt.text = itemData.count.ToString();
-        if (itemData.count > 1)
-            count_img.gameObject.SetActive(true);
-        else if(itemData.count == 1)
-            count_img.gameObject.SetActive(false);
-        else
-            Reset();
     }
 }

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HpPotion : ItemUse
+public class HpPotion : MonoBehaviour, ItemUse
 {
 
-    override public void Use()
+    public void Use()
     {
         print("It will heal Player");
     }
