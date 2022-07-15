@@ -6,12 +6,12 @@ using UnityEngine.UI;
 public class MonsterController : MonoBehaviour
 {
     public MonsterData monsterData;
-    // MonsterMananger ½ºÅ©¸³Æ®
+    // MonsterMananger ìŠ¤í¬ë¦½íŠ¸
     // for using manager's func
     public MonsterManager manager;
-    //º»ÀÎ ¹°¸®ÀÛ¿ë
+    //ë³¸ì¸ ë¬¼ë¦¬ì‘ìš©
     public Rigidbody rig;
-    // ¸ó½ºÅÍ ¾Ö´Ï¸ŞÀÌÅÍ
+    // ëª¬ìŠ¤í„° ì• ë‹ˆë©”ì´í„°
     // Monster Animator
     public Animator anim;
 
@@ -20,30 +20,64 @@ public class MonsterController : MonoBehaviour
 
 
 
-
-    //¿òÁ÷ÀÌ´Â ¹æÇâ
+    //ì›€ì§ì´ëŠ” ë°©í–¥
     //moving direction //Move(), Chase()
     private Vector3 direction;
-    // ÇÃ·¹ÀÌ¾î ½ºÅ©¸³Æ®
+    // í”Œë ˆì´ì–´ ìŠ¤í¬ë¦½íŠ¸
     // Script which the player has
     private PlayerController player;
-    // °¢ ¸ó½ºÅÍ hpBar
+    // ê° ëª¬ìŠ¤í„° hpBar
     private Vector3 hpBarOffset = new Vector3(0, 2.2f, 0);
     private Canvas uiCanvas;
     private Image hpBarImage;
 
+
     virtual public void Start()
     {
+        monsterData = DataManager.instance.LoadJsonFile
+                      <Dictionary<string, MonsterData>>
+                      (Application.dataPath + "/MAIN/Data", "goblin")
+                      ["001_goblin"];
+        // setting default state
+        monsterData.state = MonsterData.States.Idle;
+        // setting default seeking state
+        monsterData.isFound = false;
+        // setting default destination
+        monsterData.destPosition = null;
+        {/*
+            // ?????? ?????? ?????? ???? ????????
+            // setting default values of Ghost
+            monsterData = new MonsterData();
+            // setting default state
+            monsterData.state = MonsterData.States.Idle;
+            // setting name
+            monsterData.name = "Goblin";
+            // setting default hp
+            monsterData.maxHp = 90f;
+            monsterData.curHp = 90f;
+            // setting default speed
+            monsterData.moveSpeed = 70f;
+            monsterData.turnSpeed = 0.1f;
+            // setting default power
+            monsterData.attackForce = 8f;
+            // setting default seeking state
+            monsterData.isFound = false;
+            // setting default destination
+            monsterData.destPosition = null;
+            // attack available distance
+            monsterData.distance = 2f;
+            */
+        }
+
+
         SetHpBar();
         hpBar.SetActive(false);
 
-        // ¸ó½ºÅÍ ¾Ö´Ï¸ŞÀÌÅÍ
         // Monster Animator
         anim = GetComponent<Animator>();
-        // ¸ó½ºÅÍ ¹°¸®ÀÛ¿ë
         // Monster Rigidbody
         rig = GetComponent<Rigidbody>();
-        // ¸ó½ºÅÍ ¸Å´ÏÀú ½ºÅ©¸³Æ® Ã£±â
+        // ì”¬ì˜ ê²Œì„ë§¤ë‹ˆì €ì—ì„œ ëª¬ìŠ¤í„°ë§¤ë‹ˆì € ê°–ê³ ì˜¤ê¸°
         // get MonsterManager script from GamaManager
         manager = GameObject.Find("MonsterManager").GetComponent<MonsterManager>();
 
@@ -61,17 +95,17 @@ public class MonsterController : MonoBehaviour
 
 
 
-    // °ø°İ ¾Ö´Ï¸ŞÀÌ¼Ç ÇÔ¼ö
+    // ê³µê²© ì• ë‹ˆë©”ì´ì…˜ í•¨ìˆ˜
     // Attack aniamating
     private void Animating()
     {
-        //°ø°İ ¾Ö´Ï¸ŞÀÌ¼Ç
+        //ê³µê²© ì• ë‹ˆë©”ì´ì…˜
         anim.SetBool("isWalk", false);
         anim.SetBool("isIdle", false);
         anim.SetTrigger("Attack");
     }
 
-    // ÇÃ·¹ÀÌ¾î °ø°İ
+    // í”Œë ˆì´ì–´ ê³µê²©
     // damaging player
     private void damaging()
     {
@@ -81,7 +115,7 @@ public class MonsterController : MonoBehaviour
     }
 
 
-    // ¸ó½ºÅÍ¿¡ ¾î¶² °ÍÀÌ µé¾î¿ÔÀ» °æ¿ì
+    // ëª¬ìŠ¤í„°ì— ì–´ë–¤ ê²ƒì´ ë“¤ì–´ì™”ì„ ê²½ìš°
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Bullet")
@@ -90,54 +124,54 @@ public class MonsterController : MonoBehaviour
         }
     }
 
-    // ÇÃ·¹ÀÌ¾î°¡ ÃßÀû¹İ°æ ¾È¿¡ µé¾î¿ÔÀ» °æ¿ì
+    // í”Œë ˆì´ì–´ê°€ ì¶”ì ë°˜ê²½ ì•ˆì— ë“¤ì–´ì™”ì„ ê²½ìš°
     // player is in range of Monster's Sight
     private void OnTriggerEnter(Collider other)
     {
-        // ÇÃ·¹ÀÌ¾î°¡ ÃßÀû¹İ°æ ¾È¿¡ µé¾î¿ÔÀ» °æ¿ì
+        // í”Œë ˆì´ì–´ê°€ ì¶”ì ë°˜ê²½ ì•ˆì— ë“¤ì–´ì™”ì„ ê²½ìš°
         // player is in range of Monster's Sight
         if (other.tag == "Player")
         {
 
-            // ¸ó½ºÅÍ Ã¼·Â ¹Ù ¶ç¿ì±â
+            // ëª¬ìŠ¤í„° ì²´ë ¥ ë°” ë„ìš°ê¸°
             hpBar.SetActive(true);
 
-            // Ã£¾Ò´Ù°í ÀúÀå
+            // ì°¾ì•˜ë‹¤ê³  ì €ì¥
             // Monster found some player
             monsterData.isFound = true;
 
-            // ¸ñÀûÁö ÇÃ·¹ÀÌ¾î À§Ä¡·Î ÀúÀå
+            // ëª©ì ì§€ í”Œë ˆì´ì–´ ìœ„ì¹˜ë¡œ ì €ì¥
             // save destination as player's location
             monsterData.destPosition = other.transform;
 
-            // ¹İ°æ ¾È ÇÃ·¹ÀÌ¾î ÀúÀå
+            // ë°˜ê²½ ì•ˆ í”Œë ˆì´ì–´ ì €ì¥
             // save the player
             player = other.GetComponent<PlayerController>();
         }
     }
 
 
-    // ÇÃ·¹ÀÌ¾î°¡ ÃßÀû¹İ°æ ¾È¿¡¼­ ¹ş¾î³µÀ» °æ¿ì
+    // í”Œë ˆì´ì–´ê°€ ì¶”ì ë°˜ê²½ ì•ˆì—ì„œ ë²—ì–´ë‚¬ì„ ê²½ìš°
     // player is out of range of Monster's Sight
     private void OnTriggerExit(Collider other)
     {
-        // ÇÃ·¹ÀÌ¾î°¡ ÃßÀû¹İ°æ ¾È¿¡¼­ ¹ş¾î³µÀ» °æ¿ì
+        // í”Œë ˆì´ì–´ê°€ ì¶”ì ë°˜ê²½ ì•ˆì—ì„œ ë²—ì–´ë‚¬ì„ ê²½ìš°
         // player is out of range of Monster's Sight
         if (other.tag == "Player")
         {
 
-            // ¸ó½ºÅÍ Ã¼·Â ¹Ù Áö¿ì±â
+            // ëª¬ìŠ¤í„° ì²´ë ¥ ë°” ì§€ìš°ê¸°
             hpBar.SetActive(false);
 
-            // ¸øÃ£¾Ò´Ù°í ÀúÀå
+            // ëª»ì°¾ì•˜ë‹¤ê³  ì €ì¥
             // player is leaving the range
             monsterData.isFound = false;
 
-            // ¸ñÀûÁö ±âº»°ªÀ¸·Î ÀúÀå
+            // ëª©ì ì§€ ê¸°ë³¸ê°’ìœ¼ë¡œ ì €ì¥
             // save destination as default
             monsterData.destPosition = null;
 
-            // ÇÃ·¹ÀÌ¾î Áö¿ì±â
+            // í”Œë ˆì´ì–´ ì§€ìš°ê¸°
             // remove the player
             //player = null;
         }
@@ -150,12 +184,12 @@ public class MonsterController : MonoBehaviour
     public void Die()
     {
         Transform itemLocation;
-        // Á×Àº À§Ä¡+1¿¡ ¾ÆÀÌÅÛ ¶³±¸±â
+        // ì£½ì€ ìœ„ì¹˜+1ì— ì•„ì´í…œ ë–¨êµ¬ê¸°
         itemLocation = transform;
         itemLocation.position += new Vector3(0, 1, 0);
-        // ¾ÆÀÌÅÛ ¶³¾îÆ®¸®±â
+        // ì•„ì´í…œ ë–¨ì–´íŠ¸ë¦¬ê¸°
         manager.DropItem(itemLocation);
-        // ¸ó½ºÅÍ »èÁ¦
+        // ëª¬ìŠ¤í„° ì‚­ì œ
         manager.DeleteMonster(gameObject);
     }
 
@@ -165,37 +199,37 @@ public class MonsterController : MonoBehaviour
 
     public IEnumerator Attack()
     {
-        //°ø°İ ÁÖ±â ½Ã°£
+        //ê³µê²© ì£¼ê¸° ì‹œê°„
         float attackTime = 0f;
 
-        //°ø°İ »óÅÂ µ¿¾È ¹«ÇÑ ¹İº¹
+        //ê³µê²© ìƒíƒœ ë™ì•ˆ ë¬´í•œ ë°˜ë³µ
         while (monsterData.state == MonsterData.States.Attack)
         {
             //Timer start
             attackTime += Time.deltaTime;
 
-            //ÇÃ·¹ÀÌ¾î°¡ º¸ÀÌ´ÂÁö, ÇÃ·¹ÀÌ¾î °ø°İ ¹üÀ§ ³»¿¡ ÀÖ´ÂÁö °Ë»ç
+            //í”Œë ˆì´ì–´ê°€ ë³´ì´ëŠ”ì§€, í”Œë ˆì´ì–´ ê³µê²© ë²”ìœ„ ë‚´ì— ìˆëŠ”ì§€ ê²€ì‚¬
             if (!monsterData.isFound || Vector3.Distance(transform.position, monsterData.destPosition.position) > monsterData.distance)
             {
-                //ÇÃ·¹ÀÌ¾î°¡ ¾Èº¸ÀÌ°Å³ª, °ø°İ ¹üÀ§ ³»¿¡ ¾øÀ» ¶§
-                //´Ù½Ã Ãß°İ
-                //¸ó½ºÅÍ »óÅÂ¸¦ Attack »óÅÂ·Î º¯È¯
+                //í”Œë ˆì´ì–´ê°€ ì•ˆë³´ì´ê±°ë‚˜, ê³µê²© ë²”ìœ„ ë‚´ì— ì—†ì„ ë•Œ
+                //ë‹¤ì‹œ ì¶”ê²©
+                //ëª¬ìŠ¤í„° ìƒíƒœë¥¼ Attack ìƒíƒœë¡œ ë³€í™˜
                 monsterData.state = MonsterData.States.Chase;
                 StartCoroutine(Chase());
                 yield break;
             }
 
-            //°ø°İ ÁÖ±â 2.5ÃÊ ÃÊ°úÀÎÁö °Ë»ç
+            //ê³µê²© ì£¼ê¸° 2.5ì´ˆ ì´ˆê³¼ì¸ì§€ ê²€ì‚¬
             if (attackTime >= 2.5f)
             {
                 //timer reset
                 attackTime = 0f;
 
                 //Start Attack
-                //¸ñÇ¥ ÇÃ·¹ÀÌ¾î°¡ ÀÖÀ» ¶§ (chase ÈÄ || °Ë»ö collider ¹İ°æ¿¡ °É¸° ÈÄ)
+                //ëª©í‘œ í”Œë ˆì´ì–´ê°€ ìˆì„ ë•Œ (chase í›„ || ê²€ìƒ‰ collider ë°˜ê²½ì— ê±¸ë¦° í›„)
                 if (monsterData.destPosition != null)
                 {
-                    // ÇÃ·¹ÀÌ¾î HP ±ğ±â
+                    // í”Œë ˆì´ì–´ HP ê¹ê¸°
                     // damaging player
                     Invoke("damaging", 0.83f);
 
@@ -207,40 +241,38 @@ public class MonsterController : MonoBehaviour
             yield return null;
         }
 
-        // ´ÙÀ½ ÇÁ·¹ÀÓ±îÁö ±â´Ù¸°´Ù.
+        // ë‹¤ìŒ í”„ë ˆì„ê¹Œì§€ ê¸°ë‹¤ë¦°ë‹¤.
         yield return null;
     }
 
     /*---------------------------------------------
-     *              DAMAGE
+     *              DAMAGED
      * -------------------------------------------*/
 
 
-    // player°¡ monster °ø°İ ÇßÀ» ¶§ È£Ãâ
+    // playerê°€ monster ê³µê²© í–ˆì„ ë•Œ í˜¸ì¶œ
     // If player damages monster this will be called
     public void Damaged(float scale)
     {
-        // ¾Ö´Ï¸ŞÀÌ¼Ç
+        // ì• ë‹ˆë©”ì´ì…˜
         anim.SetTrigger("Damaged");
 
-        // ¾ÆÁ÷ Ã¼·ÂÀÌ ³²¾Æ ÀÖÀ» ¶§
+        // ì•„ì§ ì²´ë ¥ì´ ë‚¨ì•„ ìˆì„ ë•Œ
         if (monsterData.curHp > 0)
         {
-            //scale(-)¸¸Å­ ¸ó½ºÅÍ Ã¼·ÂÀÌ ÁÙ¾îµç´Ù.
-            monsterData.curHp -= scale;
+            //scale(-)ë§Œí¼ ëª¬ìŠ¤í„° ì²´ë ¥ì´ ì¤„ì–´ë“ ë‹¤.
+            monsterData.curHp += scale;
             UpdateHpBar(monsterData.curHp);
         }
-        // ³²Àº Ã¼·ÂÀÌ ¾øÀ» ¶§
+        // ë‚¨ì€ ì²´ë ¥ì´ ì—†ì„ ë•Œ
         else
         {
-            // Á×´Â ¾Ö´Ï¸ŞÀÌ¼Ç
+            // ì£½ëŠ” ì• ë‹ˆë©”ì´ì…˜
             anim.SetBool("Dead", true);
-            // ¸ó½ºÅÍ Ã¼·Â¹Ù »èÁ¦
+            // ëª¬ìŠ¤í„° ì²´ë ¥ë°” ì‚­ì œ
             DeleteHpBar();
             Invoke("Die", 1f);
         }
-
-        print(gameObject.name+"'s cur hp: " + monsterData.curHp);
     }
 
     /*---------------------------------------------
@@ -249,10 +281,10 @@ public class MonsterController : MonoBehaviour
 
     public void Move()
     {
-        //¸ñÀûÁö ÇâÇØ ÀÌµ¿
+        //ëª©ì ì§€ í–¥í•´ ì´ë™
         rig.AddForce(direction * Time.deltaTime * monsterData.moveSpeed, ForceMode.VelocityChange);
 
-        // Å¸°Ù ¹æÇâÀ¸·Î È¸ÀüÇÔ
+        // íƒ€ê²Ÿ ë°©í–¥ìœ¼ë¡œ íšŒì „í•¨
         transform.LookAt(Vector3.Lerp(transform.position, monsterData.destPosition.position, monsterData.turnSpeed * Time.deltaTime));
     }
 
@@ -262,53 +294,53 @@ public class MonsterController : MonoBehaviour
 
     public IEnumerator Chase()
     {
-        //¾Ö´Ï¸ŞÀÌ¼Ç Ã¹ º¯°æ ½Ã
+        //ì• ë‹ˆë©”ì´ì…˜ ì²« ë³€ê²½ ì‹œ
         if (anim.GetBool("isWalk") == false)
         {
-            //°È±â ¾Ö´Ï¸ŞÀÌ¼Ç
+            //ê±·ê¸° ì• ë‹ˆë©”ì´ì…˜
             anim.SetBool("isWalk", true);
             anim.SetBool("isIdle", false);
         }
 
-        //°è¼Ó Ãß°İ
+        //ê³„ì† ì¶”ê²©
         while (monsterData.state == MonsterData.States.Chase)
         {
-            // Å¸°ÙÀ» º¼ ¼ö ÀÖÀ» ¶§
+            // íƒ€ê²Ÿì„ ë³¼ ìˆ˜ ìˆì„ ë•Œ
             if (monsterData.isFound)
             {
 
-                // ¸ñÀûÁö¸¦ ÇÃ·¹ÀÌ¾î À§Ä¡·Î ¼³Á¤
+                // ëª©ì ì§€ë¥¼ í”Œë ˆì´ì–´ ìœ„ì¹˜ë¡œ ì„¤ì •
                 monsterData.destPosition = player.GetComponent<Transform>();
 
 
-                // Ãâ¹ßÁö¿¡¼­ ¸ñÀûÁö±îÁöÀÇ ¹æÇâ
+                // ì¶œë°œì§€ì—ì„œ ëª©ì ì§€ê¹Œì§€ì˜ ë°©í–¥
                 Vector3 direction = (monsterData.destPosition.position - transform.position);
 
-                //¸ñÀûÁö ÇâÇØ ÀÌµ¿
+                //ëª©ì ì§€ í–¥í•´ ì´ë™
                 Move();
 
-                //ÇÃ·¹ÀÌ¾î ±ÙÃ³ ÀÏÁ¤ °Å¸®(2f)¿¡ µµ´ŞÇß´Ù¸é °ø°İ
+                //í”Œë ˆì´ì–´ ê·¼ì²˜ ì¼ì • ê±°ë¦¬(2f)ì— ë„ë‹¬í–ˆë‹¤ë©´ ê³µê²©
                 if (Vector3.Distance(transform.position, monsterData.destPosition.position) <= monsterData.distance)
                 {
-                    //¸ó½ºÅÍ »óÅÂ¸¦ Attack »óÅÂ·Î º¯È¯
+                    //ëª¬ìŠ¤í„° ìƒíƒœë¥¼ Attack ìƒíƒœë¡œ ë³€í™˜
                     monsterData.state = MonsterData.States.Attack;
 
-                    //°ø°İ ÇÔ¼ö È£Ãâ
+                    //ê³µê²© í•¨ìˆ˜ í˜¸ì¶œ
                     StartCoroutine(Attack());
                     yield break;
                 }
 
-                //1ÃÊ µÚ ´ÙÀ½ ÇÁ·¹ÀÓ
+                //1ì´ˆ ë’¤ ë‹¤ìŒ í”„ë ˆì„
                 yield return new WaitForSeconds(1.0f);
             }
 
-            //Å¸°ÙÀ» º¼ ¼ö ¾øÀ» ¶§
+            //íƒ€ê²Ÿì„ ë³¼ ìˆ˜ ì—†ì„ ë•Œ
             else if (!monsterData.isFound)
             {
-                //¸ó½ºÅÍ »óÅÂ¸¦ Idle »óÅÂ·Î º¯È¯
+                //ëª¬ìŠ¤í„° ìƒíƒœë¥¼ Idle ìƒíƒœë¡œ ë³€í™˜
                 monsterData.state = MonsterData.States.Idle;
 
-                //Idle ÇÔ¼ö È£Ãâ
+                //Idle í•¨ìˆ˜ í˜¸ì¶œ
                 StartCoroutine(Idle());
                 yield break;
             }
@@ -316,7 +348,7 @@ public class MonsterController : MonoBehaviour
 
 
 
-        //´ÙÀ½ ÇÁ·¹ÀÓ±îÁö ±â´Ù¸°´Ù.
+        //ë‹¤ìŒ í”„ë ˆì„ê¹Œì§€ ê¸°ë‹¤ë¦°ë‹¤.
         yield return null;
     }
 
@@ -326,33 +358,33 @@ public class MonsterController : MonoBehaviour
 
     public IEnumerator Idle()
     {
-        //Idle »óÅÂÀÏ ¶§ ¹«ÇÑ ¹İº¹
+        //Idle ìƒíƒœì¼ ë•Œ ë¬´í•œ ë°˜ë³µ
         while (monsterData.state == MonsterData.States.Idle)
         {
-            //¾Ö´Ï¸ŞÀÌ¼Ç Ã¹ º¯°æ ½Ã
-            if(anim.GetBool("isIdle") == false)
+            //ì• ë‹ˆë©”ì´ì…˜ ì²« ë³€ê²½ ì‹œ
+            if (anim.GetBool("isIdle") == false)
             {
-                //¸ó½ºÅÍ ¾Ö´Ï¸ŞÀÌ¼Ç º¯°æ
+                //ëª¬ìŠ¤í„° ì• ë‹ˆë©”ì´ì…˜ ë³€ê²½
                 anim.SetBool("isIdle", true);
                 anim.SetBool("isWalk", false);
             }
 
-            //ÇÃ·¹ÀÌ¾î¸¦ Ã£¾ÒÀ» ¶§
+            //í”Œë ˆì´ì–´ë¥¼ ì°¾ì•˜ì„ ë•Œ
             if (monsterData.isFound)
             {
-                //¸ó½ºÅÍ »óÅÂ¸¦ ÃßÀû »óÅÂ·Î º¯È¯
+                //ëª¬ìŠ¤í„° ìƒíƒœë¥¼ ì¶”ì  ìƒíƒœë¡œ ë³€í™˜
                 monsterData.state = MonsterData.States.Chase;
 
-                //ÇÃ·¹ÀÌ¾î¸¦ º¼ ¼ö ÀÖÀ¸¸é, ÃßÀûÇÑ´Ù.
+                //í”Œë ˆì´ì–´ë¥¼ ë³¼ ìˆ˜ ìˆìœ¼ë©´, ì¶”ì í•œë‹¤.
                 StartCoroutine(Chase());
                 yield break;
             }
 
-            //Patrol ¾î¶»°Ô?
+            //Patrol ì–´ë–»ê²Œ?
 
             yield return new WaitForSeconds(1.0f);
         }
-        // ´ÙÀ½ ÇÁ·¹ÀÓ±îÁö ±â´Ù¸°´Ù.
+        // ë‹¤ìŒ í”„ë ˆì„ê¹Œì§€ ê¸°ë‹¤ë¦°ë‹¤.
         yield return null;
     }
 
@@ -384,5 +416,6 @@ public class MonsterController : MonoBehaviour
             hpBarImage.GetComponentsInParent<Image>()[1].color = Color.clear;
         }
     }
+
 
 }
