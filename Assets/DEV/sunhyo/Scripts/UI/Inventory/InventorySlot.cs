@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
+public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler, IPointerEnterHandler, IPointerExitHandler
 {
 
     [SerializeField] private Image icon;
@@ -196,5 +196,24 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHand
             DragSlot.instance.Set(itemData, itemDummy);
             Set(tempItemData, tempItemDummy);
         }
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (itemData == null)
+            return;
+
+        DetailPanel.instance.Set(itemData);
+        DetailPanel.instance.transform.position = eventData.position;
+        DetailPanel.instance.gameObject.SetActive(true);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (itemData == null)
+            return;
+
+        DetailPanel.instance.Reset();
+        DetailPanel.instance.gameObject.SetActive(false);
     }
 }
