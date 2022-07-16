@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+
 
 public class ItemManager : MonoBehaviour
 {
@@ -29,6 +31,7 @@ public class ItemManager : MonoBehaviour
                 {
                     return false;
                 }
+                // 해당 아이템의 사용 쿨타임 재기
                 StartCoroutine(CountCool(item_name));
                 return true;
             // 주요 4가지 아이템 외에는 쿨타임 없음
@@ -40,30 +43,38 @@ public class ItemManager : MonoBehaviour
     private void Awake() {
         coolTimes = new Dictionary<string, List<float>>();
         List<float> temp = new List<float>();
+        temp.Add(0f);
         temp.Add(hpCool);
-        temp.Add(hpCool);
-        coolTimes.Add("000_hpPotion", temp);
+        coolTimes.Add("000_hpPotion", temp.ToList());
         temp.Clear();
+        temp.Add(0);
         temp.Add(mpCool);
-        temp.Add(mpCool);
-        coolTimes.Add("001_mpPotion", temp);
+        coolTimes.Add("001_mpPotion", temp.ToList());
         temp.Clear();
+        temp.Add(0);
         temp.Add(spCool);
-        temp.Add(spCool);
-        coolTimes.Add("005_sheildPotion", temp);
+        coolTimes.Add("005_sheildPotion", temp.ToList());
         temp.Clear();
+        temp.Add(0);
         temp.Add(bmCool);
-        temp.Add(bmCool);
-        coolTimes.Add("006_bomb", temp);
+        coolTimes.Add("006_bomb", temp.ToList());
     }
 
+
+    /*****************************************
+     * (ReturnUseItem 해당 아이템 쿨타임 다됐을 때)
+     * 해당 아이템의 사용 쿨타임 재기
+     * 
+     * @ param - string item_name (인수: itemData.image_name)
+     * @ return - X
+     * @ exception - X
+    ******************************************/
     private IEnumerator CountCool(string item_name)
     {
         while(coolTimes[item_name][0] < coolTimes[item_name][1])
         {
             yield return new WaitForSeconds(1f);
             coolTimes[item_name][0]++;
-
             if (coolTimes[item_name][0] >= coolTimes[item_name][1])
             {
                 coolTimes[item_name][0] = coolTimes[item_name][1];
