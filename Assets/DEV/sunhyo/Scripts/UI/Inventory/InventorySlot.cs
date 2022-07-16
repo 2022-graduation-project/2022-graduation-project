@@ -26,26 +26,10 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHand
             itemData = _itemData; // InventorUI에서 넘어오니까 인스턴스 생성 없어도 가능할지도?
             icon.sprite = DataManager.instance.LoadSpriteFile(Application.dataPath + "/DEV/sunhyo/Assets/Items", _itemData.image_name);
 
-            count_txt.text = _itemData.count.ToString();
-            if (itemData.count > 1)
-                count_img.gameObject.SetActive(true);
-            else
-                count_img.gameObject.SetActive(false);
-
             SetColorA(1f);
         }
-        else // 동일 아이템
-        {
-            itemData.count += _itemData.count;
-            count_txt.text = itemData.count.ToString();
-            if (itemData.count > 1)
-                count_img.gameObject.SetActive(true);
-            else
-                count_img.gameObject.SetActive(false);
-        }
 
-        if (itemData.count < 1)
-            Reset();
+        SetCountObj();
     }
 
     public void Reset()
@@ -60,14 +44,14 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHand
         itemData = null;
     }
 
-    void UseItem()
+    public void SetCountObj()
     {
-        itemDummy.Use();
-        itemData.count--;
-        count_txt.text = itemData.count.ToString();
-
         if (itemData.count > 1)
+        {
+            count_txt.text = itemData.count.ToString();
             count_img.gameObject.SetActive(true);
+        }
+            
         else if (itemData.count == 1)
             count_img.gameObject.SetActive(false);
         else // 아이템 소진
@@ -75,6 +59,15 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHand
             InventoryUI.instance.DeleteItem(itemData);
             Reset();
         }
+    }
+
+    void UseItem()
+    {
+        itemDummy.Use();
+        itemData.count--;
+        count_txt.text = itemData.count.ToString("N0");
+
+        SetCountObj();
     }
 
     void SetColorA(float _delta)
@@ -145,7 +138,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHand
         }
 
         // Swap
-        if (DragSlot.instance.itemData != itemData)
+        if (DragSlot.instance.itemData.item_name != itemData.item_name)
         {
             Set(DragSlot.instance.itemData, DragSlot.instance.itemDummy);
             DragSlot.instance.Reset();
@@ -156,6 +149,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHand
         //아이템 버리기
         if (eventData.pointerCurrentRaycast.gameObject == null)
         {
+            print("버리기");
             InventoryUI.instance.DeleteItem(itemData);
             Reset();
             DragSlot.instance.Reset();

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -29,23 +29,28 @@ public class PlayerManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(this.gameObject);
-    }
 
-    void Start()
-    {
         playerData = DataManager.instance.LoadJsonFile
                     <Dictionary<string, PlayerData>>
                     (Application.dataPath + "/MAIN/Data", "player")
                     ["000_player"];
-
-        //foreach(Dictionary<string, ItemData> dic in playerData.inventory)
-        //{
-        //    foreach (KeyValuePair<string, ItemData> itemData in dic)
-        //        print(itemData.Key);
-        //}
-
-        UIManager.instance.Set(playerData);
     }
+
+    //void Start()
+    //{
+    //    playerData = DataManager.instance.LoadJsonFile
+    //                <Dictionary<string, PlayerData>>
+    //                (Application.dataPath + "/MAIN/Data", "player")
+    //                ["000_player"];
+
+    //    //foreach(Dictionary<string, ItemData> dic in playerData.inventory)
+    //    //{
+    //    //    foreach (KeyValuePair<string, ItemData> itemData in dic)
+    //    //        print(itemData.Key);
+    //    //}
+
+    //    //UIManager.instance.Set(playerData);
+    //}
 
     public void BuyItem(int _price)
     {

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 
 public class ItemData
@@ -8,6 +8,7 @@ public class ItemData
     public int count;
     public string description;
     public int fullness;
+    public int price;
 
     public ItemData DeepCopy()
     {
@@ -17,6 +18,7 @@ public class ItemData
         newItemData.count = count;
         newItemData.description = description;
         newItemData.fullness = fullness;
+        newItemData.price = price;
 
         return newItemData;
     }
