@@ -8,5 +8,7 @@ public abstract class Item : MonoBehaviour
     protected PlayerController player;
 
     protected float healAmount;
+    protected float manaAmount;
+    protected float shieldDuration;
     public abstract void Use();
 }

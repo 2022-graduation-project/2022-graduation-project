@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
     protected Transform tr;
     protected RaycastHit hit;
 
+    protected bool canDamage = false;
     protected bool canUseSkill = true;
     private bool jumpable = true;
 
@@ -169,6 +170,11 @@ public class PlayerController : MonoBehaviour
     ******************************************/
     public void Damaged(float damage)
     {
+        if(canDamage==true)
+        {
+            // 쉴드 포션 쓴 상태에서 대미지 입었을 때 나타나는 이펙트 자리
+            return;
+        }
         playerManager.playerData.curHp -= damage;
         UIManager.instance.playerUI.UpdateHpBar(playerManager.playerData.maxHp, playerManager.playerData.curHp);
         if (playerManager.playerData.curHp <= 0)
@@ -267,4 +273,28 @@ public class PlayerController : MonoBehaviour
         UIManager.instance.playerUI.UpdateHpBar(playerManager.playerData.maxHp, playerManager.playerData.curHp);
         yield break;
     }
+    public IEnumerator RefillMana(float manaAmount)
+    {
+
+        playerManager.playerData.curHp += manaAmount;
+        UIManager.instance.playerUI.UpdateMpBar(playerManager.playerData.maxMp, playerManager.playerData.curMp);
+        yield break;
+    }
+    public IEnumerator Shielding(float shieldDuration)
+    {
+        float duration = 0;
+        while (duration < shieldDuration)
+        {
+            canDamage=true;
+            yield return new WaitForSeconds(1f);
+            duration++;
+            if (duration >= shieldDuration)
+            {
+                canDamage=false;
+                yield break;
+            }
+        }
+        yield break;
+    }
+    
 }

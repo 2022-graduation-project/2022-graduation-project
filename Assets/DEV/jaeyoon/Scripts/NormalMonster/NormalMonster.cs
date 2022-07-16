@@ -66,4 +66,36 @@ public class NormalMonster : MonoBehaviour
         target = null;
         Debug.Log("Monster : Target lost");
     }
+
+    // 몬스터가 폭탄 맞았을 때
+    protected void OnCollisionEnter(Collision other) 
+    {
+        if(other.gameObject.tag == "Bomb")
+        {
+            StartCoroutine(Bursting(other.gameObject));
+        }
+    }
+
+    // 폭탄 맞은 후 상태 이상 함수 5초간 지속
+    private IEnumerator Bursting(GameObject bomb)
+    {
+        float duration = 0;
+        while (duration < 5)
+        {
+            // MonsterData.curHP -= 1;
+            // UpdateHPBar();
+            yield return new WaitForSeconds(1f);
+            duration++;
+            
+            if (duration >= 5)
+            {
+                // 폭탄 이펙트 끄기
+                // 폭탄 오브젝트 제거
+                Destroy(bomb, 0.2f);
+                yield break;
+            }
+        }
+        yield break;
+    }
+
 }
