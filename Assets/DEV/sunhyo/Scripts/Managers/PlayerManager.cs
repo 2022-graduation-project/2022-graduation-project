@@ -51,23 +51,6 @@ public class PlayerManager : MonoBehaviour
 
     //    //UIManager.instance.Set(playerData);
     //}
-<<<<<<< HEAD
-=======
-
-    public void BuyItem(int _price)
-    {
-        playerData.money -= _price;
-        UIManager.instance.playerUI.UpdateMoney(playerData.money);
-    }
-
-    public void UseItem(ItemData _itemData)
-    {
-    }
-
-    public void GetItem()
-    {
-
-    }
 
     /************************************************/
     /*                   상태 이상                   */
@@ -102,5 +85,4 @@ public class PlayerManager : MonoBehaviour
         }
         yield break;
     }
->>>>>>> eabedf37e866bd7caffeea06cf5a6bfca1dcfa5e
 }
