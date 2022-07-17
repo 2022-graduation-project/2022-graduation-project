@@ -80,6 +80,12 @@ public class PlayerController : MonoBehaviour
         if (playerManager.keyMoveable && Input.GetMouseButtonDown(0) && Time.timeScale != 0)
             Attack();
 
+        // 아이템 창
+        if(Input.GetKeyDown(KeyCode.I))
+        {
+
+        }
+
 
         Debug.DrawRay(transform.position + new Vector3(0f, 0.7f, 0.5f), transform.forward * 10f, Color.blue);
         // Skill Attack
