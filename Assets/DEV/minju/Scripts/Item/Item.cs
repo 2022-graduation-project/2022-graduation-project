@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public abstract class Item : MonoBehaviour
 {
-    protected PlayerController player;
+    protected PlayerManager player;
 
     protected float healAmount;
     protected float manaAmount;
