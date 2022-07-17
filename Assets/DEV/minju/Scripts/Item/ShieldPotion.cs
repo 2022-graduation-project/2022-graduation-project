@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShieldPotion : Item
+public class shieldPotion : Item
 {
     public override void Use()
     {

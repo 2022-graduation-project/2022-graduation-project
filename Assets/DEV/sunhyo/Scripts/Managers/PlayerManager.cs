@@ -30,6 +30,11 @@ public class PlayerManager : MonoBehaviour
 
         DontDestroyOnLoad(this.gameObject);
 
+        playerData = DataManager.instance.LoadJsonFile
+                    <Dictionary<string, PlayerData>>
+                    (Application.dataPath + "/MAIN/Data", "player")
+                    ["000_player"];
+
     }
 
     // void Start()

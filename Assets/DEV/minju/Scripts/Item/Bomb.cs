@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bomb : Item
+public class bomb : Item
 {
     public override void Use()
     {

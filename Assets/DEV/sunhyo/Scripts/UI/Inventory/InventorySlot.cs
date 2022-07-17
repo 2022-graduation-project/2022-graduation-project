@@ -12,16 +12,20 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHand
     [SerializeField] private Text count_txt;
 
     public ItemData itemData = null;
-    public ItemDummy itemDummy = null;
+    public Item itemScript = null;
 
-    public void Set(ItemData _itemData, ItemDummy _itemScript=null)
+    public void Set(ItemData _itemData, Item _itemScript=null)
     {
         // itemData가 비어있거나 || 다른 아이템
         if (itemData == null || itemData.item_name != _itemData.item_name)
         {
-            itemDummy = _itemScript;
+            if (itemScript == null && _itemScript == null)
+            {
+                print(_itemData.image_name.Substring(4));
+                itemScript = gameObject.AddComponent(Type.GetType(_itemData.image_name.Substring(4))) as Item;
+            }
 
-            print(itemDummy);
+            print(itemScript);
             // itemData = _itemData.DeepCopy();
             itemData = _itemData; // InventorUI에서 넘어오니까 인스턴스 생성 없어도 가능할지도?
             icon.sprite = DataManager.instance.LoadSpriteFile(Application.dataPath + "/DEV/sunhyo/Assets/Items", _itemData.image_name);
@@ -34,7 +38,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHand
 
     public void Reset()
     {
-        itemDummy = null;
+        itemScript = null;
 
         //print("리셋");
         SetColorA(0f);
@@ -63,7 +67,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHand
 
     void UseItem()
     {
-        itemDummy.Use();
+        itemScript.Use();
         itemData.count--;
         count_txt.text = itemData.count.ToString("N0");
 
@@ -113,7 +117,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHand
 
         SetColorA(0.3f);
 
-        DragSlot.instance.Set(itemData, itemDummy);
+        DragSlot.instance.Set(itemData, itemScript);
         DragSlot.instance.gameObject.SetActive(true);
     }
 
@@ -140,7 +144,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHand
         // Swap
         if (DragSlot.instance.itemData.item_name != itemData.item_name)
         {
-            Set(DragSlot.instance.itemData, DragSlot.instance.itemDummy);
+            Set(DragSlot.instance.itemData, DragSlot.instance.itemScript);
             DragSlot.instance.Reset();
             DragSlot.instance.gameObject.SetActive(false);
             return;
@@ -179,16 +183,16 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHand
 
         if (itemData == null) // 빈 슬롯인 경우
         {
-            Set(DragSlot.instance.itemData, DragSlot.instance.itemDummy);
+            Set(DragSlot.instance.itemData, DragSlot.instance.itemScript);
             DragSlot.instance.Reset();
         }
         else if (itemData != null && DragSlot.instance.itemData != itemData) // Swap
         {
             ItemData tempItemData = DragSlot.instance.itemData;
-            ItemDummy tempItemDummy = DragSlot.instance.itemDummy;
+            Item tempItemScript = DragSlot.instance.itemScript;
 
-            DragSlot.instance.Set(itemData, itemDummy);
-            Set(tempItemData, tempItemDummy);
+            DragSlot.instance.Set(itemData, itemScript);
+            Set(tempItemData, tempItemScript);
         }
     }
 
