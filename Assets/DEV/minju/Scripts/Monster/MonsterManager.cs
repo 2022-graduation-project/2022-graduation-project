@@ -177,7 +177,8 @@ public class MonsterManager : MonoBehaviour
         }
         else
         {
-            spawnNumber = Random.Range(1, 51);
+            //spawnNumber = Random.Range(1, 51);
+            spawnNumber = Random.Range(1, 6);
             return repeatRandom(spawnNumber);
         }
     }
