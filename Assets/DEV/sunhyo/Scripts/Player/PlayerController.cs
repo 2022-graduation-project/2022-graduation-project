@@ -77,7 +77,7 @@ public class PlayerController : MonoBehaviour
             
 
         // 일반 공격
-        if (playerManager.keyMoveable && Input.GetMouseButtonDown(0) && Time.timeScale != 0)
+        if (playerManager.mouseMoveable && playerManager.keyMoveable && Input.GetMouseButtonDown(0) && Time.timeScale != 0)
             Attack();
 
         // 아이템 창
@@ -90,7 +90,7 @@ public class PlayerController : MonoBehaviour
         Debug.DrawRay(transform.position + new Vector3(0f, 0.7f, 0.5f), transform.forward * 10f, Color.blue);
         // Skill Attack
         // 스킬 공격 (단축키는 추후 변경)
-        if (Input.GetKeyDown(KeyCode.G) && canUseSkill == true)
+        if (playerManager.mouseMoveable && Input.GetKeyDown(KeyCode.G) && canUseSkill == true)
         {
             UseSkill();
         }
@@ -98,14 +98,14 @@ public class PlayerController : MonoBehaviour
 
         // Skill Attack2
         // 스킬2 (단축키는 추후 변경)
-        if (Input.GetKeyDown(KeyCode.H) && canUseSkill == true)
+        if (playerManager.mouseMoveable && Input.GetKeyDown(KeyCode.H) && canUseSkill == true)
         {
             UseSkill2();
         }
 
         // Skill Attack3
         // 스킬3 (단축키는 추후 변경)
-        if (Input.GetKeyDown(KeyCode.T) && canUseSkill == true)
+        if (playerManager.mouseMoveable && Input.GetKeyDown(KeyCode.T) && canUseSkill == true)
         {
             UseSkill3();
         }
@@ -182,7 +182,8 @@ public class PlayerController : MonoBehaviour
             return;
         }
         playerManager.playerData.curHp -= damage;
-        UIManager.instance.playerUI.UpdateHpBar(playerManager.playerData.maxHp, playerManager.playerData.curHp);
+        print("curHP: "+playerManager.playerData.curHp);
+        //UIManager.instance.playerUI.UpdateHpBar(playerManager.playerData.maxHp, playerManager.playerData.curHp);
         if (playerManager.playerData.curHp <= 0)
             Die();
     }
@@ -199,7 +200,8 @@ public class PlayerController : MonoBehaviour
     public void ConsumeMP(float scale)
     {
         playerManager.playerData.curMp -= scale;
-        UIManager.instance.playerUI.UpdateMpBar(playerManager.playerData.maxMp, playerManager.playerData.curMp);
+        print("curMP: "+playerManager.playerData.curMp);
+        //UIManager.instance.playerUI.UpdateMpBar(playerManager.playerData.maxMp, playerManager.playerData.curMp);
         if (playerManager.playerData.curMp <= 0)
             canUseSkill = false;
     }

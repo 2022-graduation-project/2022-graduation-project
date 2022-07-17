@@ -80,7 +80,18 @@ public class Warrior : PlayerController
                 }
             }
 
-            MonsterListDebug(monsterList);
+            if (monsterList.Count == 0)
+            {
+                print("Cannot Detect any Monsters");
+            }
+
+            else{
+
+                for (int i = 0; i < monsterList.Count; i++)
+                {
+                    print("monsterList -> " + monsterList[i].gameObject.name);
+                }
+            }
 
             if (duration >= 2)
             {
@@ -297,7 +308,18 @@ public class Warrior : PlayerController
                 }
             }
 
-            MonsterListDebug(monsterList);
+            if (monsterList.Count == 0)
+            {
+                print("Cannot Detect any Monsters");
+            }
+
+            else{
+
+                for (int i = 0; i < monsterList.Count; i++)
+                {
+                    print("monsterList -> " + monsterList[i].gameObject.name);
+                }
+            }
 
             if (duration3 >= 2)
             {
@@ -349,9 +371,22 @@ public class Warrior : PlayerController
     // monsterList Debugging
     private void MonsterListDebug(List<GameObject> monsterList)
     {
-        for (int i = 0; i < monsterList.Count; i++)
+        if (monsterList.Count == 0)
         {
-            print("monsterList -> " + monsterList[i].gameObject.name);
+            print("Cannot Detect any Monsters");
+            return;
         }
+
+        else{
+
+            for (int i = 0; i < monsterList.Count; i++)
+            {
+                print("monsterList -> " + monsterList[i].gameObject.name);
+            }
+        }
+    }
+
+    void Start() {
+        monsterList = new List<GameObject>();
     }
 }

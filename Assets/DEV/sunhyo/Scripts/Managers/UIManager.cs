@@ -35,17 +35,31 @@ public class UIManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.I))
         {
             if (inventory.activeInHierarchy == true)
+            {
+                PlayerManager.instance.mouseMoveable = true;
                 inventory.SetActive(false);
+            }
             else
+            {
+                PlayerManager.instance.mouseMoveable = false;
                 inventory.SetActive(true);
+            }
+                
         }
 
         if (Input.GetKeyDown(KeyCode.U))
         {
             if (shop.activeInHierarchy == true)
+            {
+                PlayerManager.instance.mouseMoveable = true;
                 shop.SetActive(false);
+            }
+                
             else
+            {
+                PlayerManager.instance.mouseMoveable = false;
                 shop.SetActive(true);
+            }
         }
     }
     //public void Set(PlayerData _playerData)
