@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HpPotion : Item
+public class hpPotion : Item
 {
     public override void Use()
     {

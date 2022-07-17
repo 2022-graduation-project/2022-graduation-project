@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MpPotion : Item
+public class mpPotion : Item
 {
     public override void Use()
     {
