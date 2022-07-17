@@ -7,11 +7,12 @@ public class NormalMonster : MonoBehaviour
     protected float speed = 1.5f;  // 몬스터의 이동(추적) 속도
     protected float distance;
     protected float attackRange;
-    protected float attackDelay = 1.0f;
+    protected float attackDelay;
 
     protected Animator animator;
 
-    
+
+
     protected virtual void Awake()
     {
         animator = GetComponent<Animator>();

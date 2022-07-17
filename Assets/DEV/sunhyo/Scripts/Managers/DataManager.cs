@@ -36,51 +36,69 @@ public class DataManager : MonoBehaviour
 
 
     /*****************************************
-     * Assets Æú´õ¿¡¼­ µ¿ÀÏÇÑ ÀÌ¸§ÀÇ json Ã£¾Æ¼­ ¹İÈ¯
+     * Assets í´ë”ì—ì„œ ë™ì¼í•œ ì´ë¦„ì˜ json ì°¾ì•„ì„œ ë°˜í™˜
      * 
-     * @ params - µ¥ÀÌÅÍ Çü½Ä, ÆÄÀÏ °æ·Î, ÆÄÀÏ ÀÌ¸§
-     * @ return - T Çü½ÄÀ¸·Î ±¸Á¶È­ µÈ µ¥ÀÌÅÍ
+     * @ params - ë°ì´í„° í˜•ì‹, íŒŒì¼ ê²½ë¡œ, íŒŒì¼ ì´ë¦„
+     * @ return - T í˜•ì‹ìœ¼ë¡œ êµ¬ì¡°í™” ëœ ë°ì´í„°
      * @ exception - X
     *****************************************/
     public T LoadJsonFile<T>(string loadPath, string fileName)
     {
-        // ¹ÙÀÌÆ® ÄÚµå·Î ÆÄÀÏ ºÒ·¯¿À±â
+        // ë°”ì´íŠ¸ ì½”ë“œë¡œ íŒŒì¼ ë¶ˆëŸ¬ì˜¤ê¸°
         FileStream fileStream = new FileStream(string.Format("{0}/{1}.json", loadPath, fileName), FileMode.Open);
         byte[] data = new byte[fileStream.Length];
         fileStream.Read(data, 0, data.Length);
         fileStream.Close();
 
-        // µ¥ÀÌÅÍ ÀÎÄÚµù ¹× T·Î ±¸Á¶È­ÇÏ¿© ¹İÈ¯
+        // ë°ì´í„° ì¸ì½”ë”© ë° Të¡œ êµ¬ì¡°í™”í•˜ì—¬ ë°˜í™˜
         string jsonData = Encoding.UTF8.GetString(data);
         return JsonConvert.DeserializeObject<T>(jsonData);
+    }
+
+    public bool ObjectToJson<T>(string createPath, string fileName, T obj)
+    {
+        // ì¡´ì¬í•˜ëŠ” íŒŒì¼ì´ ì•„ë‹ˆë©´ ì…ë ¥ê°’ì´ í‹€ë ¸ë‹¤ëŠ” ê²ƒì´ë¯€ë¡œ false ë°˜í™˜
+        try {
+            // filestram ì¸ìŠ¤í„´ìŠ¤ ìƒì„± ì™¸ì— ë‹¤ë¥¸ ë°©ë²• ìˆëŠ”ì§€ ì°¾ì•„ë³´ê¸°
+            FileStream temp = new FileStream(string.Format("{0}/{1}.json", createPath, fileName), FileMode.Open);
+            temp.Close();
+        } catch(FileNotFoundException e) {
+            return false;
+        }
+
+        string jsonData = JsonConvert.SerializeObject(obj, Formatting.Indented);
+        FileStream fileStream = new FileStream(string.Format("{0}/{1}.json", createPath, fileName), FileMode.Create);
+        byte[] data = Encoding.UTF8.GetBytes(jsonData);
+        fileStream.Write(data, 0, data.Length);
+        fileStream.Close();
+        return true;
     }
 
 
 
 
-
     /*****************************************
-     * Assets Æú´õ¿¡¼­ µ¿ÀÏÇÑ ÀÌ¸§ÀÇ sprite¸¦ Ã£¾Æ¼­ ¹İÈ¯
+     * Assets í´ë”ì—ì„œ ë™ì¼í•œ ì´ë¦„ì˜ spriteë¥¼ ì°¾ì•„ì„œ ë°˜í™˜
      * 
-     * @ param - ÆÄÀÏ °æ·Î, ÆÄÀÏ ÀÌ¸§
+     * @ param - íŒŒì¼ ê²½ë¡œ, íŒŒì¼ ì´ë¦„
      * @ return - sprite
      * @ exception - X
     *****************************************/
     public Sprite LoadSpriteFile(string loadPath, string fileName)
     {
-        // ¹ÙÀÌÆ® ÄÚµå·Î ÆÄÀÏ ºÒ·¯¿À±â
+        // ë°”ì´íŠ¸ ì½”ë“œë¡œ íŒŒì¼ ë¶ˆëŸ¬ì˜¤ê¸°
         FileStream fileStream = new FileStream(string.Format("{0}/{1}.png", loadPath, fileName), FileMode.Open);
         byte[] data = new byte[fileStream.Length];
         fileStream.Read(data, 0, data.Length);
         fileStream.Close();
 
-        // sprite Çü½Ä ÁöÁ¤ ¹× ¹ÙÀÌÆ® ÄÚµå¸¦ ÅØ½ºÃÄ·Î º¯È¯
+        // sprite í˜•ì‹ ì§€ì • ë° ë°”ì´íŠ¸ ì½”ë“œë¥¼ í…ìŠ¤ì³ë¡œ ë³€í™˜
         int width = 100;
         int height = 100;
         Texture2D texture = new Texture2D(width, height);
         texture.LoadImage(data);
 
-        // ÅØ½ºÃÄ -> sprite º¯È¯ ¹× ¹İÈ¯
+        // í…ìŠ¤ì³ -> sprite ë³€í™˜ ë° ë°˜í™˜
         Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
         return sprite;
     }

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
     protected Transform tr;
     protected RaycastHit hit;
 
-    protected bool canDamage = false;
+    public bool canDamage = false;
     protected bool canUseSkill = true;
     private bool jumpable = true;
 
@@ -79,6 +79,12 @@ public class PlayerController : MonoBehaviour
         // 일반 공격
         if (playerManager.keyMoveable && Input.GetMouseButtonDown(0) && Time.timeScale != 0)
             Attack();
+
+        // 아이템 창
+        if(Input.GetKeyDown(KeyCode.I))
+        {
+
+        }
 
 
         Debug.DrawRay(transform.position + new Vector3(0f, 0.7f, 0.5f), transform.forward * 10f, Color.blue);
@@ -205,7 +211,7 @@ public class PlayerController : MonoBehaviour
     public void OnTriggerEnter(Collider other)
     {
         if (other.name.Contains("ItemBag") || other.tag == "Chest")
-            UIManager.instance.SetItemUI(other.gameObject);
+            //UIManager.instance.SetItemUI(other.gameObject);
 
         if (other.tag == "Chest")
         {
@@ -217,7 +223,7 @@ public class PlayerController : MonoBehaviour
     public void OnTriggerExit(Collider other)
     {
         if (other.name.Contains("ItemBag") || other.tag == "Chest")
-            UIManager.instance.ResetItemUI(other.gameObject);
+            //UIManager.instance.ResetItemUI(other.gameObject);
 
         if (other.tag == "Chest")
         {
@@ -263,38 +269,6 @@ public class PlayerController : MonoBehaviour
     }
 
     
-    /************************************************/
-    /*                   상태 이상                   */
-    /************************************************/
-    public IEnumerator Healing(float healAmount)
-    {
-
-        playerManager.playerData.curHp += healAmount;
-        UIManager.instance.playerUI.UpdateHpBar(playerManager.playerData.maxHp, playerManager.playerData.curHp);
-        yield break;
-    }
-    public IEnumerator RefillMana(float manaAmount)
-    {
-
-        playerManager.playerData.curHp += manaAmount;
-        UIManager.instance.playerUI.UpdateMpBar(playerManager.playerData.maxMp, playerManager.playerData.curMp);
-        yield break;
-    }
-    public IEnumerator Shielding(float shieldDuration)
-    {
-        float duration = 0;
-        while (duration < shieldDuration)
-        {
-            canDamage=true;
-            yield return new WaitForSeconds(1f);
-            duration++;
-            if (duration >= shieldDuration)
-            {
-                canDamage=false;
-                yield break;
-            }
-        }
-        yield break;
-    }
+    
     
 }

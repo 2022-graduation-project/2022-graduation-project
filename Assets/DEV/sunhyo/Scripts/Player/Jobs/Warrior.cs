@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -38,7 +38,6 @@ public class Warrior : PlayerController
 
         // 지속시간 동안 Monster 리스트에 담고, 공격
         StartCoroutine(Duration1());
-
     }
 
     // 지속시간 동안 Monster 리스트에 담기

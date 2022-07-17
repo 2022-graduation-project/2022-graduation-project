@@ -25,6 +25,7 @@ public class ItemManager : MonoBehaviour
         {
             case "000_hpPotion":
             case "001_mpPotion":
+                // 현재 체력, 마력 상태 체크해야함
             case "005_sheildPotion":
             case "006_bomb":
                 if(coolTimes[item_name][0] < coolTimes[item_name][1])
