@@ -28,8 +28,12 @@ public class TipsManager : MonoBehaviour
         Invoke("loadTown", 4.0f);
     }
 
+
+    public PlayerManager playerManager;
     public void loadTown()
     {
+        playerManager = PlayerManager.instance;
+        playerManager.CreatePlayer();
         SceneManager.LoadScene("Town");
     }
 

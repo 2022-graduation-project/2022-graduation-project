@@ -333,13 +333,13 @@ public class LoginManage : MonoBehaviour
         tempParent.SetAsLastSibling();
     }
 
-    public TMP_Text charName;
+    public string jobname;
     private string newForm;
     private string newName;
     // 캐릭터 생성
     public void SetCharacter()
     {
-        newName = charName.text;
+        newName = jobname;
         newForm = "";
 
         foreach (string s in Lines)
@@ -358,7 +358,7 @@ public class LoginManage : MonoBehaviour
         }
 
         newForm += newName;
-
+        print(newForm);
         //System.IO.File.Delete(m_Path + "_" + profileName.text + ".txt");
         //System.IO.File.WriteAllText(m_Path + "_" + profileName.text + ".txt", newForm);
 

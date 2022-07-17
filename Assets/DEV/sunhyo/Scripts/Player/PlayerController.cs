@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
     protected Transform tr;
     protected RaycastHit hit;
 
-    protected bool canDamage = false;
+    public bool canDamage = false;
     protected bool canUseSkill = true;
     private bool jumpable = true;
 

@@ -36,21 +36,53 @@ public class PlayerManager : MonoBehaviour
                     ["000_player"];
     }
 
-    //void Start()
-    //{
-    //    playerData = DataManager.instance.LoadJsonFile
-    //                <Dictionary<string, PlayerData>>
-    //                (Application.dataPath + "/MAIN/Data", "player")
-    //                ["000_player"];
+    void Start()
+    {
+       playerData = DataManager.instance.LoadJsonFile
+                   <Dictionary<string, PlayerData>>
+                   (Application.dataPath + "/MAIN/Data", "player")
+                   ["000_player"];
 
-    //    //foreach(Dictionary<string, ItemData> dic in playerData.inventory)
-    //    //{
-    //    //    foreach (KeyValuePair<string, ItemData> itemData in dic)
-    //    //        print(itemData.Key);
-    //    //}
+       //foreach(Dictionary<string, ItemData> dic in playerData.inventory)
+       //{
+       //    foreach (KeyValuePair<string, ItemData> itemData in dic)
+       //        print(itemData.Key);
+       //}
 
-    //    //UIManager.instance.Set(playerData);
-    //}
+       //UIManager.instance.Set(playerData);
+    }
+
+
+    /************************************************/
+    /*                   직업 선택                   */
+    /************************************************/
+    private string playerJob = "";
+
+    public void SetJob(string select)
+    {
+        playerJob = select;
+        print("Job selected = "+playerJob);
+    }
+    
+    public Object[] jobs;
+    public void CreatePlayer()
+    {
+        int choose=0;
+        switch(playerJob)
+        {
+            case "Archer":
+                choose=0;
+                break;
+            case "Warrior":
+                choose=1;
+                break;
+            case "Wizard":
+                choose=2;
+                break;
+        }
+        
+        DontDestroyOnLoad(Instantiate(jobs[choose]));
+    }
 
     /************************************************/
     /*                   상태 이상                   */
@@ -71,18 +103,19 @@ public class PlayerManager : MonoBehaviour
     }
     public IEnumerator Shielding(float shieldDuration)
     {
-        //float duration = 0;
-        //while (duration < shieldDuration)
-        //{
-        //    canDamage=true;
-        //    yield return new WaitForSeconds(1f);
-        //    duration++;
-        //    if (duration >= shieldDuration)
-        //    {
-        //        canDamage=false;
-        //        yield break;
-        //    }
-        //}
+        PlayerController player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+        float duration = 0;
+        while (duration < shieldDuration)
+        {
+           player.canDamage=true;
+           yield return new WaitForSeconds(1f);
+           duration++;
+           if (duration >= shieldDuration)
+           {
+               player.canDamage=false;
+               yield break;
+           }
+        }
         yield break;
     }
 }
