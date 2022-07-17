@@ -55,8 +55,7 @@ public class PlayerManager : MonoBehaviour
     private string playerJob = "";
 
     /*  로그인 화면에서 로딩화면 부를 때 호출
-     *  플레이어의 직업을 저장해준다.
-    */
+     *  플레이어의 직업을 저장해준다.       */
     public void SetJob(string select)
     {
         playerJob = select;
@@ -64,8 +63,7 @@ public class PlayerManager : MonoBehaviour
     }
 
     /*  로딩 화면에서 Town씬 부를 때 호출
-     *  저장해둔 직업의 플레이어를 첫 생성.
-    */
+     *  저장해둔 직업의 플레이어를 첫 생성.  */
     public Object[] jobs;
     public void CreatePlayer()
     {
@@ -89,8 +87,7 @@ public class PlayerManager : MonoBehaviour
     }
 
     /*  캐릭터 생성될 때 호출
-     *  플레이어 직업을 Json 파일 Update
-    */
+     *  플레이어 직업을 Json 파일 Update   */
     private void PlayerJsonUpdate(string job_loc)
     {
         // Load previous Player Json File

@@ -19,7 +19,7 @@ public class Wizard : PlayerController
 
     void Start()
     {
-        magicCircle = GameObject.Find("/Player").transform.Find("MagicCircle");
+        magicCircle = GameObject.Find("/Player(Clone)").transform.Find("MagicCircle");
     }
 
     public override void UseSkill()
