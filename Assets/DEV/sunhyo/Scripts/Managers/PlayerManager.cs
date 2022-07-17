@@ -51,19 +51,4 @@ public class PlayerManager : MonoBehaviour
 
     //    //UIManager.instance.Set(playerData);
     //}
-
-    public void BuyItem(int _price)
-    {
-        playerData.money -= _price;
-        UIManager.instance.playerUI.UpdateMoney(playerData.money);
-    }
-
-    public void UseItem(ItemData _itemData)
-    {
-    }
-
-    public void GetItem()
-    {
-
-    }
 }

@@ -25,7 +25,6 @@ public class ShopUI : MonoBehaviour, IDropHandler
         temp.item_name = "체력 회복 포션";
         temp.count = 1;
         temp.description = "체력 10을 회복합니다.";
-        temp.fullness = 0;
         temp.price = 10000;
         itemDatas.Add(temp);
 
@@ -34,7 +33,6 @@ public class ShopUI : MonoBehaviour, IDropHandler
         temp.item_name = "마나 회복 포션";
         temp.count = 2;
         temp.description = "마나 10을 회복합니다.";
-        temp.fullness = 0;
         temp.price = 20000;
         itemDatas.Add(temp);
 
@@ -43,7 +41,6 @@ public class ShopUI : MonoBehaviour, IDropHandler
         temp.item_name = "사과";
         temp.count = 3;
         temp.description = "맛있습니다.";
-        temp.fullness = 0;
         temp.price = 30000;
         itemDatas.Add(temp);
         /***************************************************************************/
