@@ -85,4 +85,42 @@ public class PlayerManager : MonoBehaviour
         //}
         yield break;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /**************************************************/
+    /****************  아이템 관련 작업  ***************/
+    /**************************************************/
+
+
+    public bool AddItem(ItemData _itemData, int count=1)
+    {
+        return false;
+    }
+
+    public bool ReduceItem(ItemData _itemData, int count = 1)
+    {
+        return false;
+    }
+
+    public bool DeleteItem(ItemData itemData)
+    {
+        return false;
+    }
+
+
+    /**************************************************/
 }

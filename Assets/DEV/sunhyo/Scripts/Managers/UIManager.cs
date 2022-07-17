@@ -8,6 +8,9 @@ public class UIManager : MonoBehaviour
     public ItemUI itemUI;
     public InventoryUI inventoryUI;
 
+    [SerializeField] private GameObject inventory;
+    [SerializeField] private GameObject shop;
+
     /* Singleton */
     public static UIManager instance;
     void Awake()
@@ -22,8 +25,29 @@ public class UIManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(this.gameObject);
+
+        inventory = transform.Find("Inventory").GetChild(0).gameObject;
+        shop = transform.Find("Shop").GetChild(0).gameObject;
     }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            if (inventory.activeInHierarchy == true)
+                inventory.SetActive(false);
+            else
+                inventory.SetActive(true);
+        }
+
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            if (shop.activeInHierarchy == true)
+                shop.SetActive(false);
+            else
+                shop.SetActive(true);
+        }
+    }
     //public void Set(PlayerData _playerData)
     //{
     //    playerUI = GameObject.Find("PlayerUI").gameObject.GetComponent<PlayerUI>();
