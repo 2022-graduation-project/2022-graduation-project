@@ -71,6 +71,5 @@ public class ItemUI : MonoBehaviour
         print(item.item_name);
         print(item.count);
         print(item.description);
-        print(item.fullness);
     }
 }

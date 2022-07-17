@@ -66,4 +66,38 @@ public class PlayerManager : MonoBehaviour
     {
 
     }
+
+    /************************************************/
+    /*                   상태 이상                   */
+    /************************************************/
+    public IEnumerator Healing(float healAmount)
+    {
+
+        instance.playerData.curHp += healAmount;
+        UIManager.instance.playerUI.UpdateHpBar(instance.playerData.maxHp, instance.playerData.curHp);
+        yield break;
+    }
+    public IEnumerator RefillMana(float manaAmount)
+    {
+
+        instance.playerData.curHp += manaAmount;
+        UIManager.instance.playerUI.UpdateMpBar(instance.playerData.maxMp, instance.playerData.curMp);
+        yield break;
+    }
+    public IEnumerator Shielding(float shieldDuration)
+    {
+        float duration = 0;
+        while (duration < shieldDuration)
+        {
+            canDamage=true;
+            yield return new WaitForSeconds(1f);
+            duration++;
+            if (duration >= shieldDuration)
+            {
+                canDamage=false;
+                yield break;
+            }
+        }
+        yield break;
+    }
 }
