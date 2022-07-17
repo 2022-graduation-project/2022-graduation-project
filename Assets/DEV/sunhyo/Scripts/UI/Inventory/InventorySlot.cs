@@ -6,13 +6,24 @@ using UnityEngine.EventSystems;
 
 public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler, IPointerEnterHandler, IPointerExitHandler
 {
-
     [SerializeField] private Image icon;
     [SerializeField] private Image count_img;
     [SerializeField] private Text count_txt;
 
+    [SerializeField]  private InventoryUI inventory;
+
     public ItemData itemData = null;
     public ItemDummy itemDummy = null;
+
+    public void SetInventoryScript(InventoryUI _inventory)
+    {
+        inventory = _inventory;
+    }
+
+    public void Set()
+    {
+        Match();
+    }
 
     public void Set(ItemData _itemData, ItemDummy _itemScript=null)
     {
@@ -22,14 +33,13 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHand
             itemDummy = _itemScript;
 
             print(itemDummy);
-            // itemData = _itemData.DeepCopy();
-            itemData = _itemData; // InventorUI에서 넘어오니까 인스턴스 생성 없어도 가능할지도?
+            itemData = _itemData;
             icon.sprite = DataManager.instance.LoadSpriteFile(Application.dataPath + "/DEV/sunhyo/Assets/Items", _itemData.image_name);
 
             SetColorA(1f);
         }
 
-        SetCountObj();
+        Match();
     }
 
     public void Reset()
@@ -44,30 +54,40 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHand
         itemData = null;
     }
 
-    public void SetCountObj()
+    public void Match()
     {
+        if(itemData == null)
+        {
+            Reset();
+            return;
+        }
+            
         if (itemData.count > 1)
         {
             count_txt.text = itemData.count.ToString();
             count_img.gameObject.SetActive(true);
         }
-            
         else if (itemData.count == 1)
+        {
             count_img.gameObject.SetActive(false);
+        }
         else // 아이템 소진
         {
-            InventoryUI.instance.DeleteItem(itemData);
+            inventory.DeleteItem(itemData);
             Reset();
         }
+
+        count_txt.text = itemData.count.ToString();
     }
 
     void UseItem()
     {
-        itemDummy.Use();
-        itemData.count--;
-        count_txt.text = itemData.count.ToString("N0");
-
-        SetCountObj();
+        if(inventory.UseItem(itemData))
+        {
+            print($"현재 개수 {itemData.count}");
+            itemDummy.Use();
+            Match();
+        }
     }
 
     void SetColorA(float _delta)
@@ -77,17 +97,8 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHand
         icon.color = color;
     }
 
-    void UpdateItemCount()
-    {
-
-    }
-
     public void OnPointerClick(PointerEventData eventData)
     {
-        print("button : " + eventData.button);
-        //print("clickCount : " + eventData.clickCount);
-        //print("name : " + gameObject.name);
-
         /* clickCount는 일부 기기에서 씹히는 경우도 있다고 함. 시간 계산으로 변경하는 게 좋을 듯 */
         /* 좌클릭 및 드래그 : 아이템 이동 */
         if (itemData != null && eventData.button == PointerEventData.InputButton.Left)
@@ -133,6 +144,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHand
         // 아이템 이동 완료
         if (DragSlot.instance.itemData == null)
         {
+            DragSlot.instance.Reset();
             Reset();
             return;
         }
@@ -146,26 +158,17 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHand
             return;
         }
 
-        //아이템 버리기
+        // 아이템 버리기
         if (eventData.pointerCurrentRaycast.gameObject == null)
         {
-            print("버리기");
-            InventoryUI.instance.DeleteItem(itemData);
-            Reset();
-            DragSlot.instance.Reset();
-            DragSlot.instance.gameObject.SetActive(false);
-            return;
+            if(inventory.DeleteItem(itemData))
+            {
+                Reset();
+                DragSlot.instance.Reset();
+                DragSlot.instance.gameObject.SetActive(false);
+                return;
+            }
         }
-        //try
-        //{
-        //    print(eventData.pointerCurrentRaycast.gameObject);
-        //    print(eventData.pointerCurrentRaycast.gameObject.name);
-        //}
-        //catch (NullReferenceException e)
-        //{
-        //    print("Null exception");
-        //}
-
 
         SetColorA(1f);
         DragSlot.instance.Reset();

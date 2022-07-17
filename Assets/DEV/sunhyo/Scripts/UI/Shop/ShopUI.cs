@@ -13,6 +13,9 @@ public class ShopUI : MonoBehaviour, IDropHandler
     [SerializeField] private Text money;
     [SerializeField] private GameObject countPanel;
 
+    private float preminum = 1f;
+    private float discount = 0.7f;
+
     public GameObject content;
 
     void Start()
@@ -68,40 +71,26 @@ public class ShopUI : MonoBehaviour, IDropHandler
 
     public void Buy(ItemData _itemData)
     {
-        // 얘는 shopitemslot 에서 넘어오는 shopUI의 itemData임
-        // 그래서 판매를 하는 경우, 얘의 count가 --되는데
-        // 이게 이후 구매에서도 0개를 구매하게 만드는 상황이 발생한 것
-        // 해결을 위해 일단은 인스턴스를 만들지만...
-        // 다른 방법을 강구해봐야한다
-        // 전체적으로 코드가 꼬인 느낌인걸 ㅋㅋ ~~ ㅜㅜ
-
-        ItemData newItemData = _itemData.DeepCopy();
-        int count = 1;
         int curMoney;
         // 수량 선택 창 생성
+        int count = 1;
 
-        InventoryUI.instance.GetMoney(-newItemData.price * count);
-        curMoney = PlayerManager.instance.playerData.money;
-        money.text = curMoney.ToString("N0") + "원";
-        InventoryUI.instance.AddItem(newItemData, count);
-        CheckActiveSlot(curMoney);
+        if(UIManager.instance.BuyItem(_itemData, preminum, count))
+        {
+            curMoney = PlayerManager.instance.playerData.money;
+            money.text = curMoney.ToString("N0") + "원";
+            CheckActiveSlot(curMoney);
+        }
     }
 
     public void Sell(ItemData _itemData)
     {
-        // 수량 선택 창 생성
-        // 수량 * 가격(0.7) 만큼 플레이어 돈 추가
-        // 플레이어 인벤토리에 수량만큼 아이템 제거
-        // itemSlot들 접근해서 구매 가능 여부 확인 및 설정
-        print("판매");
-
-        int count = 1;
         int curMoney;
         // 수량 선택 창 생성
+        int count = 1;
 
-        if(InventoryUI.instance.UseItem(_itemData, count))
+        if (UIManager.instance.SellItem(_itemData, discount, count))
         {
-            InventoryUI.instance.GetMoney((int)(_itemData.price * 0.7f) * count);
             curMoney = PlayerManager.instance.playerData.money;
             money.text = curMoney.ToString("N0") + "원";
             CheckActiveSlot(curMoney);
@@ -132,8 +121,6 @@ public class ShopUI : MonoBehaviour, IDropHandler
             return;
 
         Sell(DragSlot.instance.itemData);
-        if(DragSlot.instance.itemData.count == 0)
-            DragSlot.instance.Reset();
     }
 }
 

@@ -7,6 +7,7 @@ public class UIManager : MonoBehaviour
     public PlayerUI playerUI;
     public ItemUI itemUI;
     public InventoryUI inventoryUI;
+    public ShopUI shopUI;
 
     [SerializeField] private GameObject inventory;
     [SerializeField] private GameObject shop;
@@ -28,6 +29,9 @@ public class UIManager : MonoBehaviour
 
         inventory = transform.Find("Inventory").GetChild(0).gameObject;
         shop = transform.Find("Shop").GetChild(0).gameObject;
+
+        inventoryUI = inventory.GetComponent<InventoryUI>();
+        shopUI = shop.GetComponent<ShopUI>();
     }
 
     void Update()
@@ -48,26 +52,71 @@ public class UIManager : MonoBehaviour
                 shop.SetActive(true);
         }
     }
-    //public void Set(PlayerData _playerData)
-    //{
-    //    playerUI = GameObject.Find("PlayerUI").gameObject.GetComponent<PlayerUI>();
-    //    itemUI = GameObject.Find("Mid").transform.Find("ItemUI").GetComponent<ItemUI>();
-    //    inventoryUI = GameObject.Find("Mid").transform.Find("InventoryUI").GetComponent<exInventoryUI>();
 
-    //    playerUI.Set(_playerData);
-    //    inventoryUI.Set(_playerData);
-    //}
+    public bool AddItem(ItemData _itemData, int _count = 1)
+    {
+        ItemData newItemData;
+        if((newItemData = PlayerManager.instance.AddItem(_itemData, _count)) != null)
+        {
+            inventoryUI.AddItem(_itemData);
+            return true;
+        }
 
-    //public void SetItemUI(GameObject _itemBag)
-    //{
-    //    itemUI.Set(_itemBag.GetComponent<ItemBag>());
-    //    _itemBag.GetComponent<ItemBag>().StopDeleteCoroutine();
-    //}
+        return false;
+    }
 
-    //public void ResetItemUI(GameObject _itemBag)
-    //{
-    //    itemUI.Reset(_itemBag.GetComponent<ItemBag>());
-    //    // reset 할 때... coroutine을 다시 돌려야 하나?
-    //    //_itemBag?.GetComponent<ItemBag>().StartDeleteCoroutine();
-    //}
+    public bool ReduceItem(ItemData _itemData, int _count = 1)
+    {
+        if(PlayerManager.instance.ReduceItem(_itemData, _count))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public bool DeleteItem(ItemData _itemData)
+    {
+        if(PlayerManager.instance.DeleteItem(_itemData))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public bool UseItem(ItemData _itemData, int _count = 1)
+    {
+        if (PlayerManager.instance.UseItem(_itemData, _count))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public bool BuyItem(ItemData _itemData, float _premium = 1f, int _count = 1)
+    {
+        ItemData newItemData;
+        if ((newItemData = PlayerManager.instance.BuyItem(_itemData, _premium, _count)) != null)
+        {
+            inventoryUI.AddItem(_itemData);
+            inventoryUI.SetMoney();
+            return true;
+        }
+        
+        return false;
+    }
+
+    public bool SellItem(ItemData _itemData, float _discount = 0.7f, int _count = 1)
+    {
+        if (PlayerManager.instance.SellItem(_itemData, _discount, _count))
+        {
+            inventoryUI.SetMoney();
+            inventoryUI.Match();
+            return true;
+        }
+        
+        return false;
+    }
 }
