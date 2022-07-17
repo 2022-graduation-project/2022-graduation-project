@@ -1354,7 +1354,7 @@ GameObject:
   - component: {fileID: 4790205697495993464}
   - component: {fileID: 4790205697495993465}
   - component: {fileID: 4790205697495993466}
-  - component: {fileID: 4790205697495993467}
+  - component: {fileID: 7811097628614147874}
   m_Layer: 0
   m_Name: Player_Real_Female 1
   m_TagString: Untagged
@@ -1428,7 +1428,7 @@ CapsuleCollider:
   m_Height: 1.8236094
   m_Direction: 1
   m_Center: {x: 0, y: 0.91458595, z: 0}
---- !u!114 &4790205697495993467
+--- !u!114 &7811097628614147874
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1437,9 +1437,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 4790205697495993468}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37bb9c3620f84c3499a10a51b8b44b0c, type: 3}
+  m_Script: {fileID: 11500000, guid: 7f2f7d277261a314a9279999b3bb8ca0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canDamage: 0
+  rightWeapon: {fileID: 0}
+  leftWeapon: {fileID: 0}
+  weapon: {fileID: 0}
+  monsterList: []
 --- !u!1 &4790205697506553371
 GameObject:
   m_ObjectHideFlags: 0

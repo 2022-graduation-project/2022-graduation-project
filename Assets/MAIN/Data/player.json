@@ -1,34 +1,34 @@
 {
-	"000_player" : {
-		"name" : "test Player",
-		"level" : 100,
-		"job" : "student",
-		"maxHp" : 100.0,
-		"maxMp" : 100.0,
-		"curHp" : 100.0,
-		"curMp" : 100.0,
-		"moveSpeed" : 5.0,
-		"jumpForce" : 1.0,
-		"STR" : 10.0,
-		"DEX" : 11.0,
-		"INT" : 12.0,
-		"inventory" : {
-			"000_hpPotion": {
-				"image_name": "000_hpPotion",
-				"item_name": "체력 회복 포션",
-				"count": 1,
-				"description": "체력 10을 회복합니다.",
-				"price" : 1000
-			},
-			"001_mpPotion": {
-				"image_name": "001_mpPotion",
-				"item_name": "마나 회복 포션",
-				"count": 1,
-				"description": "마나 10을 회복합니다.",
-				"price" : 1000
-			}
-		},
-		"skills" :{},
-		"money" : 50000
-	}
+  "000_player": {
+    "name": "test Player",
+    "level": 100,
+    "job": "Wizard",
+    "maxHp": 100.0,
+    "maxMp": 100.0,
+    "curHp": 100.0,
+    "curMp": 100.0,
+    "moveSpeed": 5.0,
+    "jumpForce": 1.0,
+    "STR": 10.0,
+    "DEX": 11.0,
+    "INT": 12.0,
+    "inventory": {
+      "000_hpPotion": {
+        "image_name": "000_hpPotion",
+        "item_name": "체력 회복 포션",
+        "count": 1,
+        "description": "체력 10을 회복합니다.",
+        "price": 1000
+      },
+      "001_mpPotion": {
+        "image_name": "001_mpPotion",
+        "item_name": "마나 회복 포션",
+        "count": 1,
+        "description": "마나 10을 회복합니다.",
+        "price": 1000
+      }
+    },
+    "skills": {},
+    "money": 50000
+  }
 }

@@ -30,10 +30,6 @@ public class PlayerManager : MonoBehaviour
 
         DontDestroyOnLoad(this.gameObject);
 
-        playerData = DataManager.instance.LoadJsonFile
-                    <Dictionary<string, PlayerData>>
-                    (Application.dataPath + "/MAIN/Data", "player")
-                    ["000_player"];
     }
 
     // void Start()
@@ -54,16 +50,22 @@ public class PlayerManager : MonoBehaviour
 
 
     /************************************************/
-    /*                   직업 선택                   */
+    /*                   직업 저장                   */
     /************************************************/
     private string playerJob = "";
 
+    /*  로그인 화면에서 로딩화면 부를 때 호출
+     *  플레이어의 직업을 저장해준다.
+    */
     public void SetJob(string select)
     {
         playerJob = select;
         print("Job selected = "+playerJob);
     }
-    
+
+    /*  로딩 화면에서 Town씬 부를 때 호출
+     *  저장해둔 직업의 플레이어를 첫 생성.
+    */
     public Object[] jobs;
     public void CreatePlayer()
     {
@@ -81,7 +83,30 @@ public class PlayerManager : MonoBehaviour
                 break;
         }
         
+        PlayerJsonUpdate(playerJob);
+
         DontDestroyOnLoad(Instantiate(jobs[choose]));
+    }
+
+    /*  캐릭터 생성될 때 호출
+     *  플레이어 직업을 Json 파일 Update
+    */
+    private void PlayerJsonUpdate(string job_loc)
+    {
+        // Load previous Player Json File
+        Dictionary<string, PlayerData> playerDict = 
+                    DataManager.instance.LoadJsonFile
+                    <Dictionary<string, PlayerData>>
+                    (Application.dataPath + "/MAIN/Data", "player");
+
+        playerData = playerDict["000_player"];
+
+        playerData.job = job_loc;
+
+        if(DataManager.instance.ObjectToJson<Dictionary<string, PlayerData>>(Application.dataPath + "/MAIN/Data", "player", playerDict))
+        {
+            print("Player's job data has updated.");
+        }
     }
 
     /************************************************/
