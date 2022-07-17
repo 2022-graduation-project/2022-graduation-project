@@ -36,21 +36,21 @@ public class PlayerManager : MonoBehaviour
                     ["000_player"];
     }
 
-    void Start()
-    {
-       playerData = DataManager.instance.LoadJsonFile
-                   <Dictionary<string, PlayerData>>
-                   (Application.dataPath + "/MAIN/Data", "player")
-                   ["000_player"];
+    // void Start()
+    // {
+    //    playerData = DataManager.instance.LoadJsonFile
+    //                <Dictionary<string, PlayerData>>
+    //                (Application.dataPath + "/MAIN/Data", "player")
+    //                ["000_player"];
 
-       //foreach(Dictionary<string, ItemData> dic in playerData.inventory)
-       //{
-       //    foreach (KeyValuePair<string, ItemData> itemData in dic)
-       //        print(itemData.Key);
-       //}
+    //    //foreach(Dictionary<string, ItemData> dic in playerData.inventory)
+    //    //{
+    //    //    foreach (KeyValuePair<string, ItemData> itemData in dic)
+    //    //        print(itemData.Key);
+    //    //}
 
-       //UIManager.instance.Set(playerData);
-    }
+    //    //UIManager.instance.Set(playerData);
+    // }
 
 
     /************************************************/
