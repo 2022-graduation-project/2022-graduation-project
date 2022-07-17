@@ -71,18 +71,18 @@ public class PlayerManager : MonoBehaviour
     }
     public IEnumerator Shielding(float shieldDuration)
     {
-        float duration = 0;
-        while (duration < shieldDuration)
-        {
-            canDamage=true;
-            yield return new WaitForSeconds(1f);
-            duration++;
-            if (duration >= shieldDuration)
-            {
-                canDamage=false;
-                yield break;
-            }
-        }
+        //float duration = 0;
+        //while (duration < shieldDuration)
+        //{
+        //    canDamage=true;
+        //    yield return new WaitForSeconds(1f);
+        //    duration++;
+        //    if (duration >= shieldDuration)
+        //    {
+        //        canDamage=false;
+        //        yield break;
+        //    }
+        //}
         yield break;
     }
 }

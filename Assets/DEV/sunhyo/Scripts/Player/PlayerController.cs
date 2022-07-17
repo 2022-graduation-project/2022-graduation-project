@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -205,7 +205,7 @@ public class PlayerController : MonoBehaviour
     public void OnTriggerEnter(Collider other)
     {
         if (other.name.Contains("ItemBag") || other.tag == "Chest")
-            UIManager.instance.SetItemUI(other.gameObject);
+            //UIManager.instance.SetItemUI(other.gameObject);
 
         if (other.tag == "Chest")
         {
@@ -217,7 +217,7 @@ public class PlayerController : MonoBehaviour
     public void OnTriggerExit(Collider other)
     {
         if (other.name.Contains("ItemBag") || other.tag == "Chest")
-            UIManager.instance.ResetItemUI(other.gameObject);
+            //UIManager.instance.ResetItemUI(other.gameObject);
 
         if (other.tag == "Chest")
         {
