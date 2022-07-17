@@ -23,13 +23,11 @@ public class SelfDesMonster : NormalMonster
     {
         base.Update();
         v_damagePlayer = controller.damagePlayer;
-        print(v_damagePlayer);
     }
 
     IEnumerator Attack()
     {
         yield return new WaitForSeconds(attackDelay);
-        //print("폭발!");
 
         if (v_damagePlayer)
             print("Player damaged");
