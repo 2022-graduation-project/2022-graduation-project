@@ -34,7 +34,7 @@ public class NormalMonster : MonoBehaviour
             else
             {
                 animator.SetBool("Walk", false);
-                StartCoroutine("Attack");
+                StartCoroutine("Attack", attackDelay);
             }
         }
     }

@@ -15,7 +15,7 @@ public class RangeMonster : NormalMonster
     {
         base.Awake();
         attackRange = 3.0f;
-        attackDelay = 1.0f;
+        attackDelay = 2.0f;
     }
 
     
@@ -40,10 +40,10 @@ public class RangeMonster : NormalMonster
 
     IEnumerator Attack()
     {
-        //yield return new WaitForSeconds(attackDelay);
+        yield return new WaitForSeconds(attackDelay);
 
-        if (Input.GetMouseButtonDown(0))
-        {
+        //if (Input.GetMouseButtonDown(0))
+        //{
         animator.SetTrigger("Attack");
         
         // 발사되어야 할 순번의 화살이 아직도 날아가고 있는 중이라면, 발사를 못 하게 한다
@@ -54,12 +54,10 @@ public class RangeMonster : NormalMonster
 
         // 화살의 출발지와 방향(지금 몬스터가 바라보는 방향) 설정
         arrowPool[currentIndex].transform.position = prefab_arrow.transform.position;
-        arrowPool[currentIndex].transform.rotation = this.transform.rotation;
+        arrowPool[currentIndex].transform.rotation = this.transform.rotation * Quaternion.Euler(90f, 0f, 0f);
 
         // 화살 활성화, 발사
         arrowPool[currentIndex].gameObject.SetActive(true);
-
-        print(currentIndex + "번 화살 발사");
 
         // 현재 발사된 화살 -> 5초 지나면 자동 제거
         destroyingIndex = currentIndex;
@@ -70,8 +68,7 @@ public class RangeMonster : NormalMonster
             currentIndex++;
         else
             currentIndex = 0;
-        }
-
+        //}
 
     }
 
