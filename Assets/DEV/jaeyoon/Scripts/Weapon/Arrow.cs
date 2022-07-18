@@ -2,15 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Arrow2 : Weapon
+public class Arrow : Weapon
 {
-    public float speed = 5; // 이동 속도
+    private float speed = 4; // 이동 속도
 
 
     void Update()
     {
-        Vector3 dir = Vector3.forward;   // 1. Set Direction
-        transform.Translate(dir * speed * Time.deltaTime);  // 2. Shot
+        transform.Translate(new Vector3(0, 1.0f, 0) * speed * Time.deltaTime);  // Set direction & Shotㄴ
     }
 
     /*

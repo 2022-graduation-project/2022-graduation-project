@@ -58,7 +58,7 @@ public class PlayerController : MonoBehaviour
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
         float r = Input.GetAxisRaw("Mouse X");
-
+        
         if (playerManager.keyMoveable)
             Move(h, v, r);
         

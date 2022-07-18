@@ -16,8 +16,7 @@ public class RangeWeapon : MonoBehaviour
 
     void Update()
     {
-        // Set direction & Shot
-        transform.Translate(new Vector3(0, 1.0f, 0) * speed * Time.deltaTime);
+        transform.Translate(new Vector3(0, 1.0f, 0) * speed * Time.deltaTime);  // Set direction & Shot
     }
 
     private void OnTriggerEnter(Collider other)
