@@ -59,24 +59,7 @@ public class NormalMonster : MonoBehaviour
     }
 
 
-    /* 추적 범위 내에 플레이어 진입 -> Target 설정 */
-    protected void OnTriggerEnter(Collider other)
-    {
-        if (other.tag == "Player")
-        {
-            target = other.gameObject.transform;
-            Debug.Log("Monster : Target found");
-        }
-    }
-
-    /* 추적 범위 내에서 플레이어 사라짐 */
-    protected void OnTriggerExit(Collider other)
-    {
-        target = null;
-        Debug.Log("Monster : Target lost");
-    }
-
-
+ 
 
 
     /*------------------------------------------------------
