@@ -5,7 +5,7 @@ using UnityEngine;
 public class NormalMonster : MonoBehaviour
 {
     /* Monster Data & Monster Manager */
-    //public MonsterData monsterData;
+    public MonsterData monsterData;
     public MonsterManager monsterManager;
 
     protected Animator animator;    // 몬스터 애니메이터
@@ -125,8 +125,9 @@ public class NormalMonster : MonoBehaviour
             Invoke("Die", 1f);
         }
 
-        print("Monster damaged! (Monster HP : " + monsterData.curHp + ")");
+        
         */
+        print("Monster damaged!");
     }
 
     // 몬스터가 폭탄 맞았을 때

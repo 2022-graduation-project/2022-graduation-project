@@ -283,7 +283,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1624536181693422, guid: 807c1226359007646905397056134019, type: 3}
       propertyPath: m_Name
-      value: Melee Monster
+      value: Melee Monster Variant
       objectReference: {fileID: 0}
     - target: {fileID: 1624536181693422, guid: 807c1226359007646905397056134019, type: 3}
       propertyPath: m_IsActive
@@ -525,7 +525,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5407099660004929364}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 9
@@ -542,5 +542,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95f8c7944d84842b18ce36ae34c7ab70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  monsterData: {fileID: 0}
   monsterManager: {fileID: 0}
   target: {fileID: 0}

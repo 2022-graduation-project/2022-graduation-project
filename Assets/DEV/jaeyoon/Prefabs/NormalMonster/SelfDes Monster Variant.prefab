@@ -67,7 +67,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 140808, guid: 10f9cee6cfdd7df43a5d805acd44763f, type: 3}
       propertyPath: m_Name
-      value: SelfDes Monster
+      value: SelfDes Monster Variant
       objectReference: {fileID: 0}
     - target: {fileID: 140808, guid: 10f9cee6cfdd7df43a5d805acd44763f, type: 3}
       propertyPath: m_IsActive
@@ -145,7 +145,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6273166976692492671}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 9
@@ -162,5 +162,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c10bdea07a7d34075aef390c8e137090, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  monsterData: {fileID: 0}
   monsterManager: {fileID: 0}
   target: {fileID: 0}

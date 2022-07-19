@@ -348,7 +348,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1283291039809076, guid: 9877270705d01b540aeaa38895b9f95b, type: 3}
       propertyPath: m_Name
-      value: Range Monster
+      value: Range Monster Variant
       objectReference: {fileID: 0}
     - target: {fileID: 1283291039809076, guid: 9877270705d01b540aeaa38895b9f95b, type: 3}
       propertyPath: m_IsActive
@@ -436,7 +436,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1042932082416915915}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 9
@@ -453,5 +453,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28f748c599c3945f0b9c80f51c5834e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  monsterData: {fileID: 0}
   monsterManager: {fileID: 0}
   target: {fileID: 0}
