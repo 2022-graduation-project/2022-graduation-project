@@ -43,7 +43,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 4
+  m_Radius: 3
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2142071995
 MonoBehaviour:
@@ -57,7 +57,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0046572f02dda4718bda4f5aa43bba83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damagePlayer: 0
+  player_in: 0
 --- !u!1001 &6273166976692371319
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -87,7 +87,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 471940, guid: 10f9cee6cfdd7df43a5d805acd44763f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.601566
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 471940, guid: 10f9cee6cfdd7df43a5d805acd44763f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -124,7 +124,7 @@ PrefabInstance:
     - target: {fileID: 9588672, guid: 10f9cee6cfdd7df43a5d805acd44763f, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 9878b6e883af249a38e40770e3763364, type: 2}
+      objectReference: {fileID: 9100000, guid: 0467c8ca891774f2bbe939553b3c47df, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 10f9cee6cfdd7df43a5d805acd44763f, type: 3}
 --- !u!1 &6273166976692492671 stripped
@@ -162,4 +162,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c10bdea07a7d34075aef390c8e137090, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  monsterManager: {fileID: 0}
   target: {fileID: 0}

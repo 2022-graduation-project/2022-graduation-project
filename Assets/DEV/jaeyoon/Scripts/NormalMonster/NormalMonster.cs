@@ -5,7 +5,7 @@ using UnityEngine;
 public class NormalMonster : MonoBehaviour
 {
     /* Monster Data & Monster Manager */
-    public MonsterData monsterData;
+    //public MonsterData monsterData;
     public MonsterManager monsterManager;
 
     protected Animator animator;    // 몬스터 애니메이터
@@ -20,16 +20,18 @@ public class NormalMonster : MonoBehaviour
 
     protected virtual void Awake()
     {
+        /*
         monsterData = DataManager.instance.LoadJsonFile
                       <Dictionary<string, MonsterData>>
                       (Application.dataPath + "/MAIN/Data", "goblin")
                       ["001_goblin"];
+        */
         monsterManager = GameObject.Find("MonsterManager").GetComponent<MonsterManager>();
         animator = GetComponent<Animator>();
-        monsterData.moveSpeed = 1.5f;  // 몬스터 이동 속도
+        //monsterData.moveSpeed = 1.5f;  // 몬스터 이동 속도
 
         /* 몬스터 초기 HP 설정 */
-        monsterData.curHp = monsterData.maxHp = 100f;
+        //monsterData.curHp = monsterData.maxHp = 100f;
     }
 
     
@@ -44,8 +46,7 @@ public class NormalMonster : MonoBehaviour
             if (distance > attackRange)
             {
                 animator.SetBool("Walk", true);
-                //Chase();
-                StartCoroutine("Chase");
+                Chase();
             }
 
             /* 공격 범위 진입 -> 추적 중지, 공격 시작 */
@@ -82,14 +83,14 @@ public class NormalMonster : MonoBehaviour
      *              CHASE - 몬스터가 플레이어 추격
      * ----------------------------------------------------*/
 
-    protected IEnumerator Chase()   // 원래 함수에서 코루틴으로 바꿈
+    protected void Chase()
     {
         transform.LookAt(target);   // 타겟 바라보게 함
         // 타겟 위치 받아와서 따라가도록 설정
         Vector3 dir = target.position - transform.position;
-        transform.position += dir.normalized * monsterData.moveSpeed * Time.deltaTime;
-        yield return null;
+        transform.position += dir.normalized * /*monsterData.moveSpeed*/1.5f * Time.deltaTime;
     }
+
 
     /*------------------------------------------------------
      *              ATTACK - 몬스터가 플레이어 주기적으로 공격
@@ -110,23 +111,22 @@ public class NormalMonster : MonoBehaviour
     {
         animator.SetTrigger("Damaged"); // 애니메이션
 
-        /* 아직 체력이 남아 있을 때 */
-        if (monsterData.curHp > 0)
+        /*
+        if (monsterData.curHp > 0) // 아직 체력이 남아 있을 때
         {
             monsterData.curHp += scale; // scale(-)만큼 몬스터 체력 감소
             //UpdateHpBar(monsterData.curHp);   // 몬스터 체력바 반영
         }
 
-        /* 남은 체력이 없을 때 */
-        else
+        else  // 남은 체력이 없을 때 -> 사망
         {
-            /* 사망 */
             animator.SetBool("Dead", true);
             //DeleteHpBar();    // 몬스터 체력바 삭제
             Invoke("Die", 1f);
         }
 
         print("Monster damaged! (Monster HP : " + monsterData.curHp + ")");
+        */
     }
 
     // 몬스터가 폭탄 맞았을 때

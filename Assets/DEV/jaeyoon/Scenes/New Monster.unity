@@ -123,6 +123,17 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 23800000, guid: aa1d250d214f84a3e90cc7e10e4d9bf7, type: 2}
+--- !u!114 &20081165 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8295400055259560991, guid: 3a900af1ebbe9ac4c88ffc9b185720f1, type: 3}
+  m_PrefabInstance: {fileID: 1780585212}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63a6d20099fff2947942d3735fe0e9aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &20827705
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -269,6 +280,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 979271975, guid: a990c3c8f2ac347e783541f16b95cf9e, type: 3}
+      propertyPath: monsterManager
+      value: 
+      objectReference: {fileID: 20081165}
     - target: {fileID: 1041432929554012355, guid: a990c3c8f2ac347e783541f16b95cf9e, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -316,10 +331,6 @@ PrefabInstance:
     - target: {fileID: 1042932082416915915, guid: a990c3c8f2ac347e783541f16b95cf9e, type: 3}
       propertyPath: m_Name
       value: Range Monster
-      objectReference: {fileID: 0}
-    - target: {fileID: 1042932082416915915, guid: a990c3c8f2ac347e783541f16b95cf9e, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a990c3c8f2ac347e783541f16b95cf9e, type: 3}
@@ -431,7 +442,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4790205698401326670, guid: ab751c43d005ae7469ca0c0c8cfeb9cf, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab751c43d005ae7469ca0c0c8cfeb9cf, type: 3}
@@ -1064,7 +1075,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!81 &1649862150
 AudioListener:
   m_ObjectHideFlags: 0
@@ -1679,17 +1690,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5358678691376131334, guid: 348055da302e84bc5a3df481ca2cbf28, type: 3}
-      propertyPath: m_Controller
+    - target: {fileID: 1372790525, guid: 348055da302e84bc5a3df481ca2cbf28, type: 3}
+      propertyPath: monsterManager
       value: 
-      objectReference: {fileID: 9100000, guid: 0467c8ca891774f2bbe939553b3c47df, type: 2}
+      objectReference: {fileID: 20081165}
     - target: {fileID: 5407099660004929364, guid: 348055da302e84bc5a3df481ca2cbf28, type: 3}
       propertyPath: m_Name
       value: Melee Monster
-      objectReference: {fileID: 0}
-    - target: {fileID: 5407099660004929364, guid: 348055da302e84bc5a3df481ca2cbf28, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5412541124205665972, guid: 348055da302e84bc5a3df481ca2cbf28, type: 3}
       propertyPath: m_RootOrder
@@ -1744,10 +1751,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2142071994, guid: c77c962a548fe418da57a4be0d45d170, type: 3}
-      propertyPath: m_Radius
-      value: 3
-      objectReference: {fileID: 0}
+    - target: {fileID: 995174487, guid: c77c962a548fe418da57a4be0d45d170, type: 3}
+      propertyPath: monsterManager
+      value: 
+      objectReference: {fileID: 20081165}
     - target: {fileID: 6273166976692161779, guid: c77c962a548fe418da57a4be0d45d170, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -1796,13 +1803,5 @@ PrefabInstance:
       propertyPath: m_Name
       value: SelfDes Monster
       objectReference: {fileID: 0}
-    - target: {fileID: 6273166976692492671, guid: c77c962a548fe418da57a4be0d45d170, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6273166976699855031, guid: c77c962a548fe418da57a4be0d45d170, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 0467c8ca891774f2bbe939553b3c47df, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c77c962a548fe418da57a4be0d45d170, type: 3}

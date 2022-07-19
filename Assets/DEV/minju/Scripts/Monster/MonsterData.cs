@@ -4,14 +4,12 @@ using UnityEngine;
 
 public class MonsterData : MonoBehaviour
 {
-    /*
     // 몬스터 상태
     public enum States
     {
         Idle, Patrol, Chase, Attack
     };
     public States state;
-    */
 
 
     // 몬스터 이름
