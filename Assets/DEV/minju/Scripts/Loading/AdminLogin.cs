@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 
 
-public class Testtt : MonoBehaviour
+public class AdminLogin : MonoBehaviour
 {
     public void loadTown()
     {
