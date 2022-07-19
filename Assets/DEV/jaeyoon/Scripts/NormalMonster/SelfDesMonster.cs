@@ -3,35 +3,39 @@ using UnityEngine;
 
 public class SelfDesMonster : NormalMonster
 {
-    private SelfDesWeapon controller;
-    private bool v_damagePlayer;
+    /* (SelfDes Monster) PRIVATE DATA - 공격 */
+    private SelfDesWeapon damageRange;  // 폭발 시 플레이어에게 데미지를 입힐 수 있는 범위
+    private bool damagePlayer;    // 플레이어가 공격 범위 내에 들어와 있는지 여부
 
 
     protected override void Awake()
     {
         base.Awake();
-        attackRange = 2.5f;
-        attackDelay = 1.5f;
+
+        /* 공격 범위 & 공격 지연 시간 */
+        attackRange = 3.0f;
+        attackDelay = 2.0f;
+
+        /* Damage Range 콜라이더 지정 */
+        damageRange = GameObject.Find("DamageRange").GetComponent<SelfDesWeapon>();
     }
 
-    private void Start()
-    {
-        controller = GameObject.Find("DamageRange").GetComponent<SelfDesWeapon>();
-    }
 
     protected override void Update()
     {
         base.Update();
-        v_damagePlayer = controller.damagePlayer;
+        damagePlayer = damageRange.player_in;
     }
+
 
     IEnumerator Attack()
     {
         yield return new WaitForSeconds(attackDelay);
 
-        if (v_damagePlayer)
+        if (damagePlayer)
             print("Player damaged");
 
+        /* 자폭 몬스터 폭, 비활성화 */
         gameObject.SetActive(false);
     }
 }

@@ -4,28 +4,42 @@ using UnityEngine;
 
 public class RangeMonster : NormalMonster
 {
-    public RangeWeapon prefab_arrow;
-    private List<RangeWeapon> arrowPool = new List<RangeWeapon>();
+    /* (Range Monster) PRIVATE DATA - 공격 */
+    private RangeWeapon prefab_arrow;
+    private List<RangeWeapon> arrowPool = new List<RangeWeapon>();  // 오브젝트 풀
     private readonly int arrowMaxCount = 3; // 총 화살 개수
-    private int currentIndex = 0; // 현재 장전된 화살의 인덱스
+    private int currentIndex = 0; // 현재 장전된, 발사할 화살의 인덱스
     private int destroyingIndex;  // 삭제할 (비활성화시킬) 화살의 인덱스
 
+    /* (Range Monster) PRIVATE DATA - 타이머 */
     private float timer;
     private float coolTime;
+
+
 
 
     protected override void Awake()
     {
         base.Awake();
-        attackRange = 3.0f;
-        coolTime = attackDelay = 3.0f;
-        timer = coolTime;
+
+        /* Range Monster ; 사용할 화살 프리펩 지정 */
+        prefab_arrow = GameObject.Find("Arrow").GetComponent<RangeWeapon>();
+
+        /* Range Monster ; 공격 시 발동할 애니메이션의 트리거 명 */
+        attackTrigger = "BowShot";
+
+        /* 공격 범위 & 공격 지연 시간 */
+        attackRange = 3.75f;
+        attackDelay = 1.5f;
+
+        /* 타이머 초기 설정 */
+        timer = coolTime = attackDelay;
     }
 
     
     private void Start()
     {
-        // 화살 5개 미리 생성
+        /* 초기 세팅 - 사용할 화살 미리 생성 */
         for (int i = 0; i < arrowMaxCount; i++)
         {
             RangeWeapon arrow = Instantiate<RangeWeapon>(prefab_arrow);
@@ -47,13 +61,13 @@ public class RangeMonster : NormalMonster
     {
         yield return new WaitForSeconds(attackDelay);
 
-
+        /* 쿨타임이 지났다면 == 공격 가능 상태가 되었다면 */
         if (timer >= coolTime)
         {
-            animator.SetTrigger("Attack");
+            animator.SetTrigger(attackTrigger);
 
         
-            // 발사되어야 할 순번의 화살이 아직도 날아가고 있는 중이라면, 발사를 못 하게 한다
+            // 발사되어야 할 순번의 화살이 아직도 사용 중이라, 발사 불가
             if (arrowPool[currentIndex].gameObject.activeSelf)
             {
                 yield break;
@@ -77,13 +91,20 @@ public class RangeMonster : NormalMonster
                 currentIndex = 0;
 
 
-            timer = 0;
+            timer = 0;  // Reset Timer
         }
     }
+
+
+    /*------------------------------------------------------
+     *              DESTROY - 사용 끝난 화살 자동 비활성화
+     * ----------------------------------------------------*/
 
     private IEnumerator Destroy(int index)
     {
         yield return new WaitForSeconds(5);
         arrowPool[index].gameObject.SetActive(false);
     }
+
+
 }

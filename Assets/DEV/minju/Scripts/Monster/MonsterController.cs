@@ -396,7 +396,6 @@ public class MonsterController : MonoBehaviour
     {
         uiCanvas = GameObject.Find("UI Canvas").GetComponent<Canvas>();
         hpBar = Instantiate<GameObject>(hpBarPrefab, transform.position, Quaternion.identity, uiCanvas.transform);
-        //hpBar = Instantiate<GameObject>(hpBarPrefab, transform.position, Quaternion.identity, uiCanvas.transform);
         hpBarImage = hpBar.GetComponentsInChildren<Image>()[1];
 
         var _hpbar = hpBar.GetComponent<EnemyHpBar>();
