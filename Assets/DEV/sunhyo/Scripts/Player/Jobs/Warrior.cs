@@ -103,7 +103,7 @@ public class Warrior : PlayerController
                     // 모든 몬스터 동시에 Damage 주기
                     foreach (GameObject monsters in monsterList)
                     {
-                        monsters.GetComponent<MonsterController>().Damaged(playerManager.playerData.STR);
+                        monsters.GetComponent<NormalMonster>().Damaged(playerManager.playerData.STR);
                     }
                 }
 
@@ -274,7 +274,7 @@ public class Warrior : PlayerController
     private IEnumerator StunDuration()
     {
         GameObject temp;
-        MonsterController monster;
+        NormalMonster monster;
         List<bool> isFind = new List<bool>();
 
         while (duration3 < 2)
@@ -296,7 +296,7 @@ public class Warrior : PlayerController
                     {
                         monsterList.Add(temp);
                         // 데미지 입히기
-                        monster = temp.GetComponent<MonsterController>();
+                        monster = temp.GetComponent<NormalMonster>();
                         monster.Damaged(playerManager.playerData.STR * 0.5f);
 
                         // 현재 isFound 상태 저장
@@ -330,7 +330,7 @@ public class Warrior : PlayerController
                     foreach (GameObject monsters in monsterList)
                     {
                         // 모든 몬스터 저장해둔 isFound 상태로 복구
-                        monsters.GetComponent<MonsterController>().monsterData.isFound = isFind[monsterList.IndexOf(monsters)];
+                        monsters.GetComponent<NormalMonster>().monsterData.isFound = isFind[monsterList.IndexOf(monsters)];
                     }
                 }
 

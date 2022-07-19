@@ -21,7 +21,7 @@ public class Weapon : MonoBehaviour
     {
         if(other.tag == "Monster")
         {
-            other.GetComponent<MonsterDummy>().Damaged(damage);
+            other.GetComponent<NormalMonster>().Damaged(damage);
             meshCollider.enabled = false;
         }
     }
