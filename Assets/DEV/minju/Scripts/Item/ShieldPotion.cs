@@ -9,21 +9,8 @@ public class shieldPotion : Item
         // player 상태이상 함수 갖고 있는 스크립트 가져오기
         player = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
         // 방어 지속시간 설정
-        shieldDuration = 5f;
+        shieldDuration = 10f;
         // 상태이상 함수 Healing 호출
         StartCoroutine(player.Shielding(shieldDuration));
-        print("Protecting any Damage");
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

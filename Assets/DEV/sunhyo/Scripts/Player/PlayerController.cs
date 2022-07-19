@@ -179,6 +179,7 @@ public class PlayerController : MonoBehaviour
         if(canDamage==true)
         {
             // 쉴드 포션 쓴 상태에서 대미지 입었을 때 나타나는 이펙트 자리
+            print("Could not Damaged by Monster because of shield potion effect.");
             return;
         }
         playerManager.playerData.curHp -= damage;

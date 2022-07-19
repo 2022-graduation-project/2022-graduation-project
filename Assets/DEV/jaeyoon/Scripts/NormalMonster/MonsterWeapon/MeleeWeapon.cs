@@ -17,6 +17,7 @@ public class MeleeWeapon : MonoBehaviour
         if (other.tag == "Player")
         {
             Debug.Log("Player damaged");
+            other.GetComponent<PlayerController>().Damaged(5);
         }
     }
 }

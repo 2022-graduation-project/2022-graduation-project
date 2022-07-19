@@ -10,5 +10,6 @@ public abstract class Item : MonoBehaviour
     protected float healAmount;
     protected float manaAmount;
     protected float shieldDuration;
+    protected float firePower;
     public abstract void Use();
 }

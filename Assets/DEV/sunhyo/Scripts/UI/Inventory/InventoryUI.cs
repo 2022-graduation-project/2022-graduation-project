@@ -72,8 +72,28 @@ public class InventoryUI : MonoBehaviour
 
         itemDatas.Add(temp);
 
+        temp = new ItemData();
+        temp.image_name = "006_bomb";
+        temp.item_name = "폭탄";
+        temp.count = 5;
+        temp.description = "폭탄을 던져 몬스터에게 데미지를 입힙니다.";
+        temp.price = 20000;
+
+        itemDatas.Add(temp);
+
+        temp = new ItemData();
+        temp.image_name = "005_shieldPotion";
+        temp.item_name = "방어포션";
+        temp.count = 5;
+        temp.description = "일정 시간 동안 몬스터에게 데미지를 입지 않습니다.";
+        temp.price = 20000;
+
+        itemDatas.Add(temp);
+
         inventorySlots[0].Set(itemDatas[0]);
         inventorySlots[1].Set(itemDatas[1]);
+        inventorySlots[2].Set(itemDatas[2]);
+        inventorySlots[3].Set(itemDatas[3]);
         /***************************************************************************/
         /***************************************************************************/
         /***************************************************************************/
