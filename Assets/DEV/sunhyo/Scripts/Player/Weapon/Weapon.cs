@@ -8,7 +8,8 @@ public class Weapon : MonoBehaviour
 
     void Start()
     {
-        meshCollider = GetComponent<MeshCollider>();        
+        meshCollider = GetComponent<MeshCollider>();
+        meshCollider.enabled = false;
     }
 
     public virtual void Attack(float _damage)

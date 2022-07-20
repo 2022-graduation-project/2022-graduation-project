@@ -15,16 +15,4 @@ public class hpPotion : Item
         StartCoroutine(player.Healing(healAmount));
         print("Healed the player +10");
     }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

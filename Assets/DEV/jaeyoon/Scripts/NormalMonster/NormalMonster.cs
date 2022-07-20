@@ -5,7 +5,7 @@ using UnityEngine;
 public class NormalMonster : MonoBehaviour
 {
     /* Monster Data & Monster Manager */
-    //public MonsterData monsterData;
+    public MonsterData monsterData;
     public MonsterManager monsterManager;
 
     protected Animator animator;    // 몬스터 애니메이터
@@ -59,24 +59,7 @@ public class NormalMonster : MonoBehaviour
     }
 
 
-    /* 추적 범위 내에 플레이어 진입 -> Target 설정 */
-    protected void OnTriggerEnter(Collider other)
-    {
-        if (other.tag == "Player")
-        {
-            target = other.gameObject.transform;
-            Debug.Log("Monster : Target found");
-        }
-    }
-
-    /* 추적 범위 내에서 플레이어 사라짐 */
-    protected void OnTriggerExit(Collider other)
-    {
-        target = null;
-        Debug.Log("Monster : Target lost");
-    }
-
-
+ 
 
 
     /*------------------------------------------------------
@@ -125,8 +108,9 @@ public class NormalMonster : MonoBehaviour
             Invoke("Die", 1f);
         }
 
-        print("Monster damaged! (Monster HP : " + monsterData.curHp + ")");
+        
         */
+        print("Monster damaged!");
     }
 
     // 몬스터가 폭탄 맞았을 때
