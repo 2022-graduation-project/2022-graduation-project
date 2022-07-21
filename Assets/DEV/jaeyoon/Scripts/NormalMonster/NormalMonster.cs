@@ -118,26 +118,31 @@ public class NormalMonster : MonoBehaviour
     {
         if(other.gameObject.tag == "Bomb")
         {
-            StartCoroutine(Bursting(other.gameObject));
+            StartCoroutine(Bursting());
         }
     }
 
     // 폭탄 맞은 후 상태 이상 함수 5초간 지속
-    private IEnumerator Bursting(GameObject bomb)
+    private IEnumerator Bursting()
     {
         float duration = 0;
         while (duration < 5)
         {
-            // MonsterData.curHP -= 1;
-            // UpdateHPBar();
+            
+            // 몬스터 공격
+            Damaged(-10);
+            print("Damaged -10 by bomb");
+            // 몬스터 상태바
+            // monster.UpdateHPBar();
+            // 지속 시간 재기
             yield return new WaitForSeconds(1f);
             duration++;
             
+            // 지속 시간 초과
             if (duration >= 5)
             {
                 // 폭탄 이펙트 끄기
                 // 폭탄 오브젝트 제거
-                Destroy(bomb, 0.2f);
                 yield break;
             }
         }
