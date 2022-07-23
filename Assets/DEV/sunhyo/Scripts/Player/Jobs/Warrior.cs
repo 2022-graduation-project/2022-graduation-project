@@ -104,6 +104,7 @@ public class Warrior : PlayerController
                     foreach (GameObject monsters in monsterList)
                     {
                         monsters.GetComponent<NormalMonster>().Damaged(playerManager.playerData.STR);
+                        print("Mons Damaged by BLAST skill!");
                     }
                 }
 
@@ -178,6 +179,7 @@ public class Warrior : PlayerController
         // 스킬 1의 MP 소모량을 20->10로 줄여줌
         maxMpConsume1 = 10;
 
+        print("Effect Skill ON");
         // 지속 시간 후에 스킬 1의 속성 초기화
         StartCoroutine(EffectDuration());
     }
@@ -192,6 +194,8 @@ public class Warrior : PlayerController
 
             if (duration2 >= 6)
             {
+                
+                print("Effect Skill OFF");
                 // 스킬 1의 쿨타임 초기화
                 maxCoolDelay1 = 60;
 
@@ -282,7 +286,6 @@ public class Warrior : PlayerController
             yield return new WaitForSeconds(1f);
             duration3++;
 
-
             // RayCast에 닿는 All Monsters 배열(hits)로 가져오기
             hits = Physics.RaycastAll(transform.position + offset, transform.forward, MaxDistance);
 
@@ -304,6 +307,7 @@ public class Warrior : PlayerController
                         // 잠시 기절시키기
                         // Stunning
                         monster.monsterData.isFound = false;
+                        print("Mons Damaged by STUN skill!");
                     }
                 }
             }
