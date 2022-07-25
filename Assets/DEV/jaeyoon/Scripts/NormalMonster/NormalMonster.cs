@@ -20,15 +20,16 @@ public class NormalMonster : MonoBehaviour
 
     protected virtual void Awake()
     {
-        /*
+        
         monsterData = DataManager.instance.LoadJsonFile
                       <Dictionary<string, MonsterData>>
                       (Application.dataPath + "/MAIN/Data", "goblin")
                       ["001_goblin"];
-        */
+        
         monsterManager = GameObject.Find("MonsterManager").GetComponent<MonsterManager>();
         animator = GetComponent<Animator>();
         //monsterData.moveSpeed = 1.5f;  // 몬스터 이동 속도
+        monsterData.isFound=false;
 
         /* 몬스터 초기 HP 설정 */
         //monsterData.curHp = monsterData.maxHp = 100f;
@@ -40,6 +41,7 @@ public class NormalMonster : MonoBehaviour
         /* 추적 범위 내에서 플레이어 발견! */
         if (target != null)
         {
+            monsterData.isFound=true;
             distance = Vector3.Distance(transform.position, target.position);   // 현재 몬스터-플레이어 사이 거리 측정
 
             /* 공격 범위보다 더 멀리 떨어져 있는 경우 -> 추적 계속 */
@@ -118,26 +120,31 @@ public class NormalMonster : MonoBehaviour
     {
         if(other.gameObject.tag == "Bomb")
         {
-            StartCoroutine(Bursting(other.gameObject));
+            StartCoroutine(Bursting());
         }
     }
 
     // 폭탄 맞은 후 상태 이상 함수 5초간 지속
-    private IEnumerator Bursting(GameObject bomb)
+    private IEnumerator Bursting()
     {
         float duration = 0;
         while (duration < 5)
         {
-            // MonsterData.curHP -= 1;
-            // UpdateHPBar();
+            
+            // 몬스터 공격
+            Damaged(-10);
+            print("Damaged -10 by bomb");
+            // 몬스터 상태바
+            // monster.UpdateHPBar();
+            // 지속 시간 재기
             yield return new WaitForSeconds(1f);
             duration++;
             
+            // 지속 시간 초과
             if (duration >= 5)
             {
                 // 폭탄 이펙트 끄기
                 // 폭탄 오브젝트 제거
-                Destroy(bomb, 0.2f);
                 yield break;
             }
         }

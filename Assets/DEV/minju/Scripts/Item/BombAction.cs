@@ -20,10 +20,13 @@ public class BombAction : MonoBehaviour
         // Damage any monsters
         if(other.gameObject.tag == "Monster")
         {
-            other.gameObject.GetComponent<NormalMonster>().Damaged(-20);
-            print("Damaged by bomb");
+            // 일반 공격
+            //other.gameObject.GetComponent<NormalMonster>().Damaged(-20);
+            // 상태 이상 함수로 공격
+            //other.gameObject.GetComponent<NormalMonster>().Bursting();
         }
 
+        // 어디에 맞든 바로 객체 삭제
         Destroy(gameObject, 0.1f);
     }
 }
