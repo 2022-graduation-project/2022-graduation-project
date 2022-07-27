@@ -7,6 +7,7 @@ public class NormalMonster : MonoBehaviour
     /* Monster Data & Monster Manager */
     public MonsterData monsterData;
     public MonsterManager monsterManager;
+    public string spawnLoc = "";
 
     protected Animator animator;    // 몬스터 애니메이터
     protected string attackTrigger; // 몬스터 기본 공격 애니메이션의 트리거(명)
@@ -166,5 +167,10 @@ public class NormalMonster : MonoBehaviour
         monsterManager.DropItem(itemLocation);
         // 몬스터 삭제
         monsterManager.DeleteMonster(gameObject);
+
+        if(spawnLoc!="")
+        {
+            monsterManager.gameObject.GetComponent<MonsterSpawn>();
+        }
     }
 }

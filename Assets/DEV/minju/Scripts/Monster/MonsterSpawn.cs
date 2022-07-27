@@ -17,7 +17,7 @@ public class MonsterSpawn : MonoBehaviour
     {
         monsters = new Object[3]{Melee, Range, SelfDes};
         InitialSpawn();
-        ADeath = new bool[7]{false, false, false, false, false, false, false};
+        ADeath = new bool[2]{false, false};
         BDeath = new bool[3]{false, false, false};
         CDeath = new bool[7]{false, false, false, false, false, false, false};
     }
@@ -69,18 +69,72 @@ public class MonsterSpawn : MonoBehaviour
                         Quaternion.identity * Quaternion.Euler(new Vector3(0, Random.Range(0, 360), 0))) as GameObject;
     }
 
+    public void Decode(string spawnLoc)
+    {
+        switch (spawnLoc)
+        {
+            case "A01":
+                ADeath[0] = true;
+                break;
+            case "A07":
+                ADeath[1] = true;
+                break;
+
+                
+            case "B01":
+                BDeath[0] = true;
+                break;
+            case "B02":
+                BDeath[0] = true;
+                break;
+            case "B03":
+                BDeath[0] = true;
+                break;
+
+                
+            case "C01":
+                CDeath[0] = true;
+                break;
+            case "C02":
+                CDeath[1] = true;
+                break;
+            case "C03":
+                CDeath[2] = true;
+                break;
+            case "C04":
+                CDeath[3] = true;
+                break;
+            case "C05":
+                CDeath[4] = true;
+                break;
+            case "C06":
+                CDeath[5] = true;
+                break;
+            case "C07":
+                CDeath[6] = true;
+                break;
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
-        for (int i=0; i<7; i++)
+        for (int i=0; i<2; i++)
         {
             bool isDead = ADeath[i];
             if (isDead)
             {
+                // 여기서 쿨타임 새기
+                float coolTime=0;
+                while(coolTime < 180)
+                {
+                    coolTime += 1 * Time.deltaTime;
+                }
                 GameObject monster = Respawn(Melee, A[i]);
                 // Intro Monster HP setting for Beginner
                 monster.GetComponent<NormalMonster>().monsterData.maxHp = 80;
                 monster.GetComponent<NormalMonster>().monsterData.curHp = 80;
+                ADeath[i] = false;
             }
         }
 
@@ -89,7 +143,9 @@ public class MonsterSpawn : MonoBehaviour
             bool isDead = BDeath[i];
             if (isDead)
             {
+                // 쿨타임
                 GameObject monster = Respawn(monsters[i], B[i]);
+                BDeath[i] = false;
             }
         }
 
@@ -99,6 +155,7 @@ public class MonsterSpawn : MonoBehaviour
             if (isDead)
             {
                 GameObject monster = Respawn(monsters[Random.Range(0,3)], C[i]);
+                CDeath[i] = false;
             }
         }
     }
