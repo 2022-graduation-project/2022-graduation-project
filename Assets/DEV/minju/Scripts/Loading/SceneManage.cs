@@ -6,17 +6,8 @@ using UnityEngine.SceneManagement;
 public class SceneManage : MonoBehaviour
 {
     Scene scene;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public GameObject player;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -27,10 +18,17 @@ public class SceneManage : MonoBehaviour
         // trigger with player
         if (other.tag=="Player")
         {
-            // if current scene is Monster, Load next scene
-            if(scene.name == "Monster")
+            switch(scene.name)
             {
-                SceneManager.LoadScene("BossMonster");
+                // if current scene is Monster, Load Boss scene
+                case "Monster":
+                    SceneManager.LoadScene("BossMonster");
+                    break;
+                case "Prototype":
+                    player = GameObject.FindWithTag("Player");
+                    SceneManager.LoadScene("Monster");
+                    player.transform.position = new Vector3(22.5f, 25.49f, -1.48f);
+                    break;
             }
         }
     }

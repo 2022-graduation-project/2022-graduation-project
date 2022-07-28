@@ -170,7 +170,7 @@ public class NormalMonster : MonoBehaviour
 
         if(spawnLoc!="")
         {
-            monsterManager.gameObject.GetComponent<MonsterSpawn>();
+            monsterManager.gameObject.GetComponent<MonsterSpawn>().Decode(spawnLoc);
         }
     }
 }
