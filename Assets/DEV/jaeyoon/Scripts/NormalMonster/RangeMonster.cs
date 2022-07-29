@@ -5,7 +5,7 @@ using UnityEngine;
 public class RangeMonster : NormalMonster
 {
     /* (Range Monster) PRIVATE DATA - 공격 */
-    private RangeWeapon prefab_arrow;
+    public RangeWeapon prefab_arrow;
     private List<RangeWeapon> arrowPool = new List<RangeWeapon>();  // 오브젝트 풀
     private readonly int arrowMaxCount = 3; // 총 화살 개수
     private int currentIndex = 0; // 현재 장전된, 발사할 화살의 인덱스
@@ -23,7 +23,7 @@ public class RangeMonster : NormalMonster
         base.Awake();
 
         /* Range Monster ; 사용할 화살 프리펩 지정 */
-        prefab_arrow = GameObject.Find("Arrow").GetComponent<RangeWeapon>();
+        //prefab_arrow = GameObject.Find("Arrow").GetComponent<RangeWeapon>();
 
         /* Range Monster ; 공격 시 발동할 애니메이션의 트리거 명 */
         attackTrigger = "BowShot";
