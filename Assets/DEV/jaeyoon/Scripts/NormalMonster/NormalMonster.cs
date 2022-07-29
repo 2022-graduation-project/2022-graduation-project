@@ -97,10 +97,10 @@ public class NormalMonster : MonoBehaviour
     {
         animator.SetTrigger("Damaged"); // 애니메이션
 
-        /*
+        
         if (monsterData.curHp > 0) // 아직 체력이 남아 있을 때
         {
-            monsterData.curHp += scale; // scale(-)만큼 몬스터 체력 감소
+            monsterData.curHp -= scale; // scale(+)만큼 몬스터 체력 감소
             //UpdateHpBar(monsterData.curHp);   // 몬스터 체력바 반영
         }
 
@@ -112,8 +112,8 @@ public class NormalMonster : MonoBehaviour
         }
 
         
-        */
-        print("Monster damaged!");
+        
+        print("Monster HP: "+monsterData.curHp);
     }
 
     // 몬스터가 폭탄 맞았을 때
@@ -133,7 +133,7 @@ public class NormalMonster : MonoBehaviour
         {
             
             // 몬스터 공격
-            Damaged(-10);
+            Damaged(10);
             print("Damaged -10 by bomb");
             // 몬스터 상태바
             // monster.UpdateHPBar();
@@ -159,14 +159,14 @@ public class NormalMonster : MonoBehaviour
 
     public void Die()
     {
-        Transform itemLocation;
-        // 죽은 위치+1에 아이템 떨구기
-        itemLocation = transform;
-        itemLocation.position += new Vector3(0, 1, 0);
+        // Transform itemLocation;
+        // // 죽은 위치+1에 아이템 떨구기
+        // itemLocation = transform;
+        // itemLocation.position += new Vector3(0, 1, 0);
         // 아이템 떨어트리기
-        monsterManager.DropItem(itemLocation);
+        //monsterManager.DropItem(itemLocation);
         // 몬스터 삭제
-        monsterManager.DeleteMonster(gameObject);
+        //monsterManager.DeleteMonster(gameObject);
 
         if(spawnLoc!="")
         {
