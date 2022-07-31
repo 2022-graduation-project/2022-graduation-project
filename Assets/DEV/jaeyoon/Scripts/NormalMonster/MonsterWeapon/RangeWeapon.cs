@@ -13,7 +13,7 @@ public class RangeWeapon : MonsterWeapon
     }
 
     /* 몬스터(Range) 무기에 플레이어 닿음 */
-        private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
         {

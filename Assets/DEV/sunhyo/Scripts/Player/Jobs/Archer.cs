@@ -47,8 +47,8 @@ public class Archer : PlayerController
 
 
 
-        //if (Input.GetMouseButtonDown(0))
-        //{
+        if (Input.GetMouseButtonDown(0))
+        {
         animator.SetTrigger("Attack");
 
         // 발사되어야 할 순번의 화살이 아직도 날아가고 있는 중이라면, 발사를 못 하게 한다
@@ -73,7 +73,7 @@ public class Archer : PlayerController
             currentIndex++;
         else
             currentIndex = 0;
-        //}
+        }
 
     }
 
