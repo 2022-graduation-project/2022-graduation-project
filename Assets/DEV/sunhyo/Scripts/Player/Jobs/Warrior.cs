@@ -110,14 +110,14 @@ public class Warrior : PlayerController
     }
 
     // Blast (Skill #1) 쿨타임 초 세기
-    private IEnumerator Blast_CountDelay(int tempCoolDelay1)
+    private IEnumerator Blast_CountDelay(int tempMaxDelay)
     {
-        while (Blast_coolDelay < tempCoolDelay1)
+        while (Blast_coolDelay < tempMaxDelay)
         {
             yield return new WaitForSeconds(1f);
             Blast_coolDelay++;
 
-            if (Blast_coolDelay >= tempCoolDelay1)
+            if (Blast_coolDelay >= tempMaxDelay)
             {
                 // set as default
                 Blast_coolDelay = 60;
@@ -126,6 +126,16 @@ public class Warrior : PlayerController
         }
     }
 
+    // private IEnumerator CountDelay(ref int coolDelay, int maxCoolDelay, bool isBlast)
+    // {
+    //     while (coolDelay < maxCoolDelay)
+    //     {
+    //         yield return new WaitForSeconds(1f);
+    //         coolDelay++;
+
+    //         if(coolDelay)
+    //     }
+    // }
 
     int Effect_coolDelay = 60;
     int Effect_maxCoolDelay = 60;
