@@ -19,8 +19,8 @@ public class MonsterManager : MonoBehaviour
 
     // 스폰포인트
     // array of spawn points
-    public Transform spawnPoints;
-    public Transform[] childrenSP;
+    //public Transform spawnPoints;
+    //public Transform[] childrenSP;
 
     // 스폰포인트 중복 관리
     // For Random Spawn without duplicate
