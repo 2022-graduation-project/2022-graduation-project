@@ -167,7 +167,7 @@ public class NormalMonster : MonoBehaviour
         //monsterManager.DropItem(itemLocation);
         // 몬스터 삭제
         //monsterManager.DeleteMonster(gameObject);
-
+        print(spawnLoc+"'s Monster DIED");
         if(spawnLoc!="")
         {
             monsterManager.gameObject.GetComponent<MonsterSpawn>().Decode(spawnLoc);
