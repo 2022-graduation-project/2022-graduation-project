@@ -6,22 +6,14 @@ public class bomb : Item
 {
     public override void Use()
     {
+        firePower = 30f;
+
+        Transform handLocation = GameObject.FindWithTag("Player").GetComponent<PlayerController>().weapon.transform;
         // Instantiate(폭탄오브젝트)
-        // 플레이어의 손 위치에서
-        // 플레이어가 바라보는 방향으로
-        // 폭탄 던지기
-        print("It will damage Monster");
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        // 플레이어의 손 위치에서 생성
+        GameObject bomb = Instantiate(Resources.Load("Bomb"), handLocation.position, Quaternion.identity) as GameObject;
+        // 발사
+        bomb.GetComponent<BombAction>().FireBomb(firePower);
+        print("Throwing bomb");
     }
 }

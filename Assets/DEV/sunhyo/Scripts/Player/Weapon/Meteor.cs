@@ -11,7 +11,7 @@ public class Meteor : MonoBehaviour
     private Vector3 originalPos = new Vector3(0f, 0f, -15f);
 
     // private List<MonsterDummy> monsters = new List<MonsterDummy>();
-    private MonsterDummy monster;
+    private NormalMonster monster;
 
     void Update()
     {
@@ -25,7 +25,7 @@ public class Meteor : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        monster = other.GetComponent<MonsterDummy>();
+        monster = other.GetComponent<NormalMonster>();
 
         if(monster)
         {
@@ -35,7 +35,7 @@ public class Meteor : MonoBehaviour
         }
     }
 
-    IEnumerator Attack(MonsterDummy _monster)
+    IEnumerator Attack(NormalMonster _monster)
     {
         float curTime = 0f;
         while(curTime < delay)

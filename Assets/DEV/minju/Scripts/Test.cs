@@ -4,26 +4,31 @@ using UnityEngine;
 
 public class Test : MonoBehaviour
 {
-    private Dictionary<string, ItemData> itemDict;
+    float timer = 0f;
     // Start is called before the first frame update
     void Start()
     {
-        itemDict = DataManager.instance
-                    .LoadJsonFile<Dictionary<string, ItemData>>
-                    (Application.dataPath + "/MAIN/Data", "item");
+        
+        StartCoroutine(TryThis(10f));
+    }
 
-        foreach (KeyValuePair<string, ItemData> q in itemDict)
-        {
-            Debug.Log(q.Value.image_name);
-            //List<Goal> temp = new List<Goal>(q.Value.goal);
-            //for (int i = 0; i < temp.Count; i++)
-            //    Debug.Log($"{temp[i].type}, {temp[i].content}");
-        }
+    private IEnumerator TryThis(float time)
+    {
+        print(time);
+        yield return new WaitForSeconds(time);
+        print("The Time has taken");
+        Spawn();
+        yield return null;
+    }
+
+    private void Spawn()
+    {
+        print("SPAWN");
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }

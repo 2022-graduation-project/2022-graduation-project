@@ -34,7 +34,7 @@ public class TipsManager : MonoBehaviour
     {
         playerManager = PlayerManager.instance;
         playerManager.CreatePlayer();
-        SceneManager.LoadScene("Town");
+        SceneManager.LoadScene("Prototype");
     }
 
     public Image loadingBar;

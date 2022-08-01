@@ -6,26 +6,28 @@ public class RangeWeapon : MonoBehaviour
     protected MeshCollider meshCollider;
     protected float damage;
 
-    public float speed = 2; // 이동 속도
+    private float arrowSpeed = 2; // 화살 이동 속도
 
 
-    void Start()
+    void Awake()
     {
         meshCollider = GetComponent<MeshCollider>();
     }
 
     void Update()
     {
-        Vector3 dir = Vector3.forward;   // 1. Set Direction
-        transform.Translate(dir * speed * Time.deltaTime);  // 2. Shot
+        /* Set direction & Shot */
+        transform.Translate(new Vector3(0, 1.0f, 0) * arrowSpeed * Time.deltaTime);
     }
 
-    private void OnTriggerEnter(Collider other)
+
+    /* 몬스터(Range) 무기에 플레이어 닿음 */
+        private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
         {
             Debug.Log("Player damaged");
-            gameObject.SetActive(false);
+            gameObject.SetActive(false);    // 그 화살 즉시 비활성화
         }
     }
 }

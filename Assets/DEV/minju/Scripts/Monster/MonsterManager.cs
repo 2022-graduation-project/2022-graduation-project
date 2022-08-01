@@ -19,8 +19,8 @@ public class MonsterManager : MonoBehaviour
 
     // 스폰포인트
     // array of spawn points
-    public Transform spawnPoints;
-    public Transform[] childrenSP;
+    //public Transform spawnPoints;
+    //public Transform[] childrenSP;
 
     // 스폰포인트 중복 관리
     // For Random Spawn without duplicate
@@ -98,29 +98,29 @@ public class MonsterManager : MonoBehaviour
         duplicate = Enumerable.Repeat<int>(0, 52).ToArray<int>();
 
 
-        kindsOfMonsters = new string[] { "Ghost", "Goblin", "Skeleton" };
+        // kindsOfMonsters = new string[] { "Ghost", "Goblin", "Skeleton" };
 
-        // 스폰포인트 전부 가져오기
-        // bring every spawnpoints
-        childrenSP = spawnPoints.gameObject.GetComponentsInChildren<Transform>();
+        // // 스폰포인트 전부 가져오기
+        // // bring every spawnpoints
+        // childrenSP = spawnPoints.gameObject.GetComponentsInChildren<Transform>();
 
-        // 처음 시작 시 스폰
-        // Start to Spawn monsters
-        for (int i = 0; i < 30; i++)
-        {   // 30마리 생성
-            // Random spawn points (1 ~ 50)
-            spawnNumber = Random.Range(1, 51);
+        // // 처음 시작 시 스폰
+        // // Start to Spawn monsters
+        // for (int i = 0; i < 30; i++)
+        // {   // 30마리 생성
+        //     // Random spawn points (1 ~ 50)
+        //     spawnNumber = Random.Range(1, 51);
 
-            // 랜덤 생성이 중복이 아닌지 확인하기
-            // Check duplicate
-            if (repeatRandom(spawnNumber))
-            {
-                // 중복이 아닐 때만 생성
-                CreateMonster(childrenSP[spawnNumber]);
-            }
-            else
-                continue;
-        }
+        //     // 랜덤 생성이 중복이 아닌지 확인하기
+        //     // Check duplicate
+        //     if (repeatRandom(spawnNumber))
+        //     {
+        //         // 중복이 아닐 때만 생성
+        //         CreateMonster(childrenSP[spawnNumber]);
+        //     }
+        //     else
+        //         continue;
+        // }
 
     }
 
