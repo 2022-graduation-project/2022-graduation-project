@@ -10,7 +10,6 @@ public class BossMonsterUI : MonoBehaviour
     //string[] userParameters = new string[] { "RunLeft", "RunRight" };
 
     public Slider HpBar;
-    public Button DamageBtn;
 
     public Text HpText;
     float maxHealth = 100;
@@ -26,11 +25,6 @@ public class BossMonsterUI : MonoBehaviour
     {
         hp = maxHealth;
         HpBar.value = (hp / maxHealth);
-
-        if (DamageBtn != null)
-        {
-            DamageBtn.onClick.AddListener(onDamage);
-        }
     }
 
     void Update()

@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BossMovement : MonoBehaviour
+public class BossController : MonoBehaviour
 {
     /* Monster Data & Monster Manager */
     //public MonsterData monsterData;
     //public MonsterManager monsterManager;
 
-    private Animator animator;    // 몬스터 애니메이터
+    private Animator animator;    // 보스몬스터 애니메이터
     //protected string attackTrigger; // 몬스터 기본 공격 애니메이션의 트리거(명)
 
     public Transform bossTarget = null; // 추적할 대상의 좌표
@@ -19,8 +19,23 @@ public class BossMovement : MonoBehaviour
     public float speed = 1.5f;
 
 
-    public Button Attack1;
-    public Button Attack2;
+
+    /* Boss Monster HP Bar */
+    public Slider HpBar;
+    public Text HpText;
+
+    private float maxHealth = 100;
+    private float minHealth = 0;
+    private float hp;
+    private float damage = 30;
+
+
+
+
+    /* 테스트용~!~!~~!~!~! UI button, 어쩌구들~!~!!~!~! */
+    public Button Attack1Btn;
+    public Button Attack2Btn;
+    public Button DamagedBtn;
 
 
 
@@ -29,13 +44,20 @@ public class BossMovement : MonoBehaviour
 
     private void Awake()
     {
+        hp = maxHealth;
+
+
         attackRange = 1;
         animator = GetComponent<Animator>();
 
-        if (Attack1 != null && Attack2 != null)
+        //HpBar = GameObject.Find("Canvas").GetComponent<Slider>();
+        //HpText = GameObject.Find("Canvas").GetComponent<Text>();
+
+        if (Attack1Btn != null && Attack2Btn != null && DamagedBtn != null)
         {
-            Attack1.onClick.AddListener(Punch);
-            Attack2.onClick.AddListener(Roll);
+            Attack1Btn.onClick.AddListener(Punch);
+            Attack2Btn.onClick.AddListener(Roll);
+            DamagedBtn.onClick.AddListener(onDamage);
         }
     }
 
@@ -45,7 +67,7 @@ public class BossMovement : MonoBehaviour
         /* 추적 범위 내에서 플레이어 발견! */
         if (bossTarget != null)
         {
-            print("Target is not null");
+            Debug.Log("Target is not null");
 
             distance = Vector3.Distance(transform.position, bossTarget.position);   // 현재 몬스터-플레이어 사이 거리 측정
 
@@ -63,7 +85,24 @@ public class BossMovement : MonoBehaviour
                 //StartCoroutine("Attack", attackDelay);
             }
         }
+
+
+        /* HP bar 세팅 */
+        if (hp <= 10)
+        {
+            HpText.color = Color.red;
+        }
+        HpText.text = hp.ToString();
+        HpBar.value = (hp / maxHealth);
+
+        if (HpBar.value <= minHealth)
+            HpBar.transform.Find("Fill Area").gameObject.SetActive(false);
+        else
+            HpBar.transform.Find("Fill Area").gameObject.SetActive(true);
     }
+
+
+
 
 
     /*------------------------------------------------------
@@ -78,7 +117,18 @@ public class BossMovement : MonoBehaviour
     public void Roll()
     {
         animator.SetTrigger("Roll");
-        transform.position += transform.forward * 6;
+        StartCoroutine(Forward());
+    }
+    IEnumerator Forward()
+    {
+        float time = 1.0f;
+        float curTime = 0f;
+        while (curTime < time)
+        {
+            curTime += Time.deltaTime;
+            transform.position += transform.forward * 8f * Time.deltaTime;
+            yield return null;
+        }
     }
 
 
@@ -97,6 +147,29 @@ public class BossMovement : MonoBehaviour
 
 
 
+    /*------------------------------------------------------
+    *              DAMAGED - 플레이어 공격으로 보스 데미지
+    * ----------------------------------------------------*/
+
+    private void onDamage()
+    {
+        if (hp > 0)
+        {
+            hp -= damage;
+
+            if (hp > 0)
+            {
+                Debug.Log("HP : " + hp);
+                animator.SetTrigger("Damaged");
+            }
+            else
+            {
+                hp = 0;
+                Debug.Log("Boss Monster died!");
+                animator.SetBool("Dead", true);
+            }
+        }
+    }
 
 
 
@@ -113,35 +186,4 @@ public class BossMovement : MonoBehaviour
     {
         // 음
     }
-
-
-
-
-
-    /*
-
-    void Update()
-    {
-        float h = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
-        float v = Input.GetAxis("Vertical") * speed * Time.deltaTime;
-        
-        Vector3 direction = new Vector3(h, 0, v);
-
-        // 이동했을 때
-        if (direction != Vector3.zero)
-        {
-            float angle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
-
-            // 뒤를 바라볼 때는 이동만
-            if (Mathf.Abs(angle) < 180)
-            {
-                angle = angle * rotationSpeed * Time.deltaTime;
-                transform.Rotate(Vector3.up, angle);
-            }
-        }
-        transform.position += direction * speed * Time.deltaTime;
-    }
-
-    */
-
 }
