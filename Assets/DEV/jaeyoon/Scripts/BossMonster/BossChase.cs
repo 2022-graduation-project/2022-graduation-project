@@ -6,6 +6,9 @@ using UnityEngine.UI;
 
 public class BossChase : MonoBehaviour
 {
+    public BossManager bossManager;
+
+
     /* (부모) 보스몬스터 오브젝트 변수 */
     private Transform boss = null;
     private Animator animator;
@@ -21,6 +24,9 @@ public class BossChase : MonoBehaviour
 
     private void Awake()
     {
+        bossManager = GameObject.Find("BossManager").GetComponent<BossManager>();
+
+
         animator = transform.parent.gameObject.GetComponent<Animator>();
         boss = transform.parent.gameObject.transform;
 
@@ -30,7 +36,7 @@ public class BossChase : MonoBehaviour
     private void Update()
     {
         /* 추적 범위 내에서 플레이어 발견! */
-        if (bossTarget != null)
+        if (bossTarget != null && bossManager.isAttacking == false)
         {
             distance = Vector3.Distance(transform.position, bossTarget.position);   // 현재 몬스터-플레이어 사이 거리 측정
 
