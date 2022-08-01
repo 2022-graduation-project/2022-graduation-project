@@ -189,8 +189,8 @@ public class BossDummy : MonoBehaviour
     {
         Vector3 distance;
         float speed = 5f;
-        float attackDelay = 5f;
-        float curTime = 0;
+        float attackDelay = 3f;
+        float curTime = attackDelay;
 
         while(targetPlayer != null)
         {
