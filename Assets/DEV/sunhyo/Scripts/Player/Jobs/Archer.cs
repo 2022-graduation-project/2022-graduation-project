@@ -5,15 +5,17 @@ using UnityEngine;
 
 public class Archer : PlayerController
 {
-    //public GameObject ArrowFactory;    // 화살 생산할 공장
-    //public Transform firePosition; // 출발 좌표
-
     public Arrow prefab_arrow;
     private List<Arrow> arrowPool = new List<Arrow>();
     private readonly int arrowMaxCount = 3; // 총 화살 개수
     private int currentIndex = 0; // 현재 장전된 화살의 인덱스
     private int destroyingIndex;  // 삭제할 (비활성화시킬) 화살의 인덱스
 
+
+    private void Awake()
+    {
+        prefab_arrow = GameObject.Find("Arrow").GetComponent<Arrow>();
+    }
 
     private void Start()
     {
@@ -45,8 +47,8 @@ public class Archer : PlayerController
 
 
 
-        //if (Input.GetMouseButtonDown(0))
-        //{
+        if (Input.GetMouseButtonDown(0))
+        {
         animator.SetTrigger("Attack");
 
         // 발사되어야 할 순번의 화살이 아직도 날아가고 있는 중이라면, 발사를 못 하게 한다
@@ -71,7 +73,7 @@ public class Archer : PlayerController
             currentIndex++;
         else
             currentIndex = 0;
-        //}
+        }
 
     }
 
