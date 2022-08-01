@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class BossController : MonoBehaviour
 {
+    public BossManager bossManager;
+
+
     /* Monster Data & Monster Manager */
     //public MonsterData monsterData;
     //public MonsterManager monsterManager;
@@ -47,6 +50,10 @@ public class BossController : MonoBehaviour
 
     private void Awake()
     {
+        bossManager = GameObject.Find("BossManager").GetComponent<BossManager>();
+
+
+
         hp = maxHealth;
 
 
@@ -102,9 +109,11 @@ public class BossController : MonoBehaviour
     public void Roll()
     {
         Chasing.SetActive(false);
+        bossManager.isAttacking = true;
         animator.SetTrigger("Roll");
         StartCoroutine(Forward());
         Chasing.SetActive(true);
+        bossManager.isAttacking = false;
     }
     IEnumerator Forward()
     {
@@ -140,7 +149,7 @@ public class BossController : MonoBehaviour
                 Debug.Log("Boss Monster died!");
                 animator.SetBool("Dead", true);
 
-                StartCoroutine(Die());
+                //StartCoroutine(Die());
             }
         }
     }
@@ -152,7 +161,7 @@ public class BossController : MonoBehaviour
 
     IEnumerator Die()
     {
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(10.0f);
 
         this.gameObject.SetActive(false);
     }
