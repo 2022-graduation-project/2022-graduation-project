@@ -19,6 +19,9 @@ public class BossController : MonoBehaviour
     public float speed = 1.5f;
 
 
+    private GameObject Chasing;
+
+
 
     /* Boss Monster HP Bar */
     public Slider HpBar;
@@ -27,7 +30,7 @@ public class BossController : MonoBehaviour
     private float maxHealth = 100;
     private float minHealth = 0;
     private float hp;
-    private float damage = 30;
+    public float damage;
 
 
 
@@ -59,34 +62,14 @@ public class BossController : MonoBehaviour
             Attack2Btn.onClick.AddListener(Roll);
             DamagedBtn.onClick.AddListener(onDamage);
         }
+
+
+        Chasing = GameObject.Find("ChaseRange");
     }
 
 
     private void Update()
     {
-        /* 추적 범위 내에서 플레이어 발견! */
-        if (bossTarget != null)
-        {
-            Debug.Log("Target is not null");
-
-            distance = Vector3.Distance(transform.position, bossTarget.position);   // 현재 몬스터-플레이어 사이 거리 측정
-
-            /* 공격 범위보다 더 멀리 떨어져 있는 경우 -> 추적 계속 */
-            if (distance > attackRange)
-            {
-                animator.SetBool("Walk", true);
-                Chase();
-            }
-
-            /* 공격 범위 진입 -> 추적 중지, 공격 시작 */
-            else
-            {
-                animator.SetBool("Walk", false);
-                //StartCoroutine("Attack", attackDelay);
-            }
-        }
-
-
         /* HP bar 세팅 */
         if (hp <= 10)
         {
@@ -111,13 +94,17 @@ public class BossController : MonoBehaviour
 
     public void Punch()
     {
+        Chasing.SetActive(false);
         animator.SetTrigger("Punch");
+        Chasing.SetActive(true);
     }
 
     public void Roll()
     {
+        Chasing.SetActive(false);
         animator.SetTrigger("Roll");
         StartCoroutine(Forward());
+        Chasing.SetActive(true);
     }
     IEnumerator Forward()
     {
@@ -134,20 +121,6 @@ public class BossController : MonoBehaviour
 
 
     /*------------------------------------------------------
-    *              CHASE - 몬스터가 플레이어 추격
-    * ----------------------------------------------------*/
-
-    protected void Chase()
-    {
-        transform.LookAt(bossTarget);   // 타겟 바라보게 함
-        // 타겟 위치 받아와서 따라가도록 설정
-        Vector3 dir = bossTarget.position - transform.position;
-        transform.position += dir.normalized * speed * Time.deltaTime;
-    }
-
-
-
-    /*------------------------------------------------------
     *              DAMAGED - 플레이어 공격으로 보스 데미지
     * ----------------------------------------------------*/
 
@@ -159,7 +132,6 @@ public class BossController : MonoBehaviour
 
             if (hp > 0)
             {
-                Debug.Log("HP : " + hp);
                 animator.SetTrigger("Damaged");
             }
             else
@@ -167,9 +139,26 @@ public class BossController : MonoBehaviour
                 hp = 0;
                 Debug.Log("Boss Monster died!");
                 animator.SetBool("Dead", true);
+
+                StartCoroutine(Die());
             }
         }
     }
+
+
+    /*------------------------------------------------------
+    *              DIE - 몬스터 사망
+    * ----------------------------------------------------*/
+
+    IEnumerator Die()
+    {
+        yield return new WaitForSeconds(2.0f);
+
+        this.gameObject.SetActive(false);
+    }
+
+
+
 
 
 

@@ -24,7 +24,7 @@ public class BossChase : MonoBehaviour
         animator = transform.parent.gameObject.GetComponent<Animator>();
         boss = transform.parent.gameObject.transform;
 
-        attackRange = 2.0f;
+        attackRange = 0.0f;
     }
 
     private void Update()
