@@ -2,9 +2,19 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class BossController : MonoBehaviour
 {
+    /* enum */
+    private enum Skills
+    {
+        StoneStorm,
+        EarthQuake,
+        RollStone
+    }
+
+
     /* 데이터 */
     private MonsterDataDummy monsterData;
 
@@ -15,12 +25,11 @@ public class BossController : MonoBehaviour
 
 
     /* 공격 지역 */
-    private GameObject circle;
-    private GameObject square;
+    private Transform circle;
+    [SerializeField] private Transform square;
 
 
     /* 런타임 변수 */
-    private Stack<GameObject> targetPlayers;
     private PlayerDummy targetPlayer;
 
     private bool finalAttack = false;
@@ -31,6 +40,15 @@ public class BossController : MonoBehaviour
     private IEnumerator chase;
 
     private WaitForSeconds waitOneSecond = new WaitForSeconds(1.0f);
+    private WaitForSeconds waitThreeSeconds = new WaitForSeconds(3.0f);
+
+    private bool moveable = true;
+
+
+    /* ObjectPool */
+    [SerializeField] private Transform[] rocks;
+    [SerializeField] private Transform[] stalagmites;
+
 
     void Awake()
     {
@@ -49,8 +67,11 @@ public class BossController : MonoBehaviour
         tr = GetComponent<Transform>();
         animator = GetComponent<Animator>();
 
-        circle = tr.Find("Circle").gameObject;
-        square = tr.Find("Square").gameObject;
+        circle = tr.Find("Circle");
+        square = tr.Find("Square");
+
+        rocks = circle.GetChild(0).GetComponentsInChildren<Transform>(true);
+        //stalagmites = square.GetChild(0).GetComponentsInChildren<Transform>(true);
 
         CheckTarget();
     }
@@ -68,6 +89,11 @@ public class BossController : MonoBehaviour
 
     void CheckTarget()
     {
+        if(!moveable)
+        {
+            Invoke("CheckTarget", 1f);
+            return;
+        }
 
         /* 가장 가까운 곳에 있는 targetPlayer 찾기 */
         if (targetPlayer == null)
@@ -138,7 +164,7 @@ public class BossController : MonoBehaviour
 
     IEnumerator CheckTargetDistance()
     {
-        while (targetPlayer != null)
+        while (targetPlayer != null && moveable != false)
         {
             if (maxDistance < Vector3.Distance(targetPlayer.tr.position, tr.position))
             {
@@ -199,7 +225,7 @@ public class BossController : MonoBehaviour
         float attackDelay = 3f;
         float curTime = attackDelay;
 
-        while (targetPlayer != null)
+        while (targetPlayer != null && moveable != false)
         {
             tr.LookAt(targetPlayer.tr);
             distance = targetPlayer.tr.position - tr.position;
@@ -231,7 +257,7 @@ public class BossController : MonoBehaviour
 
     void Attack()
     {
-        if (targetPlayer == null)
+        if (targetPlayer == null || moveable == true)
             return;
 
         print($"{targetPlayer} 공격");
@@ -270,30 +296,179 @@ public class BossController : MonoBehaviour
     }
 
 
-
-
-
-
-
-    void Skill()
+    public void tempSkill()
     {
-
+        StartCoroutine(Skill());
     }
 
-    void StoneStorm()
+    public void tempStoneStorm()
     {
-
+        StartCoroutine(StoneStorm());
     }
 
-    void EarthQuake()
+    public void tempEarthQuake()
     {
-
+        StartCoroutine(EarthQuake());
     }
 
-    void RollStone()
-    {
 
+    public void tempRollStone()
+    {
+        StartCoroutine(RollStone());
     }
+
+
+    IEnumerator Skill()
+    {
+        IEnumerator skill = null;
+        float coolTime;
+        int number;
+
+        while (true)
+        {
+            moveable = false;
+
+            number = Random.Range(0, 3);
+            switch(number)
+            {
+                case (int)Skills.StoneStorm:
+                    skill = StoneStorm();
+                    break;
+                case (int)Skills.EarthQuake:
+                    skill = EarthQuake();
+                    break;
+                case (int)Skills.RollStone:
+                    skill = RollStone();
+                    break;
+            }
+
+            yield return StartCoroutine(skill);
+            moveable = true;
+
+            coolTime = Random.Range(8f, 15f);
+            yield return StartCoroutine(WaitFor(coolTime));
+        }
+        
+    }
+
+    IEnumerator StoneStorm()
+    {
+        circle.gameObject.SetActive(true);
+
+        float coolTime = 5f;
+        float curTime = 0;
+        float delayTime = 0.3f;
+
+        int lastRock = -1;
+
+        Vector3 pos;
+
+        while(curTime < coolTime)
+        {
+            //curTime += Time.deltaTime;
+            curTime += delayTime;
+
+            for (int i = 1; i < rocks.Length; i++)
+            {
+                if (rocks[i].localPosition.z <= 0)
+                {
+                    rocks[i].GetComponent<Rigidbody>().velocity = Vector3.zero;
+
+                    pos = Random.insideUnitCircle * 0.5f;
+                    pos.z = Random.Range(0.8f, 1.0f);
+
+                    rocks[i].localPosition = pos;
+
+                    if (!rocks[i].gameObject.activeInHierarchy)
+                    {
+                        rocks[i].gameObject.SetActive(true);
+                    }
+
+                    lastRock = i;
+                    break;
+                }
+            }
+
+            yield return new WaitForSeconds(delayTime);
+        }
+
+        while(rocks[lastRock].localPosition.z > 0)
+        {
+            yield return null;
+        }
+
+        for (int i = 1; i < rocks.Length; i++)
+        {
+            rocks[i].gameObject.SetActive(false);
+            rocks[i].position = Vector3.zero;
+        }
+
+        circle.gameObject.SetActive(false);
+    }
+
+    IEnumerator EarthQuake()
+    {
+        // 부채꼴 모양 범위
+
+        yield return null;
+
+        //square.gameObject.SetActive(true);
+        //// x, y -0.5 ~ 0.5 이내
+
+        //float coolTime = 3f;
+        //float curTime = 0;
+
+        //Vector3 pos;
+
+        //while (curTime < coolTime)
+        //{
+        //    curTime += Time.deltaTime;
+        //    for (int i = 1; i < stalagmites.Length; i++)
+        //    {
+        //        if (stalagmites[i].position.z <= 0)
+        //        {
+        //            pos.x = Random.Range(0f, 0.5f);
+        //            pos.y = Random.Range(0f, 0.5f);
+        //            pos.z = 1f;
+
+        //            stalagmites[i].position = pos;
+
+        //            if (!stalagmites[i].gameObject.activeInHierarchy)
+        //            {
+        //                stalagmites[i].gameObject.SetActive(true);
+        //            }
+        //        }
+        //    }
+
+        //    yield return null;
+        //}
+
+
+        //for (int i = 1; i < stalagmites.Length; i++)
+        //{
+        //    stalagmites[i].gameObject.SetActive(false);
+        //    stalagmites[i].position = Vector3.zero;
+        //}
+    }
+
+    IEnumerator RollStone()
+    {
+        square.gameObject.SetActive(true);
+
+        GameObject pillar = square.GetChild(0).gameObject;
+        Vector3 origin = pillar.transform.position;
+
+        pillar.GetComponent<Rigidbody>().AddForce(Vector3.up * 0.1f);
+
+        while (pillar.transform.position.y < 0.4f)
+        {
+            yield return null;
+        }
+
+        square.gameObject.SetActive(false);
+        pillar.transform.position = origin;
+    }
+
     void FinalAttack()
     {
         finalAttack = true;
@@ -379,7 +554,27 @@ public class BossController : MonoBehaviour
         Gizmos.DrawSphere(transform.position, 5f);
     }
 
+
+    // 일단은 변수 선언해서 썼지만
+    // dp 같은 방식으로 캐싱 필요
+    IEnumerator WaitFor(float _time)
+    {
+        yield return waitThreeSeconds;
+    }
+
     /*************************************************************************/
     /*************************************************************************/
     /*************************************************************************/
 }
+
+
+
+
+
+
+
+
+
+
+
+/* 반복적으로 호출되는 coroutine들은 update로 옮기는게 나을 수도 있을 것 같음 */
