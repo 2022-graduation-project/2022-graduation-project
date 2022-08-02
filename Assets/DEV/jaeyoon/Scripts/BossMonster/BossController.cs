@@ -466,9 +466,7 @@ public class BossController : MonoBehaviour
 
         while (pillar.transform.localPosition.z < 5f)
         {
-            print(pillar.transform.localPosition.z);
-            pillar.GetComponent<Rigidbody>().AddForce(Vector3.forward);
-            pillar.GetComponent<Rigidbody>().AddForce(Vector3.up);
+            pillar.GetComponent<Rigidbody>().AddForce(Vector3.forward * 100f, ForceMode.Impulse);
             yield return null;
         }
 
