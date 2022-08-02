@@ -453,20 +453,28 @@ public class BossController : MonoBehaviour
 
     IEnumerator RollStone()
     {
+        print("됐니");
+
         square.gameObject.SetActive(true);
 
+        print("??");
+
         GameObject pillar = square.GetChild(0).gameObject;
-        Vector3 origin = pillar.transform.position;
+        Vector3 origin = pillar.transform.localPosition;
 
-        pillar.GetComponent<Rigidbody>().AddForce(Vector3.up * 0.1f);
+        pillar.transform.SetParent(tr);
 
-        while (pillar.transform.position.y < 0.4f)
+        while (pillar.transform.localPosition.z < 5f)
         {
+            print(pillar.transform.localPosition.z);
+            pillar.GetComponent<Rigidbody>().AddForce(Vector3.forward);
+            pillar.GetComponent<Rigidbody>().AddForce(Vector3.up);
             yield return null;
         }
 
         square.gameObject.SetActive(false);
-        pillar.transform.position = origin;
+        pillar.transform.SetParent(square);
+        pillar.transform.localPosition = origin;
     }
 
     void FinalAttack()
