@@ -242,6 +242,36 @@ public class TestBoss : MonoBehaviour
 
 
 
+    public IEnumerator dotDamage(string targetName)
+    {
+        yield return null;
+
+        print(targetName + " 코루틴 시작");
+
+        float damagingTime = 10.0f;
+        float printingTime = 1.0f;
+
+        float curTime = 0.0f;
+        float time = 0.0f;
+
+        int totalDamage = 0;
+
+        while (curTime <= damagingTime)
+        {
+            curTime += Time.deltaTime;
+            time += Time.deltaTime;
+
+            if (time >= printingTime)
+            {
+                totalDamage += 5;
+                print("<Dot Damage> " + targetName + " : 총 입은 데미지 " + totalDamage);
+                time = 0.0f;
+            }
+        }
+    }
+
+
+
 
 
 

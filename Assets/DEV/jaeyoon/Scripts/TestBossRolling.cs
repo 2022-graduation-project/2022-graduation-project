@@ -5,12 +5,19 @@ using UnityEngine;
 public class TestBossRolling : MonoBehaviour
 {
     private Collider rollingCollider;
+    private TestBoss testboss;
+    private IEnumerator dotting;
 
+
+    void Awake()
+    {
+        testboss = transform.parent.GetComponent<TestBoss>();
+        rollingCollider = GetComponent<Collider>();
+    }
 
 
     void Start()
     {
-        rollingCollider = GetComponent<Collider>();
     }
 
     // Update is called once per frame
@@ -22,6 +29,10 @@ public class TestBossRolling : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
+        {
             print("응 너 밟힘; " + other.transform.name);
+            dotting = testboss.dotDamage(other.transform.name);
+            StartCoroutine(dotting);
+        }
     }
 }
