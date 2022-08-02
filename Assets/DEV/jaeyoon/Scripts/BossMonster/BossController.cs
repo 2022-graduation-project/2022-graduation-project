@@ -1,198 +1,385 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class BossController : MonoBehaviour
 {
-    public BossManager bossManager;
+    /* 데이터 */
+    private MonsterDataDummy monsterData;
 
 
-    /* Monster Data & Monster Manager */
-    //public MonsterData monsterData;
-    //public MonsterManager monsterManager;
-
-    private Animator animator;    // 보스몬스터 애니메이터
-    //protected string attackTrigger; // 몬스터 기본 공격 애니메이션의 트리거(명)
-
-    public Transform bossTarget = null; // 추적할 대상의 좌표
-    protected float distance;
-    protected float attackRange;    // 몬스터가 추격을 멈추고 공격을 시작할 거리
-
-    public float speed = 1.5f;
+    /* 컴포넌트 */
+    private Transform tr;
+    private Animator animator;
 
 
-    private GameObject Chasing;
+    /* 공격 지역 */
+    private GameObject circle;
+    private GameObject square;
 
 
+    /* 런타임 변수 */
+    private Stack<GameObject> targetPlayers;
+    private PlayerDummy targetPlayer;
 
-    /* Boss Monster HP Bar */
-    public Slider HpBar;
-    public Text HpText;
+    private bool finalAttack = false;
+    private float maxDistance = 5f;
 
-    private float maxHealth = 100;
-    private float minHealth = 0;
-    private float hp;
-    public float damage;
+    private IEnumerator recover;
+    private IEnumerator checkTargetDistance;
+    private IEnumerator chase;
 
+    private WaitForSeconds waitOneSecond = new WaitForSeconds(1.0f);
 
-
-
-    /* 테스트용~!~!~~!~!~! UI button, 어쩌구들~!~!!~!~! */
-    public Button Attack1Btn;
-    public Button Attack2Btn;
-    public Button DamagedBtn;
-
-
-
-
-
-
-    private void Awake()
+    void Awake()
     {
-        bossManager = GameObject.Find("BossManager").GetComponent<BossManager>();
+        print("어웨이크");
+    }
 
+    void Start()
+    {
+        print("실행");
 
+        monsterData = DataManager.instance.LoadJsonFile
+                      <Dictionary<string, MonsterDataDummy>>
+                      (Application.dataPath + "/MAIN/Data", "boss")
+                      ["000_golem"];
 
-        hp = maxHealth;
-
-
-        attackRange = 1;
+        tr = GetComponent<Transform>();
         animator = GetComponent<Animator>();
 
-        //HpBar = GameObject.Find("Canvas").GetComponent<Slider>();
-        //HpText = GameObject.Find("Canvas").GetComponent<Text>();
+        circle = tr.Find("Circle").gameObject;
+        square = tr.Find("Square").gameObject;
 
-        if (Attack1Btn != null && Attack2Btn != null && DamagedBtn != null)
-        {
-            Attack1Btn.onClick.AddListener(Punch);
-            Attack2Btn.onClick.AddListener(Roll);
-            DamagedBtn.onClick.AddListener(onDamage);
-        }
-
-
-        Chasing = GameObject.Find("ChaseRange");
+        CheckTarget();
     }
 
 
-    private void Update()
+
+
+
+    /*************************************************************************/
+    /*                         targetPlayer 사이클                           */
+    /*************************************************************************/
+
+
+
+
+    void CheckTarget()
     {
-        /* HP bar 세팅 */
-        if (hp <= 10)
-        {
-            HpText.color = Color.red;
-        }
-        HpText.text = hp.ToString();
-        HpBar.value = (hp / maxHealth);
 
-        if (HpBar.value <= minHealth)
-            HpBar.transform.Find("Fill Area").gameObject.SetActive(false);
+        /* 가장 가까운 곳에 있는 targetPlayer 찾기 */
+        if (targetPlayer == null)
+        {
+            if (chase != null)
+            {
+                StopCoroutine(chase);
+                chase = null;
+            }
+
+            int layerMask = 1 << LayerMask.GetMask("Player");
+
+            // 왜 -1을 해줘야 하는지는 의문... default 레이어도 빼려면 -1 안하는게 정상 아닌가? 허허
+            RaycastHit[] hits = Physics.SphereCastAll(tr.position, 5f, tr.forward, 5f, ~layerMask - 1);
+
+            float minDistance = maxDistance;
+            foreach (RaycastHit hit in hits)
+            {
+                float distance = Vector3.Distance(hit.transform.position, tr.position);
+                if (minDistance > distance)
+                {
+                    minDistance = distance;
+                    targetPlayer = hit.transform.GetComponent<PlayerDummy>();
+                }
+            }
+
+            print($"가장 가까운 오브젝트(거리, 이름) : {minDistance}, {targetPlayer?.tr.name}");
+        }
+
+
+        /* 범위 내에 아무도 없어서 targetPlayer를 찾지 못한 경우 */
+        if (targetPlayer == null)
+        {
+            // 대기
+
+            Invoke("CheckTarget", 1f);
+            if (recover == null)
+            {
+                recover = Recover();
+                StartCoroutine(recover);
+            }
+        }
+
+
+        /* targetPlayer를 찾은 경우 */
         else
-            HpBar.transform.Find("Fill Area").gameObject.SetActive(true);
+        {
+            if (recover != null)
+            {
+                StopCoroutine(recover);
+                recover = null;
+            }
+
+            checkTargetDistance = CheckTargetDistance();
+            StartCoroutine(checkTargetDistance);
+
+            chase = Chase();
+            StartCoroutine(chase);
+        }
     }
 
 
 
 
 
-    /*------------------------------------------------------
-     *              ATTACK - 보스몬스터의 플레이어 공격 스킬
-     * ----------------------------------------------------*/
+
+
+
+    IEnumerator CheckTargetDistance()
+    {
+        while (targetPlayer != null)
+        {
+            if (maxDistance < Vector3.Distance(targetPlayer.tr.position, tr.position))
+            {
+                break;
+            }
+
+            yield return waitOneSecond;
+        }
+
+        targetPlayer = null;
+        checkTargetDistance = null;
+        CheckTarget();
+    }
+
+
+
+
+
+
+
+
+
+    IEnumerator Recover()
+    {
+        while (true)
+        {
+            monsterData.curHp += 1 * Time.deltaTime;
+            yield return null;
+        }
+    }
+
+    /*************************************************************************/
+    /*************************************************************************/
+    /*************************************************************************/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*************************************************************************/
+    /*                               공격 사이클                              */
+    /*************************************************************************/
+
+    IEnumerator Chase()
+    {
+        Vector3 distance;
+        float speed = 5f;
+        float attackDelay = 3f;
+        float curTime = attackDelay;
+
+        while (targetPlayer != null)
+        {
+            tr.LookAt(targetPlayer.tr);
+            distance = targetPlayer.tr.position - tr.position;
+            curTime += Time.deltaTime;
+
+            if (distance.magnitude <= 1.5f && curTime > attackDelay)
+            {
+                curTime = 0;
+                Attack();
+            }
+
+            else if (distance.magnitude > 1.5f)
+            {
+                transform.position += distance.normalized * speed * Time.deltaTime;
+            }
+
+            yield return null;
+        }
+
+        chase = null;
+    }
+
+
+
+
+
+
+
+
+    void Attack()
+    {
+        if (targetPlayer == null)
+            return;
+
+        print($"{targetPlayer} 공격");
+    }
+
+
+
+
+
+
+
+
+    void Damaged(PlayerDummy _player, float _delta)
+    {
+        if (recover != null)
+        {
+            StopCoroutine(recover);
+            recover = null;
+        }
+
+        if (targetPlayer == null)
+        {
+            targetPlayer = _player;
+        }
+
+        monsterData.curHp += _delta;
+
+        if (!finalAttack && monsterData.maxHp * 0.4f <= monsterData.curHp && monsterData.curHp <= monsterData.maxHp * 0.6f)
+        {
+            FinalAttack();
+        }
+        else if (monsterData.curHp <= 0)
+        {
+            Die();
+        }
+    }
+
+
+
+
+
+
+
+    void Skill()
+    {
+
+    }
+
+    void StoneStorm()
+    {
+
+    }
+
+    void EarthQuake()
+    {
+
+    }
+
+    void RollStone()
+    {
+
+    }
+    void FinalAttack()
+    {
+        finalAttack = true;
+
+        // 반경 내에 있는 모든 플레이어들의 Die 호출
+    }
+
+
+
 
     public void Punch()
     {
-        Chasing.SetActive(false);
-        animator.SetTrigger("Punch");
-        Chasing.SetActive(true);
+        targetPlayer = null;
+        StopCoroutine(checkTargetDistance);
+
+        // animator.SetTrigger("Punch");
+        print("주먹");
+        CheckTarget();
     }
 
     public void Roll()
     {
-        Chasing.SetActive(false);
-        bossManager.isAttacking = true;
-        StartCoroutine(Forward());
-        Chasing.SetActive(true);
-        bossManager.isAttacking = false;
+        StartCoroutine(coRoll());
     }
+
+    IEnumerator coRoll()
+    {
+        targetPlayer = null;
+        StopCoroutine(checkTargetDistance);
+
+        // animator.SetTrigger("Roll");
+        yield return StartCoroutine(Forward());
+        CheckTarget();
+    }
+
     IEnumerator Forward()
     {
-        animator.SetTrigger("Roll");
-
         float time = 1.0f;
         float curTime = 0f;
         while (curTime < time)
         {
             curTime += Time.deltaTime;
-            transform.position += transform.forward * 8f * Time.deltaTime;
+            tr.position += tr.forward * 8f * Time.deltaTime;
             yield return null;
         }
     }
 
 
 
-    /*------------------------------------------------------
-    *              DAMAGED - 플레이어 공격으로 보스 데미지
-    * ----------------------------------------------------*/
 
-    private void onDamage()
+
+    /*************************************************************************/
+    /*************************************************************************/
+    /*************************************************************************/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*************************************************************************/
+    /*                                 유틸                                  */
+    /*************************************************************************/
+
+    void Die()
     {
-        if (hp > 0)
-        {
-            hp -= damage;
-
-            if (hp > 0)
-            {
-                animator.SetTrigger("Damaged");
-            }
-            else
-            {
-                hp = 0;
-                Debug.Log("Boss Monster died!");
-                animator.SetBool("Dead", true);
-
-                //StartCoroutine(Die());
-            }
-        }
-
-        Chasing.SetActive(false);
+        StopAllCoroutines();
+        print($"{monsterData.name} is dead.");
     }
 
-
-    /*------------------------------------------------------
-    *              DIE - 몬스터 사망
-    * ----------------------------------------------------*/
-
-    IEnumerator Die()
+    void OnDrawGizmosSelected()
     {
-        yield return new WaitForSeconds(10.0f);
-
-        this.gameObject.SetActive(false);
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawSphere(transform.position, 5f);
     }
 
-
-
-
-
-
-
-    public void OnTriggerEnter(Collider other)
-    {
-        if (other.tag == "Player")
-        {
-            Debug.Log("Player damaged!");
-        }
-    }
-
-    public void OnTriggerStay(Collider other)
-    {
-        if (other.tag == "Player")
-        {
-            Debug.Log("데미지 계속 받는 중");
-        }
-    }
-
-    public void OnTriggerExit(Collider other)
-    {
-        // 음
-    }
+    /*************************************************************************/
+    /*************************************************************************/
+    /*************************************************************************/
 }
