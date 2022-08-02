@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Newtonsoft.Json;
 
-public class PlayerManager : MonoBehaviour
+public class exPlayerManager : MonoBehaviour
 {
     /* Data */
     public PlayerData playerData;
