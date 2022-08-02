@@ -29,7 +29,7 @@ public class MonsterSpawn : MonoBehaviour
         // A01 ~ A07
         for(int i = 0; i < 7; i++)
         {
-            Spawn(Melee, A[i], "A0"+i.ToString(), true);
+            Spawn(Melee, A[i], "A0"+(i+1).ToString(), true);
         }
             
         
@@ -54,7 +54,7 @@ public class MonsterSpawn : MonoBehaviour
         // C01 ~ C07
         for(int i = 0; i < 7; i++)
         {
-            Spawn(monsters[Random.Range(0,3)], C[i], "C0"+i.ToString(), false);
+            Spawn(monsters[Random.Range(0,3)], C[i], "C0"+(i+1).ToString(), false);
         }
     }
 
@@ -71,6 +71,7 @@ public class MonsterSpawn : MonoBehaviour
         // 게임 오브젝트 생성
         GameObject monster = Instantiate(kindOfMonster, spawnPoint.position, 
                         Quaternion.identity * Quaternion.Euler(new Vector3(0, Random.Range(0, 360), 0))) as GameObject;
+        
         NormalMonster monController = monster.GetComponent<NormalMonster>();
         
         // 몬스터 객체에게 스폰위치 저장시키기
@@ -85,80 +86,25 @@ public class MonsterSpawn : MonoBehaviour
         }
     }
 
-    // 몬스터 객체가 죽을 때, 본인의 위치에 죽음 플래그 켜기
+    // 몬스터 객체가 죽을 때, 본인의 위치에서 리스폰
     public void Decode(string spawnLoc)
     {
         switch (spawnLoc)
         {
-            case "A01": ADeath[0] = true; break;
-            case "A07": ADeath[1] = true; break;
+            case "A01": StartCoroutine(Respawn(Melee, A[0], 180f, "A01", true)); break;
+            case "A07": StartCoroutine(Respawn(Melee, A[6], 180f, "A07", true)); break;
 
-            case "B01": BDeath[0] = true; break;
-            case "B02": BDeath[0] = true; break;
-            case "B03": BDeath[0] = true; break;
+            case "B01": StartCoroutine(Respawn(monsters[0], B[0], 60f, "B01", false)); break;
+            case "B02": StartCoroutine(Respawn(monsters[1], B[1], 90f, "B02", false)); break;
+            case "B03": StartCoroutine(Respawn(monsters[2], B[2], 120f, "B03", false)); break;
 
-            case "C01": CDeath[0] = true; break;
-            case "C02": CDeath[1] = true; break;
-            case "C03": CDeath[2] = true; break;
-            case "C04": CDeath[3] = true; break;
-            case "C05": CDeath[4] = true; break;
-            case "C06": CDeath[5] = true; break;
-            case "C07": CDeath[6] = true; break;
-        }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        // A구역 전체 죽음 플래그 확인
-        for (int i=0; i<2; i++)
-        {
-            bool isDead = ADeath[i];
-            if (isDead)
-            {
-                // 3분 대기 후 리스폰
-                StartCoroutine(Respawn(Melee, A[i], 180f, "A0"+i.ToString(), true));
-                // 리스폰 한 번만 호출하기 위해, 바로 기본값으로 돌아가야함.
-                ADeath[i] = false;
-            }
-        }
-
-        // B구역 전체 죽음 플래그 확인
-        for (int i=0; i<3; i++)
-        {
-            bool isDead = BDeath[i];
-            if (isDead)
-            {
-                // 몬스터 재생시간 B01: 1분, B02: 1분 30초, B03: 2분
-                float time = 0f;
-                switch(i)
-                {
-                    case 0:
-                        time = 60f;
-                        break;
-                    case 1:
-                        time = 90f;
-                        break;
-                    case 2:
-                        time = 120f;
-                        break;
-                }
-
-                StartCoroutine(Respawn(monsters[i], B[i], time, "B0"+i.ToString(), false));
-                BDeath[i] = false;
-            }
-        }
-
-        // C구역 전체 죽음 플래그 확인
-        for (int i=0; i<7; i++)
-        {
-            bool isDead = CDeath[i];
-            if (isDead)
-            {
-                // 몬스터 랜덤 리스폰
-                StartCoroutine(Respawn(monsters[Random.Range(0,3)], C[i], 60f, "C0"+i.ToString(), false));
-                CDeath[i] = false;
-            }
+            case "C01": StartCoroutine(Respawn(monsters[Random.Range(0,3)], C[0], 60f, "C01", false)); break;
+            case "C02": StartCoroutine(Respawn(monsters[Random.Range(0,3)], C[1], 60f, "C02", false)); break;
+            case "C03": StartCoroutine(Respawn(monsters[Random.Range(0,3)], C[2], 60f, "C03", false)); break;
+            case "C04": StartCoroutine(Respawn(monsters[Random.Range(0,3)], C[3], 60f, "C04", false)); break;
+            case "C05": StartCoroutine(Respawn(monsters[Random.Range(0,3)], C[4], 60f, "C05", false)); break;
+            case "C06": StartCoroutine(Respawn(monsters[Random.Range(0,3)], C[5], 60f, "C06", false)); break;
+            case "C07": StartCoroutine(Respawn(monsters[Random.Range(0,3)], C[6], 60f, "C07", false)); break;
         }
     }
 }
