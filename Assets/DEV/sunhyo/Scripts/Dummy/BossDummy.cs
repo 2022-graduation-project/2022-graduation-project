@@ -294,6 +294,40 @@ public class BossDummy : MonoBehaviour
         // 반경 내에 있는 모든 플레이어들의 Die 호출
     }
 
+
+
+
+    public void Punch()
+    {
+        targetPlayer = null;
+
+        animator.SetTrigger("Punch");
+    }
+
+    public void Roll()
+    {
+        targetPlayer = null;
+
+        animator.SetTrigger("Roll");
+        StartCoroutine(Forward());
+    }
+
+    IEnumerator Forward()
+    {
+        float time = 1.0f;
+        float curTime = 0f;
+        while (curTime < time)
+        {
+            curTime += Time.deltaTime;
+            tr.position += tr.forward * 8f * Time.deltaTime;
+            yield return null;
+        }
+    }
+
+
+
+
+
     /*************************************************************************/
     /*************************************************************************/
     /*************************************************************************/
