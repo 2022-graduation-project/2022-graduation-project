@@ -110,13 +110,14 @@ public class BossController : MonoBehaviour
     {
         Chasing.SetActive(false);
         bossManager.isAttacking = true;
-        animator.SetTrigger("Roll");
         StartCoroutine(Forward());
         Chasing.SetActive(true);
         bossManager.isAttacking = false;
     }
     IEnumerator Forward()
     {
+        animator.SetTrigger("Roll");
+
         float time = 1.0f;
         float curTime = 0f;
         while (curTime < time)
@@ -152,6 +153,8 @@ public class BossController : MonoBehaviour
                 //StartCoroutine(Die());
             }
         }
+
+        Chasing.SetActive(false);
     }
 
 
@@ -177,6 +180,14 @@ public class BossController : MonoBehaviour
         if (other.tag == "Player")
         {
             Debug.Log("Player damaged!");
+        }
+    }
+
+    public void OnTriggerStay(Collider other)
+    {
+        if (other.tag == "Player")
+        {
+            Debug.Log("데미지 계속 받는 중");
         }
     }
 
