@@ -13,14 +13,14 @@ public class Warrior : PlayerController
 
 
 
-    int coolDelay1 = 60;
-    int maxCoolDelay1 = 60;
-    int maxMpConsume1 = 20;
-    float duration = 0;
+    int Blast_coolDelay = 60;
+    int Blast_maxCoolDelay = 60;
+    int Blast_MpConsume = 20;
+    float Blast_duration = 0;
 
     /*****************************************
      * Blast (Skill #1) 공격
-     * Blast() -> BlastDuration() -> BlastCountDelay() 
+     * Blast() -> Blast_DuringSkill() -> Blast_CountDelay() 
      *
      * @ param - X @ return - X @ exception - X
      * @ 쿨타임: 60초
@@ -36,33 +36,33 @@ public class Warrior : PlayerController
     {
         // 쿨타임이 차지 않았을 때 또는
         // 현재 MP가 소모량보다 적을 때
-        if (coolDelay1 < maxCoolDelay1 || playerManager.playerData.curMp < maxMpConsume1)
+        if (Blast_coolDelay < Blast_maxCoolDelay || playerManager.playerData.curMp < Blast_MpConsume)
         {
             return;
         }
 
         // Initial setting
         // 지속시간 초기화
-        duration = 0;
+        Blast_duration = 0;
         offset = new Vector3(0f, 0.7f, 0.5f);
 
         // 플레이어 MP 소모
-        ConsumeMP(maxMpConsume1);
+        ConsumeMP(Blast_MpConsume);
 
         // 지속시간 동안 Monster 리스트에 담고, 공격
-        StartCoroutine(BlastDuration());
+        StartCoroutine(Blast_DuringSkill());
     }
     
     // Blast (Skill #1) 지속시간 동안 Monster 리스트에 담기
-    private IEnumerator BlastDuration()
+    private IEnumerator Blast_DuringSkill()
     {
         GameObject temp;
         // Blast 지속 시간: 2초
-        while (duration < 2)
+        while (Blast_duration < 2)
         {
             // 지속 시간 재기
             yield return new WaitForSeconds(1f);
-            duration++;
+            Blast_duration++;
 
             // RayCast에 닿는 All Monsters, 배열(hits)로 가져오기
             hits = Physics.RaycastAll(transform.position + offset, transform.forward, MaxDistance);
@@ -80,20 +80,9 @@ public class Warrior : PlayerController
                 }
             }
 
-            if (monsterList.Count == 0)
-            {
-                print("Cannot Detect any Monsters");
-            }
+            MonsterListDebug(monsterList);
 
-            else{
-
-                for (int i = 0; i < monsterList.Count; i++)
-                {
-                    print("monsterList -> " + monsterList[i].gameObject.name);
-                }
-            }
-
-            if (duration >= 2)
+            if (Blast_duration >= 2)
             {
 
                 // RayCast에 닿은 몬스터 리스트에
@@ -109,8 +98,8 @@ public class Warrior : PlayerController
                 }
 
                 // 쿨타임 초기화 및 초 세기
-                coolDelay1 = 0;
-                StartCoroutine(BlastCountDelay(maxCoolDelay1));
+                Blast_coolDelay = 0;
+                StartCoroutine(Blast_CountDelay(Blast_maxCoolDelay));
 
                 // 다음 차례를 위해 몬스터 리스트 비워주기
                 monsterList.Clear();
@@ -121,31 +110,41 @@ public class Warrior : PlayerController
     }
 
     // Blast (Skill #1) 쿨타임 초 세기
-    private IEnumerator BlastCountDelay(int tempCoolDelay1)
+    private IEnumerator Blast_CountDelay(int tempMaxDelay)
     {
-        while (coolDelay1 < tempCoolDelay1)
+        while (Blast_coolDelay < tempMaxDelay)
         {
             yield return new WaitForSeconds(1f);
-            coolDelay1++;
+            Blast_coolDelay++;
 
-            if (coolDelay1 >= tempCoolDelay1)
+            if (Blast_coolDelay >= tempMaxDelay)
             {
                 // set as default
-                coolDelay1 = 60;
+                Blast_coolDelay = 60;
                 yield break;
             }
         }
     }
 
+    // private IEnumerator CountDelay(ref int coolDelay, int maxCoolDelay, bool isBlast)
+    // {
+    //     while (coolDelay < maxCoolDelay)
+    //     {
+    //         yield return new WaitForSeconds(1f);
+    //         coolDelay++;
 
-    int coolDelay2 = 60;
-    int maxCoolDelay2 = 60 * 1;
-    int maxMpConsume2 = 20;
-    float duration2 = 0f;
+    //         if(coolDelay)
+    //     }
+    // }
+
+    int Effect_coolDelay = 60;
+    int Effect_maxCoolDelay = 60;
+    int Effect_MpConsume = 20;
+    float Effect_duration = 0f;
 
     /*****************************************
      * Effect (Skill #2) 스킬
-     * Effect() -> EffectDuration() -> EffectCountDelay() 
+     * Effect() -> Effect_DuringSkill() -> Effect_CountDelay() 
      * 
      * @ param - X @ return - X @ exception - X
      * @ 쿨타임: 60초
@@ -161,50 +160,50 @@ public class Warrior : PlayerController
     {
         // 쿨타임이 차지 않았을 때 또는
         // 현재 MP가 소모량보다 적을 때
-        if (coolDelay2 < maxCoolDelay2 || playerManager.playerData.curMp < maxMpConsume2)
+        if (Effect_coolDelay < Effect_maxCoolDelay || playerManager.playerData.curMp < Effect_MpConsume)
         {
             return;
         }
 
         // Initial setting
         // 지속시간 초기화
-        duration2 = 0;
+        Effect_duration = 0;
 
         // 플레이어 MP 소모
-        ConsumeMP(10);
+        ConsumeMP(Effect_MpConsume);
 
-        // 스킬 1의 쿨타임을 60->40초로 줄여줌
-        maxCoolDelay1 = 40;
+        // Blast스킬의 쿨타임을 60->40초로 줄여줌
+        Blast_maxCoolDelay = 40;
 
-        // 스킬 1의 MP 소모량을 20->10로 줄여줌
-        maxMpConsume1 = 10;
+        // Blast스킬의 MP 소모량을 20->10로 줄여줌
+        Blast_MpConsume = 10;
 
         print("Effect Skill ON");
-        // 지속 시간 후에 스킬 1의 속성 초기화
-        StartCoroutine(EffectDuration());
+        // 지속 시간 후에 BLAST스킬의 속성 초기화
+        StartCoroutine(Effect_DuringSkill());
     }
 
     // Effect (Skill #2) 지속시간 후 Skill #1의 속성 초기화
-    private IEnumerator EffectDuration()
+    private IEnumerator Effect_DuringSkill()
     {
-        while (duration2 < 6)
+        while (Effect_duration < 6)
         {
             yield return new WaitForSeconds(1f);
-            duration2++;
+            Effect_duration++;
 
-            if (duration2 >= 6)
+            if (Effect_duration >= 6)
             {
                 
                 print("Effect Skill OFF");
-                // 스킬 1의 쿨타임 초기화
-                maxCoolDelay1 = 60;
+                // Blast스킬의 쿨타임 초기화
+                Blast_maxCoolDelay = 60;
 
-                // 스킬 1의 MP 소모량 초기화
-                maxMpConsume1 = 20;
+                // Blast스킬의 MP 소모량 초기화
+                Blast_MpConsume = 20;
 
                 // 쿨타임 초기화 및 초 세기
-                coolDelay2 = 0;
-                StartCoroutine(EffectCountDelay());
+                Effect_coolDelay = 0;
+                StartCoroutine(Effect_CountDelay());
 
                 yield break;
             }
@@ -212,31 +211,31 @@ public class Warrior : PlayerController
     }
 
     // Effect (Skill #2) 쿨타임 초 세기
-    private IEnumerator EffectCountDelay()
+    private IEnumerator Effect_CountDelay()
     {
-        while (coolDelay2 < maxCoolDelay2)
+        while (Effect_coolDelay < Effect_maxCoolDelay)
         {
             yield return new WaitForSeconds(1f);
-            coolDelay2++;
+            Effect_coolDelay++;
 
-            if (coolDelay2 >= maxCoolDelay2)
+            if (Effect_coolDelay >= Effect_maxCoolDelay)
             {
-                coolDelay2 = maxCoolDelay2;
+                Effect_coolDelay = Effect_maxCoolDelay;
                 yield break;
             }
         }
     }
 
-    int coolDelay3 = 60 * 5;
-    int maxCoolDelay3 = 60 * 5;
-    int maxMpConsume3 = 30;
-    int duration3 = 0;
+    int Stun_coolDelay = 60 * 5;
+    int Stun_maxCoolDelay = 60 * 5;
+    int Stun_MpConsume = 30;
+    int Stun_duration = 0;
 
 
     float playerTempSpeed = 0;
     /*****************************************
      * Stun (Skill #3) 스킬
-     * Stun() -> StunDuration() -> StunCountDelay() 
+     * Stun() -> Stun_DuringSkill() -> Stun_CountDelay() 
      * 
      * @ param - X @ return - X @ exception - X
      * @ 쿨타임: 300초
@@ -252,39 +251,39 @@ public class Warrior : PlayerController
     {
         // 쿨타임이 차지 않았을 때 또는
         // 현재 MP가 소모량보다 적을 때
-        if (coolDelay3 < maxCoolDelay3 || playerManager.playerData.curMp < maxMpConsume3)
+        if (Stun_coolDelay < Stun_maxCoolDelay || playerManager.playerData.curMp < Stun_MpConsume)
         {
             return;
         }
 
         // Initial setting
         // 지속시간 초기화
-        duration3 = 0;
+        Stun_duration = 0;
         offset = new Vector3(0f, 0.7f, 0.5f);
 
         // 플레이어 MP 소모
-        ConsumeMP(maxMpConsume3);
+        ConsumeMP(Stun_MpConsume);
 
         // 플레이어 이동속도 증가
         playerTempSpeed = playerManager.playerData.moveSpeed;
         playerManager.playerData.moveSpeed = playerTempSpeed * 1.3f;
 
         // 지속시간 동안 Monster 리스트에 담고, 공격
-        StartCoroutine(StunDuration());
+        StartCoroutine(Stun_DuringSkill());
     }
 
 
     // Stun (Skill #3) 지속시간 동안 몬스터 기절 및 데미지, 플레이어 이속 증가
-    private IEnumerator StunDuration()
+    private IEnumerator Stun_DuringSkill()
     {
         GameObject temp;
         NormalMonster monster;
         List<bool> isFind = new List<bool>();
 
-        while (duration3 < 2)
+        while (Stun_duration < 2)
         {
             yield return new WaitForSeconds(1f);
-            duration3++;
+            Stun_duration++;
 
             // RayCast에 닿는 All Monsters 배열(hits)로 가져오기
             hits = Physics.RaycastAll(transform.position + offset, transform.forward, MaxDistance);
@@ -312,20 +311,9 @@ public class Warrior : PlayerController
                 }
             }
 
-            if (monsterList.Count == 0)
-            {
-                print("Cannot Detect any Monsters");
-            }
+            MonsterListDebug(monsterList);
 
-            else{
-
-                for (int i = 0; i < monsterList.Count; i++)
-                {
-                    print("monsterList -> " + monsterList[i].gameObject.name);
-                }
-            }
-
-            if (duration3 >= 2)
+            if (Stun_duration >= 2)
             {
                 // RayCast에 닿은 몬스터 리스트에
                 // 만약 몬스터가 한 마리 이상 있다면
@@ -342,13 +330,13 @@ public class Warrior : PlayerController
                 playerManager.playerData.moveSpeed = playerTempSpeed;
 
                 // 쿨타임 초기화
-                coolDelay3 = 0;
+                Stun_coolDelay = 0;
 
                 // 몬스터 리스트 초기화
                 monsterList.Clear();
 
                 // 쿨타임 시작
-                StartCoroutine(StunCountDelay());
+                StartCoroutine(Stun_CountDelay());
                 yield break;
             }
         }
@@ -356,16 +344,16 @@ public class Warrior : PlayerController
 
 
     // Stun (Skill #3) 쿨타임 초 세기
-    private IEnumerator StunCountDelay()
+    private IEnumerator Stun_CountDelay()
     {
-        while(coolDelay3 < maxCoolDelay3)
+        while(Stun_coolDelay < Stun_maxCoolDelay)
         {
             yield return new WaitForSeconds(1f);
-            coolDelay3++;
+            Stun_coolDelay++;
 
-            if (coolDelay3 >= maxCoolDelay3)
+            if (Stun_coolDelay >= Stun_maxCoolDelay)
             {
-                coolDelay3 = maxCoolDelay3;
+                Stun_coolDelay = Stun_maxCoolDelay;
                 yield break;
             }
         }

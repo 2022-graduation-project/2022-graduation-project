@@ -10,7 +10,7 @@ public class StartScene : MonoBehaviour
     public void StartTown()
     {
         playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
-        TMP_Text jobname = transform.GetChild(0).GetComponent<TMP_Text>();
+        TMP_Text jobname = transform.GetChild(1).GetComponent<TMP_Text>();
         playerManager.SetJob(jobname.text);
         SceneManager.LoadScene("Loading");
     }
