@@ -248,24 +248,23 @@ public class TestBoss : MonoBehaviour
 
         print(targetName + " 코루틴 시작");
 
-        float damagingTime = 10.0f;
-        float printingTime = 1.0f;
-
+        float coolTime = 10.0f;
         float curTime = 0.0f;
-        float time = 0.0f;
+        float interval = 0.0f;
 
         int totalDamage = 0;
 
-        while (curTime <= damagingTime)
+        while (curTime <= coolTime)
         {
             curTime += Time.deltaTime;
-            time += Time.deltaTime;
+            interval += Time.deltaTime;
 
-            if (time >= printingTime)
+            if (interval >= 1.0)
             {
                 totalDamage += 5;
                 print("<Dot Damage> " + targetName + " : 총 입은 데미지 " + totalDamage);
-                time = 0.0f;
+                print(curTime + ", " + interval);
+                interval = 0.0f;
             }
         }
     }
