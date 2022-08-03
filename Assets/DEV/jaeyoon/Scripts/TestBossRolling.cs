@@ -1,29 +1,15 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TestBossRolling : MonoBehaviour
 {
-    private Collider rollingCollider;
-    private TestBoss testboss;
-    private IEnumerator dotting;
+    private TestBoss testboss;  // 나중에 보스몬스터 오브젝트로 바뀌겠
+    private IEnumerator dotDamage;
 
 
     void Awake()
     {
         testboss = transform.parent.GetComponent<TestBoss>();
-        rollingCollider = GetComponent<Collider>();
-    }
-
-
-    void Start()
-    {
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     private void OnTriggerEnter(Collider other)
@@ -31,8 +17,8 @@ public class TestBossRolling : MonoBehaviour
         if (other.tag == "Player")
         {
             print("응 너 밟힘; " + other.transform.name);
-            dotting = testboss.dotDamage(other.transform.name);
-            StartCoroutine(dotting);
+            dotDamage = testboss.DotDamage(other.transform.name);
+            StartCoroutine(dotDamage);
         }
     }
 }

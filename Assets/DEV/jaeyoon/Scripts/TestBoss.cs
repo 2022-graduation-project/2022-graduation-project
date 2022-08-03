@@ -17,8 +17,7 @@ public class TestBoss : MonoBehaviour
     /* 공격 지역 */
     private GameObject circle;
     private GameObject square;
-
-    private GameObject RollingDamage;
+    private GameObject cube;
 
 
     /* 런타임 변수 */
@@ -53,7 +52,7 @@ public class TestBoss : MonoBehaviour
 
         circle = tr.Find("Circle").gameObject;
         square = tr.Find("Square").gameObject;
-        RollingDamage = tr.Find("Cube").gameObject;
+        cube = tr.Find("CubeCol").gameObject;
 
         CheckTarget();
     }
@@ -242,11 +241,11 @@ public class TestBoss : MonoBehaviour
 
 
 
-    public IEnumerator dotDamage(string targetName)
+    public IEnumerator DotDamage(string targetName)
     {
         yield return null;
 
-        print(targetName + " 코루틴 시작");
+        print(targetName + " dot damaging 시작");
 
         float coolTime = 10.0f;
         float curTime = 0.0f;
@@ -351,8 +350,8 @@ public class TestBoss : MonoBehaviour
 
     public void Roll()
     {
-        RollingDamage.transform.position = tr.position;
-        RollingDamage.SetActive(true);
+        cube.transform.position = tr.position;
+        cube.SetActive(true);
         StartCoroutine(coRoll());
     }
 
@@ -367,7 +366,7 @@ public class TestBoss : MonoBehaviour
         animator.SetTrigger("Roll");
         yield return StartCoroutine(Forward());
         CheckTarget();
-        RollingDamage.SetActive(false);
+        cube.SetActive(false);
     }
 
     IEnumerator Forward()
