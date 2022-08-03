@@ -27,6 +27,7 @@ public class BossController : MonoBehaviour
     /* 공격 지역 */
     private Transform circle;
     [SerializeField] private Transform square;
+    private GameObject cube;    // Rolling Collider
 
 
     /* 런타임 변수 */
@@ -69,6 +70,7 @@ public class BossController : MonoBehaviour
 
         circle = tr.Find("Circle");
         square = tr.Find("Square");
+        cube = tr.Find("CubeCol").gameObject;
 
         rocks = circle.GetChild(0).GetComponentsInChildren<Transform>(true);
         //stalagmites = square.GetChild(0).GetComponentsInChildren<Transform>(true);
@@ -487,32 +489,41 @@ public class BossController : MonoBehaviour
 
     public void Punch()
     {
-        targetPlayer = null;
-        StopCoroutine(checkTargetDistance);
+        if (targetPlayer != null)
+        {
+            targetPlayer = null;
+            //StopCoroutine(checkTargetDistance);
+        }
 
-        // animator.SetTrigger("Punch");
+        animator.SetTrigger("Punch");
         print("주먹");
         CheckTarget();
     }
 
     public void Roll()
     {
+        cube.transform.position = tr.position;
+        cube.SetActive(true);
         StartCoroutine(coRoll());
     }
 
     IEnumerator coRoll()
     {
-        targetPlayer = null;
-        StopCoroutine(checkTargetDistance);
+        if (targetPlayer != null)
+        {
+            targetPlayer = null;
+            //StopCoroutine(checkTargetDistance);
+        }
 
-        // animator.SetTrigger("Roll");
+        animator.SetTrigger("Roll");
         yield return StartCoroutine(Forward());
         CheckTarget();
+        cube.SetActive(false);
     }
 
     IEnumerator Forward()
     {
-        float time = 1.0f;
+        float time = 1.2f;
         float curTime = 0f;
         while (curTime < time)
         {
@@ -523,6 +534,32 @@ public class BossController : MonoBehaviour
     }
 
 
+    public IEnumerator DotDamage(string targetName)
+    {
+        yield return null;
+
+        print(targetName + " dot damaging 시작");
+
+        float coolTime = 10.0f;
+        float curTime = 0.0f;
+        float interval = 0.0f;
+
+        int totalDamage = 0;
+
+        while (curTime <= coolTime)
+        {
+            curTime += Time.deltaTime;
+            interval += Time.deltaTime;
+
+            if (interval >= 1.0)
+            {
+                totalDamage += 5;
+                print("<Dot Damage> " + targetName + " : 총 입은 데미지 " + totalDamage);
+                print(curTime + ", " + interval);
+                interval = 0.0f;
+            }
+        }
+    }
 
 
 

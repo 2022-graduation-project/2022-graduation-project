@@ -17,7 +17,7 @@ public class TestBoss : MonoBehaviour
     /* 공격 지역 */
     private GameObject circle;
     private GameObject square;
-    private GameObject cube;
+    private GameObject cube;    // Rolling Collider
 
 
     /* 런타임 변수 */
