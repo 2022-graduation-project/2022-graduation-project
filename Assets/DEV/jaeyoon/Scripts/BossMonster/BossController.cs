@@ -504,6 +504,7 @@ public class BossController : MonoBehaviour
     {
         cube.transform.position = tr.position;
         cube.SetActive(true);
+        print("롤린롤린롤린");
         StartCoroutine(coRoll());
     }
 
