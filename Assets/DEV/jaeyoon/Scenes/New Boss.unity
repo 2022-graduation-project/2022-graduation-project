@@ -318,6 +318,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccba9afb48cb6403b8d953850e2f9980, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  square: {fileID: 0}
+  rocks: []
+  stalagmites: []
 --- !u!135 &68060778
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1421,9 +1424,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 396441518}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd19dbb1f6b6c4f7aa2c7610f66e9b25, type: 3}
+  m_Script: {fileID: 11500000, guid: ccba9afb48cb6403b8d953850e2f9980, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  square: {fileID: 0}
+  rocks: []
+  stalagmites: []
 --- !u!95 &396441520
 Animator:
   serializedVersion: 3
@@ -3289,7 +3295,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 396441519}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: TestBoss, Assembly-CSharp
         m_MethodName: Roll
         m_Mode: 1
@@ -5650,7 +5656,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 396441519}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: TestBoss, Assembly-CSharp
         m_MethodName: Punch
         m_Mode: 1
