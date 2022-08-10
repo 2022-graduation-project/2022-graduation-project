@@ -34,6 +34,8 @@ public class BossController : MonoBehaviour
     private PlayerDummy targetPlayer;
 
     private bool finalAttack = false;
+    private int probability = 0;
+
     private float maxDistance = 5f;
 
     private IEnumerator recover;
@@ -476,9 +478,23 @@ public class BossController : MonoBehaviour
 
     void FinalAttack()
     {
-        finalAttack = true;
+        if (probability <= Random.Range(1, 101))
+        {
+            finalAttack = true;
+        }
+        else
+        {
+            probability += 25;
+            return;
+        }
 
-        // 반경 내에 있는 모든 플레이어들의 Die 호출
+        int layerMask = 1 << LayerMask.GetMask("Player");
+        RaycastHit[] hits = Physics.SphereCastAll(tr.position, 5f, tr.forward, 5f, ~layerMask - 1);
+
+        foreach (RaycastHit hit in hits)
+        {
+            hit.transform.GetComponent<PlayerController>().Die();
+        }
     }
 
 
