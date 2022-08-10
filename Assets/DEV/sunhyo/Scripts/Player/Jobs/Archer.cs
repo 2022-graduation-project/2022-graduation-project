@@ -47,7 +47,7 @@ public class Archer : PlayerController
 
 
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetKeyDown(KeyCode.G))
         {
         animator.SetTrigger("Attack");
 
@@ -59,7 +59,7 @@ public class Archer : PlayerController
 
         // 화살의 출발지와 방향(지금 몬스터가 바라보는 방향) 설정
         arrowPool[currentIndex].transform.position = prefab_arrow.transform.position;
-        arrowPool[currentIndex].transform.rotation = this.transform.rotation * Quaternion.Euler(90f, 0f, 0f);
+        //arrowPool[currentIndex].transform.rotation = this.transform.rotation * Quaternion.Euler(90f, 0f, 0f);
 
         // 화살 활성화, 발사
         arrowPool[currentIndex].gameObject.SetActive(true);

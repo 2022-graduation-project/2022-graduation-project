@@ -51,6 +51,9 @@ public class BossController : MonoBehaviour
     [SerializeField] private Transform[] stalagmites;
 
 
+
+
+
     void Awake()
     {
         print("어웨이크");
@@ -489,12 +492,6 @@ public class BossController : MonoBehaviour
 
     public void Punch()
     {
-        if (targetPlayer != null)
-        {
-            targetPlayer = null;
-            //StopCoroutine(checkTargetDistance);
-        }
-
         animator.SetTrigger("Punch");
         print("주먹");
         CheckTarget();
@@ -502,24 +499,31 @@ public class BossController : MonoBehaviour
 
     public void Roll()
     {
+        if (targetPlayer != null)
+        {
+            targetPlayer = null;
+        }
+        StopCoroutine(checkTargetDistance);
+        StopCoroutine(chase);
+        //checkTargetDistance = chase = null;
+        
         cube.transform.position = tr.position;
         cube.SetActive(true);
-        print("롤린롤린롤린");
         StartCoroutine(coRoll());
     }
 
     IEnumerator coRoll()
     {
-        if (targetPlayer != null)
-        {
-            targetPlayer = null;
-            //StopCoroutine(checkTargetDistance);
-        }
-
         animator.SetTrigger("Roll");
         yield return StartCoroutine(Forward());
-        CheckTarget();
         cube.SetActive(false);
+
+        checkTargetDistance = CheckTargetDistance();
+        chase = Chase();
+        //StartCoroutine(CheckTargetDistance());
+        //StartCoroutine(Chase());
+        StartCoroutine(checkTargetDistance);
+        StartCoroutine(chase);
     }
 
     IEnumerator Forward()
