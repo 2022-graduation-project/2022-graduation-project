@@ -26,7 +26,7 @@ public class BossController : MonoBehaviour
 
     /* 공격 지역 */
     private Transform circle;
-    [SerializeField] private Transform square;
+    private Transform square;
     private GameObject cube;    // Rolling Collider
 
 
@@ -40,6 +40,7 @@ public class BossController : MonoBehaviour
     private IEnumerator checkTargetDistance;
     private IEnumerator chase;
 
+    private WaitForSeconds waitHalfSecond = new WaitForSeconds(0.5f);
     private WaitForSeconds waitOneSecond = new WaitForSeconds(1.0f);
     private WaitForSeconds waitThreeSeconds = new WaitForSeconds(3.0f);
 
@@ -51,15 +52,8 @@ public class BossController : MonoBehaviour
     [SerializeField] private Transform[] stalagmites;
 
 
-    void Awake()
-    {
-        print("어웨이크");
-    }
-
     void Start()
     {
-        print("실행");
-
         monsterData = DataManager.instance.LoadJsonFile
                       <Dictionary<string, MonsterDataDummy>>
                       (Application.dataPath + "/MAIN/Data", "boss")
@@ -91,7 +85,7 @@ public class BossController : MonoBehaviour
 
     void CheckTarget()
     {
-        if(!moveable)
+        if (!moveable)
         {
             Invoke("CheckTarget", 1f);
             return;
@@ -289,6 +283,7 @@ public class BossController : MonoBehaviour
 
         if (!finalAttack && monsterData.maxHp * 0.4f <= monsterData.curHp && monsterData.curHp <= monsterData.maxHp * 0.6f)
         {
+            // 랜덤 수식
             FinalAttack();
         }
         else if (monsterData.curHp <= 0)
@@ -331,7 +326,7 @@ public class BossController : MonoBehaviour
             moveable = false;
 
             number = Random.Range(0, 3);
-            switch(number)
+            switch (number)
             {
                 case (int)Skills.StoneStorm:
                     skill = StoneStorm();
@@ -350,7 +345,6 @@ public class BossController : MonoBehaviour
             coolTime = Random.Range(8f, 15f);
             yield return StartCoroutine(WaitFor(coolTime));
         }
-        
     }
 
     IEnumerator StoneStorm()
@@ -365,7 +359,7 @@ public class BossController : MonoBehaviour
 
         Vector3 pos;
 
-        while(curTime < coolTime)
+        while (curTime < coolTime)
         {
             //curTime += Time.deltaTime;
             curTime += delayTime;
@@ -394,7 +388,7 @@ public class BossController : MonoBehaviour
             yield return new WaitForSeconds(delayTime);
         }
 
-        while(rocks[lastRock].localPosition.z > 0)
+        while (rocks[lastRock].localPosition.z > 0)
         {
             yield return null;
         }
@@ -455,26 +449,29 @@ public class BossController : MonoBehaviour
 
     IEnumerator RollStone()
     {
-        print("됐니");
-
         square.gameObject.SetActive(true);
 
-        print("??");
-
         GameObject pillar = square.GetChild(0).gameObject;
-        Vector3 origin = pillar.transform.localPosition;
+        Transform p_tr = pillar.transform;
+        Transform p_ro = p_tr.GetChild(0);
+        Vector3 origin = p_tr.localPosition;
 
-        pillar.transform.SetParent(tr);
+        p_tr.SetParent(tr);
 
-        while (pillar.transform.localPosition.z < 5f)
+        yield return waitHalfSecond;
+
+        while (p_tr.localPosition.z < 5f)
         {
-            pillar.GetComponent<Rigidbody>().AddForce(Vector3.forward * 100f, ForceMode.Impulse);
+            p_tr.Translate(-Vector3.up * 5f * Time.deltaTime, Space.Self);
+            p_ro.Rotate(Vector3.up * 50f * Time.deltaTime);
             yield return null;
         }
 
         square.gameObject.SetActive(false);
-        pillar.transform.SetParent(square);
-        pillar.transform.localPosition = origin;
+        p_tr.SetParent(square);
+        p_ro.localRotation = Quaternion.Euler(new Vector3(0, 0, 90));
+        //p_ro.rotation = Quaternion.Euler(new Vector3(0, 0, 90));
+        p_tr.localPosition = origin;
     }
 
     void FinalAttack()
