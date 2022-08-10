@@ -462,7 +462,7 @@ public class BossController : MonoBehaviour
 
         while (p_tr.localPosition.z < 5f)
         {
-            p_tr.Translate(-Vector3.up * 5f * Time.deltaTime, Space.Self);
+            p_tr.Translate(Vector3.right * 5f * Time.deltaTime, Space.Self);
             p_ro.Rotate(Vector3.up * 50f * Time.deltaTime);
             yield return null;
         }
