@@ -21,7 +21,6 @@ public class NormalMonster : MonoBehaviour
 
     protected virtual void Awake()
     {
-        
         monsterData = DataManager.instance.LoadJsonFile
                       <Dictionary<string, MonsterData>>
                       (Application.dataPath + "/MAIN/Data", "goblin")

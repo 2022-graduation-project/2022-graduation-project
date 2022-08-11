@@ -9,7 +9,16 @@ public class Arrow : Weapon
 
     void Update()
     {
-        transform.Translate(new Vector3(0, 1.0f, 0) * speed * Time.deltaTime);  // Set direction & Shot
+        transform.Translate(new Vector3(0, 0, 1.0f) * speed * Time.deltaTime);  // Set direction & Shot
+    }
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Monster")
+        {
+            print("몬스터 데미지");
+        }
     }
 
     /*
