@@ -31,7 +31,7 @@ public class BossController : MonoBehaviour
 
 
     /* 런타임 변수 */
-    private PlayerDummy targetPlayer;
+    [SerializeField] private PlayerController targetPlayer;
 
     private bool finalAttack = false;
     private int probability = 0;
@@ -71,7 +71,8 @@ public class BossController : MonoBehaviour
         rocks = circle.GetChild(0).GetComponentsInChildren<Transform>(true);
         //stalagmites = square.GetChild(0).GetComponentsInChildren<Transform>(true);
 
-        CheckTarget();
+        StartCoroutine(StartCheckTarget());
+        StartCoroutine(Skill());
     }
 
 
@@ -82,16 +83,30 @@ public class BossController : MonoBehaviour
     /*                         targetPlayer 사이클                           */
     /*************************************************************************/
 
+    IEnumerator StartCheckTarget()
+    {
+        while(true)
+        {
+            print("코루틴이 안돌아가나");
+            CheckTarget();
+            yield return waitHalfSecond;
+        }
+    }
+
 
 
 
     void CheckTarget()
     {
-        if (!moveable)
+        print("before check Target");
+
+        if (!moveable || targetPlayer != null)
         {
-            Invoke("CheckTarget", 1f);
+            // Invoke("CheckTarget", 1f);
             return;
         }
+
+        print("check Target");
 
         /* 가장 가까운 곳에 있는 targetPlayer 찾기 */
         if (targetPlayer == null)
@@ -114,11 +129,11 @@ public class BossController : MonoBehaviour
                 if (minDistance > distance)
                 {
                     minDistance = distance;
-                    targetPlayer = hit.transform.GetComponent<PlayerDummy>();
+                    targetPlayer = hit.transform.GetComponent<PlayerController>();
                 }
             }
 
-            print($"가장 가까운 오브젝트(거리, 이름) : {minDistance}, {targetPlayer?.tr.name}");
+            print($"가장 가까운 오브젝트(거리, 이름) : {minDistance}, {targetPlayer?.transform.name}");
         }
 
 
@@ -127,7 +142,7 @@ public class BossController : MonoBehaviour
         {
             // 대기
 
-            Invoke("CheckTarget", 1f);
+            // Invoke("CheckTarget", 1f);
             if (recover == null)
             {
                 recover = Recover();
@@ -164,7 +179,7 @@ public class BossController : MonoBehaviour
     {
         while (targetPlayer != null && moveable != false)
         {
-            if (maxDistance < Vector3.Distance(targetPlayer.tr.position, tr.position))
+            if (maxDistance < Vector3.Distance(targetPlayer.transform.position, tr.position))
             {
                 break;
             }
@@ -174,7 +189,7 @@ public class BossController : MonoBehaviour
 
         targetPlayer = null;
         checkTargetDistance = null;
-        CheckTarget();
+        // CheckTarget();
     }
 
 
@@ -225,8 +240,8 @@ public class BossController : MonoBehaviour
 
         while (targetPlayer != null && moveable != false)
         {
-            tr.LookAt(targetPlayer.tr);
-            distance = targetPlayer.tr.position - tr.position;
+            tr.LookAt(targetPlayer.transform);
+            distance = targetPlayer.transform.position - tr.position;
             curTime += Time.deltaTime;
 
             if (distance.magnitude <= 1.5f && curTime > attackDelay)
@@ -268,7 +283,7 @@ public class BossController : MonoBehaviour
 
 
 
-    void Damaged(PlayerDummy _player, float _delta)
+    void Damaged(PlayerController _player, float _delta)
     {
         if (recover != null)
         {
@@ -510,7 +525,7 @@ public class BossController : MonoBehaviour
 
         animator.SetTrigger("Punch");
         print("주먹");
-        CheckTarget();
+        // CheckTarget();
     }
 
     public void Roll()

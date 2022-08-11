@@ -12,7 +12,7 @@ using Newtonsoft.Json;
 public class PlayerController : MonoBehaviour
 {
     /* Manager */
-    protected PlayerManager playerManager;
+    // protected PlayerManager playerManager;
 
     /* local data */
     protected Rigidbody rigidBody;
@@ -31,9 +31,9 @@ public class PlayerController : MonoBehaviour
 
     public Weapon weapon;
 
-    void Awake()
+    void Start()
     {
-        playerManager = PlayerManager.instance;
+        // playerManager = PlayerManager.instance;
 
         rigidBody = GetComponent<Rigidbody>();
         capsuleCollider = GetComponent<CapsuleCollider>();
@@ -41,9 +41,9 @@ public class PlayerController : MonoBehaviour
         tr = GetComponent<Transform>();
 
         rightWeapon = transform.Find("Root").Find("Hips").Find("Spine_01").Find("Spine_02").Find("Spine_03")
-                             .Find("Clavicle_R").Find("Shoulder_R").Find("Elbow_R").Find("Hand_R").Find("IndexFinger_01").Find("Weapon");
+                             .Find("Clavicle_R").Find("Shoulder_R").Find("Elbow_R").Find("Hand_R").Find("Weapon");
         leftWeapon = transform.Find("Root").Find("Hips").Find("Spine_01").Find("Spine_02").Find("Spine_03")
-                             .Find("Clavicle_L").Find("Shoulder_L").Find("Elbow_L").Find("Hand_L").Find("IndexFinger_01").Find("Weapon");
+                             .Find("Clavicle_L").Find("Shoulder_L").Find("Elbow_L").Find("Hand_L").Find("Weapon");
         
         weapon = rightWeapon.GetChild(0).GetComponent<Weapon>();
     }
@@ -59,7 +59,7 @@ public class PlayerController : MonoBehaviour
         float v = Input.GetAxisRaw("Vertical");
         float r = Input.GetAxisRaw("Mouse X");
         
-        if (playerManager.keyMoveable)
+        if (PlayerManager.instance.keyMoveable)
             Move(h, v, r);
         
 
@@ -67,9 +67,9 @@ public class PlayerController : MonoBehaviour
         if (isJumpable())
         {
             animator.SetBool("Jumping", true);
-            rigidBody.velocity = tr.up * playerManager.playerData.jumpForce;
+            rigidBody.velocity = tr.up * PlayerManager.instance.playerData.jumpForce;
             jumpable = false;
-            playerManager.playerData.moveSpeed /= 2f;
+            PlayerManager.instance.playerData.moveSpeed /= 2f;
             Invoke("AfterJump", 1.2f);
         }
         else 
@@ -77,7 +77,7 @@ public class PlayerController : MonoBehaviour
             
 
         // 일반 공격
-        if (playerManager.mouseMoveable && playerManager.keyMoveable && Input.GetMouseButtonDown(0) && Time.timeScale != 0)
+        if (PlayerManager.instance.mouseMoveable && PlayerManager.instance.keyMoveable && Input.GetMouseButtonDown(0) && Time.timeScale != 0)
             Attack();
 
         // 아이템 창
@@ -90,7 +90,7 @@ public class PlayerController : MonoBehaviour
         Debug.DrawRay(transform.position + new Vector3(0f, 0.7f, 0.5f), transform.forward * 10f, Color.blue);
         // Skill Attack
         // 스킬 공격 (단축키는 추후 변경)
-        if (playerManager.mouseMoveable && Input.GetKeyDown(KeyCode.G) && canUseSkill == true)
+        if (PlayerManager.instance.mouseMoveable && Input.GetKeyDown(KeyCode.G) && canUseSkill == true)
         {
             UseSkill();
         }
@@ -98,14 +98,14 @@ public class PlayerController : MonoBehaviour
 
         // Skill Attack2
         // 스킬2 (단축키는 추후 변경)
-        if (playerManager.mouseMoveable && Input.GetKeyDown(KeyCode.H) && canUseSkill == true)
+        if (PlayerManager.instance.mouseMoveable && Input.GetKeyDown(KeyCode.H) && canUseSkill == true)
         {
             UseSkill2();
         }
 
         // Skill Attack3
         // 스킬3 (단축키는 추후 변경)
-        if (playerManager.mouseMoveable && Input.GetKeyDown(KeyCode.T) && canUseSkill == true)
+        if (PlayerManager.instance.mouseMoveable && Input.GetKeyDown(KeyCode.T) && canUseSkill == true)
         {
             UseSkill3();
         }
@@ -113,7 +113,7 @@ public class PlayerController : MonoBehaviour
 
     private bool isJumpable()
     {
-        if(playerManager.keyMoveable && Input.GetButton("Jump") && jumpable
+        if(PlayerManager.instance.keyMoveable && Input.GetButton("Jump") && jumpable
             && Physics.Raycast(tr.position + (Vector3.up * 0.1f), Vector3.down, out hit, 0.1f))
             return true;
         else
@@ -123,7 +123,7 @@ public class PlayerController : MonoBehaviour
     private void AfterJump()
     {
         jumpable = true;
-        playerManager.playerData.moveSpeed *= 2f;
+        PlayerManager.instance.playerData.moveSpeed *= 2f;
     }
 
     private void Move(float h, float v, float r)
@@ -131,9 +131,9 @@ public class PlayerController : MonoBehaviour
         if (h != 0 || v != 0) animator.SetBool("Running", true);
         else animator.SetBool("Running", false);
 
-        tr.Translate(Vector3.right * h * playerManager.playerData.moveSpeed * Time.deltaTime);
-        tr.Translate(Vector3.forward * v * playerManager.playerData.moveSpeed * Time.deltaTime);
-        if (playerManager.mouseMoveable) tr.Rotate(Vector3.up * 3.0f * r);
+        tr.Translate(Vector3.right * h * PlayerManager.instance.playerData.moveSpeed * Time.deltaTime);
+        tr.Translate(Vector3.forward * v * PlayerManager.instance.playerData.moveSpeed * Time.deltaTime);
+        if (PlayerManager.instance.mouseMoveable) tr.Rotate(Vector3.up * 3.0f * r);
     }
 
 
@@ -145,7 +145,7 @@ public class PlayerController : MonoBehaviour
 
     public void Die()
     {
-        playerManager.keyMoveable = playerManager.mouseMoveable = false;
+        PlayerManager.instance.keyMoveable = PlayerManager.instance.mouseMoveable = false;
 
         // 리스폰 장소로 소환
     }
@@ -160,7 +160,7 @@ public class PlayerController : MonoBehaviour
     public void Attack()
     {
         animator.SetTrigger("Attack");
-        weapon.Attack(playerManager.playerData.STR);
+        weapon.Attack(PlayerManager.instance.playerData.STR);
     }
 
 
@@ -182,10 +182,10 @@ public class PlayerController : MonoBehaviour
             print("Could not Damaged by Monster because of shield potion effect.");
             return;
         }
-        playerManager.playerData.curHp -= damage;
-        print("curHP: "+playerManager.playerData.curHp);
+        PlayerManager.instance.playerData.curHp -= damage;
+        print("curHP: "+ PlayerManager.instance.playerData.curHp);
         //UIManager.instance.playerUI.UpdateHpBar(playerManager.playerData.maxHp, playerManager.playerData.curHp);
-        if (playerManager.playerData.curHp <= 0)
+        if (PlayerManager.instance.playerData.curHp <= 0)
             Die();
     }
 
@@ -200,10 +200,10 @@ public class PlayerController : MonoBehaviour
     ******************************************/
     public void ConsumeMP(float scale)
     {
-        playerManager.playerData.curMp -= scale;
-        print("curMP: "+playerManager.playerData.curMp);
+        PlayerManager.instance.playerData.curMp -= scale;
+        print("curMP: "+ PlayerManager.instance.playerData.curMp);
         //UIManager.instance.playerUI.UpdateMpBar(playerManager.playerData.maxMp, playerManager.playerData.curMp);
-        if (playerManager.playerData.curMp <= 0)
+        if (PlayerManager.instance.playerData.curMp <= 0)
             canUseSkill = false;
     }
 
