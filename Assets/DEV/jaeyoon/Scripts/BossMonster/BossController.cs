@@ -505,7 +505,7 @@ public class BossController : MonoBehaviour
         }
         StopCoroutine(checkTargetDistance);
         StopCoroutine(chase);
-        //checkTargetDistance = chase = null;
+        checkTargetDistance = chase = null;
         
         cube.transform.position = tr.position;
         cube.SetActive(true);
@@ -515,15 +515,9 @@ public class BossController : MonoBehaviour
     IEnumerator coRoll()
     {
         animator.SetTrigger("Roll");
-        yield return StartCoroutine(Forward());
         cube.SetActive(false);
 
-        checkTargetDistance = CheckTargetDistance();
-        chase = Chase();
-        //StartCoroutine(CheckTargetDistance());
-        //StartCoroutine(Chase());
-        StartCoroutine(checkTargetDistance);
-        StartCoroutine(chase);
+        yield return StartCoroutine(Forward());
     }
 
     IEnumerator Forward()
@@ -536,6 +530,11 @@ public class BossController : MonoBehaviour
             tr.position += tr.forward * 8f * Time.deltaTime;
             yield return null;
         }
+
+        checkTargetDistance = CheckTargetDistance();
+        chase = Chase();
+        StartCoroutine(checkTargetDistance);
+        StartCoroutine(chase);
     }
 
 
