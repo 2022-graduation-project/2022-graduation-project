@@ -30939,6 +30939,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1544277187}
+  - component: {fileID: 1544277188}
   m_Layer: 0
   m_Name: Client
   m_TagString: Untagged
@@ -30960,6 +30961,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1544277188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1544277186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9f5b97e55151ab44a9f56ca2ce81f54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IPInput: {fileID: 96999014}
+  PortInput: {fileID: 1458919037}
+  NickInput: {fileID: 568143422}
 --- !u!1 &1545990611
 GameObject:
   m_ObjectHideFlags: 0
@@ -37754,6 +37770,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1850586963}
+  - component: {fileID: 1850586964}
   m_Layer: 0
   m_Name: Server
   m_TagString: Untagged
@@ -37775,6 +37792,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1850586964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1850586962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3470c75d706a76344a274c2578f768ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  portInput: {fileID: 1458919037}
 --- !u!1 &1864228412
 GameObject:
   m_ObjectHideFlags: 0
@@ -39416,7 +39446,19 @@ MonoBehaviour:
   m_CharacterLimit: 0
   m_OnEndEdit:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1544277188}
+        m_TargetAssemblyTypeName: Client, Assembly-CSharp
+        m_MethodName: OnSendButton
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1919956517}
+          m_ObjectArgumentAssemblyTypeName: TMPro.TMP_InputField, Unity.TextMeshPro
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnSubmit:
     m_PersistentCalls:
       m_Calls: []
