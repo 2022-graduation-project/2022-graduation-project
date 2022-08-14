@@ -18,6 +18,9 @@ public class Client : MonoBehaviour
     StreamWriter writer;
     StreamReader reader;
 
+    void Start() {
+        Screen.SetResolution(1920/2, 1080/2, true);
+    }
     public void ConnectToServer()
     {
         // 이미 연결됐다면 함수 무시
@@ -77,7 +80,9 @@ public class Client : MonoBehaviour
 
     public void OnSendButton(TMP_InputField SendInput)
     {
+        // Enter 아닐 때 return
         if(!Input.GetButtonDown("Submit")) return;
+        // Focus
         SendInput.ActivateInputField();
         if(SendInput.text.Trim()=="") return;
 
