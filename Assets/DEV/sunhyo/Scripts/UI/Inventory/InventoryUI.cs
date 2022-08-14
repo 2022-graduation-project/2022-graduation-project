@@ -46,7 +46,7 @@ public class InventoryUI : MonoBehaviour
         //             ["000_player"].money.ToString();
 
 
-        money = transform.Find("Money").GetComponent<Text>();
+        money = transform.Find("Content").Find("Currencies").Find("Gold Text").GetComponent<Text>();
         money.text = PlayerManager.instance.playerData.money.ToString("N0") + "원";
 
 

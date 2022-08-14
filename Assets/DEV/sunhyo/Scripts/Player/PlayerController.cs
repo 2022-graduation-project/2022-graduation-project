@@ -39,13 +39,6 @@ public class PlayerController : MonoBehaviour
         capsuleCollider = GetComponent<CapsuleCollider>();
         animator = GetComponent<Animator>();
         tr = GetComponent<Transform>();
-
-        rightWeapon = transform.Find("Root").Find("Hips").Find("Spine_01").Find("Spine_02").Find("Spine_03")
-                             .Find("Clavicle_R").Find("Shoulder_R").Find("Elbow_R").Find("Hand_R").Find("Weapon");
-        leftWeapon = transform.Find("Root").Find("Hips").Find("Spine_01").Find("Spine_02").Find("Spine_03")
-                             .Find("Clavicle_L").Find("Shoulder_L").Find("Elbow_L").Find("Hand_L").Find("Weapon");
-        
-        weapon = rightWeapon.GetChild(0).GetComponent<Weapon>();
     }
 
     void Update()
@@ -59,25 +52,16 @@ public class PlayerController : MonoBehaviour
         float v = Input.GetAxisRaw("Vertical");
         float r = Input.GetAxisRaw("Mouse X");
         
-        if (PlayerManager.instance.keyMoveable)
-            Move(h, v, r);
+        if (PlayerManager.instance.keyMoveable) Move(h, v, r);
         
 
         // Jump
-        if (isJumpable())
-        {
-            animator.SetBool("Jumping", true);
-            rigidBody.velocity = tr.up * PlayerManager.instance.playerData.jumpForce;
-            jumpable = false;
-            PlayerManager.instance.playerData.moveSpeed /= 2f;
-            Invoke("AfterJump", 1.2f);
-        }
-        else 
-            animator.SetBool("Jumping", false);
+        if (isJumpable()) Jump();
+        else animator.SetBool("Jumping", false);
             
 
         // 일반 공격
-        if (PlayerManager.instance.mouseMoveable && PlayerManager.instance.keyMoveable && Input.GetMouseButtonDown(0) && Time.timeScale != 0)
+        if (isAttackable())
             Attack();
 
         // 아이템 창
@@ -90,7 +74,7 @@ public class PlayerController : MonoBehaviour
         Debug.DrawRay(transform.position + new Vector3(0f, 0.7f, 0.5f), transform.forward * 10f, Color.blue);
         // Skill Attack
         // 스킬 공격 (단축키는 추후 변경)
-        if (PlayerManager.instance.mouseMoveable && Input.GetKeyDown(KeyCode.G) && canUseSkill == true)
+        if (isSkillAccepted() && Input.GetKeyDown(KeyCode.G))
         {
             UseSkill();
         }
@@ -98,14 +82,14 @@ public class PlayerController : MonoBehaviour
 
         // Skill Attack2
         // 스킬2 (단축키는 추후 변경)
-        if (PlayerManager.instance.mouseMoveable && Input.GetKeyDown(KeyCode.H) && canUseSkill == true)
+        if (isSkillAccepted() && Input.GetKeyDown(KeyCode.H))
         {
             UseSkill2();
         }
 
         // Skill Attack3
         // 스킬3 (단축키는 추후 변경)
-        if (PlayerManager.instance.mouseMoveable && Input.GetKeyDown(KeyCode.T) && canUseSkill == true)
+        if (isSkillAccepted() && Input.GetKeyDown(KeyCode.T))
         {
             UseSkill3();
         }
@@ -118,6 +102,29 @@ public class PlayerController : MonoBehaviour
             return true;
         else
             return false;
+    }
+
+    private void Jump()
+    {
+        animator.SetBool("Jumping", true);
+        rigidBody.velocity = tr.up * PlayerManager.instance.playerData.jumpForce;
+        jumpable = false;
+        PlayerManager.instance.playerData.moveSpeed /= 2f;
+        Invoke("AfterJump", 1.2f);
+    }
+
+    private bool isAttackable()
+    {
+        if (PlayerManager.instance.mouseMoveable && PlayerManager.instance.keyMoveable && Input.GetMouseButtonDown(0) && Time.timeScale != 0)
+            return true;
+        else
+            return false;
+    }
+    
+    private bool isSkillAccepted()
+    {
+        if(PlayerManager.instance.mouseMoveable && Input.GetKeyDown(KeyCode.G) && canUseSkill == true) return true;
+        else return false;
     }
 
     private void AfterJump()

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class BossController : MonoBehaviour
+public class BossController : MonsterController
 {
     /* enum */
     private enum Skills
@@ -16,7 +16,7 @@ public class BossController : MonoBehaviour
 
 
     /* 데이터 */
-    private MonsterDataDummy monsterData;
+    new private MonsterDataDummy monsterData;
 
 
     /* 컴포넌트 */
@@ -53,8 +53,7 @@ public class BossController : MonoBehaviour
     [SerializeField] private Transform[] rocks;
     [SerializeField] private Transform[] stalagmites;
 
-
-    void Start()
+    public override void Start()
     {
         monsterData = DataManager.instance.LoadJsonFile
                       <Dictionary<string, MonsterDataDummy>>
@@ -234,6 +233,7 @@ public class BossController : MonoBehaviour
     IEnumerator Chase()
     {
         Vector3 distance;
+        float minDistance = 2f;
         float speed = 5f;
         float attackDelay = 3f;
         float curTime = attackDelay;
@@ -244,13 +244,13 @@ public class BossController : MonoBehaviour
             distance = targetPlayer.transform.position - tr.position;
             curTime += Time.deltaTime;
 
-            if (distance.magnitude <= 1.5f && curTime > attackDelay)
+            if (distance.magnitude <= minDistance && curTime > attackDelay)
             {
                 curTime = 0;
                 Attack();
             }
 
-            else if (distance.magnitude > 1.5f)
+            else if (distance.magnitude > minDistance)
             {
                 transform.position += distance.normalized * speed * Time.deltaTime;
             }
@@ -342,7 +342,8 @@ public class BossController : MonoBehaviour
         {
             moveable = false;
 
-            number = Random.Range(0, 3);
+            //number = Random.Range(0, 3);
+            number = (int)Skills.RollStone;
             switch (number)
             {
                 case (int)Skills.StoneStorm:
@@ -479,14 +480,14 @@ public class BossController : MonoBehaviour
 
         while (p_tr.localPosition.z < 5f)
         {
-            p_tr.Translate(Vector3.right * 5f * Time.deltaTime, Space.Self);
-            p_ro.Rotate(Vector3.up * 50f * Time.deltaTime);
+            p_tr.Translate(Vector3.right * 10f * Time.deltaTime, Space.Self);
+            p_ro.Rotate(Vector3.up * 300f * Time.deltaTime);
             yield return null;
         }
 
         square.gameObject.SetActive(false);
         p_tr.SetParent(square);
-        p_ro.localRotation = Quaternion.Euler(new Vector3(0, 0, 90));
+        p_ro.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
         //p_ro.rotation = Quaternion.Euler(new Vector3(0, 0, 90));
         p_tr.localPosition = origin;
     }
