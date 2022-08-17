@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class NormalMonster : Monster
 {
+    public bool isFound = false;
     /* Monster Data & Monster Manager */
     public MonsterData monsterData;
     public MonsterManager monsterManager;
@@ -27,7 +28,6 @@ public class NormalMonster : Monster
         monsterManager = GameObject.Find("MonsterManager").GetComponent<MonsterManager>();
         animator = GetComponent<Animator>();
         //monsterData.moveSpeed = 1.5f;  // 몬스터 이동 속도
-        monsterData.isFound = false;
 
         /* 몬스터 초기 HP 설정 */
         //monsterData.curHp = monsterData.maxHp = 100f;
@@ -44,7 +44,7 @@ public class NormalMonster : Monster
         /* 추적 범위 내에서 플레이어 발견! */
         if (target != null)
         {
-            monsterData.isFound = true;
+            isFound = true;
             distance = Vector3.Distance(transform.position, target.position);   // 현재 몬스터-플레이어 사이 거리 측정
 
             /* 공격 범위보다 더 멀리 떨어져 있는 경우 -> 추적 계속 */

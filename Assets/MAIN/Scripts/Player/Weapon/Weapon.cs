@@ -24,8 +24,7 @@ public class Weapon : MonoBehaviour
     {
         if (attackable && other.tag == "Monster")
         {
-            print("공격????");
-            other.GetComponent<NormalMonster>().Damaged(damage, pc);
+            other.GetComponent<Monster>().Damaged(damage, pc);
         }
 
         attackable = false;
