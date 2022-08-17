@@ -286,7 +286,7 @@ public class MonsterController : MonoBehaviour
 
     // player?? monster ???? ???? ?? ????
     // If player damages monster this will be called
-    public void Damaged(float scale)
+    public virtual void Damaged(float scale)
     {
         // ??????????
         animator.SetTrigger("Damaged");

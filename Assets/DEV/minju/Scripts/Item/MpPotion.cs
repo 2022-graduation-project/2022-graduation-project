@@ -11,7 +11,8 @@ public class mpPotion : Item
         // 회복 값 설정
         manaAmount = 10;
         // 상태이상 함수 Healing 호출
-        StartCoroutine(player.RefillMana(manaAmount));
+        //StartCoroutine(player.RefillMana(manaAmount));
+        player.StartRefillMana(3f, manaAmount);
         print("Refilled the player's mana +10");
     }
 }

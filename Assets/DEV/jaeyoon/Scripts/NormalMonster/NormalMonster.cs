@@ -17,15 +17,13 @@ public class NormalMonster : MonoBehaviour
     protected float attackRange;    // 몬스터가 추격을 멈추고 공격을 시작할 거리
     protected float attackDelay;    // 자동 공격 지연 시간
 
-
-
     protected virtual void Awake()
     {
         monsterData = DataManager.instance.LoadJsonFile
-                      <Dictionary<string, MonsterData>>
-                      (Application.dataPath + "/MAIN/Data", "goblin")
-                      ["001_goblin"];
-        
+              <Dictionary<string, MonsterData>>
+              (Application.dataPath + "/MAIN/Data", "goblin")
+              ["001_goblin"];
+
         monsterManager = GameObject.Find("MonsterManager").GetComponent<MonsterManager>();
         animator = GetComponent<Animator>();
         //monsterData.moveSpeed = 1.5f;  // 몬스터 이동 속도
@@ -33,6 +31,11 @@ public class NormalMonster : MonoBehaviour
 
         /* 몬스터 초기 HP 설정 */
         //monsterData.curHp = monsterData.maxHp = 100f;
+    }
+
+    protected virtual void Start()
+    {
+
     }
 
     
@@ -92,7 +95,7 @@ public class NormalMonster : MonoBehaviour
      *              DAMAGED - 플레이어 공격으로 몬스터 데미지
      * ----------------------------------------------------*/
 
-    public void Damaged(float scale)
+    public virtual void Damaged(float scale)
     {
         animator.SetTrigger("Damaged"); // 애니메이션
 
@@ -113,6 +116,11 @@ public class NormalMonster : MonoBehaviour
         
         
         print("Monster HP: "+monsterData.curHp);
+    }
+
+    public virtual void Damaged(float _damage, PlayerController _pc)
+    {
+
     }
 
     // 몬스터가 폭탄 맞았을 때
@@ -156,7 +164,7 @@ public class NormalMonster : MonoBehaviour
      *              DIE - 몬스터 사망
      * ----------------------------------------------------*/
 
-    public void Die()
+    public virtual void Die()
     {
         // Transform itemLocation;
         // // 죽은 위치+1에 아이템 떨구기

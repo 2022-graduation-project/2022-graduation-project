@@ -12,7 +12,8 @@ public class hpPotion : Item
         // 회복 값 설정
         healAmount = 10;
         // 상태이상 함수 Healing 호출
-        StartCoroutine(player.Healing(healAmount));
+        //StartCoroutine(player.Healing(healAmount));
+        player.StartHeal(3f, healAmount);
         print("Healed the player +10");
     }
 }

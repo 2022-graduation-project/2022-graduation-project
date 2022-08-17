@@ -24,11 +24,13 @@ public class PlayerController : MonoBehaviour
     public bool canDamage = false;
     protected bool canUseSkill = true;
     private bool jumpable = true;
+    private bool isDead = false;
 
     /* runtime data */
     public Transform rightWeapon;
     public Transform leftWeapon;
 
+    public GameObject weaponObj;
     public Weapon weapon;
 
     void Start()
@@ -39,6 +41,8 @@ public class PlayerController : MonoBehaviour
         capsuleCollider = GetComponent<CapsuleCollider>();
         animator = GetComponent<Animator>();
         tr = GetComponent<Transform>();
+
+        weapon = weaponObj.transform.GetChild(0).GetComponent<Weapon>();
     }
 
     void Update()
@@ -63,12 +67,6 @@ public class PlayerController : MonoBehaviour
         // 일반 공격
         if (isAttackable())
             Attack();
-
-        // 아이템 창
-        if(Input.GetKeyDown(KeyCode.I))
-        {
-
-        }
 
 
         Debug.DrawRay(transform.position + new Vector3(0f, 0.7f, 0.5f), transform.forward * 10f, Color.blue);
@@ -152,7 +150,11 @@ public class PlayerController : MonoBehaviour
 
     public void Die()
     {
+        print("죽음");
         PlayerManager.instance.keyMoveable = PlayerManager.instance.mouseMoveable = false;
+        gameObject.transform.position = Vector3.zero;
+        animator.SetTrigger("Dead");
+        isDead = true;
 
         // 리스폰 장소로 소환
     }
@@ -167,7 +169,7 @@ public class PlayerController : MonoBehaviour
     public void Attack()
     {
         animator.SetTrigger("Attack");
-        weapon.Attack(PlayerManager.instance.playerData.STR);
+        weapon.Attack(PlayerManager.instance.playerData.STR, this);
     }
 
 
@@ -183,12 +185,17 @@ public class PlayerController : MonoBehaviour
     ******************************************/
     public void Damaged(float damage)
     {
+        if (isDead)
+            return;
+
+
         if(canDamage==true)
         {
             // 쉴드 포션 쓴 상태에서 대미지 입었을 때 나타나는 이펙트 자리
             print("Could not Damaged by Monster because of shield potion effect.");
             return;
         }
+
         PlayerManager.instance.playerData.curHp -= damage;
         print("curHP: "+ PlayerManager.instance.playerData.curHp);
         //UIManager.instance.playerUI.UpdateHpBar(playerManager.playerData.maxHp, playerManager.playerData.curHp);

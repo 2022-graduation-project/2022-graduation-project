@@ -41,8 +41,8 @@ public class ShopUI : MonoBehaviour, IDropHandler
 
         shopItemSlots = new List<ShopItemSlot>(content.GetComponentsInChildren<ShopItemSlot>());
         // itemData 불러오기
-        money = transform.Find("Money").GetComponent<Text>();
-        countPanel = transform.Find("Count").gameObject;
+        //money = transform.Find("Money").GetComponent<Text>();
+        //countPanel = transform.Find("Count").gameObject;
 
         money.text = PlayerManager.instance.playerData.money.ToString("N0") + "원";
 

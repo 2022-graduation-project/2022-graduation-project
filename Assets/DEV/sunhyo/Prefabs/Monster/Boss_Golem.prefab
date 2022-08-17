@@ -1072,6 +1072,7 @@ GameObject:
   - component: {fileID: 3019173788019866220}
   - component: {fileID: 3019173788022117527}
   - component: {fileID: 3019173788022117524}
+  - component: {fileID: 6328799614622018940}
   m_Layer: 0
   m_Name: Pillar_Ro
   m_TagString: Untagged
@@ -1150,7 +1151,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3019173788022117526}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.33570525
   m_Height: 1.9429225
@@ -1172,6 +1173,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &6328799614622018940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3019173788022117526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c11ee19ec3836194da53ac0fbdd733c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3362832976598619249
 GameObject:
   m_ObjectHideFlags: 0
@@ -3314,6 +3327,7 @@ MonoBehaviour:
   text: {fileID: 0}
   hp: 0
   damage: 0
+  stoneStorm: {fileID: 5041061107147256221}
   targetPlayer: {fileID: 0}
   rocks: []
   stalagmites: []
@@ -4802,6 +4816,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8005285535257790101}
   - component: {fileID: 8005285535257790100}
+  - component: {fileID: 5041061107147256221}
   m_Layer: 0
   m_Name: Circle
   m_TagString: Untagged
@@ -4875,6 +4890,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &5041061107147256221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8005285535257790102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1862d857fd076b42b84226f32226f4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8005285535421807262
 GameObject:
   m_ObjectHideFlags: 0

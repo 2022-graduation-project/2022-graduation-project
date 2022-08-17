@@ -5,10 +5,10 @@ using UnityEngine.EventSystems;
 
 public class ShopItemSlot : MonoBehaviour, IPointerClickHandler
 {
-    [SerializeField] private Image icon;
-    [SerializeField] private Text item_name;
-    [SerializeField] private Text price;
-    [SerializeField] private GameObject block;
+    [SerializeField] public Image icon;
+    [SerializeField] public Text item_name;
+    [SerializeField] public Text price;
+    [SerializeField] public GameObject block;
 
     [SerializeField] private ShopUI shop;
 

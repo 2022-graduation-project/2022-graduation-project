@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class BossController : MonsterController
+public class BossController : NormalMonster
 {
     /* enum */
     private enum Skills
@@ -16,12 +16,13 @@ public class BossController : MonsterController
 
 
     /* 데이터 */
-    new private MonsterDataDummy monsterData;
+    // new private MonsterData monsterData;
 
 
     /* 컴포넌트 */
     private Transform tr;
-    private Animator animator;
+    // private Animator animator;
+    public StoneStorm stoneStorm;
 
 
     /* 공격 지역 */
@@ -53,13 +54,19 @@ public class BossController : MonsterController
     [SerializeField] private Transform[] rocks;
     [SerializeField] private Transform[] stalagmites;
 
-    public override void Start()
+    protected override void Awake()
+    {
+
+    }
+
+    protected override void Start()
     {
         monsterData = DataManager.instance.LoadJsonFile
-                      <Dictionary<string, MonsterDataDummy>>
+                      <Dictionary<string, MonsterData>>
                       (Application.dataPath + "/MAIN/Data", "boss")
                       ["000_golem"];
 
+        monsterManager = GameObject.Find("MonsterManager").GetComponent<MonsterManager>();
         tr = GetComponent<Transform>();
         animator = GetComponent<Animator>();
 
@@ -86,7 +93,7 @@ public class BossController : MonsterController
     {
         while(true)
         {
-            print("코루틴이 안돌아가나");
+            //print("코루틴이 안돌아가나");
             CheckTarget();
             yield return waitHalfSecond;
         }
@@ -97,7 +104,7 @@ public class BossController : MonsterController
 
     void CheckTarget()
     {
-        print("before check Target");
+        //print("before check Target");
 
         if (!moveable || targetPlayer != null)
         {
@@ -105,7 +112,7 @@ public class BossController : MonsterController
             return;
         }
 
-        print("check Target");
+        //print("check Target");
 
         /* 가장 가까운 곳에 있는 targetPlayer 찾기 */
         if (targetPlayer == null)
@@ -132,7 +139,7 @@ public class BossController : MonsterController
                 }
             }
 
-            print($"가장 가까운 오브젝트(거리, 이름) : {minDistance}, {targetPlayer?.transform.name}");
+            //print($"가장 가까운 오브젝트(거리, 이름) : {minDistance}, {targetPlayer?.transform.name}");
         }
 
 
@@ -266,9 +273,7 @@ public class BossController : MonsterController
 
 
 
-
-
-    void Attack()
+    new void Attack()
     {
         if (targetPlayer == null || moveable == true)
             return;
@@ -283,7 +288,7 @@ public class BossController : MonsterController
 
 
 
-    void Damaged(PlayerController _player, float _delta)
+    public override void Damaged(float _delta, PlayerController _player)
     {
         if (recover != null)
         {
@@ -297,7 +302,7 @@ public class BossController : MonsterController
         }
 
         monsterData.curHp += _delta;
-
+        print($"[보스 피격] 현재 체력 : {monsterData.curHp}");
         if (!finalAttack && monsterData.maxHp * 0.4f <= monsterData.curHp && monsterData.curHp <= monsterData.maxHp * 0.6f)
         {
             // 랜덤 수식
@@ -343,7 +348,7 @@ public class BossController : MonsterController
             moveable = false;
 
             //number = Random.Range(0, 3);
-            number = (int)Skills.RollStone;
+            number = (int)Skills.StoneStorm;
             switch (number)
             {
                 case (int)Skills.StoneStorm:
@@ -367,6 +372,11 @@ public class BossController : MonsterController
 
     IEnumerator StoneStorm()
     {
+        if(targetPlayer == null)
+        {
+            yield break;
+        }
+
         circle.gameObject.SetActive(true);
 
         float coolTime = 5f;
@@ -376,6 +386,8 @@ public class BossController : MonsterController
         int lastRock = -1;
 
         Vector3 pos;
+
+        stoneStorm.StartAttack(tr.position);
 
         while (curTime < coolTime)
         {
@@ -467,6 +479,11 @@ public class BossController : MonsterController
 
     IEnumerator RollStone()
     {
+        if (targetPlayer == null)
+        {
+            yield break;
+        }
+
         square.gameObject.SetActive(true);
 
         GameObject pillar = square.GetChild(0).gameObject;
@@ -626,6 +643,7 @@ public class BossController : MonsterController
     {
         StopAllCoroutines();
         print($"{monsterData.name} is dead.");
+        Destroy(gameObject);
     }
 
     void OnDrawGizmosSelected()
