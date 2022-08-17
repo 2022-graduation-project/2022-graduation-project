@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class BossController : NormalMonster
+public class BossController : Monster
 {
     /* enum */
     private enum Skills
@@ -16,12 +16,12 @@ public class BossController : NormalMonster
 
 
     /* 데이터 */
-    // new private MonsterData monsterData;
+    private MonsterData monsterData;
 
 
     /* 컴포넌트 */
     private Transform tr;
-    // private Animator animator;
+    private Animator animator;
     public StoneStorm stoneStorm;
 
 

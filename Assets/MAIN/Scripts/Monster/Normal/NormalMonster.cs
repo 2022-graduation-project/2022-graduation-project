@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NormalMonster : MonoBehaviour
+public class NormalMonster : Monster
 {
     /* Monster Data & Monster Manager */
     public MonsterData monsterData;
