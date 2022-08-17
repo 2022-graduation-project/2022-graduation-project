@@ -14,7 +14,7 @@ public class Archer : PlayerController
 
     private void Awake()
     {
-        prefab_arrow = GameObject.Find("Arrow").GetComponent<Arrow>();
+        //prefab_arrow = GameObject.Find("Arrow").GetComponent<Arrow>();
     }
 
     private void Start()

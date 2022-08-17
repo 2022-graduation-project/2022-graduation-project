@@ -48,7 +48,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         /* 플레이어가 적절한 타이밍에 점프할 수 있도록 땅 체크 */
-        Debug.DrawRay(tr.position + (Vector3.up * 0.1f), Vector3.down * 0.3f, Color.yellow);
+        //Debug.DrawRay(tr.position + (Vector3.up * 0.1f), Vector3.down * 0.3f, Color.yellow);
 
 
         // Move
