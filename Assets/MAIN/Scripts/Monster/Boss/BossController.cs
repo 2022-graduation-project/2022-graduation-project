@@ -15,20 +15,17 @@ public class BossController : Monster
     }
 
 
-    /* 데이터 */
-    private MonsterData monsterData;
-
 
     /* 컴포넌트 */
-    private Transform tr;
-    private Animator animator;
-    public StoneStorm stoneStorm;
+    [SerializeField] private StoneStorm stoneStorm;
+
 
 
     /* 공격 지역 */
     private Transform circle;
     private Transform square;
     private GameObject cube;    // Rolling Collider
+
 
 
     /* 런타임 변수 */
@@ -43,44 +40,38 @@ public class BossController : Monster
     private IEnumerator checkTargetDistance;
     private IEnumerator chase;
 
+    private bool moveable = true;
+
+
+
+    /* WaitForSeconds 캐싱 (별도 구현 필요) */
     private WaitForSeconds waitHalfSecond = new WaitForSeconds(0.5f);
     private WaitForSeconds waitOneSecond = new WaitForSeconds(1.0f);
     private WaitForSeconds waitThreeSeconds = new WaitForSeconds(3.0f);
 
-    private bool moveable = true;
 
 
     /* ObjectPool */
     [SerializeField] private Transform[] rocks;
     [SerializeField] private Transform[] stalagmites;
 
-    protected override void Awake()
-    {
 
-    }
 
-    protected override void Start()
+    public override void Set()
     {
         monsterData = DataManager.instance.LoadJsonFile
-                      <Dictionary<string, MonsterData>>
-                      (Application.dataPath + "/MAIN/Data", "boss")
-                      ["000_golem"];
-
-        monsterManager = GameObject.Find("MonsterManager").GetComponent<MonsterManager>();
-        tr = GetComponent<Transform>();
-        animator = GetComponent<Animator>();
+              <Dictionary<string, MonsterData>>
+              (Application.dataPath + "/MAIN/Data", "monster")
+              ["002_golem"];
 
         circle = tr.Find("Circle");
         square = tr.Find("Square");
         cube = tr.Find("CubeCol").gameObject;
-
         rocks = circle.GetChild(0).GetComponentsInChildren<Transform>(true);
-        //stalagmites = square.GetChild(0).GetComponentsInChildren<Transform>(true);
 
         StartCoroutine(StartCheckTarget());
-        StartCoroutine(Skill());
+        Skill();
     }
-
 
 
 
@@ -169,8 +160,7 @@ public class BossController : Monster
             checkTargetDistance = CheckTargetDistance();
             StartCoroutine(checkTargetDistance);
 
-            chase = Chase();
-            StartCoroutine(chase);
+            Chase();
         }
     }
 
@@ -237,7 +227,13 @@ public class BossController : Monster
     /*                               공격 사이클                              */
     /*************************************************************************/
 
-    IEnumerator Chase()
+    public override void Chase()
+    {
+        chase = CoChase();
+        StartCoroutine(chase);
+    }
+
+    IEnumerator CoChase()
     {
         Vector3 distance;
         float minDistance = 2f;
@@ -288,7 +284,7 @@ public class BossController : Monster
 
 
 
-    public override void Damaged(float _delta, PlayerController _player)
+    public override void Damaged(float _damage, PlayerController _player)
     {
         if (recover != null)
         {
@@ -301,7 +297,7 @@ public class BossController : Monster
             targetPlayer = _player;
         }
 
-        monsterData.curHp += _delta;
+        monsterData.curHp += _damage;
         print($"[보스 피격] 현재 체력 : {monsterData.curHp}");
         if (!finalAttack && monsterData.maxHp * 0.4f <= monsterData.curHp && monsterData.curHp <= monsterData.maxHp * 0.6f)
         {
@@ -314,12 +310,6 @@ public class BossController : Monster
         }
     }
 
-
-    public void tempSkill()
-    {
-        StartCoroutine(Skill());
-    }
-
     public void tempStoneStorm()
     {
         StartCoroutine(StoneStorm());
@@ -330,14 +320,17 @@ public class BossController : Monster
         StartCoroutine(EarthQuake());
     }
 
-
     public void tempRollStone()
     {
         StartCoroutine(RollStone());
     }
 
+    public override void Skill()
+    {
+        StartCoroutine(CoSkill());
+    }
 
-    IEnumerator Skill()
+    IEnumerator CoSkill()
     {
         IEnumerator skill = null;
         float coolTime;
@@ -432,50 +425,14 @@ public class BossController : Monster
         circle.gameObject.SetActive(false);
     }
 
+
     IEnumerator EarthQuake()
     {
         // 부채꼴 모양 범위
 
         yield return null;
-
-        //square.gameObject.SetActive(true);
-        //// x, y -0.5 ~ 0.5 이내
-
-        //float coolTime = 3f;
-        //float curTime = 0;
-
-        //Vector3 pos;
-
-        //while (curTime < coolTime)
-        //{
-        //    curTime += Time.deltaTime;
-        //    for (int i = 1; i < stalagmites.Length; i++)
-        //    {
-        //        if (stalagmites[i].position.z <= 0)
-        //        {
-        //            pos.x = Random.Range(0f, 0.5f);
-        //            pos.y = Random.Range(0f, 0.5f);
-        //            pos.z = 1f;
-
-        //            stalagmites[i].position = pos;
-
-        //            if (!stalagmites[i].gameObject.activeInHierarchy)
-        //            {
-        //                stalagmites[i].gameObject.SetActive(true);
-        //            }
-        //        }
-        //    }
-
-        //    yield return null;
-        //}
-
-
-        //for (int i = 1; i < stalagmites.Length; i++)
-        //{
-        //    stalagmites[i].gameObject.SetActive(false);
-        //    stalagmites[i].position = Vector3.zero;
-        //}
     }
+
 
     IEnumerator RollStone()
     {
@@ -551,46 +508,24 @@ public class BossController : Monster
         if (targetPlayer != null)
         {
             targetPlayer = null;
-<<<<<<< HEAD
         }
+
         StopCoroutine(checkTargetDistance);
         StopCoroutine(chase);
         checkTargetDistance = chase = null;
         
         cube.transform.position = tr.position;
         cube.SetActive(true);
-=======
-        }
-        StopCoroutine(checkTargetDistance);
-        StopCoroutine(chase);
-        //checkTargetDistance = chase = null;
-        
-        cube.transform.position = tr.position;
-        cube.SetActive(true);
->>>>>>> d62699ae18db313e846106f9df66fde88ce2e294
+
         StartCoroutine(coRoll());
     }
 
     IEnumerator coRoll()
-<<<<<<< HEAD
     {
         animator.SetTrigger("Roll");
         cube.SetActive(false);
 
         yield return StartCoroutine(Forward());
-=======
-    {
-        animator.SetTrigger("Roll");
-        yield return StartCoroutine(Forward());
-        cube.SetActive(false);
-
-        checkTargetDistance = CheckTargetDistance();
-        chase = Chase();
-        //StartCoroutine(CheckTargetDistance());
-        //StartCoroutine(Chase());
-        StartCoroutine(checkTargetDistance);
-        StartCoroutine(chase);
->>>>>>> d62699ae18db313e846106f9df66fde88ce2e294
     }
 
     IEnumerator Forward()
@@ -605,9 +540,8 @@ public class BossController : Monster
         }
 
         checkTargetDistance = CheckTargetDistance();
-        chase = Chase();
         StartCoroutine(checkTargetDistance);
-        StartCoroutine(chase);
+        Chase();
     }
 
 
@@ -662,7 +596,7 @@ public class BossController : Monster
     /*                                 유틸                                  */
     /*************************************************************************/
 
-    void Die()
+    public override void Die()
     {
         StopAllCoroutines();
         print($"{monsterData.name} is dead.");
