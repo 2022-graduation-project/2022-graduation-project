@@ -5,7 +5,7 @@ using UnityEngine;
 public class TestArcher : MonoBehaviour
 {
     private Animator animator;
-    private float speed = 10.0f;
+    private float speed = 15.0f;
 
     public Arrow prefab_arrow;
     private List<Arrow> arrowPool = new List<Arrow>();
@@ -16,7 +16,7 @@ public class TestArcher : MonoBehaviour
     void Awake()
     {
         animator = GetComponent<Animator>();
-        //prefab_arrow = GameObject.Find("SM_Arrow_01").GetComponent<Arrow>();
+        prefab_arrow = GameObject.Find("Quiver").transform.GetChild(0).GetComponent<Arrow>();
 
         currentIndex = 0;
     }

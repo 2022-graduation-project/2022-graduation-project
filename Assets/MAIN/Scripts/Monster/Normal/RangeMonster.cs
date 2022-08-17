@@ -4,6 +4,15 @@ using UnityEngine;
 
 public class RangeMonster : NormalMonster
 {
+    public override void SetMonsterData()
+    {
+        monsterData = DataManager.instance.LoadJsonFile
+              <Dictionary<string, MonsterData>>
+              (Application.dataPath + "/MAIN/Data", "monster")
+              ["003_goblin"];
+    }
+
+
     /* (Range Monster) PRIVATE DATA - 공격 */
     public RangeWeapon prefab_arrow;
     private List<RangeWeapon> arrowPool = new List<RangeWeapon>();  // 오브젝트 풀
@@ -17,28 +26,20 @@ public class RangeMonster : NormalMonster
 
 
 
-
-    protected override void Awake()
+    public override void Set()
     {
-        base.Awake();
+        SetMonsterData();
 
-        /* Range Monster ; 사용할 화살 프리펩 지정 */
-        //prefab_arrow = GameObject.Find("Arrow").GetComponent<RangeWeapon>();
+        /* Protected Variables */
+        attackDistance = 4f;
+        attackCool = 2.0f;
 
-        /* Range Monster ; 공격 시 발동할 애니메이션의 트리거 명 */
-        attackTrigger = "BowShot";
 
-        /* 공격 범위 & 공격 지연 시간 */
-        attackRange = 3.75f;
-        attackDelay = 1.5f;
 
         /* 타이머 초기 설정 */
-        timer = coolTime = attackDelay;
-    }
+        timer = 0.0f;
+        coolTime = 20f;
 
-    
-    private void Start()
-    {
         /* 초기 세팅 - 사용할 화살 미리 생성 */
         for (int i = 0; i < arrowMaxCount; i++)
         {
@@ -51,22 +52,58 @@ public class RangeMonster : NormalMonster
         }
     }
 
-    protected override void Update()
+
+
+    private void Update()
     {
-        base.Update();
+        // 추적 범위 내에서 플레이어 발견!
+        if (target != null)
+        {
+            isFound = true;
+            distance = Vector3.Distance(transform.position, target.position);   // 현재 몬스터-플레이어 사이 거리 측정
+
+            // 공격 범위보다 더 멀리 떨어져 있는 경우 -> 추적 계속
+            if (distance >/*monsterData.attackDistance*/1.5f)
+            {
+                animator.SetBool("Walk", true);
+                Chase(/*monsterData.moveSpeed*/1.5f);
+            }
+
+            // 공격 범위 진입 -> 추적 중지, 공격 시작
+            else
+            {
+                animator.SetBool("Walk", false);
+                StartCoroutine(coAttack());
+            }
+        }
+
+        else
+        {
+            animator.SetBool("Walk", false);
+            isFound = false;
+        }
+
+
         timer += Time.deltaTime;
     }
 
-    IEnumerator Attack()
+
+
+
+    private IEnumerator coAttack()
     {
-        yield return new WaitForSeconds(attackDelay);
+        yield return null;
+
+        timer = 0;  // Reset Timer
+
+
 
         /* 쿨타임이 지났다면 == 공격 가능 상태가 되었다면 */
         if (timer >= coolTime)
         {
-            animator.SetTrigger(attackTrigger);
+            animator.SetTrigger("RangeAttack");
 
-        
+
             // 발사되어야 할 순번의 화살이 아직도 사용 중이라, 발사 불가
             if (arrowPool[currentIndex].gameObject.activeSelf)
             {
@@ -82,16 +119,13 @@ public class RangeMonster : NormalMonster
 
             // 현재 발사된 화살 -> 5초 지나면 자동 제거
             destroyingIndex = currentIndex;
-            StartCoroutine("Destroy", destroyingIndex);
+            StartCoroutine(Destroy(destroyingIndex));
 
             // 방금 마지막 화살을 발사했다면 다시 첫 화살부터 장전
             if (currentIndex < arrowMaxCount - 1)
                 currentIndex++;
             else
                 currentIndex = 0;
-
-
-            timer = 0;  // Reset Timer
         }
     }
 

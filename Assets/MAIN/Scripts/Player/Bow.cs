@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Bow : MonoBehaviour
 {
-    private MonsterDummy monster = null;    // 데미지 받는 몬스터 (일단 하나)
+    private NormalMonster monster;    // 데미지 받는 몬스터 (일단 하나)
     private float damage = 5f;
 
 
@@ -12,8 +12,9 @@ public class Bow : MonoBehaviour
     {
         if (other.tag == "Monster")
         {
-            monster = other.transform.GetComponent<MonsterDummy>();
-            monster.Damaged(damage);
+            monster = other.transform.GetComponent<NormalMonster>();
+            // 임시
+            monster.dDamaged(damage);
         }
     }
 }

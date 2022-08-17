@@ -378,6 +378,37 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 11.199, y: 238.06, z: 1.145}
+--- !u!1 &634500049
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 634500050}
+  m_Layer: 0
+  m_Name: Quiver
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &634500050
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 634500049}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 846820173}
+  m_Father: {fileID: 603239804}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &846625288
 GameObject:
   m_ObjectHideFlags: 0
@@ -425,12 +456,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5b54fc47ea9746e4a5bfc77e908d180, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &846820173 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 448162, guid: 3328d5d74c357064087a925505b79caf, type: 3}
+  m_PrefabInstance: {fileID: 887712905}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &887712905
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 603239804}
+    m_TransformParent: {fileID: 634500050}
     m_Modifications:
     - target: {fileID: 149964, guid: 3328d5d74c357064087a925505b79caf, type: 3}
       propertyPath: m_Name
@@ -442,7 +478,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 448162, guid: 3328d5d74c357064087a925505b79caf, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 448162, guid: 3328d5d74c357064087a925505b79caf, type: 3}
       propertyPath: m_LocalScale.x
@@ -474,15 +510,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 448162, guid: 3328d5d74c357064087a925505b79caf, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 448162, guid: 3328d5d74c357064087a925505b79caf, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 448162, guid: 3328d5d74c357064087a925505b79caf, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 448162, guid: 3328d5d74c357064087a925505b79caf, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -978,6 +1014,24 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 0be2ba322dd85494db39a44ee439af41, type: 3}
+--- !u!1 &1392834139 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1915826252818930982, guid: 57acdf80fa62fb74aac23a1c1089f5fb, type: 3}
+  m_PrefabInstance: {fileID: 6407596839273803562}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1392834140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1392834139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e47e2b5f97e245aeac6e391e0f030df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab_arrow: {fileID: 0}
 --- !u!1001 &1452439255
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1764,7 +1818,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6407596839826535117, guid: 57acdf80fa62fb74aac23a1c1089f5fb, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6407596839826535117, guid: 57acdf80fa62fb74aac23a1c1089f5fb, type: 3}
       propertyPath: prefab_arrow
