@@ -198,6 +198,9 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHand
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        return;
+
+
         if (itemData == null)
             return;
 
@@ -208,6 +211,9 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHand
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        return;
+
+
         if (itemData == null)
             return;
 

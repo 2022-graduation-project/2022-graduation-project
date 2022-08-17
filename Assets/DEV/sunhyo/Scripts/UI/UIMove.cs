@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 
 public class UIMove : MonoBehaviour, IDragHandler
 {
-    private RectTransform rectTransform;
+    [SerializeField] public RectTransform rectTransform;
 
     void Start()
     {

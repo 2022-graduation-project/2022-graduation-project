@@ -11,6 +11,8 @@ public class InventoryUI : MonoBehaviour
     private Text money;
 
     public static InventoryUI instance = null;
+    public Transform contents;
+    public GameObject slot;
 
     void Awake()
     {
@@ -28,6 +30,11 @@ public class InventoryUI : MonoBehaviour
 
     void Start()
     {
+        for(int i=0; i<56; i++)
+        {
+            Instantiate(slot, contents);
+        }
+
         inventorySlots = new List<InventorySlot>(GetComponentsInChildren<InventorySlot>());
 
         // 이제... 인벤토리 최대 슬롯 개수 만큼 오브젝트 풀 만들고
@@ -46,7 +53,7 @@ public class InventoryUI : MonoBehaviour
         //             ["000_player"].money.ToString();
 
 
-        money = transform.Find("Money").GetComponent<Text>();
+        money = transform.Find("Content").Find("Currencies").Find("Gold Text").GetComponent<Text>();
         money.text = PlayerManager.instance.playerData.money.ToString("N0") + "원";
 
 

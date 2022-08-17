@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 
 public class Wizard : PlayerController
@@ -20,6 +20,13 @@ public class Wizard : PlayerController
     void Start()
     {
         magicCircle = GameObject.Find("/Player_Wizard(Clone)").transform.Find("MagicCircle");
+
+        rightWeapon = transform.Find("Root").Find("Hips").Find("Spine_01").Find("Spine_02").Find("Spine_03")
+                     .Find("Clavicle_R").Find("Shoulder_R").Find("Elbow_R").Find("Hand_R").Find("Weapon");
+        leftWeapon = transform.Find("Root").Find("Hips").Find("Spine_01").Find("Spine_02").Find("Spine_03")
+                             .Find("Clavicle_L").Find("Shoulder_L").Find("Elbow_L").Find("Hand_L").Find("Weapon");
+
+        weapon = rightWeapon.GetChild(0).GetComponent<Weapon>();
     }
 
     public override void UseSkill()

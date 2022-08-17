@@ -36,7 +36,7 @@ public class Warrior : PlayerController
     {
         // 쿨타임이 차지 않았을 때 또는
         // 현재 MP가 소모량보다 적을 때
-        if (Blast_coolDelay < Blast_maxCoolDelay || playerManager.playerData.curMp < Blast_MpConsume)
+        if (Blast_coolDelay < Blast_maxCoolDelay || PlayerManager.instance.playerData.curMp < Blast_MpConsume)
         {
             return;
         }
@@ -92,7 +92,7 @@ public class Warrior : PlayerController
                     // 모든 몬스터 동시에 Damage 주기
                     foreach (GameObject monsters in monsterList)
                     {
-                        monsters.GetComponent<NormalMonster>().Damaged(playerManager.playerData.STR);
+                        monsters.GetComponent<NormalMonster>().Damaged(PlayerManager.instance.playerData.STR);
                         print("Mons Damaged by BLAST skill!");
                     }
                 }
@@ -160,7 +160,7 @@ public class Warrior : PlayerController
     {
         // 쿨타임이 차지 않았을 때 또는
         // 현재 MP가 소모량보다 적을 때
-        if (Effect_coolDelay < Effect_maxCoolDelay || playerManager.playerData.curMp < Effect_MpConsume)
+        if (Effect_coolDelay < Effect_maxCoolDelay || PlayerManager.instance.playerData.curMp < Effect_MpConsume)
         {
             return;
         }
@@ -251,7 +251,7 @@ public class Warrior : PlayerController
     {
         // 쿨타임이 차지 않았을 때 또는
         // 현재 MP가 소모량보다 적을 때
-        if (Stun_coolDelay < Stun_maxCoolDelay || playerManager.playerData.curMp < Stun_MpConsume)
+        if (Stun_coolDelay < Stun_maxCoolDelay || PlayerManager.instance.playerData.curMp < Stun_MpConsume)
         {
             return;
         }
@@ -265,8 +265,8 @@ public class Warrior : PlayerController
         ConsumeMP(Stun_MpConsume);
 
         // 플레이어 이동속도 증가
-        playerTempSpeed = playerManager.playerData.moveSpeed;
-        playerManager.playerData.moveSpeed = playerTempSpeed * 1.3f;
+        playerTempSpeed = PlayerManager.instance.playerData.moveSpeed;
+        PlayerManager.instance.playerData.moveSpeed = playerTempSpeed * 1.3f;
 
         // 지속시간 동안 Monster 리스트에 담고, 공격
         StartCoroutine(Stun_DuringSkill());
@@ -299,7 +299,7 @@ public class Warrior : PlayerController
                         monsterList.Add(temp);
                         // 데미지 입히기
                         monster = temp.GetComponent<NormalMonster>();
-                        monster.Damaged(playerManager.playerData.STR * 0.5f);
+                        monster.Damaged(PlayerManager.instance.playerData.STR * 0.5f);
 
                         // 현재 isFound 상태 저장
                         isFind.Add(monster.monsterData.isFound);
@@ -327,7 +327,7 @@ public class Warrior : PlayerController
                 }
 
                 // 플레이어 이동속도 복구
-                playerManager.playerData.moveSpeed = playerTempSpeed;
+                PlayerManager.instance.playerData.moveSpeed = playerTempSpeed;
 
                 // 쿨타임 초기화
                 Stun_coolDelay = 0;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MonsterController : MonoBehaviour
+public class exMonsterController : MonoBehaviour
 {
     public MonsterData monsterData;
     // MonsterMananger 스크립트

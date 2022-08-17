@@ -8,8 +8,8 @@ public class UIManager : MonoBehaviour
     public ItemUI itemUI;
     public InventoryUI inventoryUI;
 
-    [SerializeField] private GameObject inventory;
-    [SerializeField] private GameObject shop;
+    public GameObject inventory;
+    public GameObject shop;
 
     /* Singleton */
     public static UIManager instance;
@@ -26,8 +26,11 @@ public class UIManager : MonoBehaviour
 
         DontDestroyOnLoad(this.gameObject);
 
-        inventory = transform.Find("Inventory").GetChild(0).gameObject;
-        shop = transform.Find("Shop").GetChild(0).gameObject;
+        //inventory = transform.Find("Inventory").gameObject;
+        //shop = transform.Find("Shop").gameObject;
+
+        inventory.SetActive(false);
+        shop.SetActive(false);
     }
 
     void Update()

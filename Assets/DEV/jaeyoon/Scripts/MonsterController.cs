@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class NormalMonsterController : MonoBehaviour
+public class MonsterController : MonoBehaviour
 {
     /* Manager */
     protected MonsterManager monsterManager;
 
     /* local data ? runtime data ? */
     public MonsterData monsterData;
+
     // for using manager's func
     public MonsterManager manager;  // ㅁㅏㅈㄴㅑ?
     protected Rigidbody rigidBody;
@@ -18,10 +19,10 @@ public class NormalMonsterController : MonoBehaviour
     //public GameObject hpBarPrefab;
     private GameObject hpBar;
     private Slider slider;
-    public Text text;
-    float maxHealth = 100;
-    float minHealth = 0;
+    private float maxHealth = 100;
+    private float minHealth = 0;
     //private Transform transform;    // HP Bar ㅇㅜㅣㅊㅣ
+    public Text text;
     public float hp;
     public float damage;
 
@@ -285,7 +286,7 @@ public class NormalMonsterController : MonoBehaviour
 
     // player?? monster ???? ???? ?? ????
     // If player damages monster this will be called
-    public void Damage(float scale)
+    public virtual void Damaged(float scale)
     {
         // ??????????
         animator.SetTrigger("Damaged");

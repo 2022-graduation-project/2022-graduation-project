@@ -12,7 +12,7 @@ using Newtonsoft.Json;
 public class PlayerController : MonoBehaviour
 {
     /* Manager */
-    protected PlayerManager playerManager;
+    // protected PlayerManager playerManager;
 
     /* local data */
     protected Rigidbody rigidBody;
@@ -24,28 +24,25 @@ public class PlayerController : MonoBehaviour
     public bool canDamage = false;
     protected bool canUseSkill = true;
     private bool jumpable = true;
+    private bool isDead = false;
 
     /* runtime data */
     public Transform rightWeapon;
     public Transform leftWeapon;
 
+    public GameObject weaponObj;
     public Weapon weapon;
 
-    void Awake()
+    void Start()
     {
-        playerManager = PlayerManager.instance;
+        // playerManager = PlayerManager.instance;
 
         rigidBody = GetComponent<Rigidbody>();
         capsuleCollider = GetComponent<CapsuleCollider>();
         animator = GetComponent<Animator>();
         tr = GetComponent<Transform>();
 
-        rightWeapon = transform.Find("Root").Find("Hips").Find("Spine_01").Find("Spine_02").Find("Spine_03")
-                             .Find("Clavicle_R").Find("Shoulder_R").Find("Elbow_R").Find("Hand_R").Find("IndexFinger_01").Find("Weapon");
-        leftWeapon = transform.Find("Root").Find("Hips").Find("Spine_01").Find("Spine_02").Find("Spine_03")
-                             .Find("Clavicle_L").Find("Shoulder_L").Find("Elbow_L").Find("Hand_L").Find("IndexFinger_01").Find("Weapon");
-        
-        weapon = rightWeapon.GetChild(0).GetComponent<Weapon>();
+        weapon = weaponObj.transform.GetChild(0).GetComponent<Weapon>();
     }
 
     void Update()
@@ -59,38 +56,23 @@ public class PlayerController : MonoBehaviour
         float v = Input.GetAxisRaw("Vertical");
         float r = Input.GetAxisRaw("Mouse X");
         
-        if (playerManager.keyMoveable)
-            Move(h, v, r);
+        if (PlayerManager.instance.keyMoveable) Move(h, v, r);
         
 
         // Jump
-        if (isJumpable())
-        {
-            animator.SetBool("Jumping", true);
-            rigidBody.velocity = tr.up * playerManager.playerData.jumpForce;
-            jumpable = false;
-            playerManager.playerData.moveSpeed /= 2f;
-            Invoke("AfterJump", 1.2f);
-        }
-        else 
-            animator.SetBool("Jumping", false);
+        if (isJumpable()) Jump();
+        else animator.SetBool("Jumping", false);
             
 
         // 일반 공격
-        if (playerManager.mouseMoveable && playerManager.keyMoveable && Input.GetMouseButtonDown(0) && Time.timeScale != 0)
+        if (isAttackable())
             Attack();
-
-        // 아이템 창
-        if(Input.GetKeyDown(KeyCode.I))
-        {
-
-        }
 
 
         Debug.DrawRay(transform.position + new Vector3(0f, 0.7f, 0.5f), transform.forward * 10f, Color.blue);
         // Skill Attack
         // 스킬 공격 (단축키는 추후 변경)
-        if (playerManager.mouseMoveable && Input.GetKeyDown(KeyCode.G) && canUseSkill == true)
+        if (isSkillAccepted() && Input.GetKeyDown(KeyCode.G))
         {
             UseSkill();
         }
@@ -98,14 +80,14 @@ public class PlayerController : MonoBehaviour
 
         // Skill Attack2
         // 스킬2 (단축키는 추후 변경)
-        if (playerManager.mouseMoveable && Input.GetKeyDown(KeyCode.H) && canUseSkill == true)
+        if (isSkillAccepted() && Input.GetKeyDown(KeyCode.H))
         {
             UseSkill2();
         }
 
         // Skill Attack3
         // 스킬3 (단축키는 추후 변경)
-        if (playerManager.mouseMoveable && Input.GetKeyDown(KeyCode.T) && canUseSkill == true)
+        if (isSkillAccepted() && Input.GetKeyDown(KeyCode.T))
         {
             UseSkill3();
         }
@@ -113,17 +95,40 @@ public class PlayerController : MonoBehaviour
 
     private bool isJumpable()
     {
-        if(playerManager.keyMoveable && Input.GetButton("Jump") && jumpable
+        if(PlayerManager.instance.keyMoveable && Input.GetButton("Jump") && jumpable
             && Physics.Raycast(tr.position + (Vector3.up * 0.1f), Vector3.down, out hit, 0.1f))
             return true;
         else
             return false;
     }
 
+    private void Jump()
+    {
+        animator.SetBool("Jumping", true);
+        rigidBody.velocity = tr.up * PlayerManager.instance.playerData.jumpForce;
+        jumpable = false;
+        PlayerManager.instance.playerData.moveSpeed /= 2f;
+        Invoke("AfterJump", 1.2f);
+    }
+
+    private bool isAttackable()
+    {
+        if (PlayerManager.instance.mouseMoveable && PlayerManager.instance.keyMoveable && Input.GetMouseButtonDown(0) && Time.timeScale != 0)
+            return true;
+        else
+            return false;
+    }
+    
+    private bool isSkillAccepted()
+    {
+        if(PlayerManager.instance.mouseMoveable && Input.GetKeyDown(KeyCode.G) && canUseSkill == true) return true;
+        else return false;
+    }
+
     private void AfterJump()
     {
         jumpable = true;
-        playerManager.playerData.moveSpeed *= 2f;
+        PlayerManager.instance.playerData.moveSpeed *= 2f;
     }
 
     private void Move(float h, float v, float r)
@@ -131,9 +136,9 @@ public class PlayerController : MonoBehaviour
         if (h != 0 || v != 0) animator.SetBool("Running", true);
         else animator.SetBool("Running", false);
 
-        tr.Translate(Vector3.right * h * playerManager.playerData.moveSpeed * Time.deltaTime);
-        tr.Translate(Vector3.forward * v * playerManager.playerData.moveSpeed * Time.deltaTime);
-        if (playerManager.mouseMoveable) tr.Rotate(Vector3.up * 3.0f * r);
+        tr.Translate(Vector3.right * h * PlayerManager.instance.playerData.moveSpeed * Time.deltaTime);
+        tr.Translate(Vector3.forward * v * PlayerManager.instance.playerData.moveSpeed * Time.deltaTime);
+        if (PlayerManager.instance.mouseMoveable) tr.Rotate(Vector3.up * 3.0f * r);
     }
 
 
@@ -145,7 +150,11 @@ public class PlayerController : MonoBehaviour
 
     public void Die()
     {
-        playerManager.keyMoveable = playerManager.mouseMoveable = false;
+        print("죽음");
+        PlayerManager.instance.keyMoveable = PlayerManager.instance.mouseMoveable = false;
+        gameObject.transform.position = Vector3.zero;
+        animator.SetTrigger("Dead");
+        isDead = true;
 
         // 리스폰 장소로 소환
     }
@@ -160,7 +169,7 @@ public class PlayerController : MonoBehaviour
     public void Attack()
     {
         animator.SetTrigger("Attack");
-        weapon.Attack(playerManager.playerData.STR);
+        weapon.Attack(PlayerManager.instance.playerData.STR, this);
     }
 
 
@@ -176,16 +185,21 @@ public class PlayerController : MonoBehaviour
     ******************************************/
     public void Damaged(float damage)
     {
+        if (isDead)
+            return;
+
+
         if(canDamage==true)
         {
             // 쉴드 포션 쓴 상태에서 대미지 입었을 때 나타나는 이펙트 자리
             print("Could not Damaged by Monster because of shield potion effect.");
             return;
         }
-        playerManager.playerData.curHp -= damage;
-        print("curHP: "+playerManager.playerData.curHp);
+
+        PlayerManager.instance.playerData.curHp -= damage;
+        print("curHP: "+ PlayerManager.instance.playerData.curHp);
         //UIManager.instance.playerUI.UpdateHpBar(playerManager.playerData.maxHp, playerManager.playerData.curHp);
-        if (playerManager.playerData.curHp <= 0)
+        if (PlayerManager.instance.playerData.curHp <= 0)
             Die();
     }
 
@@ -200,10 +214,10 @@ public class PlayerController : MonoBehaviour
     ******************************************/
     public void ConsumeMP(float scale)
     {
-        playerManager.playerData.curMp -= scale;
-        print("curMP: "+playerManager.playerData.curMp);
+        PlayerManager.instance.playerData.curMp -= scale;
+        print("curMP: "+ PlayerManager.instance.playerData.curMp);
         //UIManager.instance.playerUI.UpdateMpBar(playerManager.playerData.maxMp, playerManager.playerData.curMp);
-        if (playerManager.playerData.curMp <= 0)
+        if (PlayerManager.instance.playerData.curMp <= 0)
             canUseSkill = false;
     }
 

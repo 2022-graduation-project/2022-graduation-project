@@ -95,7 +95,8 @@ public class MonsterManager : MonoBehaviour
 
         // 배열 0으로 초기화
         // initiate elements as 0
-        duplicate = Enumerable.Repeat<int>(0, 52).ToArray<int>();
+        //duplicate = Enumerable.Repeat<int>(0, 52).ToArray<int>();
+        duplicate = new int[52];
 
 
         // kindsOfMonsters = new string[] { "Ghost", "Goblin", "Skeleton" };

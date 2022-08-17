@@ -29,12 +29,17 @@ public class PlayerManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(this.gameObject);
+    }
 
+    void Start()
+    {
         playerData = DataManager.instance.LoadJsonFile
                     <Dictionary<string, PlayerData>>
                     (Application.dataPath + "/MAIN/Data", "player")
                     ["000_player"];
 
+        print($"{playerData.maxHp}, {playerData.maxMp}");
+        print($"{playerData.curHp}, {playerData.curMp}");
     }
 
     // void Start()
@@ -114,20 +119,45 @@ public class PlayerManager : MonoBehaviour
     /************************************************/
     /*                   상태 이상                   */
     /************************************************/
-    public IEnumerator Healing(float healAmount)
+    public void StartHeal(float _time, float _delta)
     {
-
-        instance.playerData.curHp += healAmount;
-        UIManager.instance.playerUI.UpdateHpBar(instance.playerData.maxHp, instance.playerData.curHp);
-        yield break;
+        StartCoroutine(Healing(_time, _delta));
     }
-    public IEnumerator RefillMana(float manaAmount)
+
+    public void StartRefillMana(float _time, float _delta)
     {
-
-        instance.playerData.curHp += manaAmount;
-        UIManager.instance.playerUI.UpdateMpBar(instance.playerData.maxMp, instance.playerData.curMp);
-        yield break;
+        StartCoroutine(RefillMana(_time, _delta));
     }
+
+    public IEnumerator Healing(float _time, float healAmount)
+    {
+        float curTime = 0;
+
+        while (curTime < _time)
+        {
+            curTime += 1f;
+
+            playerData.curHp += healAmount;
+            UIManager.instance.playerUI.UpdateHpBar(playerData.maxHp, playerData.curHp);
+            yield return new WaitForSeconds(1f); // 캐싱 필요
+        }
+    }
+
+    public IEnumerator RefillMana(float _time, float manaAmount)
+    {
+        float curTime = 0;
+
+        while(curTime < _time)
+        {
+            curTime += 1f;
+
+            playerData.curMp += manaAmount;
+            UIManager.instance.playerUI.UpdateMpBar(playerData.maxMp, playerData.curMp);
+            yield return new WaitForSeconds(1f); // 캐싱 필요
+        }
+        
+    }
+
     public IEnumerator Shielding(float shieldDuration)
     {
         PlayerController player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();

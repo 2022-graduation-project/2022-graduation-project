@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class BossController : MonoBehaviour
+public class BossController : NormalMonster
 {
     /* enum */
     private enum Skills
@@ -16,12 +16,13 @@ public class BossController : MonoBehaviour
 
 
     /* 데이터 */
-    private MonsterDataDummy monsterData;
+    // new private MonsterData monsterData;
 
 
     /* 컴포넌트 */
     private Transform tr;
-    private Animator animator;
+    // private Animator animator;
+    public StoneStorm stoneStorm;
 
 
     /* 공격 지역 */
@@ -31,7 +32,7 @@ public class BossController : MonoBehaviour
 
 
     /* 런타임 변수 */
-    private PlayerDummy targetPlayer;
+    [SerializeField] private PlayerController targetPlayer;
 
     private bool finalAttack = false;
     private int probability = 0;
@@ -53,14 +54,19 @@ public class BossController : MonoBehaviour
     [SerializeField] private Transform[] rocks;
     [SerializeField] private Transform[] stalagmites;
 
+    protected override void Awake()
+    {
 
-    void Start()
+    }
+
+    protected override void Start()
     {
         monsterData = DataManager.instance.LoadJsonFile
-                      <Dictionary<string, MonsterDataDummy>>
+                      <Dictionary<string, MonsterData>>
                       (Application.dataPath + "/MAIN/Data", "boss")
                       ["000_golem"];
 
+        monsterManager = GameObject.Find("MonsterManager").GetComponent<MonsterManager>();
         tr = GetComponent<Transform>();
         animator = GetComponent<Animator>();
 
@@ -71,7 +77,8 @@ public class BossController : MonoBehaviour
         rocks = circle.GetChild(0).GetComponentsInChildren<Transform>(true);
         //stalagmites = square.GetChild(0).GetComponentsInChildren<Transform>(true);
 
-        CheckTarget();
+        StartCoroutine(StartCheckTarget());
+        StartCoroutine(Skill());
     }
 
 
@@ -82,16 +89,30 @@ public class BossController : MonoBehaviour
     /*                         targetPlayer 사이클                           */
     /*************************************************************************/
 
+    IEnumerator StartCheckTarget()
+    {
+        while(true)
+        {
+            //print("코루틴이 안돌아가나");
+            CheckTarget();
+            yield return waitHalfSecond;
+        }
+    }
+
 
 
 
     void CheckTarget()
     {
-        if (!moveable)
+        //print("before check Target");
+
+        if (!moveable || targetPlayer != null)
         {
-            Invoke("CheckTarget", 1f);
+            // Invoke("CheckTarget", 1f);
             return;
         }
+
+        //print("check Target");
 
         /* 가장 가까운 곳에 있는 targetPlayer 찾기 */
         if (targetPlayer == null)
@@ -114,11 +135,11 @@ public class BossController : MonoBehaviour
                 if (minDistance > distance)
                 {
                     minDistance = distance;
-                    targetPlayer = hit.transform.GetComponent<PlayerDummy>();
+                    targetPlayer = hit.transform.GetComponent<PlayerController>();
                 }
             }
 
-            print($"가장 가까운 오브젝트(거리, 이름) : {minDistance}, {targetPlayer?.tr.name}");
+            //print($"가장 가까운 오브젝트(거리, 이름) : {minDistance}, {targetPlayer?.transform.name}");
         }
 
 
@@ -127,7 +148,7 @@ public class BossController : MonoBehaviour
         {
             // 대기
 
-            Invoke("CheckTarget", 1f);
+            // Invoke("CheckTarget", 1f);
             if (recover == null)
             {
                 recover = Recover();
@@ -164,7 +185,7 @@ public class BossController : MonoBehaviour
     {
         while (targetPlayer != null && moveable != false)
         {
-            if (maxDistance < Vector3.Distance(targetPlayer.tr.position, tr.position))
+            if (maxDistance < Vector3.Distance(targetPlayer.transform.position, tr.position))
             {
                 break;
             }
@@ -174,7 +195,7 @@ public class BossController : MonoBehaviour
 
         targetPlayer = null;
         checkTargetDistance = null;
-        CheckTarget();
+        // CheckTarget();
     }
 
 
@@ -219,23 +240,24 @@ public class BossController : MonoBehaviour
     IEnumerator Chase()
     {
         Vector3 distance;
+        float minDistance = 2f;
         float speed = 5f;
         float attackDelay = 3f;
         float curTime = attackDelay;
 
         while (targetPlayer != null && moveable != false)
         {
-            tr.LookAt(targetPlayer.tr);
-            distance = targetPlayer.tr.position - tr.position;
+            tr.LookAt(targetPlayer.transform);
+            distance = targetPlayer.transform.position - tr.position;
             curTime += Time.deltaTime;
 
-            if (distance.magnitude <= 1.5f && curTime > attackDelay)
+            if (distance.magnitude <= minDistance && curTime > attackDelay)
             {
                 curTime = 0;
                 Attack();
             }
 
-            else if (distance.magnitude > 1.5f)
+            else if (distance.magnitude > minDistance)
             {
                 transform.position += distance.normalized * speed * Time.deltaTime;
             }
@@ -251,9 +273,7 @@ public class BossController : MonoBehaviour
 
 
 
-
-
-    void Attack()
+    new void Attack()
     {
         if (targetPlayer == null || moveable == true)
             return;
@@ -268,7 +288,7 @@ public class BossController : MonoBehaviour
 
 
 
-    void Damaged(PlayerDummy _player, float _delta)
+    public override void Damaged(float _delta, PlayerController _player)
     {
         if (recover != null)
         {
@@ -282,7 +302,7 @@ public class BossController : MonoBehaviour
         }
 
         monsterData.curHp += _delta;
-
+        print($"[보스 피격] 현재 체력 : {monsterData.curHp}");
         if (!finalAttack && monsterData.maxHp * 0.4f <= monsterData.curHp && monsterData.curHp <= monsterData.maxHp * 0.6f)
         {
             // 랜덤 수식
@@ -327,7 +347,8 @@ public class BossController : MonoBehaviour
         {
             moveable = false;
 
-            number = Random.Range(0, 3);
+            //number = Random.Range(0, 3);
+            number = (int)Skills.StoneStorm;
             switch (number)
             {
                 case (int)Skills.StoneStorm:
@@ -351,6 +372,11 @@ public class BossController : MonoBehaviour
 
     IEnumerator StoneStorm()
     {
+        if(targetPlayer == null)
+        {
+            yield break;
+        }
+
         circle.gameObject.SetActive(true);
 
         float coolTime = 5f;
@@ -360,6 +386,8 @@ public class BossController : MonoBehaviour
         int lastRock = -1;
 
         Vector3 pos;
+
+        stoneStorm.StartAttack(tr.position);
 
         while (curTime < coolTime)
         {
@@ -451,6 +479,11 @@ public class BossController : MonoBehaviour
 
     IEnumerator RollStone()
     {
+        if (targetPlayer == null)
+        {
+            yield break;
+        }
+
         square.gameObject.SetActive(true);
 
         GameObject pillar = square.GetChild(0).gameObject;
@@ -464,14 +497,14 @@ public class BossController : MonoBehaviour
 
         while (p_tr.localPosition.z < 5f)
         {
-            p_tr.Translate(Vector3.right * 5f * Time.deltaTime, Space.Self);
-            p_ro.Rotate(Vector3.up * 50f * Time.deltaTime);
+            p_tr.Translate(Vector3.right * 10f * Time.deltaTime, Space.Self);
+            p_ro.Rotate(Vector3.up * 300f * Time.deltaTime);
             yield return null;
         }
 
         square.gameObject.SetActive(false);
         p_tr.SetParent(square);
-        p_ro.localRotation = Quaternion.Euler(new Vector3(0, 0, 90));
+        p_ro.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
         //p_ro.rotation = Quaternion.Euler(new Vector3(0, 0, 90));
         p_tr.localPosition = origin;
     }
@@ -510,7 +543,7 @@ public class BossController : MonoBehaviour
 
         animator.SetTrigger("Punch");
         print("주먹");
-        CheckTarget();
+        // CheckTarget();
     }
 
     public void Roll()
@@ -518,6 +551,7 @@ public class BossController : MonoBehaviour
         if (targetPlayer != null)
         {
             targetPlayer = null;
+<<<<<<< HEAD
         }
         StopCoroutine(checkTargetDistance);
         StopCoroutine(chase);
@@ -525,15 +559,38 @@ public class BossController : MonoBehaviour
         
         cube.transform.position = tr.position;
         cube.SetActive(true);
+=======
+        }
+        StopCoroutine(checkTargetDistance);
+        StopCoroutine(chase);
+        //checkTargetDistance = chase = null;
+        
+        cube.transform.position = tr.position;
+        cube.SetActive(true);
+>>>>>>> d62699ae18db313e846106f9df66fde88ce2e294
         StartCoroutine(coRoll());
     }
 
     IEnumerator coRoll()
+<<<<<<< HEAD
     {
         animator.SetTrigger("Roll");
         cube.SetActive(false);
 
         yield return StartCoroutine(Forward());
+=======
+    {
+        animator.SetTrigger("Roll");
+        yield return StartCoroutine(Forward());
+        cube.SetActive(false);
+
+        checkTargetDistance = CheckTargetDistance();
+        chase = Chase();
+        //StartCoroutine(CheckTargetDistance());
+        //StartCoroutine(Chase());
+        StartCoroutine(checkTargetDistance);
+        StartCoroutine(chase);
+>>>>>>> d62699ae18db313e846106f9df66fde88ce2e294
     }
 
     IEnumerator Forward()
@@ -609,6 +666,7 @@ public class BossController : MonoBehaviour
     {
         StopAllCoroutines();
         print($"{monsterData.name} is dead.");
+        Destroy(gameObject);
     }
 
     void OnDrawGizmosSelected()
