@@ -1072,7 +1072,7 @@ GameObject:
   - component: {fileID: 3019173788019866220}
   - component: {fileID: 3019173788022117527}
   - component: {fileID: 3019173788022117524}
-  - component: {fileID: 6328799614622018940}
+  - component: {fileID: 9184775795125699942}
   m_Layer: 0
   m_Name: Pillar_Ro
   m_TagString: Untagged
@@ -1173,7 +1173,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &6328799614622018940
+--- !u!114 &9184775795125699942
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1182,7 +1182,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3019173788022117526}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c11ee19ec3836194da53ac0fbdd733c5, type: 3}
+  m_Script: {fileID: 11500000, guid: 31e0e742ed46b2244a93099a38ebff59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &3362832976598619249
@@ -3263,10 +3263,11 @@ GameObject:
   m_Component:
   - component: {fileID: 7358010468452689769}
   - component: {fileID: 7447214961540620845}
-  - component: {fileID: 7352681361860341912}
-  m_Layer: 0
+  - component: {fileID: 2029684295}
+  - component: {fileID: 2029684292}
+  m_Layer: 8
   m_Name: Boss_Golem
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3310,7 +3311,21 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &7352681361860341912
+--- !u!64 &2029684295
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7352681361860341913}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300036, guid: b6ef2f4d0154b2747860a3332fa05f97, type: 3}
+--- !u!114 &2029684292
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3319,15 +3334,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 7352681361860341913}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ccba9afb48cb6403b8d953850e2f9980, type: 3}
+  m_Script: {fileID: 11500000, guid: 019b5c73844508a4c86de6eb86b8c4ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monsterData: {fileID: 0}
-  manager: {fileID: 0}
-  text: {fileID: 0}
-  hp: 0
-  damage: 0
-  stoneStorm: {fileID: 5041061107147256221}
+  animator: {fileID: 0}
+  tr: {fileID: 0}
+  stoneStorm: {fileID: 287918196}
   targetPlayer: {fileID: 0}
   rocks: []
   stalagmites: []
@@ -4069,9 +4081,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7350602725611189071}
   - component: {fileID: 7488000903705322195}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Character_Rock_Golem
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4816,7 +4828,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8005285535257790101}
   - component: {fileID: 8005285535257790100}
-  - component: {fileID: 5041061107147256221}
+  - component: {fileID: 287918196}
   m_Layer: 0
   m_Name: Circle
   m_TagString: Untagged
@@ -4890,7 +4902,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5041061107147256221
+--- !u!114 &287918196
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4899,7 +4911,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8005285535257790102}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1862d857fd076b42b84226f32226f4b, type: 3}
+  m_Script: {fileID: 11500000, guid: df2bc96ca7eb5274d8b54d45f2742c1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8005285535421807262
