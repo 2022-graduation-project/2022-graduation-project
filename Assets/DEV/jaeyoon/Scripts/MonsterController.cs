@@ -1,427 +1,427 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+//using System.Collections;
+//using System.Collections.Generic;
+//using UnityEngine;
+//using UnityEngine.UI;
 
-public class MonsterController : MonoBehaviour
-{
-    /* Manager */
-    protected MonsterManager monsterManager;
+//public class MonsterController : MonoBehaviour
+//{
+//    /* Manager */
+//    protected MonsterManager monsterManager;
 
-    /* local data ? runtime data ? */
-    public MonsterData monsterData;
+//    /* local data ? runtime data ? */
+//    public MonsterData monsterData;
 
-    // for using manager's func
-    public MonsterManager manager;  // ㅁㅏㅈㄴㅑ?
-    protected Rigidbody rigidBody;
-    protected Animator animator;
+//    // for using manager's func
+//    public MonsterManager manager;  // ㅁㅏㅈㄴㅑ?
+//    protected Rigidbody rigidBody;
+//    protected Animator animator;
 
-    //public GameObject hpBarPrefab;
-    private GameObject hpBar;
-    private Slider slider;
-    private float maxHealth = 100;
-    private float minHealth = 0;
-    //private Transform transform;    // HP Bar ㅇㅜㅣㅊㅣ
-    public Text text;
-    public float hp;
-    public float damage;
+//    //public GameObject hpBarPrefab;
+//    private GameObject hpBar;
+//    private Slider slider;
+//    private float maxHealth = 100;
+//    private float minHealth = 0;
+//    //private Transform transform;    // HP Bar ㅇㅜㅣㅊㅣ
+//    public Text text;
+//    public float hp;
+//    public float damage;
 
 
-    //moving direction //Move(), Chase()
-    private Vector3 direction;
-    // ???????? ????????
-    // Script which the player has
-    private PlayerController player;
-    // ?? ?????? hpBar
-    private Vector3 hpBarOffset = new Vector3(0, 2.2f, 0);
-    private Canvas canvas;
-    //private Image hpBarImage;
-
-    
-
+//    //moving direction //Move(), Chase()
+//    private Vector3 direction;
+//    // ???????? ????????
+//    // Script which the player has
+//    private PlayerController player;
+//    // ?? ?????? hpBar
+//    private Vector3 hpBarOffset = new Vector3(0, 2.2f, 0);
+//    private Canvas canvas;
+//    //private Image hpBarImage;
 
     
-    virtual public void Awake()
-    {
-        // Monster Rigidbody
-        rigidBody = GetComponent<Rigidbody>();
-        // Monster Animator
-        animator = GetComponent<Animator>();
-
-        // get MonsterManager script from GamaManager
-        monsterManager = GameObject.Find("MonsterManager").GetComponent<MonsterManager>();
-
-    }
-
-    virtual public void Start()
-    {
-        SetHpBar();
-        //hpBar.SetActive(false);
 
 
-        UpdateHpBar(monsterData.curHp);
+    
+//    virtual public void Awake()
+//    {
+//        // Monster Rigidbody
+//        rigidBody = GetComponent<Rigidbody>();
+//        // Monster Animator
+//        animator = GetComponent<Animator>();
 
-        // start with default state
-        StartCoroutine(Idle());
-    }
+//        // get MonsterManager script from GamaManager
+//        monsterManager = GameObject.Find("MonsterManager").GetComponent<MonsterManager>();
+
+//    }
+
+//    virtual public void Start()
+//    {
+//        SetHpBar();
+//        //hpBar.SetActive(false);
 
 
+//        UpdateHpBar(monsterData.curHp);
 
-    /*---------------------------------------------
-     *              HP BAR
-     * -------------------------------------------*/
-
-    public void SetHpBar()
-    {
-        slider = GetComponent<Slider>();
-
-        canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
-        //transform = transform.Find("Root").Find("HpBarPos");
-
-        hpBar = transform.Find("Root").Find("HpBarPos").GetComponent<GameObject>();
-        /*
-        MonsterHpBar = GameObject.Find("MonsterHpBar").GetComponent<GameObject>();
-        GameObject hpBar = Instantiate<GameObject>(MonsterHpBar);
-        */
-
-        /*
-        GameObject hpBar = Instantiate<GameObject>(MonsterHpBar, transform.position, Quaternion.identity, canvas.transform);
-        slider = GetComponent<Slider>();
-        HpText = GetComponent<Text>();
-        */
-
-        // hpBarImage = hpBar.GetComponentsInChildren<Image>()[1];
-
-        /*
-        var _hpbar = hpBar.GetComponent<EnemyHpBar>();
-        _hpbar.targetTr = transform;
-        _hpbar.offset = hpBarOffset;
-        */
-    }
-
-    public void UpdateHpBar(float hp)
-    {
-        if (hp <= 10)
-        {
-            text.color = Color.red;
-        }
-        text.text = hp.ToString();
-        slider.value = (hp / maxHealth);
-
-        // HP 모두 소모되면 아예 색이 사라지도록 하는 조건
-        if (slider.value <= minHealth)
-            transform.Find("Fill Area").gameObject.SetActive(false);
-        else
-            transform.Find("Fill Area").gameObject.SetActive(true);
+//        // start with default state
+//        StartCoroutine(Idle());
+//    }
 
 
 
-        /*
-        hpBarImage.fillAmount = hp / monsterData.maxHp;
-        if (hp <= 0f)
-        {
-            hpBarImage.GetComponentsInParent<Image>()[1].color = Color.clear;
-        }
-        */
-    }
+//    /*---------------------------------------------
+//     *              HP BAR
+//     * -------------------------------------------*/
+
+//    public void SetHpBar()
+//    {
+//        slider = GetComponent<Slider>();
+
+//        canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
+//        //transform = transform.Find("Root").Find("HpBarPos");
+
+//        hpBar = transform.Find("Root").Find("HpBarPos").GetComponent<GameObject>();
+//        /*
+//        MonsterHpBar = GameObject.Find("MonsterHpBar").GetComponent<GameObject>();
+//        GameObject hpBar = Instantiate<GameObject>(MonsterHpBar);
+//        */
+
+//        /*
+//        GameObject hpBar = Instantiate<GameObject>(MonsterHpBar, transform.position, Quaternion.identity, canvas.transform);
+//        slider = GetComponent<Slider>();
+//        HpText = GetComponent<Text>();
+//        */
+
+//        // hpBarImage = hpBar.GetComponentsInChildren<Image>()[1];
+
+//        /*
+//        var _hpbar = hpBar.GetComponent<EnemyHpBar>();
+//        _hpbar.targetTr = transform;
+//        _hpbar.offset = hpBarOffset;
+//        */
+//    }
+
+//    public void UpdateHpBar(float hp)
+//    {
+//        if (hp <= 10)
+//        {
+//            text.color = Color.red;
+//        }
+//        text.text = hp.ToString();
+//        slider.value = (hp / maxHealth);
+
+//        // HP 모두 소모되면 아예 색이 사라지도록 하는 조건
+//        if (slider.value <= minHealth)
+//            transform.Find("Fill Area").gameObject.SetActive(false);
+//        else
+//            transform.Find("Fill Area").gameObject.SetActive(true);
+
+
+
+//        /*
+//        hpBarImage.fillAmount = hp / monsterData.maxHp;
+//        if (hp <= 0f)
+//        {
+//            hpBarImage.GetComponentsInParent<Image>()[1].color = Color.clear;
+//        }
+//        */
+//    }
 
    
-    private void DeleteHpBar()
-    {
-        Destroy(hpBar);
-    }
+//    private void DeleteHpBar()
+//    {
+//        Destroy(hpBar);
+//    }
 
 
 
-    // Attack aniamating
-    private void Animating()
-    {
-        animator.SetBool("Dead", false);
-        animator.SetBool("Walk", false);
-        animator.SetTrigger("Attack");
-    }
+//    // Attack aniamating
+//    private void Animating()
+//    {
+//        animator.SetBool("Dead", false);
+//        animator.SetBool("Walk", false);
+//        animator.SetTrigger("Attack");
+//    }
 
-    // ???????? ????
-    // damaging player
-    private void damaging()
-    {
-        player.Damaged(monsterData.attackForce);
-    }
-
-
-    // ???????? ???? ???? ???????? ????
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "Bullet")
-        {
-            UpdateHpBar(monsterData.curHp);
-        }
-    }
-
-    // ?????????? ???????? ???? ???????? ????
-    // player is in range of Monster's Sight
-    private void OnTriggerEnter(Collider other)
-    {
-        // ?????????? ???????? ???? ???????? ????
-        // player is in range of Monster's Sight
-        if (other.tag == "Player")
-        {
-
-            // ?????? ???? ?? ??????
-            hpBar.SetActive(true);
-
-            // ???????? ????
-            // Monster found some player
-            monsterData.isFound = true;
-
-            // ?????? ???????? ?????? ????
-            // save destination as player's location
-            monsterData.destPosition = other.transform;
-
-            // ???? ?? ???????? ????
-            // save the player
-            player = other.GetComponent<PlayerController>();
-        }
-    }
+//    // ???????? ????
+//    // damaging player
+//    private void damaging()
+//    {
+//        player.Damaged(monsterData.attackForce);
+//    }
 
 
-    // ?????????? ???????? ?????? ???????? ????
-    // player is out of range of Monster's Sight
-    private void OnTriggerExit(Collider other)
-    {
-        // ?????????? ???????? ?????? ???????? ????
-        // player is out of range of Monster's Sight
-        if (other.tag == "Player")
-        {
+//    // ???????? ???? ???? ???????? ????
+//    private void OnCollisionEnter(Collision collision)
+//    {
+//        if (collision.gameObject.tag == "Bullet")
+//        {
+//            UpdateHpBar(monsterData.curHp);
+//        }
+//    }
 
-            // ?????? ???? ?? ??????
-            hpBar.SetActive(false);
+//    // ?????????? ???????? ???? ???????? ????
+//    // player is in range of Monster's Sight
+//    private void OnTriggerEnter(Collider other)
+//    {
+//        // ?????????? ???????? ???? ???????? ????
+//        // player is in range of Monster's Sight
+//        if (other.tag == "Player")
+//        {
 
-            // ?????????? ????
-            // player is leaving the range
-            monsterData.isFound = false;
+//            // ?????? ???? ?? ??????
+//            hpBar.SetActive(true);
 
-            // ?????? ?????????? ????
-            // save destination as default
-            monsterData.destPosition = null;
+//            // ???????? ????
+//            // Monster found some player
+//            monsterData.isFound = true;
 
-            // ???????? ??????
-            // remove the player
-            //player = null;
-        }
-    }
+//            // ?????? ???????? ?????? ????
+//            // save destination as player's location
+//            monsterData.destPosition = other.transform;
 
-    /*---------------------------------------------
-     *              DIE
-     * -------------------------------------------*/
-
-    public void Die()
-    {
-        Transform itemLocation;
-        // ???? ????+1?? ?????? ??????
-        itemLocation = transform;
-        itemLocation.position += new Vector3(0, 1, 0);
-        // ?????? ??????????
-        //manager.DropItem(itemLocation);
-        // ?????? ????
-        manager.DeleteMonster(gameObject);
-    }
-
-    /*---------------------------------------------
-     *              ATTACK
-     * -------------------------------------------*/
-
-    public IEnumerator Attack()
-    {
-        //???? ???? ????
-        float attackTime = 0f;
-
-        //???? ???? ???? ???? ????
-        while (monsterData.state == MonsterData.States.Attack)
-        {
-            //Timer start
-            attackTime += Time.deltaTime;
-
-            //?????????? ????????, ???????? ???? ???? ???? ?????? ????
-            if (!monsterData.isFound || Vector3.Distance(transform.position, monsterData.destPosition.position) > monsterData.distance)
-            {
-                //?????????? ??????????, ???? ???? ???? ???? ??
-                //???? ????
-                //?????? ?????? Attack ?????? ????
-                monsterData.state = MonsterData.States.Chase;
-                StartCoroutine(Chase());
-                yield break;
-            }
-
-            //???? ???? 2.5?? ???????? ????
-            if (attackTime >= 2.5f)
-            {
-                //timer reset
-                attackTime = 0f;
-
-                //Start Attack
-                //???? ?????????? ???? ?? (chase ?? || ???? collider ?????? ???? ??)
-                if (monsterData.destPosition != null)
-                {
-                    // ???????? HP ????
-                    // damaging player
-                    Invoke("damaging", 0.83f);
-
-                    Animating();
-                }
-            }
-            else animator.SetBool("isIdle", true);
-            //Wait until next frame
-            yield return null;
-        }
-
-        // ???? ?????????? ????????.
-        yield return null;
-    }
-
-    /*---------------------------------------------
-     *              DAMAGE
-     * -------------------------------------------*/
+//            // ???? ?? ???????? ????
+//            // save the player
+//            player = other.GetComponent<PlayerController>();
+//        }
+//    }
 
 
-    // player?? monster ???? ???? ?? ????
-    // If player damages monster this will be called
-    public virtual void Damaged(float scale)
-    {
-        // ??????????
-        animator.SetTrigger("Damaged");
+//    // ?????????? ???????? ?????? ???????? ????
+//    // player is out of range of Monster's Sight
+//    private void OnTriggerExit(Collider other)
+//    {
+//        // ?????????? ???????? ?????? ???????? ????
+//        // player is out of range of Monster's Sight
+//        if (other.tag == "Player")
+//        {
 
-        // ???? ?????? ???? ???? ??
-        if (monsterData.curHp > 0)
-        {
-            //scale(-)???? ?????? ?????? ????????.
-            monsterData.curHp -= scale;
-            UpdateHpBar(monsterData.curHp);
-        }
-        // ???? ?????? ???? ??
-        else
-        {
-            // ???? ??????????
-            animator.SetBool("Dead", true);
-            // ?????? ?????? ????
-            DeleteHpBar();
-            Invoke("Die", 1f);
-        }
+//            // ?????? ???? ?? ??????
+//            hpBar.SetActive(false);
 
-        print(gameObject.name + "'s cur hp: " + monsterData.curHp);
-    }
+//            // ?????????? ????
+//            // player is leaving the range
+//            monsterData.isFound = false;
 
-    /*---------------------------------------------
-     *              MOVE
-     * -------------------------------------------*/
+//            // ?????? ?????????? ????
+//            // save destination as default
+//            monsterData.destPosition = null;
 
-    public void Move()
-    {
-        //?????? ???? ????
-        rigidBody.AddForce(direction * Time.deltaTime * monsterData.moveSpeed, ForceMode.VelocityChange);
+//            // ???????? ??????
+//            // remove the player
+//            //player = null;
+//        }
+//    }
 
-        // ???? ???????? ??????
-        transform.LookAt(Vector3.Lerp(transform.position, monsterData.destPosition.position, monsterData.turnSpeed * Time.deltaTime));
-    }
+//    /*---------------------------------------------
+//     *              DIE
+//     * -------------------------------------------*/
 
-    /*---------------------------------------------
-     *              CHASE
-     * -------------------------------------------*/
+//    public void Die()
+//    {
+//        Transform itemLocation;
+//        // ???? ????+1?? ?????? ??????
+//        itemLocation = transform;
+//        itemLocation.position += new Vector3(0, 1, 0);
+//        // ?????? ??????????
+//        //manager.DropItem(itemLocation);
+//        // ?????? ????
+//        manager.DeleteMonster(gameObject);
+//    }
 
-    public IEnumerator Chase()
-    {
-        //?????????? ?? ???? ??
-        if (animator.GetBool("isWalk") == false)
-        {
-            //???? ??????????
-            animator.SetBool("isWalk", true);
-            animator.SetBool("isIdle", false);
-        }
+//    /*---------------------------------------------
+//     *              ATTACK
+//     * -------------------------------------------*/
 
-        //???? ????
-        while (monsterData.state == MonsterData.States.Chase)
-        {
-            // ?????? ?? ?? ???? ??
-            if (monsterData.isFound)
-            {
+//    public IEnumerator Attack()
+//    {
+//        //???? ???? ????
+//        float attackTime = 0f;
 
-                // ???????? ???????? ?????? ????
-                monsterData.destPosition = player.GetComponent<Transform>();
+//        //???? ???? ???? ???? ????
+//        while (monsterData.state == MonsterData.States.Attack)
+//        {
+//            //Timer start
+//            attackTime += Time.deltaTime;
 
+//            //?????????? ????????, ???????? ???? ???? ???? ?????? ????
+//            if (!monsterData.isFound || Vector3.Distance(transform.position, monsterData.destPosition.position) > monsterData.distance)
+//            {
+//                //?????????? ??????????, ???? ???? ???? ???? ??
+//                //???? ????
+//                //?????? ?????? Attack ?????? ????
+//                monsterData.state = MonsterData.States.Chase;
+//                StartCoroutine(Chase());
+//                yield break;
+//            }
 
-                // ?????????? ???????????? ????
-                Vector3 direction = (monsterData.destPosition.position - transform.position);
+//            //???? ???? 2.5?? ???????? ????
+//            if (attackTime >= 2.5f)
+//            {
+//                //timer reset
+//                attackTime = 0f;
 
-                //?????? ???? ????
-                Move();
+//                //Start Attack
+//                //???? ?????????? ???? ?? (chase ?? || ???? collider ?????? ???? ??)
+//                if (monsterData.destPosition != null)
+//                {
+//                    // ???????? HP ????
+//                    // damaging player
+//                    Invoke("damaging", 0.83f);
 
-                //???????? ???? ???? ????(2f)?? ?????????? ????
-                if (Vector3.Distance(transform.position, monsterData.destPosition.position) <= monsterData.distance)
-                {
-                    //?????? ?????? Attack ?????? ????
-                    monsterData.state = MonsterData.States.Attack;
+//                    Animating();
+//                }
+//            }
+//            else animator.SetBool("isIdle", true);
+//            //Wait until next frame
+//            yield return null;
+//        }
 
-                    //???? ???? ????
-                    StartCoroutine(Attack());
-                    yield break;
-                }
+//        // ???? ?????????? ????????.
+//        yield return null;
+//    }
 
-                //1?? ?? ???? ??????
-                yield return new WaitForSeconds(1.0f);
-            }
-
-            //?????? ?? ?? ???? ??
-            else if (!monsterData.isFound)
-            {
-                //?????? ?????? Idle ?????? ????
-                monsterData.state = MonsterData.States.Idle;
-
-                //Idle ???? ????
-                StartCoroutine(Idle());
-                yield break;
-            }
-        }
+//    /*---------------------------------------------
+//     *              DAMAGE
+//     * -------------------------------------------*/
 
 
+//    // player?? monster ???? ???? ?? ????
+//    // If player damages monster this will be called
+//    public virtual void Damaged(float scale)
+//    {
+//        // ??????????
+//        animator.SetTrigger("Damaged");
 
-        //???? ?????????? ????????.
-        yield return null;
-    }
+//        // ???? ?????? ???? ???? ??
+//        if (monsterData.curHp > 0)
+//        {
+//            //scale(-)???? ?????? ?????? ????????.
+//            monsterData.curHp -= scale;
+//            UpdateHpBar(monsterData.curHp);
+//        }
+//        // ???? ?????? ???? ??
+//        else
+//        {
+//            // ???? ??????????
+//            animator.SetBool("Dead", true);
+//            // ?????? ?????? ????
+//            DeleteHpBar();
+//            Invoke("Die", 1f);
+//        }
 
-    /*---------------------------------------------
-     *              Idle
-     * -------------------------------------------*/
+//        print(gameObject.name + "'s cur hp: " + monsterData.curHp);
+//    }
 
-    public IEnumerator Idle()
-    {
-        // Idle
-        while (monsterData.state == MonsterData.States.Idle)
-        {
-            // ??
-            if (animator.GetBool("Idle") == false)
-            {
-                // ?????? ?????????? ????
-                animator.SetBool("Idle", true);
-                animator.SetBool("Walk", false);
-            }
+//    /*---------------------------------------------
+//     *              MOVE
+//     * -------------------------------------------*/
 
-            // ?????????? ?????? ??
-            if (monsterData.isFound)
-            {
-                // ?????? ?????? ???? ?????? ????
-                monsterData.state = MonsterData.States.Chase;
+//    public void Move()
+//    {
+//        //?????? ???? ????
+//        rigidBody.AddForce(direction * Time.deltaTime * monsterData.moveSpeed, ForceMode.VelocityChange);
 
-                // ???
-                StartCoroutine(Chase());
-                yield break;
-            }
+//        // ???? ???????? ??????
+//        transform.LookAt(Vector3.Lerp(transform.position, monsterData.destPosition.position, monsterData.turnSpeed * Time.deltaTime));
+//    }
 
-            // Patrol ???????
+//    /*---------------------------------------------
+//     *              CHASE
+//     * -------------------------------------------*/
 
-            yield return new WaitForSeconds(1.0f);
-        }
-        // ???? ?????????? ????????.
-        yield return null;
-    }
+//    public IEnumerator Chase()
+//    {
+//        //?????????? ?? ???? ??
+//        if (animator.GetBool("isWalk") == false)
+//        {
+//            //???? ??????????
+//            animator.SetBool("isWalk", true);
+//            animator.SetBool("isIdle", false);
+//        }
 
-}
+//        //???? ????
+//        while (monsterData.state == MonsterData.States.Chase)
+//        {
+//            // ?????? ?? ?? ???? ??
+//            if (monsterData.isFound)
+//            {
+
+//                // ???????? ???????? ?????? ????
+//                monsterData.destPosition = player.GetComponent<Transform>();
+
+
+//                // ?????????? ???????????? ????
+//                Vector3 direction = (monsterData.destPosition.position - transform.position);
+
+//                //?????? ???? ????
+//                Move();
+
+//                //???????? ???? ???? ????(2f)?? ?????????? ????
+//                if (Vector3.Distance(transform.position, monsterData.destPosition.position) <= monsterData.distance)
+//                {
+//                    //?????? ?????? Attack ?????? ????
+//                    monsterData.state = MonsterData.States.Attack;
+
+//                    //???? ???? ????
+//                    StartCoroutine(Attack());
+//                    yield break;
+//                }
+
+//                //1?? ?? ???? ??????
+//                yield return new WaitForSeconds(1.0f);
+//            }
+
+//            //?????? ?? ?? ???? ??
+//            else if (!monsterData.isFound)
+//            {
+//                //?????? ?????? Idle ?????? ????
+//                monsterData.state = MonsterData.States.Idle;
+
+//                //Idle ???? ????
+//                StartCoroutine(Idle());
+//                yield break;
+//            }
+//        }
+
+
+
+//        //???? ?????????? ????????.
+//        yield return null;
+//    }
+
+//    /*---------------------------------------------
+//     *              Idle
+//     * -------------------------------------------*/
+
+//    public IEnumerator Idle()
+//    {
+//        // Idle
+//        while (monsterData.state == MonsterData.States.Idle)
+//        {
+//            // ??
+//            if (animator.GetBool("Idle") == false)
+//            {
+//                // ?????? ?????????? ????
+//                animator.SetBool("Idle", true);
+//                animator.SetBool("Walk", false);
+//            }
+
+//            // ?????????? ?????? ??
+//            if (monsterData.isFound)
+//            {
+//                // ?????? ?????? ???? ?????? ????
+//                monsterData.state = MonsterData.States.Chase;
+
+//                // ???
+//                StartCoroutine(Chase());
+//                yield break;
+//            }
+
+//            // Patrol ???????
+
+//            yield return new WaitForSeconds(1.0f);
+//        }
+//        // ???? ?????????? ????????.
+//        yield return null;
+//    }
+
+//}

@@ -302,10 +302,10 @@ public class Warrior : PlayerController
                         monster.Damaged(PlayerManager.instance.playerData.STR * 0.5f);
 
                         // 현재 isFound 상태 저장
-                        isFind.Add(monster.monsterData.isFound);
+                        isFind.Add(monster.isFound);
                         // 잠시 기절시키기
                         // Stunning
-                        monster.monsterData.isFound = false;
+                        monster.isFound = false;
                         print("Mons Damaged by STUN skill!");
                     }
                 }
@@ -322,7 +322,7 @@ public class Warrior : PlayerController
                     foreach (GameObject monsters in monsterList)
                     {
                         // 모든 몬스터 저장해둔 isFound 상태로 복구
-                        monsters.GetComponent<NormalMonster>().monsterData.isFound = isFind[monsterList.IndexOf(monsters)];
+                        monsters.GetComponent<NormalMonster>().isFound = isFind[monsterList.IndexOf(monsters)];
                     }
                 }
 

@@ -297,7 +297,9 @@ public class BossController : Monster
             targetPlayer = _player;
         }
 
-        monsterData.curHp += _damage;
+        print($"damage {_damage}, maxHp {monsterData.maxHp}");
+
+        monsterData.curHp -= _damage;
         print($"[보스 피격] 현재 체력 : {monsterData.curHp}");
         if (!finalAttack && monsterData.maxHp * 0.4f <= monsterData.curHp && monsterData.curHp <= monsterData.maxHp * 0.6f)
         {
