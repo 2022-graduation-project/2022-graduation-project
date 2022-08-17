@@ -551,6 +551,15 @@ public class BossController : NormalMonster
         if (targetPlayer != null)
         {
             targetPlayer = null;
+<<<<<<< HEAD
+        }
+        StopCoroutine(checkTargetDistance);
+        StopCoroutine(chase);
+        checkTargetDistance = chase = null;
+        
+        cube.transform.position = tr.position;
+        cube.SetActive(true);
+=======
         }
         StopCoroutine(checkTargetDistance);
         StopCoroutine(chase);
@@ -558,10 +567,18 @@ public class BossController : NormalMonster
         
         cube.transform.position = tr.position;
         cube.SetActive(true);
+>>>>>>> d62699ae18db313e846106f9df66fde88ce2e294
         StartCoroutine(coRoll());
     }
 
     IEnumerator coRoll()
+<<<<<<< HEAD
+    {
+        animator.SetTrigger("Roll");
+        cube.SetActive(false);
+
+        yield return StartCoroutine(Forward());
+=======
     {
         animator.SetTrigger("Roll");
         yield return StartCoroutine(Forward());
@@ -573,6 +590,7 @@ public class BossController : NormalMonster
         //StartCoroutine(Chase());
         StartCoroutine(checkTargetDistance);
         StartCoroutine(chase);
+>>>>>>> d62699ae18db313e846106f9df66fde88ce2e294
     }
 
     IEnumerator Forward()
@@ -585,6 +603,11 @@ public class BossController : NormalMonster
             tr.position += tr.forward * 8f * Time.deltaTime;
             yield return null;
         }
+
+        checkTargetDistance = CheckTargetDistance();
+        chase = Chase();
+        StartCoroutine(checkTargetDistance);
+        StartCoroutine(chase);
     }
 
 

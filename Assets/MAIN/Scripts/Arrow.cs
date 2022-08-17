@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Arrow : Weapon
 {
-    private float speed = 4; // 이동 속도
+    private MonsterDummy monster = null;    // 데미지 받는 몬스터 (일단 하나)
+    private float speed = 5; // 이동 속도
 
 
     void Update()
@@ -17,7 +18,8 @@ public class Arrow : Weapon
     {
         if (other.tag == "Monster")
         {
-            print("몬스터 데미지");
+            monster = other.transform.GetComponent<MonsterDummy>();
+            Debug.Log("몬스터 " + monster.name + " 데미지");
         }
     }
 
