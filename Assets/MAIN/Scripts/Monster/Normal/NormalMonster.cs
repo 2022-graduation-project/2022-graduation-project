@@ -4,102 +4,86 @@ using UnityEngine;
 
 public class NormalMonster : Monster
 {
-    public bool isFound = false;
-    public string spawnLoc = "";
-
-
-
     /* Monster Manager */
     //public MonsterManager monsterManager;
 
 
-    protected string attackTrigger; // 몬스터 기본 공격 애니메이션의 트리거(명)
-
     public Transform target = null; // 추적할 대상의 좌표
-
+    public bool isFound = false;
+    public string spawnLoc = "";
 
 
     /* Protected Variables */
     protected float attackDistance;    // 몬스터가 추격을 멈추고 공격을 시작할 거리
     protected float attackCool;    // 자동 공격 쿨타임
 
-
-
-
-
     /* Local Variables */
     protected float distance;
 
-    protected virtual void Awake()
-    {
-        //monsterManager = GameObject.Find("MonsterManager").GetComponent<MonsterManager>();
-    }
 
-    protected virtual void Start()
-    {
 
-    }
-
-    /*
     protected virtual void Update()
     {
         // 추적 범위 내에서 플레이어 발견!
         if (target != null)
         {
             isFound = true;
+            transform.LookAt(target);   // target 바라보게 함
             distance = Vector3.Distance(transform.position, target.position);   // 현재 몬스터-플레이어 사이 거리 측정
 
             // 공격 범위보다 더 멀리 떨어져 있는 경우 -> 추적 계속
-            if (distance > attackRange)
-            {
-                animator.SetBool("Walk", true);
-                Chase();
-            }
-
+            if (distance > attackDistance)
+                StartChasing();
             // 공격 범위 진입 -> 추적 중지, 공격 시작
             else
-            {
-                animator.SetBool("Walk", false);
-                StartCoroutine("Attack", attackDelay);
-            }
+                StopChasing();
         }
-
+        // 플레이어 아직 발견 못 했거나 놓침
         else
         {
             animator.SetBool("Walk", false);
             isFound = false;
         }
     }
-*/
- 
 
 
-    /*------------------------------------------------------
+
+    /*----------------------------------------------------------------
      *              CHASE - 몬스터가 플레이어 추격
-     * ----------------------------------------------------*/
+     * --------------------------------------------------------------*/
 
     public override void Chase(float _speed)
     {
-        transform.LookAt(target);   // 타겟 바라보게 함
         // 타겟 위치 받아와서 따라가도록 설정
         Vector3 dir = target.position - transform.position;
         transform.position += dir.normalized * _speed * Time.deltaTime;
     }
 
+    public virtual void StartChasing()
+    {
+        animator.SetBool("Walk", true);
+        Chase(monsterData.moveSpeed);
+    }
+    public virtual void StopChasing()
+    {
+        animator.SetBool("Walk", false);
+        StartCoroutine(coAttack());
+    }
 
-    /*------------------------------------------------------
-     *              ATTACK, SKILL - 몬스터 공격 루틴
-     * ----------------------------------------------------*/
+
+    /*----------------------------------------------------------------
+     *              ATTACK, SKILL - 몬스터 공격
+     * --------------------------------------------------------------*/
 
     public override void Attack() { }
     public override void Skill() { }
 
+    public virtual IEnumerator coAttack() { yield return null; }
 
 
-
-    /*------------------------------------------------------
+    /*----------------------------------------------------------------
      *              DAMAGED - 플레이어 공격으로 몬스터 데미지
-     * ----------------------------------------------------*/
+     * --------------------------------------------------------------*/
 
     public override void Damaged(float _damage, PlayerController _player = null)
     {
@@ -119,8 +103,6 @@ public class NormalMonster : Monster
             Invoke("Die", 1f);
         }
 
-
-
         print("Monster HP: " + monsterData.curHp);
     }
 
@@ -128,10 +110,10 @@ public class NormalMonster : Monster
     public void dDamaged(float _damage)
     {
         animator.SetTrigger("Damaged"); // 애니메이션
+        monsterData.curHp -= _damage;
 
-        Debug.Log(tr.name + " 몬스터가 맞았다 !!!");
+        Debug.Log(tr.name + " 몬스터가 맞았다 !!! (HP : " + monsterData.curHp + ")");
     }
-
 
     // 몬스터가 폭탄 맞았을 때
     protected void OnCollisionEnter(Collision other) 
@@ -170,9 +152,9 @@ public class NormalMonster : Monster
     }
 
 
-    /*------------------------------------------------------
+    /*----------------------------------------------------------------
      *              DIE - 몬스터 사망
-     * ----------------------------------------------------*/
+     * --------------------------------------------------------------*/
 
     public override void Die()
     {

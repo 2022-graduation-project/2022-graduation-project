@@ -1,87 +1,77 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class SelfDesMonster : NormalMonster
 {
+    /*----------------------------------------------------------------
+     *              [SelfDes Monster] LOCAL DATA
+     * --------------------------------------------------------------*/
+
+    public SelfDesWeapon weapon;  // 폭발 시 플레이어 데미지 여부를 판단할 콜라이더 오브젝트
+    public bool damagePlayer;    // 현재 플레이어가 공격 범위(collider) 내에 들어와 있는가?
+
+
+    /*----------------------------------------------------------------
+     *              Inherited Methods (SetMonsterData, Set)
+     * --------------------------------------------------------------*/
+
     public override void SetMonsterData()
     {
-        /*
         monsterData = DataManager.instance.LoadJsonFile
               <Dictionary<string, MonsterData>>
               (Application.dataPath + "/MAIN/Data", "monster")
               ["004_soul"];
-        */
+
+        Debug.Log("모델명 " + monsterData.name
+            + ", 체력 " + monsterData.curHp + " / " + monsterData.maxHp
+            + ", 스피드 " + monsterData.moveSpeed + " & " + monsterData.turnSpeed
+            + ", 공격력 " + monsterData.attackForce);
     }
-
-
-    /* (SelfDes Monster) PRIVATE DATA - 공격 */
-    private SelfDesWeapon weapon;  // 폭발 시 플레이어에게 데미지를 입힐 수 있는 범위
-    private bool damagePlayer;    // 플레이어가 공격 범위 내에 들어와 있는지 여부
-
 
     public override void Set()
     {
         SetMonsterData();
 
-
-
         /* Protected Variables */
-        attackDistance = 3f;
+        attackDistance = 2.0f;
         attackCool = 2.0f;
-
 
         /* Damage Range 콜라이더 지정 */
         weapon = transform.Find("Explosion").gameObject.GetComponent<SelfDesWeapon>();
 
-        if (weapon == null)
-            Debug.Log("응 안 들어가;");
-
+        Debug.Log("(SelfDes Monster) Set 완료");
     }
+    
 
 
+    /*----------------------------------------------------------------
+     *              [SelfDes Monster] 몬스터 별 공격 코루틴
+     * --------------------------------------------------------------*/
 
-    private void Update()
-    {
-        //Debug.Log(weapon.player_in);
-
-
-        // 추적 범위 내에서 플레이어 발견!
-        if (target != null)
-        {
-            isFound = true;
-            distance = Vector3.Distance(transform.position, target.position);   // 현재 몬스터-플레이어 사이 거리 측정
-
-            // 공격 범위보다 더 멀리 떨어져 있는 경우 -> 추적 계속
-            if (distance >/*monsterData.attackDistance*/1.5f)
-            {
-                Chase(/*monsterData.moveSpeed*/1.5f);
-            }
-
-            // 공격 범위 진입 -> 추적 중지, 공격 시작
-            else
-            {
-                StartCoroutine(coAttack());
-            }
-        }
-
-        else
-        {
-            animator.SetBool("Walk", false);
-            isFound = false;
-        }
-    }
-
-
-
-
-    private IEnumerator coAttack()
+    public override IEnumerator coAttack()
     {
         yield return new WaitForSeconds(attackCool);
 
         if (weapon.player_in)
             print("Player damaged");
 
-        /* 자폭 몬스터 폭발, 비활성화 */
+        // 자폭 몬스터 폭발, 비활성화
         gameObject.SetActive(false);
+    }
+
+
+    /*----------------------------------------------------------------
+     *              [SelfDes Monster] 추격 메소드
+     * --------------------------------------------------------------*/
+
+    public override void StartChasing()
+    {
+        Chase(monsterData.moveSpeed);
+    }
+    public override void StopChasing()
+    {
+        Debug.Log("몬스터 멈춤. " + attackCool + "초 뒤에 몬스터 폭발합니다.");
+        StartCoroutine(coAttack());
     }
 }
