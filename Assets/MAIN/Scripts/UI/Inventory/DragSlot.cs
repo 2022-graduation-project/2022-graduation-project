@@ -7,7 +7,9 @@ public class DragSlot : MonoBehaviour
 {
     [SerializeField] private Image icon;
 
-    public ItemData itemData;
+    //public ItemData itemData;
+    public string item_code;
+    public int item_count;
     public Item itemScript;
 
     public static DragSlot instance = null;
@@ -27,12 +29,13 @@ public class DragSlot : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public void Set(ItemData _itemData, Item _itemScript = null)
+    public void Set(string _item_code, Item _itemScript = null)
     {
         itemScript = _itemScript;
 
-        itemData = _itemData; // InventorUI에서 넘어오니까 인스턴스 생성 없어도 가능할지도?
-        icon.sprite = DataManager.instance.LoadSpriteFile(Application.dataPath + "/DEV/sunhyo/Assets/Items", _itemData.image_name);
+        item_code = _item_code;
+        icon.sprite = DataManager.instance.LoadSpriteFile
+                      (Application.dataPath + "/DEV/sunhyo/Assets/Items", _item_code);
         SetColorA(1f);
     }
 
@@ -42,7 +45,7 @@ public class DragSlot : MonoBehaviour
 
         SetColorA(0f);
         icon.sprite = null;
-        itemData = null;
+        item_code = null;
     }
 
     void SetColorA(float _delta)

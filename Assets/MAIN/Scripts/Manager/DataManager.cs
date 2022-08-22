@@ -7,6 +7,10 @@ using System.Text;
 
 public class DataManager : MonoBehaviour
 {
+    public PlayerData playerData;
+    public Dictionary<string, ItemData> itemDict;
+    public Dictionary<string, MonsterData> monsterDict;
+
     public static DataManager instance = null;
     void Awake()
     {
@@ -20,6 +24,22 @@ public class DataManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(this.gameObject);
+    }
+
+    void SetData()
+    {
+        playerData = DataManager.instance.LoadJsonFile
+                   <Dictionary<string, PlayerData>>
+                   (Application.dataPath + "/MAIN/Data/", "player")
+                   ["000_player"];
+
+        itemDict = DataManager.instance.LoadJsonFile
+                   <Dictionary<string, ItemData>>
+                   (Application.dataPath + "/MAIN/Data/", "item");
+
+        monsterDict = DataManager.instance.LoadJsonFile
+                      <Dictionary<string, MonsterData>>
+                      (Application.dataPath + "/MAIN/Data/", "monster");
     }
 
     public string ObjectToJson(object obj)
