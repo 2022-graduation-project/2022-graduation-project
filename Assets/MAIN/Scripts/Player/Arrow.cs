@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class Arrow : Weapon
 {
-    private MonsterDummy monster = null;    // 데미지 받는 몬스터 (일단 하나)
+    private NormalMonster monster;    // 데미지 받는 몬스터 (일단 하나)
     private float speed = 5; // 이동 속도
+    private float damage = 5f;
+
 
 
     void Update()
@@ -18,10 +20,17 @@ public class Arrow : Weapon
     {
         if (other.tag == "Monster")
         {
-            monster = other.transform.GetComponent<MonsterDummy>();
-            Debug.Log("몬스터 " + monster.name + " 데미지");
+            Debug.Log("(arrow) good collider");
+
+
+            monster = other.transform.GetComponent<NormalMonster>();
+            // 임시
+            monster.dDamaged(damage);
         }
     }
+
+
+
 
     /*
     public override void Attack(float _damage)

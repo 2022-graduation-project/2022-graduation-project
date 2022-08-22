@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class RangeWeapon : MonsterWeapon
 {
-    private float arrowSpeed = 2; // 화살 이동 속도
+    private float arrowSpeed = 3.5f; // 화살 이동 속도
 
 
     private void Update()
     {
-        /* Set direction & Shot */
+        /* Set direction & Move arrow */
         transform.Translate(new Vector3(0, 1.0f, 0) * arrowSpeed * Time.deltaTime);
     }
 

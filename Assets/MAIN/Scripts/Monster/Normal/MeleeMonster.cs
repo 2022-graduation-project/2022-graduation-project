@@ -4,15 +4,42 @@ using UnityEngine;
 
 public class MeleeMonster : NormalMonster
 {
-    protected override void Awake()
+    /*----------------------------------------------------------------
+     *              Inherited Methods (SetMonsterData, Set)
+     * --------------------------------------------------------------*/
+
+    public override void SetMonsterData()
     {
-        base.Awake();
+        monsterData = DataManager.instance.LoadJsonFile
+              <Dictionary<string, MonsterData>>
+              (Application.dataPath + "/MAIN/Data", "monster")
+              ["000_skeleton"];
 
-        /* Melee Monster ; 공격 시 발동할 애니메이션의 트리거 명 */
-        attackTrigger = "BasicAttack";
+        Debug.Log("모델명 " + monsterData.name
+            + ", 체력 " + monsterData.curHp + " / " + monsterData.maxHp
+            + ", 스피드 " + monsterData.moveSpeed + " & " + monsterData.turnSpeed
+            + ", 공격력 " + monsterData.attackForce);
+    }
 
-        /* 공격 범위 & 공격 지연 시간 */
-        attackRange = 1.75f;
-        attackDelay = 2.0f;
+    public override void Set()
+    {
+        SetMonsterData();
+
+        /* Protected Variables */
+        attackDistance = 1.75f;
+        attackCool = 2.0f;
+
+        Debug.Log("(Melee Monster) Set 완료");
+    }
+
+
+    /*----------------------------------------------------------------
+     *              [Melee Monster] 몬스터 별 공격 코루틴
+     * --------------------------------------------------------------*/
+
+    public override IEnumerator coAttack()
+    {
+        yield return new WaitForSeconds(attackCool);
+        animator.SetTrigger("MeleeAttack"); // 몬스터 타입에 따라 공격 애니메이션 발동
     }
 }

@@ -6,6 +6,8 @@ using Random = UnityEngine.Random;
 
 public class BossController : Monster
 {
+    private float bossSpeed = 5.0f;
+
     /* enum */
     private enum Skills
     {
@@ -160,7 +162,7 @@ public class BossController : Monster
             checkTargetDistance = CheckTargetDistance();
             StartCoroutine(checkTargetDistance);
 
-            Chase();
+            Chase(bossSpeed);
         }
     }
 
@@ -227,7 +229,7 @@ public class BossController : Monster
     /*                               공격 사이클                              */
     /*************************************************************************/
 
-    public override void Chase()
+    public override void Chase(float _speed)
     {
         chase = CoChase();
         StartCoroutine(chase);
@@ -543,7 +545,7 @@ public class BossController : Monster
 
         checkTargetDistance = CheckTargetDistance();
         StartCoroutine(checkTargetDistance);
-        Chase();
+        Chase(bossSpeed);
     }
 
 

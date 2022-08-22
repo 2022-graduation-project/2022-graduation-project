@@ -9,7 +9,7 @@ public class MeleeWeapon : MonsterWeapon
         if (other.tag == "Player")
         {
             Debug.Log("Player damaged");
-            other.GetComponent<PlayerController>().Damaged(5);
+            //other.GetComponent<PlayerController>().Damaged(5);
         }
     }
 }

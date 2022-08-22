@@ -16,14 +16,14 @@ public abstract class Monster : MonoBehaviour
         Set();
     }
 
-    public void SetMonsterData()
+    public virtual void SetMonsterData()
     {
         // monster.json 에서 이름 기준으로 파싱해서 등록
     }
 
 
     public virtual void Set() { }
-    public virtual void Chase() { }
+    public virtual void Chase(float _speed) { }
     public virtual void Attack() { }
     public virtual void Skill() { }
     public virtual void Damaged(float _damage, PlayerController _player = null) { }

@@ -20,7 +20,7 @@ public class MonsterDetect : MonoBehaviour
     protected void OnTriggerExit(Collider other)
     {
         monster.target = null;
-        monster.isFound=false;
+        monster.isFound = false;
         Debug.Log("Monster : Target lost");
     }
 
