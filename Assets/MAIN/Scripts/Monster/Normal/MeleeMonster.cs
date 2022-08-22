@@ -23,6 +23,8 @@ public class MeleeMonster : NormalMonster
 
     public override void Set()
     {
+        base.Set();
+
         SetMonsterData();
 
         /* Protected Variables */

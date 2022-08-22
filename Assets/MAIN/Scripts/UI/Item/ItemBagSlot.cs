@@ -43,7 +43,7 @@ public class ItemBagSlot : MonoBehaviour, IPointerClickHandler
         if(itemData != null)
         {
             itemBag.PopItem(itemData);
-            UIManager.instance.inventoryUI.AddItem(itemData);
+            //UIManager.instance.inventoryUI.AddItem(itemData);
             Reset();
         }
     }

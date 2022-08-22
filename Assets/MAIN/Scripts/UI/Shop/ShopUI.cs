@@ -36,7 +36,7 @@ public class ShopUI : MonoBehaviour, IDropHandler, IUIWindow
         InventoryUI.instance.GetMoney(-newItemData.price * count);
         curMoney = PlayerManager.instance.playerData.money;
         money.text = curMoney.ToString("N0") + "원";
-        InventoryUI.instance.AddItem(newItemData, count);
+        // InventoryUI.instance.AddItem(newItemData, count);
         CheckActiveSlot(curMoney);
     }
 

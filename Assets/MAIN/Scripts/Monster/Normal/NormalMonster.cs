@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class NormalMonster : Monster
 {
@@ -14,6 +15,9 @@ public class NormalMonster : Monster
 
 
     /* Protected Variables */
+    public GameObject prefab_HpBar;
+    public Canvas canvas;
+    public Slider slider;
     protected float attackDistance;    // 몬스터가 추격을 멈추고 공격을 시작할 거리
     protected float attackCool;    // 자동 공격 쿨타임
 
@@ -21,28 +25,38 @@ public class NormalMonster : Monster
     protected float distance;
 
 
+    public override void Set()
+    {
+        SetHpBar();
+    }
 
     protected virtual void Update()
     {
-        // 추적 범위 내에서 플레이어 발견!
-        if (target != null)
-        {
-            isFound = true;
-            transform.LookAt(target);   // target 바라보게 함
-            distance = Vector3.Distance(transform.position, target.position);   // 현재 몬스터-플레이어 사이 거리 측정
+        UpdateHpBar();
 
-            // 공격 범위보다 더 멀리 떨어져 있는 경우 -> 추적 계속
-            if (distance > attackDistance)
-                StartChasing();
-            // 공격 범위 진입 -> 추적 중지, 공격 시작
-            else
-                StopChasing();
-        }
-        // 플레이어 아직 발견 못 했거나 놓침
-        else
+        if (monsterData.curHp > 0)
         {
-            animator.SetBool("Walk", false);
-            isFound = false;
+            // 추적 범위 내에서 플레이어 발견!
+            if (target != null)
+            {
+                isFound = true;
+                transform.LookAt(target);   // target 바라보게 함
+                distance = Vector3.Distance(transform.position, target.position);   // 현재 몬스터-플레이어 사이 거리 측정
+
+                // 공격 범위보다 더 멀리 떨어져 있는 경우 -> 추적 계속
+                if (distance > attackDistance)
+                    StartChasing();
+                // 공격 범위 진입 -> 추적 중지, 공격 시작
+                else
+                    StopChasing();
+
+            }
+            // 플레이어 아직 발견 못 했거나 놓침
+            else
+            {
+                animator.SetBool("Walk", false);
+                isFound = false;
+            }
         }
     }
 
@@ -71,6 +85,7 @@ public class NormalMonster : Monster
     }
 
 
+
     /*----------------------------------------------------------------
      *              ATTACK, SKILL - 몬스터 공격
      * --------------------------------------------------------------*/
@@ -79,6 +94,7 @@ public class NormalMonster : Monster
     public override void Skill() { }
 
     public virtual IEnumerator coAttack() { yield return null; }
+
 
 
     /*----------------------------------------------------------------
@@ -119,6 +135,7 @@ public class NormalMonster : Monster
         else  // 남은 체력이 없을 때 -> 사망
         {
             animator.SetBool("Dead", true);
+            monsterData.curHp = 0;
             //DeleteHpBar();    // 몬스터 체력바 삭제
             Invoke("Die", 3f);
         }
@@ -163,6 +180,7 @@ public class NormalMonster : Monster
     }
 
 
+
     /*----------------------------------------------------------------
      *              DIE - 몬스터 사망
      * --------------------------------------------------------------*/
@@ -187,5 +205,35 @@ public class NormalMonster : Monster
         */
 
         gameObject.SetActive(false);
+    }
+
+
+
+    /*----------------------------------------------------------------
+     *              [Normal Monster] HP BAR (Set, Update)
+     * --------------------------------------------------------------*/
+
+    protected void SetHpBar()
+    {
+        prefab_HpBar = GameObject.Find("HP Bar");
+        canvas = GetComponentInChildren<Canvas>();
+        slider = prefab_HpBar.GetComponentInChildren<Slider>();
+
+        canvas.worldCamera = GameObject.Find("Player_Archer").GetComponentInChildren<Camera>();
+    }
+
+    protected void UpdateHpBar()
+    {
+        prefab_HpBar.transform.position = transform.position + new Vector3(0, 2.2f, 0);
+        canvas.transform.rotation = canvas.worldCamera.transform.rotation;  // 빌보드
+
+        if (monsterData.curHp > 0)
+        {
+            slider.value = monsterData.curHp / monsterData.maxHp;
+        }
+        else
+        {
+            prefab_HpBar.SetActive(false);
+        }
     }
 }

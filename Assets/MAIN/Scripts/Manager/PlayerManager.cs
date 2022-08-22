@@ -138,7 +138,7 @@ public class PlayerManager : MonoBehaviour
             curTime += 1f;
 
             playerData.curHp += healAmount;
-            UIManager.instance.playerUI.UpdateHpBar(playerData.maxHp, playerData.curHp);
+            // UIManager.instance.playerUI.UpdateHpBar(playerData.maxHp, playerData.curHp);
             yield return new WaitForSeconds(1f); // 캐싱 필요
         }
     }
@@ -152,7 +152,7 @@ public class PlayerManager : MonoBehaviour
             curTime += 1f;
 
             playerData.curMp += manaAmount;
-            UIManager.instance.playerUI.UpdateMpBar(playerData.maxMp, playerData.curMp);
+            // UIManager.instance.playerUI.UpdateMpBar(playerData.maxMp, playerData.curMp);
             yield return new WaitForSeconds(1f); // 캐싱 필요
         }
         
