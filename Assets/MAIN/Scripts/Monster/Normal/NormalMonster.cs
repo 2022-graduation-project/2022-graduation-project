@@ -109,10 +109,21 @@ public class NormalMonster : Monster
     // PlayerController 오류 나서 임시로 카피해둔 것 -> 오류 해결하고 삭제할 것 !!!
     public void dDamaged(float _damage)
     {
-        animator.SetTrigger("Damaged"); // 애니메이션
-        monsterData.curHp -= _damage;
+        if (monsterData.curHp - _damage > 0) // 아직 체력이 남아 있을 때
+        {
+            animator.SetTrigger("Damaged"); // 애니메이션
+            monsterData.curHp -= _damage; // scale(+)만큼 몬스터 체력 감소
+            //UpdateHpBar(monsterData.curHp);   // 몬스터 체력바 반영
+        }
 
-        Debug.Log(tr.name + " 몬스터가 맞았다 !!! (HP : " + monsterData.curHp + ")");
+        else  // 남은 체력이 없을 때 -> 사망
+        {
+            animator.SetBool("Dead", true);
+            //DeleteHpBar();    // 몬스터 체력바 삭제
+            Invoke("Die", 3f);
+        }
+
+        print("Monster HP: " + monsterData.curHp);
     }
 
     // 몬스터가 폭탄 맞았을 때
@@ -166,10 +177,15 @@ public class NormalMonster : Monster
         //monsterManager.DropItem(itemLocation);
         // 몬스터 삭제
         //monsterManager.DeleteMonster(gameObject);
+
+        /*
         print(spawnLoc+"'s Monster DIED");
         if(spawnLoc!="")
         {
             //monsterManager.gameObject.GetComponent<MonsterSpawn>().Decode(spawnLoc);
         }
+        */
+
+        gameObject.SetActive(false);
     }
 }
