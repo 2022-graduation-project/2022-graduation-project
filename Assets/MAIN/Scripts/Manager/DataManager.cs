@@ -8,13 +8,14 @@ using System.Text;
 public class DataManager : MonoBehaviour
 {
     public PlayerData playerData;
+    public List<InventoryData> inventory;
     public Dictionary<string, ItemData> itemDict;
     public Dictionary<string, MonsterData> monsterDict;
 
     public static DataManager instance = null;
     void Awake()
     {
-        if(instance == null)
+        if (instance == null)
         {
             instance = this;
         }
@@ -24,6 +25,8 @@ public class DataManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(this.gameObject);
+
+        SetData();
     }
 
     void SetData()
@@ -33,13 +36,22 @@ public class DataManager : MonoBehaviour
                    (Application.dataPath + "/MAIN/Data/", "player")
                    ["000_player"];
 
-        itemDict = DataManager.instance.LoadJsonFile
-                   <Dictionary<string, ItemData>>
-                   (Application.dataPath + "/MAIN/Data/", "item");
+        inventory = DataManager.instance.LoadJsonFile
+                    <List<InventoryData>>
+                    (Application.dataPath + "/MAIN/Data/", "inventory");
 
-        monsterDict = DataManager.instance.LoadJsonFile
-                      <Dictionary<string, MonsterData>>
-                      (Application.dataPath + "/MAIN/Data/", "monster");
+        //foreach (InventoryData data in inventory)
+        //{
+        //    print($"{data.item_code}, {data.item_count}");
+        //}
+
+        //itemDict = DataManager.instance.LoadJsonFile
+        //           <Dictionary<string, ItemData>>
+        //           (Application.dataPath + "/MAIN/Data/", "item");
+
+        //monsterDict = DataManager.instance.LoadJsonFile
+        //              <Dictionary<string, MonsterData>>
+        //              (Application.dataPath + "/MAIN/Data/", "monster");
     }
 
     public string ObjectToJson(object obj)
@@ -78,11 +90,14 @@ public class DataManager : MonoBehaviour
     public bool ObjectToJson<T>(string createPath, string fileName, T obj)
     {
         // 존재하는 파일이 아니면 입력값이 틀렸다는 것이므로 false 반환
-        try {
+        try
+        {
             // filestram 인스턴스 생성 외에 다른 방법 있는지 찾아보기
             FileStream temp = new FileStream(string.Format("{0}/{1}.json", createPath, fileName), FileMode.Open);
             temp.Close();
-        } catch(FileNotFoundException e) {
+        }
+        catch (FileNotFoundException e)
+        {
             return false;
         }
 

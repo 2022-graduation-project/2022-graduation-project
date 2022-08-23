@@ -1,8 +1,10 @@
 using System.Collections;
 using UnityEngine;
 
-public class Wizard : PlayerController
+public class Wizard : MonoBehaviour, IRole
 {
+    public GameObject magicCircleObj;
+
     private IEnumerator coroutine;
     private RaycastHit hit;
     private Transform magicCircle;
@@ -17,19 +19,28 @@ public class Wizard : PlayerController
 
     private bool meteorIsAvailable = true;
 
-    void Start()
+    private enum Skills { Meteor };
+
+    public void Start()
     {
-        magicCircle = GameObject.Find("/Player_Wizard(Clone)").transform.Find("MagicCircle");
-
-        rightWeapon = transform.Find("Root").Find("Hips").Find("Spine_01").Find("Spine_02").Find("Spine_03")
-                     .Find("Clavicle_R").Find("Shoulder_R").Find("Elbow_R").Find("Hand_R").Find("Weapon");
-        leftWeapon = transform.Find("Root").Find("Hips").Find("Spine_01").Find("Spine_02").Find("Spine_03")
-                             .Find("Clavicle_L").Find("Shoulder_L").Find("Elbow_L").Find("Hand_L").Find("Weapon");
-
-        weapon = rightWeapon.GetChild(0).GetComponent<Weapon>();
+        magicCircle = Instantiate(magicCircleObj, transform).GetComponent<Transform>();
     }
 
-    public override void UseSkill()
+    public float UseSkill(int _type)
+    {
+        float usedMp = 0f;
+
+        switch(_type)
+        {
+            case (int)Skills.Meteor:
+                usedMp = StartMeteor();
+                break;
+        }
+
+        return usedMp;
+    }
+
+    public float StartMeteor()
     {
         if(meteorIsAvailable)
         {
@@ -42,7 +53,11 @@ public class Wizard : PlayerController
 
             coroutine = Meteor();
             StartCoroutine(coroutine);
+
+            return 10f;
         }
+
+        return 0;
     }
 
 
@@ -102,7 +117,12 @@ public class Wizard : PlayerController
             yield return null;
         }
         if (placed) magicCircle.SetParent(GameObject.Find("Playable").transform);
-        if (terminated) magicCircle.localPosition = originalPos;
+        if (terminated)
+        {
+            magicCircle.gameObject.SetActive(false);
+            magicCircle.SetParent(transform);
+            magicCircle.localPosition = originalPos;
+        }
 
         print("스킬 종료");
     }

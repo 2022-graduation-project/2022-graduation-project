@@ -487,7 +487,7 @@ public class BossController : Monster
 
         foreach (RaycastHit hit in hits)
         {
-            hit.transform.GetComponent<PlayerController>().Die();
+            hit.transform.GetComponent<PlayerCombat>().Die();
         }
     }
 

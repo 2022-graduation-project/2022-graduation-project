@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -32,7 +32,7 @@ public class Archer : PlayerController
     }
 
 
-    public override void UseSkill()
+    public void UseSkill()
     {
         animator.SetTrigger("UseSkill");
         StartCoroutine(Shot());

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
@@ -43,7 +43,7 @@ public class ItemBagSlot : MonoBehaviour, IPointerClickHandler
         if(itemData != null)
         {
             itemBag.PopItem(itemData);
-            UIManager.instance.inventoryUI.AddItem(itemData);
+            //UIManager.instance.inventoryUI.AddItem(itemData);
             Reset();
         }
     }
