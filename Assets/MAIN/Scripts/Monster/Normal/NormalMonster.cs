@@ -25,9 +25,14 @@ public class NormalMonster : Monster
     protected float distance;
 
 
+
+
+    public itemManager itemMgr;
+
     public override void Set()
     {
         SetHpBar();
+        itemMgr = GameObject.Find("ItemPool").GetComponent<itemManager>();
     }
 
     protected virtual void Update()
@@ -136,7 +141,6 @@ public class NormalMonster : Monster
         {
             animator.SetBool("Dead", true);
             monsterData.curHp = 0;
-            //DeleteHpBar();    // 몬스터 체력바 삭제
             Invoke("Die", 3f);
         }
 
@@ -187,24 +191,20 @@ public class NormalMonster : Monster
 
     public override void Die()
     {
-        // Transform itemLocation;
-        // // 죽은 위치+1에 아이템 떨구기
-        // itemLocation = transform;
-        // itemLocation.position += new Vector3(0, 1, 0);
-        // 아이템 떨어트리기
-        //monsterManager.DropItem(itemLocation);
-        // 몬스터 삭제
-        //monsterManager.DeleteMonster(gameObject);
+        gameObject.SetActive(false);
+        itemMgr.DropItem(this, itemMgr.SelectItemIndex());
 
         /*
+
+
         print(spawnLoc+"'s Monster DIED");
         if(spawnLoc!="")
         {
             //monsterManager.gameObject.GetComponent<MonsterSpawn>().Decode(spawnLoc);
         }
-        */
 
-        gameObject.SetActive(false);
+
+        */
     }
 
 
@@ -215,8 +215,8 @@ public class NormalMonster : Monster
 
     protected void SetHpBar()
     {
-        prefab_HpBar = GameObject.Find("HP Bar");
-        canvas = GetComponentInChildren<Canvas>();
+        canvas = gameObject.GetComponentInChildren<Canvas>();
+        prefab_HpBar = canvas.transform.GetChild(0).gameObject;
         slider = prefab_HpBar.GetComponentInChildren<Slider>();
 
         canvas.worldCamera = GameObject.Find("Player_Archer").GetComponentInChildren<Camera>();
@@ -224,7 +224,7 @@ public class NormalMonster : Monster
 
     protected void UpdateHpBar()
     {
-        prefab_HpBar.transform.position = transform.position + new Vector3(0, 2.2f, 0);
+        prefab_HpBar.transform.position = tr.position + new Vector3(0, 2.2f, 0);
         canvas.transform.rotation = canvas.worldCamera.transform.rotation;  // 빌보드
 
         if (monsterData.curHp > 0)
