@@ -23,6 +23,7 @@ public class NormalMonster : Monster
 
     /* Local Variables */
     protected float distance;
+    protected AudioSource dieSound;
 
 
 
@@ -189,6 +190,11 @@ public class NormalMonster : Monster
 
     public override void Die()
     {
+        // Die effects
+        Instantiate(Resources.Load("Die Effect"), transform.position + new Vector3(0,0.7f,0), Quaternion.identity);
+        dieSound = GetComponent<AudioSource>();
+        dieSound.Play();
+
         gameObject.SetActive(false);
         DropItem(this, SelectItemIndex());
 
