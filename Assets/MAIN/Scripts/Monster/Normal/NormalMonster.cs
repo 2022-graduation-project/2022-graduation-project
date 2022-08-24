@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,6 +17,7 @@ public class NormalMonster : Monster
     public GameObject prefab_HpBar;
     public Canvas canvas;
     public Slider slider;
+    protected GameObject item;
     protected float attackDistance;    // 몬스터가 추격을 멈추고 공격을 시작할 거리
     protected float attackCool;    // 자동 공격 쿨타임
 
@@ -27,12 +27,10 @@ public class NormalMonster : Monster
 
 
 
-    public itemManager itemMgr;
 
     public override void Set()
     {
         SetHpBar();
-        itemMgr = GameObject.Find("ItemPool").GetComponent<itemManager>();
     }
 
     protected virtual void Update()
@@ -192,7 +190,7 @@ public class NormalMonster : Monster
     public override void Die()
     {
         gameObject.SetActive(false);
-        itemMgr.DropItem(this, itemMgr.SelectItemIndex());
+        DropItem(this, SelectItemIndex());
 
         /*
 
@@ -236,4 +234,28 @@ public class NormalMonster : Monster
             prefab_HpBar.SetActive(false);
         }
     }
+
+
+
+    /*----------------------------------------------------------------
+     *              [Normal Monster] 사망 후 아이템 떨구기
+     * --------------------------------------------------------------*/
+
+    public int SelectItemIndex()
+    {
+        System.Random random = new System.Random();
+        int n = random.Next(10);    // Item Set -> 10개의 종류 있다고 설정하고 랜덤으로 인덱스 설정
+
+        return n;
+    }
+
+    public void DropItem(NormalMonster _monster, int index)
+    {
+        item = GameObject.Find("ItemPool").transform.GetChild(index).gameObject;
+        item.transform.position = _monster.transform.position + new Vector3(0, 1.1f, 0);  // 아이템 떨굴 위치 (죽은 자리 + 1) 설정
+
+        item.SetActive(true);
+    }
+
+
 }
