@@ -18,9 +18,6 @@ public class Client : MonoBehaviour
     StreamWriter writer;
     StreamReader reader;
 
-    void Start() {
-        Screen.SetResolution(1920/2, 1080/2, true);
-    }
     public void ConnectToServer()
     {
         // 이미 연결됐다면 함수 무시
