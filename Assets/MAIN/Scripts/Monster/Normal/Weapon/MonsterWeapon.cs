@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class MonsterWeapon : MonoBehaviour
 {
-    protected MeshCollider meshCollider;
+    protected Collider Collider;
     protected float damage;
 
-    void Awake()
+    public virtual void Start()
     {
-        meshCollider = GetComponent<MeshCollider>();
+        Collider = GetComponent<Collider>();
     }
 }

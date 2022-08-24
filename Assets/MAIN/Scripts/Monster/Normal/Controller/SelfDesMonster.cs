@@ -74,6 +74,5 @@ public class SelfDesMonster : NormalMonster
     public override void StopChasing()
     {
         Debug.Log("몬스터 멈춤. " + attackCool + "초 뒤에 몬스터 폭발합니다.");
-        StartCoroutine(coAttack());
     }
 }

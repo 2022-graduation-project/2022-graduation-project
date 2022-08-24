@@ -33,6 +33,7 @@ public class NormalMonster : Monster
         SetHpBar();
     }
 
+
     protected virtual void Update()
     {
         UpdateHpBar();
@@ -48,10 +49,15 @@ public class NormalMonster : Monster
 
                 // 공격 범위보다 더 멀리 떨어져 있는 경우 -> 추적 계속
                 if (distance > attackDistance)
+                {
                     StartChasing();
+                }
                 // 공격 범위 진입 -> 추적 중지, 공격 시작
                 else
+                {
                     StopChasing();
+                    StartCoroutine(coAttack());
+                }
 
             }
             // 플레이어 아직 발견 못 했거나 놓침
@@ -76,15 +82,14 @@ public class NormalMonster : Monster
         transform.position += dir.normalized * _speed * Time.deltaTime;
     }
 
-    public virtual void StartChasing()
+    public virtual void StartChasing()  // 추격 시작
     {
         animator.SetBool("Walk", true);
         Chase(monsterData.moveSpeed);
     }
-    public virtual void StopChasing()
+    public virtual void StopChasing()   // 추격 중단
     {
         animator.SetBool("Walk", false);
-        StartCoroutine(coAttack());
     }
 
 
@@ -112,13 +117,11 @@ public class NormalMonster : Monster
         if (monsterData.curHp > 0) // 아직 체력이 남아 있을 때
         {
             monsterData.curHp -= _damage; // scale(+)만큼 몬스터 체력 감소
-            //UpdateHpBar(monsterData.curHp);   // 몬스터 체력바 반영
         }
 
         else  // 남은 체력이 없을 때 -> 사망
         {
             animator.SetBool("Dead", true);
-            //DeleteHpBar();    // 몬스터 체력바 삭제
             Invoke("Die", 1f);
         }
 
@@ -132,13 +135,12 @@ public class NormalMonster : Monster
         {
             animator.SetTrigger("Damaged"); // 애니메이션
             monsterData.curHp -= _damage; // scale(+)만큼 몬스터 체력 감소
-            //UpdateHpBar(monsterData.curHp);   // 몬스터 체력바 반영
         }
 
         else  // 남은 체력이 없을 때 -> 사망
         {
-            animator.SetBool("Dead", true);
             monsterData.curHp = 0;
+            animator.SetBool("Dead", true);
             Invoke("Die", 3f);
         }
 

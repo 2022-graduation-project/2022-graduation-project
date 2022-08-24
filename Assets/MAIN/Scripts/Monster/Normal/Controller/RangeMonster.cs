@@ -10,7 +10,7 @@ public class RangeMonster : NormalMonster
 
     public RangeWeapon prefab_arrow;
     private List<RangeWeapon> arrowPool = new List<RangeWeapon>();  // 오브젝트 풀
-    private readonly int arrowMaxCount = 3; // 총 화살 개수
+    private readonly int arrowMaxCount = 5; // 총 화살 개수
     private int currentIndex = 0; // 현재 장전된, 발사할 화살의 인덱스
     private int destroyingIndex;  // 삭제할 (비활성화시킬) 화살의 인덱스
 
@@ -42,7 +42,7 @@ public class RangeMonster : NormalMonster
 
         /* Protected Variables */
         attackDistance = 4.0f;
-        attackCool = 2.0f;
+        attackCool = 3.0f;
 
         /* (Range Monster) 사용할 화살 미리 생성 */
         for (int i = 0; i < arrowMaxCount; i++)
@@ -74,11 +74,19 @@ public class RangeMonster : NormalMonster
 
     public override IEnumerator coAttack()
     {
-        yield return null;
+        yield return new WaitForSeconds(attackCool);
 
-        if (timer >= attackCool)
+
+        if (timer < attackCool)
+            yield break;
+
+        else
         {
             animator.SetTrigger("RangeAttack");
+            /*
+            if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f) // 애니메이션 완전히 끝나야 화살 발사
+                StartCoroutine(Shot(currentIndex));
+            */
             StartCoroutine(Shot(currentIndex));
 
             // 방금 마지막 화살을 발사했다면 다시 첫 화살부터 장전
@@ -88,19 +96,16 @@ public class RangeMonster : NormalMonster
                 currentIndex = 0;
 
             timer = 0;
-        }      
+        }
     }
 
     private IEnumerator Shot(int index) // 화살 발사
     {
         yield return null;
 
-
         // 발사되어야 할 순번의 화살이 아직도 사용 중이라, 발사 불가
         if (arrowPool[index].gameObject.activeSelf)
-        {
             yield break;
-        }
 
         // 화살의 출발지와 방향(지금 몬스터가 바라보는 방향) 설정
         arrowPool[index].transform.position = prefab_arrow.transform.position;
@@ -109,9 +114,15 @@ public class RangeMonster : NormalMonster
         // 화살 활성화, 발사
         arrowPool[index].gameObject.SetActive(true);
 
+        Debug.Log((index + 1) + "번 화살");
+
         // 현재 발사된 화살 -> 5초 지나면 자동 제거
         destroyingIndex = currentIndex;
-        StartCoroutine(Destroy(destroyingIndex));
+        if (arrowPool[index].gameObject.activeSelf)
+        {
+            destroyingIndex = currentIndex;
+            StartCoroutine(Destroy(destroyingIndex));
+        }
     }
 
     private IEnumerator Destroy(int index)  // 사용 끝난 화살 자동 비활성화
@@ -119,5 +130,4 @@ public class RangeMonster : NormalMonster
         yield return new WaitForSeconds(5);
         arrowPool[index].gameObject.SetActive(false);
     }
-
 }
