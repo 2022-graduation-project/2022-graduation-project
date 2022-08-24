@@ -13,7 +13,7 @@ public class Weapon : MonoBehaviour
         meshCollider = GetComponent<MeshCollider>();
     }
 
-    public virtual void Attack(float _damage, PlayerController _pc)
+    public virtual void Attack(float _damage, PlayerController _pc = null)
     {
         attackable = true;
         damage = _damage;
