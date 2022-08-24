@@ -155,20 +155,20 @@ public class InventoryWindow : MonoBehaviour, IInventory
         }
     }
 
-    public void SwapItem(InventorySlot from, InventorySlot to)
+    public void SwapItem(InventorySlot _from, InventorySlot _to)
     {
-        int fidx = slots.FindIndex(x => x == from);
-        int tidx = slots.FindIndex(x => x == to);
+        int fidx = slots.FindIndex(x => x == _from);
+        int tidx = slots.FindIndex(x => x == _to);
 
         InventoryData tid = inventory[fidx];
         inventory[fidx] = inventory[tidx];
         inventory[tidx] = tid;
 
-        string t_item_code = from.item_code;
-        int t_item_count = from.item_count;
+        string t_item_code = _from.item_code;
+        int t_item_count = _from.item_count;
 
-        from.SetSlot(to.item_code, to.item_count);
-        to.SetSlot(t_item_code, t_item_count);
+        _from.SetSlot(_to.item_code, _to.item_count);
+        _to.SetSlot(t_item_code, t_item_count);
 
         DragSlot.instance.ResetSlot();
     }
@@ -190,5 +190,20 @@ public class InventoryWindow : MonoBehaviour, IInventory
                 RemoveItem(_item_code, 1);
             }
         }
+    }
+
+    public InventorySlot FindItemSlot(string _item_code)
+    {
+        int idx = inventory.FindIndex(x => x.item_code == _item_code);
+
+        if(idx != -1)
+        {
+            return slots[idx];
+        }
+        else
+        {
+            return null;
+        }
+        
     }
 }

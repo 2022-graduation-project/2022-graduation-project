@@ -1052,13 +1052,14 @@ GameObject:
   - component: {fileID: 2581115335229892531}
   - component: {fileID: 2406771369066062367}
   - component: {fileID: 1319432988096994347}
+  - component: {fileID: 70549809}
   m_Layer: 5
   m_Name: Inventory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2403376531585632183
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1145,6 +1146,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slot_grid: {fileID: 2403711193937368341}
   isActive: 0
+--- !u!114 &70549809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2469264988268508521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7eff7f4214805442a2c7998bd25f072, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rectTransform: {fileID: 2403376531585632183}
 --- !u!1 &2469281792071631297
 GameObject:
   m_ObjectHideFlags: 0
