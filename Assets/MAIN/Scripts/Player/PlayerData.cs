@@ -21,7 +21,7 @@ public class PlayerData
     public float INT;
 
     public Dictionary<string, ItemData> inventory;
-    public Dictionary<string, SkillData> skills;
+    //public Dictionary<string, SkillData> skills;
 
     public int money;
 }
