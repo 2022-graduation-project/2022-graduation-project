@@ -107,6 +107,7 @@ GameObject:
   - component: {fileID: 871761675541712160}
   - component: {fileID: 871859043}
   - component: {fileID: 2040098192289044164}
+  - component: {fileID: 7103884775644181314}
   m_Layer: 3
   m_Name: Player_Virtual_Female
   m_TagString: Player
@@ -209,8 +210,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 0}
-  weapon_tr: {fileID: 0}
+  weapon_tr: {fileID: 602719648848264170}
   weapon: {fileID: 0}
+  animator: {fileID: 0}
+--- !u!114 &7103884775644181314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 871761675541712166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f6ac4541f8655a458fc2ec20eb3c11e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  magicCircleObj: {fileID: 8374617468918335629, guid: 2c9c4bdb4de286044b450b6f69b84b10, type: 3}
 --- !u!1 &871761675547946817
 GameObject:
   m_ObjectHideFlags: 0
@@ -1045,13 +1060,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 871761676246505236}
-  m_LocalRotation: {x: 0.087155774, y: 0.00052156847, z: -0.000045631346, w: 0.99619454}
-  m_LocalPosition: {x: 0, y: 2, z: -3}
+  m_LocalRotation: {x: 0.17364816, y: 0, z: 0, w: 0.9848078}
+  m_LocalPosition: {x: 0, y: 3, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 871761675541712173}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 10, y: 0.06, z: 0}
+  m_LocalEulerAnglesHint: {x: 20, y: 0, z: 0}
 --- !u!20 &871761676246505233
 Camera:
   m_ObjectHideFlags: 0

@@ -1,22 +1,3 @@
-<<<<<<< HEAD
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class Arrow : MonoBehaviour
-{
-    private NormalMonster monster;    // 데미지 받는 몬스터 (일단 하나)
-    private float speed = 5; // 이동 속도
-    private float damage = 5f;
-
-
-    private MeshCollider meshCollider;
-
-    private void Start()
-    {
-        meshCollider = GetComponent<MeshCollider>();
-    }
-=======
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,9 +7,6 @@ public class Arrow : MonoBehaviour
     private NormalMonster monster;    // 데미지 받는 몬스터 (일단 하나)
     private float speed = 5; // 이동 속도
     private float damage = 300f;
->>>>>>> 6ba036443e52ad52e4b8c32c79e3e199379f3fd4
-
-
 
     void Update()
     {
