@@ -59,8 +59,8 @@ public class SelfDesMonster : NormalMonster
             print("Player damaged");
 
         // 자폭 몬스터 폭발, 비활성화
-        Die();
-        //gameObject.SetActive(false);
+            //Die();
+        gameObject.SetActive(false);
     }
 
 

@@ -600,8 +600,13 @@ public class BossController : Monster
     /*                                 유틸                                  */
     /*************************************************************************/
 
+    protected AudioSource dieSound;
     public override void Die()
     {
+        // Die effects
+        dieSound = GetComponent<AudioSource>();
+        dieSound.Play();
+        
         StopAllCoroutines();
         print($"{monsterData.name} is dead.");
         Destroy(gameObject);

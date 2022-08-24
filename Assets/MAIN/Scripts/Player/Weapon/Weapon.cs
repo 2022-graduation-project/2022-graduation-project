@@ -18,7 +18,7 @@ public class Weapon : MonoBehaviour
     public virtual void Attack(float _damage, PlayerController _pc = null)
     {
         // attack effects
-        Instantiate(Resources.Load("Sword Slash Default"), transform.position+new Vector3(0,0,0.3f), Quaternion.identity);
+        Instantiate(Resources.Load("Particles/Sword Slash Default"), transform.position+new Vector3(0,0,0.3f), Quaternion.identity);
         slashSound.Play();
         
         attackable = true;

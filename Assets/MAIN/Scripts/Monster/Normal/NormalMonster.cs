@@ -191,7 +191,7 @@ public class NormalMonster : Monster
     public override void Die()
     {
         // Die effects
-        Instantiate(Resources.Load("Die Effect"), transform.position + new Vector3(0,0.7f,0), Quaternion.identity);
+        Instantiate(Resources.Load("Particles/Die Effect"), transform.position + new Vector3(0,0.7f,0), Quaternion.identity);
         dieSound = GetComponent<AudioSource>();
         dieSound.Play();
 
