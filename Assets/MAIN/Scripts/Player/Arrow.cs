@@ -8,8 +8,6 @@ public class Arrow : MonoBehaviour
     private float speed = 5; // 이동 속도
     private float damage = 300f;
 
-
-
     void Update()
     {
         transform.Translate(new Vector3(0, 0, 1.0f) * speed * Time.deltaTime);  // Set direction & Shot

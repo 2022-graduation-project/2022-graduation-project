@@ -8,7 +8,7 @@ public class RollingStone : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        StartCoroutine(Attack(other.GetComponent<PlayerController>()));
+        StartCoroutine(Attack(other.GetComponent<ICombat>()));
     }
 
     private void OnTriggerExit(Collider other)
@@ -24,14 +24,14 @@ public class RollingStone : MonoBehaviour
         StopAllCoroutines();
     }
 
-    IEnumerator Attack(PlayerController pc)
+    IEnumerator Attack(ICombat _pc)
     {
         float curTime = 0;
 
         while(true)
         {
             curTime += 1f;
-            pc.Damaged(damage);
+            _pc.Damaged(damage);
             yield return new WaitForSeconds(0.5f);
         }
     }

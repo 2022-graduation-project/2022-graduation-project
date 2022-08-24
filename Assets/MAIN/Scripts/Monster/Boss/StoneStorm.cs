@@ -21,7 +21,7 @@ public class StoneStorm : MonoBehaviour
             {
                 if(hit.transform.gameObject.tag == "Player")
                 {
-                    hit.transform.GetComponent<PlayerController>().Damaged(damage);
+                    hit.transform.GetComponent<PlayerCombat>().Damaged(damage);
                 }
             }
 

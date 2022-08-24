@@ -3,20 +3,63 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class Warrior : PlayerController
+public class Warrior : MonoBehaviour, IRole
 {
-    // Skill #1 & Skill #3
     private List<GameObject> monsterList;
-    RaycastHit[] hits;
-    float MaxDistance = 10f;
-    Vector3 offset;
+    private RaycastHit[] hits;
+    private float MaxDistance = 10f;
+    private Vector3 offset;
 
 
+    /* skill variable */
 
-    int Blast_coolDelay = 60;
-    int Blast_maxCoolDelay = 60;
-    int Blast_MpConsume = 20;
-    float Blast_duration = 0;
+    private int Blast_coolDelay = 60;
+    private int Blast_maxCoolDelay = 60;
+    private int Blast_MpConsume = 20;
+    private float Blast_duration = 0;
+
+    private int Effect_coolDelay = 60;
+    private int Effect_maxCoolDelay = 60;
+    private int Effect_MpConsume = 20;
+    private float Effect_duration = 0f;
+
+    private int Stun_coolDelay = 60 * 5;
+    private int Stun_maxCoolDelay = 60 * 5;
+    private int Stun_MpConsume = 30;
+    private int Stun_duration = 0;
+
+    private float playerTempSpeed = 0;
+
+    private enum Skills { Blast, Effect, Stun };
+
+    public void Set()
+    {
+
+    }
+
+    public float UseSkill(int _type)
+    {
+        float usedMp = 0f;
+
+        switch (_type)
+        {
+            case (int)Skills.Blast:
+                Blast();
+                usedMp = Blast_MpConsume;
+                break;
+            case (int)Skills.Effect:
+                Effect();
+                usedMp = Effect_MpConsume;
+                break;
+            case (int)Skills.Stun:
+                Stun();
+                usedMp = Stun_MpConsume;
+                break;
+        }
+
+        return usedMp;
+    }
+
 
     /*****************************************
      * Blast (Skill #1) 공격
@@ -27,11 +70,6 @@ public class Warrior : PlayerController
      * @ MP 소모량: 20
      * @ 지속시간: 2초 
     ******************************************/
-    override public void UseSkill()
-    {
-        Blast();
-    }
-
     private void Blast()
     {
         // 쿨타임이 차지 않았을 때 또는
@@ -45,9 +83,6 @@ public class Warrior : PlayerController
         // 지속시간 초기화
         Blast_duration = 0;
         offset = new Vector3(0f, 0.7f, 0.5f);
-
-        // 플레이어 MP 소모
-        ConsumeMP(Blast_MpConsume);
 
         // 지속시간 동안 Monster 리스트에 담고, 공격
         StartCoroutine(Blast_DuringSkill());
@@ -126,22 +161,6 @@ public class Warrior : PlayerController
         }
     }
 
-    // private IEnumerator CountDelay(ref int coolDelay, int maxCoolDelay, bool isBlast)
-    // {
-    //     while (coolDelay < maxCoolDelay)
-    //     {
-    //         yield return new WaitForSeconds(1f);
-    //         coolDelay++;
-
-    //         if(coolDelay)
-    //     }
-    // }
-
-    int Effect_coolDelay = 60;
-    int Effect_maxCoolDelay = 60;
-    int Effect_MpConsume = 20;
-    float Effect_duration = 0f;
-
     /*****************************************
      * Effect (Skill #2) 스킬
      * Effect() -> Effect_DuringSkill() -> Effect_CountDelay() 
@@ -151,11 +170,6 @@ public class Warrior : PlayerController
      * @ MP 소모량: 10
      * @ 지속시간: 6초 
     ******************************************/
-    override public void UseSkill2()
-    {
-        Effect();        
-    }
-
     private void Effect()
     {
         // 쿨타임이 차지 않았을 때 또는
@@ -168,9 +182,6 @@ public class Warrior : PlayerController
         // Initial setting
         // 지속시간 초기화
         Effect_duration = 0;
-
-        // 플레이어 MP 소모
-        ConsumeMP(Effect_MpConsume);
 
         // Blast스킬의 쿨타임을 60->40초로 줄여줌
         Blast_maxCoolDelay = 40;
@@ -226,13 +237,6 @@ public class Warrior : PlayerController
         }
     }
 
-    int Stun_coolDelay = 60 * 5;
-    int Stun_maxCoolDelay = 60 * 5;
-    int Stun_MpConsume = 30;
-    int Stun_duration = 0;
-
-
-    float playerTempSpeed = 0;
     /*****************************************
      * Stun (Skill #3) 스킬
      * Stun() -> Stun_DuringSkill() -> Stun_CountDelay() 
@@ -242,10 +246,6 @@ public class Warrior : PlayerController
      * @ MP 소모량: 30
      * @ 지속시간: 2초 
     ******************************************/
-    override public void UseSkill3()
-    {
-        Stun();
-    }
 
     private void Stun()
     {
@@ -260,9 +260,6 @@ public class Warrior : PlayerController
         // 지속시간 초기화
         Stun_duration = 0;
         offset = new Vector3(0f, 0.7f, 0.5f);
-
-        // 플레이어 MP 소모
-        ConsumeMP(Stun_MpConsume);
 
         // 플레이어 이동속도 증가
         playerTempSpeed = PlayerManager.instance.playerData.moveSpeed;

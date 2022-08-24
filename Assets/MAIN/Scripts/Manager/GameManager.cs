@@ -5,6 +5,8 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance = null;
+
+    private Dictionary<float, WaitForSeconds> waitForSeconds = new Dictionary<float, WaitForSeconds>();
     void Awake()
     {
         if(instance == null)
@@ -17,5 +19,15 @@ public class GameManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(this.gameObject);
+    }
+
+    public WaitForSeconds GetWaitForSeconds(float _time)
+    {
+        if (!waitForSeconds.ContainsKey(_time))
+        {
+            waitForSeconds.Add(_time, new WaitForSeconds(_time));
+        }
+            
+        return waitForSeconds[_time];
     }
 }
