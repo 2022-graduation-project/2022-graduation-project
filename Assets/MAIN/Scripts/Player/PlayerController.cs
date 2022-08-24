@@ -170,6 +170,8 @@ public class PlayerController : MonoBehaviour
     {
         animator.SetTrigger("Attack");
         weapon.Attack(PlayerManager.instance.playerData.STR, this);
+        
+        Instantiate(Resources.Load("Bow Slash"), transform.position, Quaternion.identity);
     }
 
 
