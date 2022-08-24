@@ -31,6 +31,8 @@ public class SelfDesMonster : NormalMonster
 
     public override void Set()
     {
+        base.Set();
+
         SetMonsterData();
 
         /* Protected Variables */

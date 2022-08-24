@@ -36,6 +36,8 @@ public class RangeMonster : NormalMonster
 
     public override void Set()
     {
+        base.Set();
+
         SetMonsterData();
 
         /* Protected Variables */
