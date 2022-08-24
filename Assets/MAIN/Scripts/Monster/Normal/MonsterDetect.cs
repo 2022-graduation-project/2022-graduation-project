@@ -19,9 +19,12 @@ public class MonsterDetect : MonoBehaviour
     /* 추적 범위 내에서 플레이어 사라짐 */
     protected void OnTriggerExit(Collider other)
     {
-        monster.target = null;
-        monster.isFound = false;
-        Debug.Log("Monster : Target lost");
+        if (other.tag == "Player")
+        {
+            monster.target = null;
+            monster.isFound = false;
+            Debug.Log("Monster : Target lost");
+        }
     }
 
 }
