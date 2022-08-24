@@ -6,7 +6,7 @@ using UnityEngine;
 public class TestBoss : MonoBehaviour
 {
     /* 데이터 */
-    private MonsterDataDummy monsterData;
+    private MonsterData monsterData;
 
 
     /* 컴포넌트 */
@@ -22,7 +22,7 @@ public class TestBoss : MonoBehaviour
 
     /* 런타임 변수 */
     private Stack<GameObject> targetPlayers;
-    private PlayerDummy targetPlayer;
+    private PlayerController targetPlayer;
 
     private bool finalAttack = false;
     private float maxDistance = 5f;
@@ -43,7 +43,7 @@ public class TestBoss : MonoBehaviour
         print("실행");
 
         monsterData = DataManager.instance.LoadJsonFile
-                      <Dictionary<string, MonsterDataDummy>>
+                      <Dictionary<string, MonsterData>>
                       (Application.dataPath + "/MAIN/Data", "boss")
                       ["000_golem"];
 
@@ -92,11 +92,11 @@ public class TestBoss : MonoBehaviour
                 if (minDistance > distance)
                 {
                     minDistance = distance;
-                    targetPlayer = hit.transform.GetComponent<PlayerDummy>();
+                    targetPlayer = hit.transform.GetComponent<PlayerController>();
                 }
             }
 
-            print($"가장 가까운 오브젝트(거리, 이름) : {minDistance}, {targetPlayer?.tr.name}");
+            print($"가장 가까운 오브젝트(거리, 이름) : {minDistance}, {targetPlayer?.transform.name}");
         }
 
 
@@ -142,7 +142,7 @@ public class TestBoss : MonoBehaviour
     {
         while (targetPlayer != null)
         {
-            if (maxDistance < Vector3.Distance(targetPlayer.tr.position, tr.position))
+            if (maxDistance < Vector3.Distance(targetPlayer.transform.position, transform.position))
             {
                 break;
             }
@@ -203,8 +203,8 @@ public class TestBoss : MonoBehaviour
 
         while (targetPlayer != null)
         {
-            tr.LookAt(targetPlayer.tr);
-            distance = targetPlayer.tr.position - tr.position;
+            tr.LookAt(targetPlayer.transform);
+            distance = targetPlayer.transform.position - tr.position;
             curTime += Time.deltaTime;
 
             if (distance.magnitude <= 1.5f && curTime > attackDelay)
@@ -275,7 +275,7 @@ public class TestBoss : MonoBehaviour
 
 
 
-    void Damaged(PlayerDummy _player, float _delta)
+    void Damaged(PlayerController _player, float _delta)
     {
         if (recover != null)
         {
