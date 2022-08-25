@@ -7,6 +7,7 @@ public class Weapon : MonoBehaviour
     private bool attackable = false;
     protected MeshCollider meshCollider;
     protected float damage;
+    public Object slashEffect;
     protected AudioSource slashSound;
 
     void Start()
@@ -18,7 +19,7 @@ public class Weapon : MonoBehaviour
     public virtual void Attack(float _damage, PlayerController _pc = null)
     {
         // attack effects
-        Instantiate(Resources.Load("Particles/Sword Slash Default"), transform.position+new Vector3(0,0,0.3f), Quaternion.identity);
+        Instantiate(slashEffect, transform.position+new Vector3(0,0,0.3f), Quaternion.identity);
         slashSound.Play();
         
         attackable = true;

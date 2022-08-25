@@ -11,6 +11,7 @@ public class NormalMonster : Monster
     public Transform target = null; // 추적할 대상의 좌표
     public bool isFound = false;
     public string spawnLoc = "";
+    public Object dieEffect;    // 죽을 때 효과
 
 
     /* Protected Variables */
@@ -191,8 +192,8 @@ public class NormalMonster : Monster
     public override void Die()
     {
         // Die effects
-        Instantiate(Resources.Load("Particles/Die Effect"), transform.position + new Vector3(0,0.7f,0), Quaternion.identity);
-        dieSound = GetComponent<AudioSource>();
+        Instantiate(dieEffect, transform.position + new Vector3(0,0.7f,0), Quaternion.identity);
+        dieSound = GameObject.Find("SoundManager").GetComponent<AudioSource>();
         dieSound.Play();
 
         gameObject.SetActive(false);
