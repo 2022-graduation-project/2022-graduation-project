@@ -8,6 +8,7 @@ public class LoginManager : MonoBehaviour
     Dictionary<string, LoginData> loginDict;
     LoginData loginData;
 
+
     /**************************
         로그인 데이터 로드
     ***************************/
