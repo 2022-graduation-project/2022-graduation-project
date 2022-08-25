@@ -80,7 +80,7 @@ public class LoginManager : MonoBehaviour
     /**************************
             캐릭터 선택창
     ***************************/
-    // 특정 서버 선택 시
+    // 로그인 버튼 클릭 시
     // 계정의 캐릭터 정보 로드
     public void Clicked_Arcus()
     {
@@ -119,6 +119,21 @@ public class LoginManager : MonoBehaviour
             }
             lastCharacter = loginData.counts;
         }
+    }
+
+    /**************************
+            캐릭터 선택
+    ***************************/
+    // 해당 캐릭터 버튼 선택 시
+    // 해당 캐릭터 정보 로드
+    public TMP_Text info_name;
+    public TMP_Text info_job;
+    public TMP_Text info_level;
+    public void Clicked_Character()
+    {
+        // info_name.text = name.text;
+        // info_job.text = job.text;
+        // info_level.text = level.text;
     }
 
     /**************************
