@@ -38,9 +38,13 @@ public class PlayerCombat : MonoBehaviour, ICombat
             Attack(playerData.STR);
         }
 
-        if (Input.GetKeyDown(KeyCode.G)) ConsumeMP(role.UseSkill((int)skills.A));
-        else if (Input.GetKeyDown(KeyCode.H)) ConsumeMP(role.UseSkill((int)skills.B));
-        else if (Input.GetKeyDown(KeyCode.T)) ConsumeMP(role.UseSkill((int)skills.C));
+        if (Input.GetKeyDown(KeyCode.Q)) ConsumeMP(role.UseSkill((int)skills.A));
+        else if (Input.GetKeyDown(KeyCode.E)) ConsumeMP(role.UseSkill((int)skills.B));
+        else if (Input.GetKeyDown(KeyCode.F)) ConsumeMP(role.UseSkill((int)skills.C));
+
+        if (Input.GetKeyDown(KeyCode.Alpha1)) UseItem(1);
+        else if (Input.GetKeyDown(KeyCode.Alpha2)) UseItem(2);
+        else if (Input.GetKeyDown(KeyCode.Alpha3)) UseItem(3);
     }
 
     public void Attack(float _damage)
@@ -77,6 +81,11 @@ public class PlayerCombat : MonoBehaviour, ICombat
     public void ConsumeMP(float _abs)
     {
         PlayerManager.instance.UpdateMp(_abs * -1);
+    }
+
+    public void UseItem(int _type)
+    {
+        PlayerManager.instance.UseItem(_type);
     }
 
 

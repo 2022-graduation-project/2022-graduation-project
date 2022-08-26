@@ -29,7 +29,10 @@ public class PlayerManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(this.gameObject);
+    }
 
+    void Start()
+    {
         playerData = DataManager.instance.playerData;
     }
 
@@ -113,5 +116,18 @@ public class PlayerManager : MonoBehaviour
     {
         playerData.curMp += _delta;
         playerUI.UpdateMpBar(playerData.maxMp, playerData.curMp);
+    }
+
+
+
+
+
+    /********************************************/
+    /**************** 아이템 사용 ****************/
+    /********************************************/
+
+    public void UseItem(int _type)
+    {
+        playerUI.ItemQuickSlot(_type);
     }
 }

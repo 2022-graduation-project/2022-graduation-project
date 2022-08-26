@@ -2994,6 +2994,10 @@ MonoBehaviour:
   target: {fileID: 0}
   isFound: 0
   spawnLoc: 
+  dieEffect: {fileID: 1210069404974878, guid: 5199b328220468b438de2e2efd0f2f37, type: 3}
+  prefab_HpBar: {fileID: 0}
+  canvas: {fileID: 0}
+  slider: {fileID: 0}
 --- !u!1 &9163291468942590191
 GameObject:
   m_ObjectHideFlags: 0
@@ -4864,14 +4868,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e7196d0541b91bf4f8cab39924cb6d49, type: 3}
---- !u!4 &9164617099656868420 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 496414, guid: e7196d0541b91bf4f8cab39924cb6d49, type: 3}
-  m_PrefabInstance: {fileID: 9164617099656765786}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &9164617099656682152 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 195570, guid: e7196d0541b91bf4f8cab39924cb6d49, type: 3}
+  m_PrefabInstance: {fileID: 9164617099656765786}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &9164617099656868420 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 496414, guid: e7196d0541b91bf4f8cab39924cb6d49, type: 3}
   m_PrefabInstance: {fileID: 9164617099656765786}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &3756960097774676171

@@ -24,7 +24,7 @@ public class InventorySlot : MonoBehaviour, ISlot
 
         if (item_code != "")
         {
-            item_icon.sprite = DataManager.instance.LoadSpriteFile(Application.dataPath + "/MAIN/Resources/Item/", item_code);
+            item_icon.sprite = DataManager.instance.LoadSpriteFile(Application.dataPath + "/MAIN/Images/Item/", item_code);
             SetItemScript();
         }
         else
@@ -36,9 +36,13 @@ public class InventorySlot : MonoBehaviour, ISlot
         {
             SetCountObj(item_count);
         }
-        else
+        else if(item_count == 1)
         {
             ResetCountObj();
+        }
+        else
+        {
+            ResetSlot();
         }
     }
 

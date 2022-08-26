@@ -42,7 +42,8 @@ public class DragSlot : MonoBehaviour, ISlot
 
         if (item_code != "")
         {
-            item_icon.sprite = DataManager.instance.LoadSpriteFile(Application.dataPath + "/MAIN/Images", item_code);
+            print(item_code);
+            item_icon.sprite = DataManager.instance.LoadSpriteFile(Application.dataPath + "/MAIN/Images/Item", item_code);
             SetColorA(1f);
         }
     }
@@ -55,7 +56,7 @@ public class DragSlot : MonoBehaviour, ISlot
 
     public void SetColorA(float _delta)
     {
-        if (item_icon == null)
+        if (item_code == null)
             return;
 
         Color col = item_icon.color;
