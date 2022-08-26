@@ -22,6 +22,7 @@ public class SelfDesMonster : NormalMonster
               <Dictionary<string, MonsterData>>
               (Application.dataPath + "/MAIN/Data", "monster")
               ["004_soul"];
+        monsterData.curHp = monsterData.maxHp;
     }
 
     public override void Set()

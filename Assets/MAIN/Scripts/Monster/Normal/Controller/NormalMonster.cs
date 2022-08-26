@@ -226,8 +226,8 @@ public class NormalMonster : Monster
         canvas = gameObject.GetComponentInChildren<Canvas>();
         prefab_HpBar = canvas.transform.GetChild(0).gameObject;
         slider = prefab_HpBar.GetComponentInChildren<Slider>();
-
-        canvas.worldCamera = GameObject.Find("Player_Archer").GetComponentInChildren<Camera>();
+        //canvas.worldCamera = GameObject.Find("Player_Archer").GetComponentInChildren<Camera>();
+        canvas.worldCamera = GameObject.Find("Player_Virtual_Female").GetComponentInChildren<Camera>();
     }
 
     protected void UpdateHpBar()
@@ -253,8 +253,7 @@ public class NormalMonster : Monster
 
     public int SelectItemIndex()
     {
-        System.Random random = new System.Random();
-        int n = random.Next(10);    // Item Set -> 10개의 종류 있다고 설정하고 랜덤으로 인덱스 설정
+        int n = Random.Range(0, 10);    // Item Set -> 10개의 종류 있다고 설정하고 랜덤으로 인덱스 설정
 
         return n;
     }

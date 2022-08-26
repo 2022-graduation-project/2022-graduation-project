@@ -27,6 +27,7 @@ public class RangeMonster : NormalMonster
               <Dictionary<string, MonsterData>>
               (Application.dataPath + "/MAIN/Data", "monster")
               ["003_goblin"];
+        monsterData.curHp = monsterData.maxHp;
     }
 
     public override void Set()

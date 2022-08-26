@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
 
     private bool jumpable = true;
 
-    void Start()
+    public virtual void Start()
     {
         rigidBody = GetComponent<Rigidbody>();
         capsuleCollider = GetComponent<CapsuleCollider>();
@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
         tr = GetComponent<Transform>();
     }
 
-    void Update()
+    public virtual void Update()
     {
         /* 플레이어가 적절한 타이밍에 점프할 수 있도록 땅 체크 */
         Debug.DrawRay(tr.position + (Vector3.up * 0.1f), Vector3.down * 0.3f, Color.yellow);

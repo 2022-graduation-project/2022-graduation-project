@@ -14,6 +14,7 @@ public class MeleeMonster : NormalMonster
               <Dictionary<string, MonsterData>>
               (Application.dataPath + "/MAIN/Data", "monster")
               ["000_skeleton"];
+        monsterData.curHp = monsterData.maxHp;
     }
 
     public override void Set()
