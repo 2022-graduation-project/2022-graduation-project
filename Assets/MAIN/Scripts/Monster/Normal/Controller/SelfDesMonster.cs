@@ -22,11 +22,6 @@ public class SelfDesMonster : NormalMonster
               <Dictionary<string, MonsterData>>
               (Application.dataPath + "/MAIN/Data", "monster")
               ["004_soul"];
-
-        Debug.Log("모델명 " + monsterData.name
-            + ", 체력 " + monsterData.curHp + " / " + monsterData.maxHp
-            + ", 스피드 " + monsterData.moveSpeed + " & " + monsterData.turnSpeed
-            + ", 공격력 " + monsterData.attackForce);
     }
 
     public override void Set()
@@ -41,8 +36,6 @@ public class SelfDesMonster : NormalMonster
 
         /* Damage Range 콜라이더 지정 */
         weapon = transform.Find("Explosion").gameObject.GetComponent<SelfDesWeapon>();
-
-        Debug.Log("(SelfDes Monster) Set 완료");
     }
     
 
@@ -59,7 +52,6 @@ public class SelfDesMonster : NormalMonster
             print("Player damaged");
 
         // 자폭 몬스터 폭발, 비활성화
-            //Die();
         gameObject.SetActive(false);
     }
 
@@ -75,6 +67,5 @@ public class SelfDesMonster : NormalMonster
     public override void StopChasing()
     {
         Debug.Log("몬스터 멈춤. " + attackCool + "초 뒤에 몬스터 폭발합니다.");
-        StartCoroutine(coAttack());
     }
 }

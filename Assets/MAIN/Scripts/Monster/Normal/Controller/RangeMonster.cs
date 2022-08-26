@@ -27,11 +27,6 @@ public class RangeMonster : NormalMonster
               <Dictionary<string, MonsterData>>
               (Application.dataPath + "/MAIN/Data", "monster")
               ["003_goblin"];
-
-        Debug.Log("모델명 " + monsterData.name
-            + ", 체력 " + monsterData.curHp + " / " + monsterData.maxHp
-            + ", 스피드 " + monsterData.moveSpeed + " & " + monsterData.turnSpeed
-            + ", 공격력 " + monsterData.attackForce);
     }
 
     public override void Set()
@@ -54,8 +49,6 @@ public class RangeMonster : NormalMonster
             // 오브젝트 풀에 추가
             arrowPool.Add(arrow);
         }
-
-        Debug.Log("(Range Monster) Set 완료");
     }
 
 
@@ -113,8 +106,6 @@ public class RangeMonster : NormalMonster
 
         // 화살 활성화, 발사
         arrowPool[index].gameObject.SetActive(true);
-
-        Debug.Log((index + 1) + "번 화살");
 
         // 현재 발사된 화살 -> 5초 지나면 자동 제거
         destroyingIndex = currentIndex;
