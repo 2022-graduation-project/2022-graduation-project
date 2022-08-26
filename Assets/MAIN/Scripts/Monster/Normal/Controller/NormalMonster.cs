@@ -5,8 +5,7 @@ using UnityEngine.UI;
 public class NormalMonster : Monster
 {
     /* Monster Manager */
-    //public MonsterManager monsterManager;
-
+    public MonsterManager monsterManager;
 
     public Transform target = null; // 추적할 대상의 좌표
     public bool isFound = false;
@@ -32,8 +31,10 @@ public class NormalMonster : Monster
 
     public override void Set()
     {
+        monsterManager = GameObject.Find("MonsterManager").GetComponent<MonsterManager>();
         SetHpBar();
     }
+
 
     protected virtual void Update()
     {
@@ -53,7 +54,10 @@ public class NormalMonster : Monster
                     StartChasing();
                 // 공격 범위 진입 -> 추적 중지, 공격 시작
                 else
+                {
                     StopChasing();
+                    StartCoroutine(coAttack());
+                }
 
             }
             // 플레이어 아직 발견 못 했거나 놓침
@@ -86,7 +90,6 @@ public class NormalMonster : Monster
     public virtual void StopChasing()
     {
         animator.SetBool("Walk", false);
-        StartCoroutine(coAttack());
     }
 
 
@@ -114,13 +117,11 @@ public class NormalMonster : Monster
         if (monsterData.curHp > 0) // 아직 체력이 남아 있을 때
         {
             monsterData.curHp -= _damage; // scale(+)만큼 몬스터 체력 감소
-            //UpdateHpBar(monsterData.curHp);   // 몬스터 체력바 반영
         }
 
         else  // 남은 체력이 없을 때 -> 사망
         {
             animator.SetBool("Dead", true);
-            //DeleteHpBar();    // 몬스터 체력바 삭제
             Invoke("Die", 1f);
         }
 
@@ -134,7 +135,6 @@ public class NormalMonster : Monster
         {
             animator.SetTrigger("Damaged"); // 애니메이션
             monsterData.curHp -= _damage; // scale(+)만큼 몬스터 체력 감소
-            //UpdateHpBar(monsterData.curHp);   // 몬스터 체력바 반영
         }
 
         else  // 남은 체력이 없을 때 -> 사망
@@ -148,9 +148,9 @@ public class NormalMonster : Monster
     }
 
     // 몬스터가 폭탄 맞았을 때
-    protected void OnCollisionEnter(Collision other) 
+    protected void OnCollisionEnter(Collision other)
     {
-        if(other.gameObject.tag == "Bomb")
+        if (other.gameObject.tag == "Bomb")
         {
             StartCoroutine(Bursting());
         }
@@ -162,7 +162,7 @@ public class NormalMonster : Monster
         float duration = 0;
         while (duration < 5)
         {
-            
+
             // 몬스터 공격
             Damaged(10);
             print("Damaged -10 by bomb");
@@ -171,7 +171,7 @@ public class NormalMonster : Monster
             // 지속 시간 재기
             yield return new WaitForSeconds(1f);
             duration++;
-            
+
             // 지속 시간 초과
             if (duration >= 5)
             {
@@ -191,13 +191,16 @@ public class NormalMonster : Monster
 
     public override void Die()
     {
-        // Die effects
-        Instantiate(dieEffect, transform.position + new Vector3(0,0.7f,0), Quaternion.identity);
-        dieSound = GameObject.Find("SoundManager").GetComponent<AudioSource>();
-        dieSound.Play();
-
         gameObject.SetActive(false);
         DropItem(this, SelectItemIndex());
+        monsterManager.monsterCount--;
+        Debug.Log(monsterManager.monsterCount + " 마리 남음");
+        monsterManager.CreateMonster();
+
+        // Die effects
+        Instantiate(dieEffect, transform.position + new Vector3(0, 0.7f, 0), Quaternion.identity);
+        dieSound = GameObject.Find("SoundManager").GetComponent<AudioSource>();
+        dieSound.Play();
 
         /*
 
@@ -223,8 +226,8 @@ public class NormalMonster : Monster
         canvas = gameObject.GetComponentInChildren<Canvas>();
         prefab_HpBar = canvas.transform.GetChild(0).gameObject;
         slider = prefab_HpBar.GetComponentInChildren<Slider>();
-
-        canvas.worldCamera = GameObject.Find("Player_Archer").GetComponentInChildren<Camera>();
+        //canvas.worldCamera = GameObject.Find("Player_Archer").GetComponentInChildren<Camera>();
+        canvas.worldCamera = GameObject.Find("Player_Virtual_Female").GetComponentInChildren<Camera>();
     }
 
     protected void UpdateHpBar()
@@ -250,8 +253,7 @@ public class NormalMonster : Monster
 
     public int SelectItemIndex()
     {
-        System.Random random = new System.Random();
-        int n = random.Next(10);    // Item Set -> 10개의 종류 있다고 설정하고 랜덤으로 인덱스 설정
+        int n = Random.Range(0, 10);    // Item Set -> 10개의 종류 있다고 설정하고 랜덤으로 인덱스 설정
 
         return n;
     }

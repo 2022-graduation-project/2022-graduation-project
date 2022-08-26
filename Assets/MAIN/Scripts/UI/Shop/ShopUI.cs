@@ -1,87 +1,109 @@
-//using System.Collections;
-//using System.Collections.Generic;
-//using UnityEngine;
-//using UnityEngine.UI;
-//using UnityEngine.EventSystems;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 
-//public class ShopUI : MonoBehaviour, IDropHandler, IUIWindow
-//{
-//    private List<ShopItemSlot> slots;
-//    private List<string> itemDatas;
+public class ShopUI : MonoBehaviour, IDropHandler, IUIWindow
+{
+    private List<ShopItemSlot> slots;
+    private List<string> shopList;
 
-//    [SerializeField] private Text money;
-//    [SerializeField] private GameObject countPanel;
+    [SerializeField] private Text money;
+    [SerializeField] private GameObject countPanel;
 
-//    public GameObject content;
+    public GameObject content;
+    public GameObject ShopItemSlot;
 
-//    public void SetWindow()
-//    {
-//        slots = new List<ShopItemSlot>(content.GetComponentsInChildren<ShopItemSlot>());
-//        itemDatas = DataManager.instance.LoadJsonFile<List<string>>
-//                    (Application.dataPath + "/MAIN/Data", "shop");
+    void Start()
+    {
+        shopList = DataManager.instance.shopItemList;
 
-//        money.text = PlayerManager.instance.playerData.money.ToString("N0") + "원";
+        for (int i=0; i<shopList.Count; i++)
+        {
+            Instantiate(ShopItemSlot, content.transform);
+        }
 
-//        CheckActiveSlot(PlayerManager.instance.playerData.money);
-//    }
+        slots = new List<ShopItemSlot>(content.GetComponentsInChildren<ShopItemSlot>());
 
-//    public void Buy(ItemData _itemData)
-//    {
-//        ItemData newItemData = _itemData.DeepCopy();
-//        int count = 1;
-//        int curMoney;
-//        // 수량 선택 창 생성
+        for (int i = 0; i < shopList.Count; i++)
+        {
+            slots[i].Set(shopList[i], this);
+        }
 
-//        //InventoryUI.instance.GetMoney(-newItemData.price * count);
-//        curMoney = PlayerManager.instance.playerData.money;
-//        money.text = curMoney.ToString("N0") + "원";
-//        InventoryUI.instance.AddItem(newItemData, count);
-//        CheckActiveSlot(curMoney);
-//    }
+        UpdateMoney();
+    }
 
-//    public void Sell(string _item_code)
-//    {
-//        print("판매");
+    public void SetWindow()
+    {
+        gameObject.SetActive(true);
+        money.text = DataManager.instance.playerData.money.ToString("N0") + "원";
+        CheckActiveSlot(DataManager.instance.playerData.money);
+    }
 
-//        int count = 1;
-//        int curMoney;
-//        // 수량 선택 창 생성
+    public void Buy(string _item_code)
+    {
+        int count = 1;
+        int curMoney;
+        int price;
+        // 수량 선택 창 생성
 
-//        //if(InventoryUI.instance.UseItem(_itemData, count))
-//        //{
-//        //    InventoryUI.instance.GetMoney((int)(_itemData.price * 0.7f) * count);
-//        //    curMoney = PlayerManager.instance.playerData.money;
-//        //    money.text = curMoney.ToString("N0") + "원";
-//        //    CheckActiveSlot(curMoney);
-//        //}
-//    }
+        curMoney = DataManager.instance.playerData.money;
+        money.text = curMoney.ToString("N0") + "원";
+        price = DataManager.instance.itemDict[_item_code].price;
 
-//    void CheckActiveSlot(int _money)
-//    {
-//        foreach(ShopItemSlot slot in slots)
-//        {
-//            if (slot.item_code == null)
-//                continue;
+        if (curMoney >= price)
+        {
+            InventoryWindow.instance.BuyItem(_item_code, count, price);
+        }
 
-//            if (slot.price > _money)
-//            {
-//                slot.SetActiveSlot(false);
-//            }
-//            else
-//            {
-//                slot.SetActiveSlot(true);
-//            }
-//        }
-//    }
+        UpdateMoney();
+        CheckActiveSlot(DataManager.instance.playerData.money);
+    }
 
-//    public void OnDrop(PointerEventData eventData)
-//    {
-//        if (DragSlot.instance.item_code == null)
-//            return;
+    public void Sell(string _item_code)
+    {
+        int count = 1;
+        int price = 0;
+        // 수량 선택 창 생성
 
-//        Sell(DragSlot.instance.item_code);
-//        if(DragSlot.instance.item_count == 0)
-//            DragSlot.instance.Reset();
-//    }
-//}
+        print(_item_code);
+        price = DataManager.instance.itemDict[_item_code].price;
+        InventoryWindow.instance.SellItem(_item_code, count, (int)(price * 0.8f));
+        UpdateMoney();
+        CheckActiveSlot(DataManager.instance.playerData.money);
+    }
+
+    void CheckActiveSlot(int _money)
+    {
+        foreach (ShopItemSlot slot in slots)
+        {
+            if (slot.item_code == null)
+                continue;
+
+            if (slot.price > _money)
+            {
+                slot.SetActiveSlot(false);
+            }
+            else
+            {
+                slot.SetActiveSlot(true);
+            }
+        }
+    }
+
+    public void OnDrop(PointerEventData eventData)
+    {
+        if (DragSlot.instance.item_code == "")
+            return;
+
+        Sell(DragSlot.instance.item_code);
+        DragSlot.instance.ResetSlot();
+    }
+
+    public void UpdateMoney()
+    {
+        money.text = DataManager.instance.playerData.money.ToString("N0") + "원";
+    }
+}

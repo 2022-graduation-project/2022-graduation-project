@@ -14,11 +14,7 @@ public class MeleeMonster : NormalMonster
               <Dictionary<string, MonsterData>>
               (Application.dataPath + "/MAIN/Data", "monster")
               ["000_skeleton"];
-
-        Debug.Log("모델명 " + monsterData.name
-            + ", 체력 " + monsterData.curHp + " / " + monsterData.maxHp
-            + ", 스피드 " + monsterData.moveSpeed + " & " + monsterData.turnSpeed
-            + ", 공격력 " + monsterData.attackForce);
+        monsterData.curHp = monsterData.maxHp;
     }
 
     public override void Set()
@@ -30,8 +26,6 @@ public class MeleeMonster : NormalMonster
         /* Protected Variables */
         attackDistance = 1.75f;
         attackCool = 2.0f;
-
-        Debug.Log("(Melee Monster) Set 완료");
     }
 
 

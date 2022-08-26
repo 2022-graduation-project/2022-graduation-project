@@ -11,6 +11,6 @@ public interface IInventory
     public int RemoveItem(string _item_code, int _item_count);
     public void UseItem(string _item_code);
     public void SwapItem(InventorySlot from, InventorySlot to);
-    public bool SellItem(string _item_code, int _item_count);
-    public bool BuyItem(string _item_code, int _item_count);
+    public bool SellItem(string _item_code, int _item_count, int _price);
+    public bool BuyItem(string _item_code, int _item_count, int _price);
 }

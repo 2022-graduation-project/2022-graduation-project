@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InventoryWindow : MonoBehaviour, IInventory
 {
@@ -12,9 +13,12 @@ public class InventoryWindow : MonoBehaviour, IInventory
     private int inventory_count;
 
     public Transform slot_grid;
+    public Text money_txt;
     public bool isActive = false;
 
     public static InventoryWindow instance;
+
+    private bool isSet = false;
     void Awake()
     {
         if (instance == null)
@@ -27,7 +31,10 @@ public class InventoryWindow : MonoBehaviour, IInventory
         }
 
         DontDestroyOnLoad(this.gameObject);
+    }
 
+    void MyStart()
+    {
         inventory = DataManager.instance.inventory;
         slots = new List<InventorySlot>(slot_grid.GetComponentsInChildren<InventorySlot>());
 
@@ -35,6 +42,9 @@ public class InventoryWindow : MonoBehaviour, IInventory
         {
             inventory.Add(new InventoryData());
         }
+
+        gameObject.SetActive(isActive);
+        UpdateMoney();
     }
 
     public void OpenWindow()
@@ -52,6 +62,12 @@ public class InventoryWindow : MonoBehaviour, IInventory
 
     public void SetInventory()
     {
+        if(!isSet)
+        {
+            MyStart();
+            isSet = true;
+        }
+
         /* 인벤토리 열 때마다 실행 */
         for(int i = 0; i < inventory.Count; i++)
         {
@@ -79,6 +95,7 @@ public class InventoryWindow : MonoBehaviour, IInventory
         if ((idx = inventory.FindIndex(x => x.item_code == _item_code)) != ERROR)
         {
             inventory[idx].item_count += _item_count;
+            UpdateSlot(idx);
         }
         else
         {
@@ -100,11 +117,13 @@ public class InventoryWindow : MonoBehaviour, IInventory
         return true;
     }
 
-    public bool BuyItem(string _item_code, int _item_count)
+    public bool BuyItem(string _item_code, int _item_count, int _price)
     {
         // 아이템을 추가할 수 있다면 true 반환 => Shop에서 소지금 차감
         if(AddItem(_item_code, _item_count))
         {
+            DataManager.instance.playerData.money -= _price;
+            UpdateMoney();
             return true;
         }
         else
@@ -142,11 +161,13 @@ public class InventoryWindow : MonoBehaviour, IInventory
         }
     }
 
-    public bool SellItem(string _item_code, int _item_count)
+    public bool SellItem(string _item_code, int _item_count, int _price)
     {
         // 가지고 있는 아이템인 경우 판매
         if (RemoveItem(_item_code, _item_count) != ERROR)
         {
+            DataManager.instance.playerData.money += _price;
+            UpdateMoney();
             return true;
         }
         else
@@ -205,5 +226,10 @@ public class InventoryWindow : MonoBehaviour, IInventory
             return null;
         }
         
+    }
+
+    public void UpdateMoney()
+    {
+        money_txt.text = DataManager.instance.playerData.money.ToString("N0") + "원";
     }
 }

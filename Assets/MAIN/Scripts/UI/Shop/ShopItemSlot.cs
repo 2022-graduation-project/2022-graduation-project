@@ -11,18 +11,44 @@ public class ShopItemSlot : MonoBehaviour, IPointerClickHandler
     [SerializeField] public GameObject block;
 
     public bool clickable = true;
-    //public ItemData itemData = null;
     public string item_code;
     public int price;
 
-    public void Set(string _item_code)
+    private float lastClick = 0;
+    private float doubleClick = 0.5f;
+
+    private ShopUI shop;
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (lastClick <= 0)
+        {
+            lastClick = eventData.clickTime;
+        }
+        else
+        {
+            if (eventData.clickTime - lastClick < doubleClick)
+            {
+                shop.Buy(item_code);
+            }
+
+            lastClick = 0;
+        }
+    }
+
+    public void Set(string _item_code, ShopUI _shop)
     {
         item_code = _item_code;
-        icon.sprite = DataManager.instance.LoadSpriteFile(Application.dataPath + "/DEV/sunhyo/Assets/Items", item_code);
-        //item_name.text = _itemData.item_name;
-        //price.text = _itemData.price.ToString("N0") + "원";
 
-        // datamanager에 있는 item 목록에 이름을 key로 접근해서 받아오는 형식
+        shop = _shop;
+
+        icon.sprite = DataManager.instance.LoadSpriteFile(Application.dataPath + "/MAIN/Images/Item/", item_code);
+        item_name.text = DataManager.instance.itemDict[item_code].item_name;
+
+        price = DataManager.instance.itemDict[item_code].price;
+        price_txt.text = price.ToString("N0") + "원";
+
+        SetColorA(1f);
     }
 
     public void SetActiveSlot(bool type)
@@ -39,11 +65,10 @@ public class ShopItemSlot : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    public void OnPointerClick(PointerEventData eventData)
+    public void SetColorA(float _delta)
     {
-        //if (item_code == null || !clickable)
-        //    return;
-        //print("구매");
-        //shop.Buy(itemData);
+        Color col = icon.color;
+        col.a = _delta;
+        icon.color = col;
     }
 }

@@ -11,6 +11,7 @@ public class DataManager : MonoBehaviour
     public List<InventoryData> inventory;
     public Dictionary<string, ItemData> itemDict;
     public Dictionary<string, MonsterData> monsterDict;
+    public List<string> shopItemList;
 
     public static DataManager instance = null;
     void Awake()
@@ -40,18 +41,17 @@ public class DataManager : MonoBehaviour
                     <List<InventoryData>>
                     (Application.dataPath + "/MAIN/Data/", "inventory");
 
-        //foreach (InventoryData data in inventory)
-        //{
-        //    print($"{data.item_code}, {data.item_count}");
-        //}
+        itemDict = DataManager.instance.LoadJsonFile
+                   <Dictionary<string, ItemData>>
+                   (Application.dataPath + "/MAIN/Data/", "item");
 
-        //itemDict = DataManager.instance.LoadJsonFile
-        //           <Dictionary<string, ItemData>>
-        //           (Application.dataPath + "/MAIN/Data/", "item");
+        monsterDict = DataManager.instance.LoadJsonFile
+                    <Dictionary<string, MonsterData>>
+                    (Application.dataPath + "/MAIN/Data/", "monster");
 
-        //monsterDict = DataManager.instance.LoadJsonFile
-        //              <Dictionary<string, MonsterData>>
-        //              (Application.dataPath + "/MAIN/Data/", "monster");
+        shopItemList = DataManager.instance.LoadJsonFile
+                       <List<string>>
+                       (Application.dataPath + "/MAIN/Data/", "shop");
     }
 
     public string ObjectToJson(object obj)

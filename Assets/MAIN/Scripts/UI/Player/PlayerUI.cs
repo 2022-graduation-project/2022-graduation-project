@@ -12,10 +12,27 @@ public class PlayerUI : MonoBehaviour
     public Transform items;
 
     private InventorySlot[] item_slots;
+    public Image[] skill_slots;
 
     private void Start()
     {
         Set(DataManager.instance.playerData);
+
+        switch (DataManager.instance.playerData.job)
+        {
+            case "Wizard":
+                skill_slots[0].sprite = DataManager.instance.LoadSpriteFile(Application.dataPath + "/MAIN/Images/Skill", "Wizard_Q");
+                SetColorA(skill_slots[0], 1f);
+                break;
+            case "Archer":
+                skill_slots[0].sprite = DataManager.instance.LoadSpriteFile(Application.dataPath + "/MAIN/Images/Skill", "Archer_Q");
+                SetColorA(skill_slots[0], 1f);
+                break;
+            case "Warrior":
+                skill_slots[0].sprite = DataManager.instance.LoadSpriteFile(Application.dataPath + "/MAIN/Images/Skill", "Warrior_Q");
+                SetColorA(skill_slots[0], 1f);
+                break;
+        }
     }
 
     public void Set(PlayerData _playerData)
@@ -53,5 +70,12 @@ public class PlayerUI : MonoBehaviour
         }
 
         return false;
+    }
+
+    public void SetColorA(Image _target, float _delta)
+    {
+        Color col = _target.color;
+        col.a = _delta;
+        _target.color = col;
     }
 }
