@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class TipsManager : MonoBehaviour
+public class LoadingScene : MonoBehaviour
 {
     [Header("Tips Text")]
     public TMP_Text tipsText;

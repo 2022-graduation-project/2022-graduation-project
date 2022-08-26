@@ -22907,7 +22907,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!95 &1247258168
 Animator:
   serializedVersion: 3
@@ -33487,8 +33487,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MsgText: {fileID: 1105770408}
   serverWindow: {fileID: 798548226}
-  winPrefab: {fileID: 3786543481320363738, guid: 60004126c177c73468b8df25529961e2, type: 3}
+  charPrefab: {fileID: 0}
   characterUI: {fileID: 1084638236}
+  info_name: {fileID: 0}
+  info_job: {fileID: 0}
+  info_level: {fileID: 0}
+  charErrMsg: {fileID: 0}
   newCharWindow: {fileID: 352754150}
   charWindow: {fileID: 1247258167}
   newName: {fileID: 1017259492}
