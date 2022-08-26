@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class NormalMonster : Monster
 {
     /* Monster Manager */
-    //public MonsterManager monsterManager;
+    public MonsterManager monsterManager;
 
 
     public Transform target = null; // 추적할 대상의 좌표
@@ -30,6 +30,7 @@ public class NormalMonster : Monster
 
     public override void Set()
     {
+        monsterManager = GameObject.Find("MonsterManager").GetComponent<MonsterManager>();
         SetHpBar();
     }
 
@@ -193,6 +194,9 @@ public class NormalMonster : Monster
     {
         gameObject.SetActive(false);
         DropItem(this, SelectItemIndex());
+        monsterManager.monsterCount--;
+        Debug.Log(monsterManager.monsterCount + " 마리 남음");
+        monsterManager.CreateMonster();
 
         /*
 
