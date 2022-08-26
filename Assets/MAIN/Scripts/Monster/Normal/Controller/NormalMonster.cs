@@ -260,10 +260,18 @@ public class NormalMonster : Monster
 
     public void DropItem(NormalMonster _monster, int index)
     {
-        item = GameObject.Find("ItemPool").transform.GetChild(index).gameObject;
+        item = GameObject.Find("Monster's Item").transform.GetChild(index).gameObject;
         item.transform.position = _monster.transform.position + new Vector3(0, 1.1f, 0);  // 아이템 떨굴 위치 (죽은 자리 + 1) 설정
 
         item.SetActive(true);
+        DestroyItem(item.GetComponent<MonsterItem>());
+    }
+
+    public IEnumerator DestroyItem(MonsterItem item)
+    {
+        yield return new WaitForSeconds(30);
+        Debug.Log("안 먹었지? ㅇㅇ 없앨게~");
+        item.gameObject.SetActive(false);
     }
 
 
