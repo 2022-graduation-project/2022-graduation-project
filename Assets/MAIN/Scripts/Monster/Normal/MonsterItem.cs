@@ -21,8 +21,8 @@ public class MonsterItem : MonoBehaviour
                 <Dictionary<string, ItemData>>
                 (Application.dataPath + "/MAIN/Data", "item")
                 [itemName[index]];
-
-            itemBag.AddItem(item);
+            
+            // itemBag.AddItem(item);
             Debug.Log(item.item_name + " 획득!");
         }
     }
