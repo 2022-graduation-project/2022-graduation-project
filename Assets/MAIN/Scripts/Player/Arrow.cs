@@ -2,15 +2,37 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Arrow : MonoBehaviour
+public class Arrow : Weapon
 {
     private NormalMonster monster;    // 데미지 받는 몬스터 (일단 하나)
     private float speed = 5; // 이동 속도
-    private float damage = 300f;
+
+
+
+
+    /* Protected Variable */
+    private void Awake()
+    {
+        damage = 50f;
+    }
 
     void Update()
     {
         transform.Translate(new Vector3(0, 0, 1.0f) * speed * Time.deltaTime);  // Set direction & Shot
+    }
+
+
+    public override void Attack(float _damage, PlayerController _pc = null)
+    {
+        /*
+        // attack effects
+        Instantiate(slashEffect, transform.position + new Vector3(0, 0, 0.3f), Quaternion.identity);
+        slashSound.Play();
+
+        attackable = true;
+        damage = _damage;
+        pc = _pc;
+        */
     }
 
 

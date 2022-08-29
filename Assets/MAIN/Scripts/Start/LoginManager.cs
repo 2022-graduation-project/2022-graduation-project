@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+
 public class LoginManager : MonoBehaviour
 {
     Dictionary<string, LoginData> loginDict;
@@ -36,16 +37,16 @@ public class LoginManager : MonoBehaviour
     }
 
     /**************************
-            공통 전광판
+            메시지 띄우기
     ***************************/
-    // Message 에 2초간 메시지 띄우기
+    // 해당 Message 에 5초간 메시지 띄우기
     public TMP_Text MsgText;
-    private IEnumerator sendMessageDisplay(string message, Color color)
+    private IEnumerator sendMessageDisplay(TMP_Text msg, string message, Color color)
     {
-        MsgText.color = color;
-        MsgText.text = message;
+        msg.color = color;
+        msg.text = message;
         yield return new WaitForSeconds(5.0f);
-        MsgText.text = "";
+        msg.text = "";
     }
 
     // Terminate Window
@@ -68,7 +69,7 @@ public class LoginManager : MonoBehaviour
     {
         if(!isLoggedIn)
         {
-            StartCoroutine(sendMessageDisplay("LOGIN FIRST", Color.red));
+            StartCoroutine(sendMessageDisplay(MsgText, "LOGIN FIRST", Color.red));
             return;
         }
         else
@@ -80,8 +81,8 @@ public class LoginManager : MonoBehaviour
     /**************************
             캐릭터 선택창
     ***************************/
-    // 특정 서버 선택 시
-    // 계정의 캐릭터 정보 로드
+    // 서버 버튼 클릭 시
+    // 계정의 캐릭터 정보 로드하여, 캐릭터 선택창 띄우기
     public void Clicked_Arcus()
     {
         GetCharacters();
@@ -89,9 +90,9 @@ public class LoginManager : MonoBehaviour
 
     private int lastCharacter = 0;
     Dictionary<string, Characters> characters;
-    
+
     [Header("Character UI")]
-    public UnityEngine.Object winPrefab;
+    public UnityEngine.Object charPrefab;
     public Transform characterUI;
     private void GetCharacters()
     {
@@ -109,16 +110,59 @@ public class LoginManager : MonoBehaviour
             for (int i = lastCharacter; i < loginData.counts; i++)
             {
                 // 반복문 -> 프리펩을 스크롤뷰 안(characterUI)에 캐릭터창 생성
-                GameObject characterWin = Instantiate(winPrefab, characterUI) as GameObject;
+                GameObject characterWin = Instantiate(charPrefab, characterUI) as GameObject;
                 // 개별 캐릭터 정보 setting (0: name, 1: job, 2: level)
                 char_Info = characterWin.GetComponentsInChildren<TMP_Text>();
                 char_Info[0].text = characters[i.ToString()].charname;
                 char_Info[1].text = characters[i.ToString()].job;
-                char_Info[2].text = "LV."
+                char_Info[2].text = "lv."
                                     + characters[i.ToString()].level.ToString();
             }
             lastCharacter = loginData.counts;
         }
+    }
+
+    /**************************
+            캐릭터 선택
+    ***************************/
+    // 해당 캐릭터 버튼 선택 시
+    // 해당 캐릭터 정보 로드
+    [Header("Character Select")]
+    public TMP_Text info_name;
+    public TMP_Text info_job;
+    public TMP_Text info_level;
+    public void SetCharInfo(GameObject btn)
+    {
+        TMP_Text [] btn_info = btn.GetComponentsInChildren<TMP_Text>();
+        TMP_Text name = btn_info[0];
+        TMP_Text job = btn_info[1];
+        TMP_Text level = btn_info[2];
+
+        info_name.text = name.text;
+        info_job.text = job.text;
+        info_level.text = level.text;
+
+        isSelected=true;
+    }
+
+    /**************************
+            플레이 시작
+    ***************************/
+    // 플레이 버튼 선택 시
+    // 해당 캐릭터로 다음 씬 로드
+    public TMP_Text charErrMsg;
+    private PlayerManager playerManager;
+    private bool isSelected = false;
+    public void Clicked_Play()
+    {
+        if(!isSelected)
+        {
+            StartCoroutine(sendMessageDisplay(charErrMsg, "SELECT CHARACTER FIRST", Color.red));
+            return;
+        }
+        playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
+        playerManager.SetJob(info_job.text);
+        SceneManager.LoadScene("Loading");
     }
 
     /**************************
@@ -246,17 +290,14 @@ public class LoginManager : MonoBehaviour
         }
     }
     
-    [Header("Account / Login Window")]
-    public GameObject accountWindow;
+    [Header("Login / Account Window")]
     public GameObject loginWindow;
+    public GameObject accountWindow;
     public TMP_Text profileTxt;
 
-    [Header("Login / Logout Button")]
-    public GameObject loginBtn;
-    public GameObject logoutBtn;
 
     // 로그인 성공 시
-    // 아이디 저장 및 로그아웃 버튼 활성화, 메시지 띄우기
+    // 계정 화면 활성화, 메시지 띄우기
     private void LoginSucceess(string inputUN)
     {
         isLoggedIn = true;
@@ -267,19 +308,16 @@ public class LoginManager : MonoBehaviour
     
         accountWindow.SetActive(true);
         loginWindow.SetActive(false);
-        loginBtn.SetActive(false);
-        logoutBtn.SetActive(true);
 
-        StartCoroutine(sendMessageDisplay("LOGGED IN", Color.green));
-        profileTxt.text = loggedInUsername;
-        print(loggedInUsername+" Login Success");
+        StartCoroutine(sendMessageDisplay(MsgText, "LOGGED IN", Color.green));
+        profileTxt.text += loggedInUsername;
     }
 
-    // Logout Window -> Confirm Button
+    // Account Window -> Logout Button
     // 로그아웃 시 씬 다시 시작
-    public void RequestLogout()
+    public void Clicked_Logout()
     {
-        SceneManager.LoadScene("Start");
+        SceneManager.LoadScene("Login");
     }
 
     /**************************
@@ -359,7 +397,7 @@ public class LoginManager : MonoBehaviour
                     // 회원가입창 닫고
                     NewAccountWindow.SetActive(false);
                     // 새 계정 추가 되었다고 메시지 띄우기
-                    StartCoroutine(sendMessageDisplay("ACCOUNT CREATED", Color.green));
+                    StartCoroutine(sendMessageDisplay(MsgText, "ACCOUNT CREATED", Color.green));
                 }
             }
         }
