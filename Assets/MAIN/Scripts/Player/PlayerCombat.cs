@@ -109,6 +109,17 @@ public class PlayerCombat : MonoBehaviour, ICombat
     /************************************************/
     /*                   상태 이상                   */
     /************************************************/
+
+    public void DirectHpHeal(float _delta)
+    {
+        PlayerManager.instance.UpdateHp(_delta);
+    }
+
+    public void DirectMpHeal(float _delta)
+    {
+        PlayerManager.instance.UpdateMp(_delta);
+    }
+
     public void StartHeal(float _time, float _delta)
     {
         StartCoroutine(Healing(_time, _delta));
