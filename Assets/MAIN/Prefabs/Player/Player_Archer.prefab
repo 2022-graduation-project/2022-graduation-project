@@ -345,8 +345,6 @@ GameObject:
   - component: {fileID: 1915826252818930978}
   - component: {fileID: 1915826252818930979}
   - component: {fileID: 1915826252818930976}
-  - component: {fileID: 6407596839826535117}
-  - component: {fileID: 6060441}
   m_Layer: 3
   m_Name: Player_Archer
   m_TagString: Player
@@ -421,36 +419,6 @@ CapsuleCollider:
   m_Height: 1.8236094
   m_Direction: 1
   m_Center: {x: 0, y: 0.91458595, z: 0.024053186}
---- !u!114 &6407596839826535117
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1915826252818930982}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53aebad18a71c004ca97dab40d8570e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rigidBody: {fileID: 0}
-  capsuleCollider: {fileID: 0}
-  animator: {fileID: 0}
-  tr: {fileID: 0}
-  prefab_arrow: {fileID: 0}
---- !u!114 &6060441
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1915826252818930982}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e47e2b5f97e245aeac6e391e0f030df, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefab_arrow: {fileID: 0}
 --- !u!1 &1915826252885316561
 GameObject:
   m_ObjectHideFlags: 0
@@ -2579,6 +2547,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5b54fc47ea9746e4a5bfc77e908d180, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slashEffect: {fileID: 0}
 --- !u!1001 &4896442692729237229
 PrefabInstance:
   m_ObjectHideFlags: 0

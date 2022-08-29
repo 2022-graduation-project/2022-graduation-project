@@ -151,7 +151,6 @@ public class LoginManager : MonoBehaviour
     // 플레이 버튼 선택 시
     // 해당 캐릭터로 다음 씬 로드
     public TMP_Text charErrMsg;
-    private PlayerManager playerManager;
     private bool isSelected = false;
     public void Clicked_Play()
     {
@@ -160,9 +159,8 @@ public class LoginManager : MonoBehaviour
             StartCoroutine(sendMessageDisplay(charErrMsg, "SELECT CHARACTER FIRST", Color.red));
             return;
         }
-        playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
-        playerManager.SetJob(info_job.text);
-        SceneManager.LoadScene("Loading");
+        GameObject.Find("PlayerManager").GetComponent<PlayerManager>().SetJob(info_job.text);
+        SceneManager.LoadScene("2. Loading");
     }
 
     /**************************
