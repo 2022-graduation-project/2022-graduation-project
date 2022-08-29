@@ -24,6 +24,7 @@ public class Wizard : MonoBehaviour, IRole
     public void Start()
     {
         magicCircle = Instantiate(magicCircleObj, transform).GetComponent<Transform>();
+        GetComponent<PlayerCombat>().weapon = GetComponent<PlayerCombat>().weapon_right.GetChild(0).GetComponent<Weapon>();
     }
 
     public float UseSkill(int _type)
