@@ -73,9 +73,8 @@ public class PlayerCombat : MonoBehaviour, ICombat
 
     public void Die()
     {
-        gameObject.transform.position = Vector3.zero;
         controller.SetAnimation("Dead");
-        // 리스폰 장소로 소환
+        GameManager.instance.GameOver(transform);
     }
 
     public void ConsumeMP(float _abs)

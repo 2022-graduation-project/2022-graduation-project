@@ -175,7 +175,7 @@ public class LoginManager : MonoBehaviour
     public GameObject charWindow;
     public TMP_InputField newName;
     public TMP_Text new_ErrTxt;
-    private string newJob = "Archer";
+    private string newJob = "";
     public void Clicked_NewConfirm()
     {
         // 기본 캐릭터 보유 수를 초과하려 할 때, 캐릭터 생성 불가
@@ -183,6 +183,20 @@ public class LoginManager : MonoBehaviour
         {
             new_ErrTxt.text = "EXCEED DEFAULT NUMBER OF CHARACTERS\n"+
             "YOU SHOULD PAY FOR MORE CHARACTERS";
+            return;
+        }
+
+        // 새 이름 입력하지 않았을 때, 캐릭터 생성 불가
+        if(newName.text == "")
+        {
+            new_ErrTxt.text = "ENTER NAME FIRST";
+            return;
+        }
+
+        // 직업을 선택하지 않았을 때, 캐릭터 생성 불가
+        if(newJob == "")
+        {
+            new_ErrTxt.text = "SELECT JOB FIRST";
             return;
         }
 
@@ -317,7 +331,7 @@ public class LoginManager : MonoBehaviour
     // 로그아웃 시 씬 다시 시작
     public void Clicked_Logout()
     {
-        SceneManager.LoadScene("Login");
+        SceneManager.LoadScene("1. Login");
     }
 
     /**************************
@@ -398,6 +412,11 @@ public class LoginManager : MonoBehaviour
                     NewAccountWindow.SetActive(false);
                     // 새 계정 추가 되었다고 메시지 띄우기
                     StartCoroutine(sendMessageDisplay(MsgText, "ACCOUNT CREATED", Color.green));
+
+                    // 입력칸 초기화
+                    c_username.text="";
+                    c_password.text="";
+                    conf_password.text="";
                 }
             }
         }
