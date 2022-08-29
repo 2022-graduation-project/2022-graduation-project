@@ -23,7 +23,15 @@ public class NormalMonster : Monster
 
     /* Local Variables */
     protected float distance;
+    //public GameObject itemPool;
+    public MonsterItemPool itemPool;
     protected AudioSource dieSound;
+
+    protected enum MonsterState
+    {
+        Dead, Active, Idle
+    };
+    protected MonsterState state;
 
 
 
@@ -32,6 +40,8 @@ public class NormalMonster : Monster
     public override void Set()
     {
         monsterManager = GameObject.Find("MonsterManager").GetComponent<MonsterManager>();
+        itemPool = GameObject.Find("Monster Item Pool").GetComponent<MonsterItemPool>();
+        state = MonsterState.Idle;
         SetHpBar();
     }
 
@@ -45,6 +55,8 @@ public class NormalMonster : Monster
             // 추적 범위 내에서 플레이어 발견!
             if (target != null)
             {
+                state = MonsterState.Active;
+
                 isFound = true;
                 transform.LookAt(target);   // target 바라보게 함
                 distance = Vector3.Distance(transform.position, target.position);   // 현재 몬스터-플레이어 사이 거리 측정
@@ -58,7 +70,6 @@ public class NormalMonster : Monster
                     StopChasing();
                     StartCoroutine(coAttack());
                 }
-
             }
             // 플레이어 아직 발견 못 했거나 놓침
             else
@@ -139,12 +150,11 @@ public class NormalMonster : Monster
 
         else  // 남은 체력이 없을 때 -> 사망
         {
+            state = MonsterState.Dead;
             animator.SetBool("Dead", true);
             monsterData.curHp = 0;
             Invoke("Die", 3f);
         }
-
-        print("Monster HP: " + monsterData.curHp);
     }
 
     // 몬스터가 폭탄 맞았을 때
@@ -192,27 +202,14 @@ public class NormalMonster : Monster
     public override void Die()
     {
         gameObject.SetActive(false);
-        DropItem(this, SelectItemIndex());
+        itemPool.DropItem(this);
         monsterManager.monsterCount--;
-        Debug.Log(monsterManager.monsterCount + " 마리 남음");
         monsterManager.CreateMonster();
 
         // Die effects
         Instantiate(dieEffect, transform.position + new Vector3(0, 0.7f, 0), Quaternion.identity);
         dieSound = GameObject.Find("SoundManager").GetComponent<AudioSource>();
         dieSound.Play();
-
-        /*
-
-
-        print(spawnLoc+"'s Monster DIED");
-        if(spawnLoc!="")
-        {
-            //monsterManager.gameObject.GetComponent<MonsterSpawn>().Decode(spawnLoc);
-        }
-
-
-        */
     }
 
 
@@ -244,35 +241,5 @@ public class NormalMonster : Monster
             prefab_HpBar.SetActive(false);
         }
     }
-
-
-
-    /*----------------------------------------------------------------
-     *              [Normal Monster] 사망 후 아이템 떨구기
-     * --------------------------------------------------------------*/
-
-    public int SelectItemIndex()
-    {
-        int n = Random.Range(0, 10);    // Item Set -> 10개의 종류 있다고 설정하고 랜덤으로 인덱스 설정
-
-        return n;
-    }
-
-    public void DropItem(NormalMonster _monster, int index)
-    {
-        item = GameObject.Find("Monster's Item").transform.GetChild(index).gameObject;
-        item.transform.position = _monster.transform.position + new Vector3(0, 1.1f, 0);  // 아이템 떨굴 위치 (죽은 자리 + 1) 설정
-
-        item.SetActive(true);
-        DestroyItem(item.GetComponent<MonsterItem>());
-    }
-
-    public IEnumerator DestroyItem(MonsterItem item)
-    {
-        yield return new WaitForSeconds(30);
-        Debug.Log("안 먹었지? ㅇㅇ 없앨게~");
-        item.gameObject.SetActive(false);
-    }
-
 
 }

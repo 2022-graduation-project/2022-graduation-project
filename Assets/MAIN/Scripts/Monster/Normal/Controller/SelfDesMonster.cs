@@ -49,11 +49,15 @@ public class SelfDesMonster : NormalMonster
     {
         yield return new WaitForSeconds(attackCool);
 
-        if (weapon.player_in)
-            print("Player damaged");
+        if (state != MonsterState.Dead)
+        {
+            if (weapon.player_in)
+                print("Player damaged");
 
-        // 자폭 몬스터 폭발, 비활성화
-        gameObject.SetActive(false);
+            // 자폭 몬스터 폭발, 비활성화
+            gameObject.SetActive(false);
+            Debug.Log("자폭이 터짐");
+        }
     }
 
 
