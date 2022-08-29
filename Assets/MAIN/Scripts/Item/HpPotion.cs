@@ -7,5 +7,6 @@ public class HpPotion : Consumable
     public override void Use()
     {
         print("체력 회복");
+        PlayerManager.instance.playerCombat.DirectHpHeal(5f);
     }
 }
