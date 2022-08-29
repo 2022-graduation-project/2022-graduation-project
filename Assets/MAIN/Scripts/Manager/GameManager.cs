@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     private Dictionary<float, WaitForSeconds> waitForSeconds = new Dictionary<float, WaitForSeconds>();
     private Transform player_tr;
 
+
     void Awake()
     {
         if(instance == null)
@@ -42,8 +43,9 @@ public class GameManager : MonoBehaviour
     public void GameOver(Transform _player_tr)
     {
         player_tr = _player_tr;
-
         moveable = mouseavail = keyboardavail = false;
+
+        SceneLoader.instance.LoadScene("Gate");
     }
 
     public void GameSet()

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class BossController : Monster
@@ -20,6 +21,9 @@ public class BossController : Monster
 
     /* 컴포넌트 */
     [SerializeField] private StoneStorm stoneStorm;
+    public Image hpBar;
+    public Text hpText;
+
 
 
 
@@ -412,7 +416,7 @@ public class BossController : Monster
                 }
             }
 
-            yield return new WaitForSeconds(delayTime);
+            yield return GameManager.instance.GetWaitForSeconds(delayTime);
         }
 
         while (rocks[lastRock].localPosition.z > 0)
@@ -423,7 +427,7 @@ public class BossController : Monster
         for (int i = 1; i < rocks.Length; i++)
         {
             rocks[i].gameObject.SetActive(false);
-            rocks[i].position = Vector3.zero;
+            rocks[i].localPosition = Vector3.back;
         }
 
         circle.gameObject.SetActive(false);
@@ -629,6 +633,15 @@ public class BossController : Monster
     /*************************************************************************/
     /*************************************************************************/
     /*************************************************************************/
+
+
+
+
+    public void UpdateHpBar()
+    {
+        hpBar.fillAmount = monsterData.curHp / monsterData.maxHp;
+        hpText.text = monsterData.curHp.ToString("N0") + " / " + monsterData.maxHp.ToString("N0");
+    }
 }
 
 

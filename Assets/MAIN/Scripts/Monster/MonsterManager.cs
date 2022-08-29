@@ -32,7 +32,6 @@ public class MonsterManager : MonoBehaviour
             CreateMonster();
     }
 
-
     public void CreateMonster()
     {
         while (monsterCount < maxMonster)
@@ -45,7 +44,6 @@ public class MonsterManager : MonoBehaviour
         prefab_monster = Instantiate(models.transform.GetChild(monsterIdx).GetComponent<NormalMonster>(), points[pointIdx].position, points[pointIdx].rotation);
         prefab_monster.gameObject.SetActive(true);
         monsterCount++;
-        Debug.Log("몬스터 " + monsterCount + " 마리");
 
         }
     }
