@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 
 
@@ -23,11 +23,13 @@ public class InventoryUtil : MonoBehaviour
 
     public void OpenInventory()
     {
+        GameManager.instance.moveable = false;
         inventory.OpenWindow();
     }
 
     public void CloseInventory()
     {
         inventory.CloseWindow();
+        GameManager.instance.moveable = true;
     }
 }

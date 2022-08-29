@@ -34,7 +34,11 @@ public class PlayerController : MonoBehaviour
         float r = Input.GetAxisRaw("Mouse X");
         
         /* 수정 : gameManager에서 게임 가능 여부 판단 후 */
-        Move(h, v, r);
+        if(GameManager.instance.moveable)
+        {
+            Move(h, v, r);
+        }
+        
         
 
         // Jump
@@ -55,7 +59,7 @@ public class PlayerController : MonoBehaviour
 
     private bool isJumpable()
     {
-        if(Input.GetButton("Jump") && jumpable
+        if(GameManager.instance.moveable && Input.GetButton("Jump") && jumpable
             && Physics.Raycast(tr.position + (Vector3.up * 0.1f), Vector3.down, out hit, 0.1f))
             return true;
         else

@@ -7,7 +7,10 @@ public class PlayerCombat : MonoBehaviour, ICombat
     public PlayerController controller;
     public IRole role;
 
-    public Transform weapon_tr;
+    public Transform weapon_right;
+    public Transform weapone_left;
+
+    //public Transform weapon_tr;
     public Weapon weapon;
 
     public PlayerData playerData; // readonly가 가능할지
@@ -26,7 +29,7 @@ public class PlayerCombat : MonoBehaviour, ICombat
         controller = GetComponent<PlayerController>();
         role = GetComponent<IRole>();
         playerData = DataManager.instance.playerData;
-        weapon = weapon_tr.GetChild(0).GetComponent<Weapon>();
+        //weapon = weapon_tr.GetChild(0).GetComponent<Weapon>();
 
         animator = GetComponent<Animator>();
     }
