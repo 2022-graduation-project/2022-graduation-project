@@ -412,7 +412,7 @@ public class BossController : Monster
                 }
             }
 
-            yield return new WaitForSeconds(delayTime);
+            yield return GameManager.instance.GetWaitForSeconds(delayTime);
         }
 
         while (rocks[lastRock].localPosition.z > 0)
@@ -423,7 +423,7 @@ public class BossController : Monster
         for (int i = 1; i < rocks.Length; i++)
         {
             rocks[i].gameObject.SetActive(false);
-            rocks[i].position = Vector3.zero;
+            rocks[i].localPosition = Vector3.back;
         }
 
         circle.gameObject.SetActive(false);
