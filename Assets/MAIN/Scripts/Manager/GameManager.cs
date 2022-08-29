@@ -49,5 +49,7 @@ public class GameManager : MonoBehaviour
     public void GameSet()
     {
         player_tr.position = spawn_pos.position;
+
+        // 
     }
 }
