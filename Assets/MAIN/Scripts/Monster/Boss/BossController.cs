@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class BossController : Monster
@@ -20,6 +21,9 @@ public class BossController : Monster
 
     /* 컴포넌트 */
     [SerializeField] private StoneStorm stoneStorm;
+    public Image hpBar;
+    public Text hpText;
+
 
 
 
@@ -629,6 +633,15 @@ public class BossController : Monster
     /*************************************************************************/
     /*************************************************************************/
     /*************************************************************************/
+
+
+
+
+    public void UpdateHpBar()
+    {
+        hpBar.fillAmount = monsterData.curHp / monsterData.maxHp;
+        hpText.text = monsterData.curHp.ToString("N0") + " / " + monsterData.maxHp.ToString("N0");
+    }
 }
 
 
