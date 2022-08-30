@@ -68,8 +68,9 @@ public class PlayerCombat : MonoBehaviour, ICombat
             AddEffect(_type, _amount, _time);
         }
 
-        if(playerData.curHp <= 0)
+        if(DataManager.instance.playerData.curHp <= 0)
         {
+            print("Dead");
             Die();
         }
     }
@@ -140,7 +141,7 @@ public class PlayerCombat : MonoBehaviour, ICombat
         {
             curTime += 1f;
 
-            playerData.curHp += _heal_amount;
+            DataManager.instance.playerData.curHp += _heal_amount;
             yield return GameManager.instance.GetWaitForSeconds(1f);
         }
     }

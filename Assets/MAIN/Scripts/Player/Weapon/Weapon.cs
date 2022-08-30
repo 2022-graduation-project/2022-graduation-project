@@ -31,7 +31,6 @@ public class Weapon : MonoBehaviour
     {
         if (attackable && other.tag == "Monster")
         {
-            print("enter공격");
             other.GetComponent<Monster>().Damaged(damage, pc);
         }
 

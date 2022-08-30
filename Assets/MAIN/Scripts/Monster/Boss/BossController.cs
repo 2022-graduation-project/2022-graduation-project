@@ -303,7 +303,6 @@ public class BossController : Monster
             targetPlayer = _player;
         }
 
-        print($"damage {_damage}, maxHp {monsterData.maxHp}");
 
         monsterData.curHp -= _damage;
         UpdateHpBar();
