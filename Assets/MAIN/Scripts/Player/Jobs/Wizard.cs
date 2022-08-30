@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Wizard : MonoBehaviour, IRole
 {
+    public GameObject weapon;
     public GameObject magicCircleObj;
 
     private IEnumerator coroutine;
@@ -23,8 +24,11 @@ public class Wizard : MonoBehaviour, IRole
 
     public void Start()
     {
+        weapon = GetComponent<PlayerWeapon>().wand;
+        magicCircleObj = GetComponent<PlayerWeapon>().magicCircle;
+
         magicCircle = Instantiate(magicCircleObj, transform).GetComponent<Transform>();
-        GetComponent<PlayerCombat>().weapon = GetComponent<PlayerCombat>().weapon_right.GetChild(0).GetComponent<Weapon>();
+        GetComponent<PlayerCombat>().weapon = Instantiate(weapon, GetComponent<PlayerCombat>().weapon_right).GetComponent<Weapon>();
     }
 
     public float UseSkill(int _type)

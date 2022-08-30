@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Archer : PlayerController
 {
+    public GameObject weapon;
+
     public Arrow prefab_arrow;
     private List<Arrow> arrowPool = new List<Arrow>();
     private readonly int arrowMaxCount = 3; // 총 화살 개수
@@ -30,6 +32,9 @@ public class Archer : PlayerController
             // 오브젝트 풀에 추가
             arrowPool.Add(arrow);
         }
+
+        weapon = GetComponent<PlayerWeapon>().bow;
+        GetComponent<PlayerCombat>().weapon = Instantiate(weapon, GetComponent<PlayerCombat>().weapon_left).GetComponent<Weapon>();
     }
 
     public override void Update()

@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Warrior : MonoBehaviour, IRole
 {
+    public GameObject weapon;
+
     private List<GameObject> monsterList;
     private RaycastHit[] hits;
     private float MaxDistance = 10f;
@@ -32,9 +34,11 @@ public class Warrior : MonoBehaviour, IRole
 
     private enum Skills { Blast, Effect, Stun };
 
-    public void Set()
+    void Start()
     {
-
+        monsterList = new List<GameObject>();
+        weapon = GetComponent<PlayerWeapon>().spear;
+        GetComponent<PlayerCombat>().weapon = Instantiate(weapon, GetComponent<PlayerCombat>().weapon_right).GetComponent<Weapon>();
     }
 
     public float UseSkill(int _type)
@@ -373,9 +377,5 @@ public class Warrior : MonoBehaviour, IRole
                 print("monsterList -> " + monsterList[i].gameObject.name);
             }
         }
-    }
-
-    void Start() {
-        monsterList = new List<GameObject>();
     }
 }

@@ -8,7 +8,7 @@ public class PlayerCombat : MonoBehaviour, ICombat
     public IRole role;
 
     public Transform weapon_right;
-    public Transform weapone_left;
+    public Transform weapon_left;
 
     //public Transform weapon_tr;
     public Weapon weapon;
