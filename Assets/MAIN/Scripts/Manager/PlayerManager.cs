@@ -66,10 +66,11 @@ public class PlayerManager : MonoBehaviour
 
         // 플레이어 생성
         GameObject player = Instantiate(playerPrefab) as GameObject;
-        playerCombat = player.AddComponent<PlayerCombat>();
+        playerCombat = player.GetComponent<PlayerCombat>();
         GameObject UI = GameObject.Find("UI");
         DontDestroyOnLoad(UI);
-        playerUI = UI.GetComponentInChildren<PlayerUI>();
+        playerUI = UI.GetComponentInChildren<PlayerUI>(true);
+        print(UI.GetComponentInChildren<PlayerUI>());
 
         switch (playerJob)
         {

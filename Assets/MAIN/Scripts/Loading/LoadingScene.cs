@@ -26,11 +26,9 @@ public class LoadingScene : MonoBehaviour
     }
 
 
-    public PlayerManager playerManager;
     public void loadTown()
     {
-        playerManager = PlayerManager.instance;
-        playerManager.CreatePlayer();
+        PlayerManager.instance.CreatePlayer();
         SceneManager.LoadScene("Gate");
     }
 

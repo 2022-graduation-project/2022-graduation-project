@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Detecter : MonoBehaviour
 {
@@ -30,6 +31,7 @@ public class Detecter : MonoBehaviour
         }
 
         // 씬 넘기기
-        SceneLoader.instance.LoadScene("Field");
+        if(SceneManager.GetActiveScene().name == "Gate") SceneLoader.instance.LoadScene("Field");
+        else if(SceneManager.GetActiveScene().name == "Field") SceneLoader.instance.LoadScene("Boss");
     }
 }
