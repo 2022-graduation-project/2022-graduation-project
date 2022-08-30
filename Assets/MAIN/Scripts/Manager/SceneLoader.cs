@@ -37,6 +37,7 @@ public class SceneLoader : MonoBehaviour
     {
         gameObject.SetActive(true);
         SceneManager.sceneLoaded += LoadSceneEnd;
+        SceneManager.sceneLoaded += SetPosition;
         loadSceneName = sceneName;
         StartCoroutine(Load(sceneName));
     }
@@ -99,6 +100,30 @@ public class SceneLoader : MonoBehaviour
         if (!isFadeIn)
         {
             gameObject.SetActive(false);
+        }
+    }
+
+    private void SetPosition(Scene scene, LoadSceneMode loadSceneMode)
+    {
+        if (scene.name == loadSceneName)
+        {
+            if(loadSceneName == "Field")
+            {
+                PlayerManager.instance.playerCombat.transform.localPosition = new Vector3(10f, 9.5f, -150f);
+            }
+
+            else if(loadSceneName == "Boss")
+            {
+                PlayerManager.instance.playerCombat.transform.localPosition = new Vector3(2.5f, 0.1f, 19f);
+            }
+
+            else if(loadSceneName == "Gate")
+            {
+                PlayerManager.instance.playerCombat.transform.localPosition = new Vector3(44f, 11f, 7f);
+                PlayerManager.instance.playerCombat.transform.rotation = Quaternion.Euler(0, 180f, 0);
+            }
+            
+            SceneManager.sceneLoaded -= SetPosition;
         }
     }
 }

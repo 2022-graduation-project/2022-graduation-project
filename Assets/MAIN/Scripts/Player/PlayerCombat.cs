@@ -50,9 +50,10 @@ public class PlayerCombat : MonoBehaviour, ICombat
         else if (Input.GetKeyDown(KeyCode.Alpha3)) UseItem(3);
     }
 
-    public void Attack(float _damage)
+    public void Attack(float _damage = 10f)
     {
         // 일반 공격
+        print($"{_damage}, {controller}");
         weapon.Attack(_damage, controller);
         animator.SetTrigger("Attack");
     }

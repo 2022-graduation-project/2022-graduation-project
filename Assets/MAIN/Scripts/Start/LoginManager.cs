@@ -159,7 +159,7 @@ public class LoginManager : MonoBehaviour
             StartCoroutine(sendMessageDisplay(charErrMsg, "SELECT CHARACTER FIRST", Color.red));
             return;
         }
-        GameObject.Find("PlayerManager").GetComponent<PlayerManager>().SetJob(info_job.text);
+        PlayerManager.instance.SetJob(info_job.text);
         SceneManager.LoadScene("2. Loading");
     }
 
