@@ -53,7 +53,6 @@ public class PlayerCombat : MonoBehaviour, ICombat
     public void Attack(float _damage = 10f)
     {
         // 일반 공격
-        print($"{_damage}, {controller}");
         weapon.Attack(_damage, controller);
         animator.SetTrigger("Attack");
     }
