@@ -45,7 +45,6 @@ public class PlayerUI : MonoBehaviour
 
     public void UpdateHpBar(float _maxHp, float _curHp)
     {
-        print("체력 변경" + (_curHp / _maxHp));
         hp.fillAmount = _curHp / _maxHp;
     }
 
