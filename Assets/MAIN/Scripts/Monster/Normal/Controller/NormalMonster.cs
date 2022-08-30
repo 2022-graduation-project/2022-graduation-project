@@ -224,7 +224,7 @@ public class NormalMonster : Monster
         prefab_HpBar = canvas.transform.GetChild(0).gameObject;
         slider = prefab_HpBar.GetComponentInChildren<Slider>();
         //canvas.worldCamera = GameObject.Find("Player_Archer").GetComponentInChildren<Camera>();
-        canvas.worldCamera = GameObject.Find("Player_Virtual_Female").GetComponentInChildren<Camera>();
+        canvas.worldCamera = GameObject.Find("Player_Virtual_Female(Clone)").GetComponentInChildren<Camera>();
     }
 
     protected void UpdateHpBar()

@@ -13,7 +13,7 @@ public class PlayerManager : MonoBehaviour
     public PlayerUI playerUI;
     public PlayerCombat playerCombat;
 
-    public Object[] jobs;
+    public Object playerPrefab;
 
     private string playerJob = "";
 
@@ -65,32 +65,25 @@ public class PlayerManager : MonoBehaviour
         PlayerJsonUpdate(playerJob);
 
         // 플레이어 생성
-        GameObject player;
-        int choose;
+        GameObject player = Instantiate(playerPrefab) as GameObject;
+        playerCombat = player.AddComponent<PlayerCombat>();
+        GameObject UI = GameObject.Find("UI");
+        DontDestroyOnLoad(UI);
+        playerUI = UI.GetComponentInChildren<PlayerUI>();
+
         switch (playerJob)
         {
             case "Archer":
-                choose = 0;
-                player = Instantiate(jobs[choose]) as GameObject;
-                player.AddComponent<PlayerCombat>();
                 player.AddComponent<Archer>();
-                DontDestroyOnLoad(player);
                 break;
             case "Warrior":
-                choose = 1;
-                player = Instantiate(jobs[choose]) as GameObject;
-                player.AddComponent<PlayerCombat>();
                 player.AddComponent<Warrior>();
-                DontDestroyOnLoad(player);
                 break;
             case "Wizard":
-                choose = 2;
-                player = Instantiate(jobs[choose]) as GameObject;
-                player.AddComponent<PlayerCombat>();
                 player.AddComponent<Wizard>();
-                DontDestroyOnLoad(player);
                 break;
         }
+        DontDestroyOnLoad(player);
 
         
     }
