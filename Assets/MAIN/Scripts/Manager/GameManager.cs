@@ -51,6 +51,6 @@ public class GameManager : MonoBehaviour
     public void GameSet()
     {
         moveable = mouseavail = keyboardavail = true;
-
+        PlayerManager.instance.playerCombat.dead = false;
     }
 }

@@ -14,6 +14,7 @@ public class PlayerCombat : MonoBehaviour, ICombat
     public Weapon weapon;
 
     public PlayerData playerData; // readonly가 가능할지
+    public bool dead = false;
 
     public Animator animator;
 
@@ -68,15 +69,16 @@ public class PlayerCombat : MonoBehaviour, ICombat
             AddEffect(_type, _amount, _time);
         }
 
-        if(DataManager.instance.playerData.curHp <= 0)
+        print($"{DataManager.instance.playerData.curHp}, {playerData.curHp}, {PlayerManager.instance.playerData.curHp}");
+        if(DataManager.instance.playerData.curHp <= 0 && !dead)
         {
-            print("Dead");
             Die();
         }
     }
 
     public void Die()
     {
+        dead = true;
         controller.SetAnimation("Dead");
         GameManager.instance.GameOver(transform);
     }
@@ -141,7 +143,7 @@ public class PlayerCombat : MonoBehaviour, ICombat
         {
             curTime += 1f;
 
-            DataManager.instance.playerData.curHp += _heal_amount;
+            playerData.curHp += _heal_amount;
             yield return GameManager.instance.GetWaitForSeconds(1f);
         }
     }

@@ -70,7 +70,7 @@ public class PlayerManager : MonoBehaviour
         GameObject UI = GameObject.Find("UI");
         DontDestroyOnLoad(UI);
         playerUI = UI.GetComponentInChildren<PlayerUI>(true);
-        playerUI.gameObject.SetActive(true);
+        print(UI.GetComponentInChildren<PlayerUI>());
 
         switch (playerJob)
         {
@@ -123,7 +123,7 @@ public class PlayerManager : MonoBehaviour
 
     public void UpdateMp(float _delta)
     {
-        DataManager.instance.playerData.curHp += _delta;
+        DataManager.instance.playerData.curMp += _delta;
         playerUI.UpdateMpBar(DataManager.instance.playerData.maxMp, DataManager.instance.playerData.curMp);
     }
 

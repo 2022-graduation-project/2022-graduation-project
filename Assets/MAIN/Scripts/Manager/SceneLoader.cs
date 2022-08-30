@@ -124,7 +124,6 @@ public class SceneLoader : MonoBehaviour
             }
             
             SceneManager.sceneLoaded -= SetPosition;
-            
             GameManager.instance.GameSet();
         }
     }
