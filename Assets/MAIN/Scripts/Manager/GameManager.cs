@@ -50,8 +50,7 @@ public class GameManager : MonoBehaviour
 
     public void GameSet()
     {
-        player_tr.position = spawn_pos.position;
-
-        // 
+        moveable = mouseavail = keyboardavail = true;
+        PlayerManager.instance.playerCombat.dead = false;
     }
 }
