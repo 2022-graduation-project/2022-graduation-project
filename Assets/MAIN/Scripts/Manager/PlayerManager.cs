@@ -57,27 +57,42 @@ public class PlayerManager : MonoBehaviour
         print("Job selected = " + playerJob);
     }
 
-    /*  로딩 화면에서 Town씬 부를 때 호출
+    /*  로딩 화면에서 Gate씬 부를 때 호출
      *  저장해둔 직업의 플레이어를 첫 생성.  */
     public void CreatePlayer()
     {
-        int choose = 0;
+        // 현재 플레이어 데이터 직업 업데이트
+        PlayerJsonUpdate(playerJob);
+
+        // 플레이어 생성
+        GameObject player;
+        int choose;
         switch (playerJob)
         {
             case "Archer":
                 choose = 0;
+                player = Instantiate(jobs[choose]) as GameObject;
+                player.AddComponent<PlayerCombat>();
+                player.AddComponent<Archer>();
+                DontDestroyOnLoad(player);
                 break;
             case "Warrior":
                 choose = 1;
+                player = Instantiate(jobs[choose]) as GameObject;
+                player.AddComponent<PlayerCombat>();
+                player.AddComponent<Warrior>();
+                DontDestroyOnLoad(player);
                 break;
             case "Wizard":
                 choose = 2;
+                player = Instantiate(jobs[choose]) as GameObject;
+                player.AddComponent<PlayerCombat>();
+                player.AddComponent<Wizard>();
+                DontDestroyOnLoad(player);
                 break;
         }
 
-        PlayerJsonUpdate(playerJob);
-
-        DontDestroyOnLoad(Instantiate(jobs[choose]));
+        
     }
 
     /*  캐릭터 생성될 때 호출
