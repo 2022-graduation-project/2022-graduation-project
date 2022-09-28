@@ -350,8 +350,8 @@ public class BossController : Monster
         {
             moveable = false;
 
-            //number = Random.Range(0, 3);
-            number = (int)Skills.StoneStorm;
+            number = Random.Range(0, 3);
+            //number = (int)Skills.StoneStorm;
             switch (number)
             {
                 case (int)Skills.StoneStorm:
