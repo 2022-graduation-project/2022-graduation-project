@@ -75,6 +75,8 @@ public class BossController : Monster
         cube = tr.Find("CubeCol").gameObject;
         rocks = circle.GetChild(0).GetComponentsInChildren<Transform>(true);
 
+        UpdateHpBar();
+
         StartCoroutine(StartCheckTarget());
         Skill();
     }
@@ -349,8 +351,8 @@ public class BossController : Monster
         {
             moveable = false;
 
-            number = Random.Range(0, 3);
-            //number = (int)Skills.StoneStorm;
+            //number = Random.Range(0, 3);
+            number = (int)Skills.StoneStorm;
             switch (number)
             {
                 case (int)Skills.StoneStorm:
@@ -477,6 +479,8 @@ public class BossController : Monster
 
     void FinalAttack()
     {
+        return;
+
         if (probability <= Random.Range(1, 101))
         {
             finalAttack = true;
@@ -615,6 +619,8 @@ public class BossController : Monster
         StopAllCoroutines();
         print($"{monsterData.name} is dead.");
         Destroy(gameObject);
+
+        SceneLoader.instance.LoadScene("Ending");
     }
 
     void OnDrawGizmosSelected()

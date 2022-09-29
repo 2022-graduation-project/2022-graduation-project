@@ -21,6 +21,8 @@ public class PlayerController : MonoBehaviour
         capsuleCollider = GetComponent<CapsuleCollider>();
         animator = GetComponent<Animator>();
         tr = GetComponent<Transform>();
+
+        DontDestroyOnLoad(gameObject);
     }
 
     public virtual void Update()

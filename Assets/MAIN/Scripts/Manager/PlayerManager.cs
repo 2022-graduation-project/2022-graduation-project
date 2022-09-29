@@ -28,6 +28,7 @@ public class PlayerManager : MonoBehaviour
             Destroy(this.gameObject);
         }
 
+        CreatePlayer();
         DontDestroyOnLoad(this.gameObject);
     }
 
@@ -64,29 +65,29 @@ public class PlayerManager : MonoBehaviour
         // 현재 플레이어 데이터 직업 업데이트
         PlayerJsonUpdate(playerJob);
 
-        // 플레이어 생성
-        GameObject player = Instantiate(playerPrefab) as GameObject;
-        playerCombat = player.GetComponent<PlayerCombat>();
+        //// 플레이어 생성
+        //GameObject player = Instantiate(playerPrefab) as GameObject;
+        //playerCombat = this.transform.GetComponent<PlayerCombat>();
         GameObject UI = GameObject.Find("UI");
         DontDestroyOnLoad(UI);
         playerUI = UI.GetComponentInChildren<PlayerUI>(true);
-        print(UI.GetComponentInChildren<PlayerUI>());
+        //print(UI.GetComponentInChildren<PlayerUI>());
 
-        switch (playerJob)
-        {
-            case "Archer":
-                player.AddComponent<Archer>();
-                break;
-            case "Warrior":
-                player.AddComponent<Warrior>();
-                break;
-            case "Wizard":
-                player.AddComponent<Wizard>();
-                break;
-        }
-        DontDestroyOnLoad(player);
+        //switch (playerJob)
+        //{
+        //    case "Archer":
+        //        player.AddComponent<Archer>();
+        //        break;
+        //    case "Warrior":
+        //        player.AddComponent<Warrior>();
+        //        break;
+        //    case "Wizard":
+        //        player.AddComponent<Wizard>();
+        //        break;
+        //}
+        //DontDestroyOnLoad(player);
 
-        
+
     }
 
     /*  캐릭터 생성될 때 호출
@@ -94,19 +95,19 @@ public class PlayerManager : MonoBehaviour
     private void PlayerJsonUpdate(string job_loc)
     {
         // Load previous Player Json File
-        Dictionary<string, PlayerData> playerDict =
-                    DataManager.instance.LoadJsonFile
-                    <Dictionary<string, PlayerData>>
-                    (Application.dataPath + "/MAIN/Data", "player");
+        //Dictionary<string, PlayerData> playerDict =
+        //            DataManager.instance.LoadJsonFile
+        //            <Dictionary<string, PlayerData>>
+        //            (Application.dataPath + "/MAIN/Data", "player");
 
-        playerData = playerDict["000_player"];
+        //playerData = playerDict["000_player"];
 
-        playerData.job = job_loc;
+        //playerData.job = job_loc;
 
-        if (DataManager.instance.ObjectToJson<Dictionary<string, PlayerData>>(Application.dataPath + "/MAIN/Data", "player", playerDict))
-        {
-            print("Player's job data has updated.");
-        }
+        //if (DataManager.instance.ObjectToJson<Dictionary<string, PlayerData>>(Application.dataPath + "/MAIN/Data", "player", playerDict))
+        //{
+        //    print("Player's job data has updated.");
+        //}
     }
 
 
@@ -138,5 +139,24 @@ public class PlayerManager : MonoBehaviour
     public void UseItem(int _type)
     {
         playerUI.ItemQuickSlot(_type);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public void FindPlayer()
+    {
+        playerData = DataManager.instance.playerData;
+        GameObject player = Instantiate(playerPrefab) as GameObject;
+        playerCombat = player.GetComponent<PlayerCombat>();
     }
 }

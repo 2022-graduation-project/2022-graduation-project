@@ -53,6 +53,9 @@ public class PlayerCombat : MonoBehaviour, ICombat
 
     public void Attack(float _damage = 10f)
     {
+        if (!GameManager.instance.moveable)
+            return;
+
         // 일반 공격
         weapon.Attack(_damage, controller);
         animator.SetTrigger("Attack");

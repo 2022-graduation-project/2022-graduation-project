@@ -39,6 +39,7 @@ public class NormalMonster : Monster
 
     public override void Set()
     {
+        monsterData = DataManager.instance.monsterDict["000_skeleton"];
         monsterManager = GameObject.Find("MonsterManager").GetComponent<MonsterManager>();
         itemPool = GameObject.Find("Monster Item Pool").GetComponent<MonsterItemPool>();
         state = MonsterState.Idle;
@@ -224,13 +225,15 @@ public class NormalMonster : Monster
         prefab_HpBar = canvas.transform.GetChild(0).gameObject;
         slider = prefab_HpBar.GetComponentInChildren<Slider>();
         //canvas.worldCamera = GameObject.Find("Player_Archer").GetComponentInChildren<Camera>();
-        canvas.worldCamera = GameObject.Find("Player_Virtual_Female(Clone)").GetComponentInChildren<Camera>();
+        //canvas.worldCamera = GameObject.Find("Player_Virtual_Female(Clone)").GetComponentInChildren<Camera>();
+        canvas.worldCamera = GameObject.FindWithTag("Player").GetComponentInChildren<Camera>();
+
     }
 
     protected void UpdateHpBar()
     {
         prefab_HpBar.transform.position = tr.position + new Vector3(0, 2.2f, 0);
-        canvas.transform.rotation = canvas.worldCamera.transform.rotation;  // 빌보드
+        //canvas.transform.rotation = canvas.worldCamera.transform.rotation;  // 빌보드
 
         if (monsterData.curHp > 0)
         {

@@ -6,6 +6,9 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour
 {
+    public GameObject UI;
+    public GameObject Player;
+
     public static SceneLoader instance = null;
 
     [SerializeField]
@@ -28,6 +31,10 @@ public class SceneLoader : MonoBehaviour
             Destroy(this.gameObject);
         }
 
+
+
+        DontDestroyOnLoad(UI);
+        DontDestroyOnLoad(Player);
         DontDestroyOnLoad(this.gameObject);
 
         gameObject.SetActive(false);
@@ -107,20 +114,27 @@ public class SceneLoader : MonoBehaviour
     {
         if (scene.name == loadSceneName)
         {
+            //PlayerManager.instance.FindPlayer();
+
             if(loadSceneName == "Field")
             {
-                PlayerManager.instance.playerCombat.transform.localPosition = new Vector3(10f, 9.5f, -150f);
+                //PlayerManager.instance.playerCombat.transform.localPosition = new Vector3(10f, 9.5f, -150f);
+                Player.transform.localPosition = new Vector3(10f, 9.5f, -150f);
             }
 
             else if(loadSceneName == "Boss")
             {
-                PlayerManager.instance.playerCombat.transform.localPosition = new Vector3(2.5f, 0.1f, 19f);
+                //PlayerManager.instance.playerCombat.transform.localPosition = new Vector3(2.5f, 0.1f, 19f);
+                Player.transform.localPosition = new Vector3(2.5f, 0.1f, 19f);
             }
 
             else if(loadSceneName == "Gate")
             {
-                PlayerManager.instance.playerCombat.transform.localPosition = new Vector3(44f, 11f, 7f);
-                PlayerManager.instance.playerCombat.transform.rotation = Quaternion.Euler(0, 180f, 0);
+                //PlayerManager.instance.playerCombat.transform.localPosition = new Vector3(44f, 11f, 7f);
+                //PlayerManager.instance.playerCombat.transform.rotation = Quaternion.Euler(0, 180f, 0);
+
+                Player.transform.localPosition = new Vector3(44f, 11f, 7f);
+                Player.transform.rotation = Quaternion.Euler(0, 180f, 0);
             }
             
             SceneManager.sceneLoaded -= SetPosition;

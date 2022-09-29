@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class StoneStorm : MonoBehaviour
 {
-    private float damage = 17f;
+    private float damage = 5f;
     public void StartAttack(Vector3 pos)
     {
         StartCoroutine(Attack(pos));
