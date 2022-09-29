@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class LoginManager : MonoBehaviour
 {
@@ -231,15 +232,21 @@ public class LoginManager : MonoBehaviour
         new_ErrTxt.text = "";
     }
     
+    [Header("New Character Image")]
+    public Image newCharImg;
+    public Sprite archerImg;
+    public Sprite warriorImg;
+    public Sprite wizardImg;
     // 새 캐릭터 직업 선택
     public void OnDropdownEvent(int index)
     {
         switch(index)
         {
-            case 0: newJob = "Archer"; break;
-            case 1: newJob = "Warrior"; break;
-            case 2: newJob = "Wizard"; break;
+            case 0: newJob = "Archer"; newCharImg.sprite = archerImg; break;
+            case 1: newJob = "Warrior"; newCharImg.sprite = warriorImg; break;
+            case 2: newJob = "Wizard"; newCharImg.sprite = wizardImg; break;
         }
+        newCharImg.preserveAspect = true;
         print("Select Job: "+newJob);
     }
 
